@@ -1,0 +1,144 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="mr-auto p-2 col-md-7">
+                    <h3>{{title}}</h3>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="py-1 col-lg-4  col-md-6 col-sm-12  text-nowrap">
+                            <button type="submit" (click)="actionToDo('save')"
+                                class="btn btn-block btn-success btn-sm font-weight-bold" value="save">
+                                Enregistrer
+                            </button>
+                        </div>
+                        <div class="py-1 col-lg-4  col-md-6 col-sm-12  text-nowrap" *ngIf='!facilityId'>
+                            <button type="submit" (click)="actionToDo('save_and_new')"
+                                class="btn btn-block btn-info btn-sm font-weight-bold" value="save_and_new">
+                                Enreg. & nouveau
+                            </button>
+                        </div>
+                        <div class="py-1 col-lg-4  col-md-6 col-sm-12  text-nowrap">
+                            <span (click)="cancelAction()" class="btn btn-block btn-danger btn-sm font-weight-bold"
+                                value="cancel">
+                                Annuler
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="text-muted"> NB: les champs marqués d'un astérisque ( <span class="text-danger">*</span> ) sont
+                obligatoire pour la validation du formulare</p>
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">Etablissement</label>
+                        <span class="text-danger">*</span>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="name" class="form-control" placeholder="Etablisement">
+                        </div>
+                        <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.name">
+                            ce champ doit être renseigné
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label for="shortName">Abréviation</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="shortName" class="form-control" placeholder="Abréviation">
+                        </div>
+                    </div>
+                </div>
+              <div class="col-lg-2 col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label for="dhisCode">DHIS code</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="dhisCode" class="form-control" placeholder="DHIS code">
+                        </div>
+                    </div>
+                </div>
+                      <div class="col-lg-2 col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label for="localCode">Code local</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" formControlName="localCode" class="form-control"
+                                    placeholder="Code local">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label for="longitude">Longitude</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" formControlName="longitude" class="form-control"
+                                    placeholder="Longitude" pattern="^[-+]?\d*\.?\d*$">
+                            </div>
+                            <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.longitude">
+                                la valeur de ce champs doit être un nombre
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label for="latitude">Latitude</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" formControlName="latitude" class="form-control"
+                                    placeholder="Latitude" pattern="^[-+]?\d*\.?\d*$">
+                            </div>
+                            <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.latitude">
+                                la valeur de ce champs doit être un nombre
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                        <label for="localityId">Pays</label>
+                        <ng-select formControlName="country" (change)="OnCountryChange()"
+                            placeholder="country">
+                            <ng-option *ngFor="let country of countries" [value]="country.id">
+                                {{country.name}}</ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                        <label for="localityId">Ville</label>
+                        <ng-select formControlName="city" (change)="OnCityChange()" placeholder="Ville">
+                            <ng-option *ngFor="let city of cities" [value]="city.id">{{city.name}}
+                            </ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label for="localityId">Localité</label>
+                            <span class="text-red">*</span>
+                            <ng-select formControlName="localityId" placeholder="Localité">
+                                <ng-option *ngFor="let locality of localities" [value]="locality.id">{{locality.name}}
+                                </ng-option>
+                            </ng-select>
+                            <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.localityId">
+                                ce champ doit être renseigné
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label for="typeactive">Etat</label>
+                            <span class="text-red">*</span>
+                            <ng-select formControlName="active" placeholder="Etat">
+                                <ng-option *ngFor="let active of actives" [value]="active.id">{{active.value}}
+                                </ng-option>
+                            </ng-select>
+                            <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.active">
+                                ce champ doit être renseigné
+                            </span>
+                        </div>
+                    </div>
+                
+                <!-- hidden -->
+                <input type="hidden" formControlName="id">
+            </div>
+        </div>
+    </div>
+</form>

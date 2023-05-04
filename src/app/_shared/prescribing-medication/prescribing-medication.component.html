@@ -1,0 +1,162 @@
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form [formGroup]="drugForm" (submit)="fetchDrugs()">
+                                <div class="row">
+                                    <div class="col-lg-3 pr-0 col-md-6 col-sm-12 mt-1">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" formControlName="name" class="form-control"
+                                                    placeholder="Medicament">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 pr-0 col-md-6 col-sm-12 mt-1">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-sm">
+                                                <ng-select formControlName="pharmaFormId"
+                                                    placeholder="forme pharmacologique" style="width: 100%;">
+                                                    <ng-option *ngFor="let pharmaForm of pharmacologicalForms"
+                                                        [value]="pharmaForm.id">
+                                                        {{ pharmaForm.name}}
+                                                    </ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 pr-0 col-md-6 col-sm-12 mt-1">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-sm">
+                                                <ng-select formControlName="theraClassId"
+                                                    placeholder="Classe therapeutique" style="width: 100%;">
+                                                    <ng-option *ngFor="let theraClass of therapeuticClasses"
+                                                        [value]="theraClass.id">
+                                                        {{theraClass.name}}
+                                                    </ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 pr-0 col-md-6 col-sm-12 mt-1">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-sm">
+                                                <ng-select formControlName="dcns" placeholder="dci" multiple="true"
+                                                    style="width: 100%;">
+                                                    <ng-option *ngFor="let dci of dcis" [value]="dci.id">
+                                                        {{dci.name}}
+                                                    </ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="py-1 pr-0 col-lg-1 col-md-6 col-sm-12 mb-1">
+                                        <button type='submit' class="btn btn-block btn-light btn-sm "
+                                            style="width: 100%;">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover table-bordered ">
+                                    <thead class="thead-light text-center">
+                                        <tr>
+                                            <th scope="col" style="width: 5%;"></th>
+                                            <th scope="col">Médicament</th>
+                                            <th scope="col">Qte en stock</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let drug of drugs">
+                                            <th class="text-center" scope="row">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="{{drug.id}}"
+                                                        name="checkbox-stacked" value="{{drug.id}}"
+                                                        (change)="getSelectedDrugs(drug)">
+                                                    <label class="custom-control-label" for="{{drug.id}}"></label>
+                                                </div>
+                                            </th>
+                                            <td class="text-capitalize">{{drug.name}}</td>
+                                            <td class="text-center">{{drug.quantityInStock}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center mb-5 mt-4">
+                                <div *ngIf="loading" class="spinner-border text-info" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span class="text-muted ml-3 " *ngIf="loading">Loading...</span>
+                                <div *ngIf="hasNoData" class="mt-3">
+                                    <span class="text-muted ml-3 ">{{EmptyMessage}}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-7 offset-md-5">
+                                    <ngb-pagination [collectionSize]="totalItem" [pageSize]="perPage" [(page)]="page"
+                                        [maxSize]="10" (pageChange)="onPageChange(page)" [rotate]="true"
+                                        [boundaryLinks]="true"></ngb-pagination>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-8 p-0">
+                            <div class="row bg-light">
+                                <div class="border-left border-bottom col-md-3"> Medicament</div>
+                                <div class="border-left border-bottom col-md-5"> Posologie</div>
+                                <div class="border-left border-bottom col-md-2"> Qte</div>
+                                <div class="border-left border-bottom col-md-2"> Duree</div>
+                            </div>
+                            <div *ngFor="let drug of drugFormGroup.controls; let index = index;">
+                                <div class="items" id="{{'item_'+ index}}">
+                                    <ng-container [formGroup]="drug">
+                                        <div class="row">
+                                            <div class="col-md-3 border-left border-bottom">
+                                                <div class="form-group mt-1 mb-1">
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" formControlName="drug"
+                                                            class="form-control border-0">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5 border-left border-bottom">
+                                                <div class="form-group mt-1 mb-1">
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" formControlName="dosage"
+                                                            class="form-control border-0">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 border-left border-bottom d-inline">
+                                                <div class="form-group mt-1 mb-1">
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" formControlName="qty"
+                                                            class="form-control border-0">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 border-left border-bottom d-inline">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <div class="form-group mt-1 mb-1">
+                                                            <div class="input-group input-group-sm">
+                                                                <input type="text" formControlName="duration"
+                                                                    class="form-control border-0">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mt-2">
+                                                        <div class="badge badge-danger d-inline mt-1"
+                                                            (click)="removeDrug(index)">X</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>

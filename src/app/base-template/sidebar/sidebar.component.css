@@ -1,0 +1,6 @@
+[class*="sidebar-light-"] .nav-treeview > .nav-item > .nav-link.active, [class*="sidebar-light-"] .nav-treeview > .nav-item > .nav-link.active:hover {
+    background-color: #17a2b8 !important;
+    color: white !important;
+}
+
+

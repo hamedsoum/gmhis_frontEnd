@@ -1,0 +1,225 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row pl-3 pr-3">
+      <div class="col-md-8">
+        <form [formGroup]="form">
+          <div class="row">
+            <div class="row pt-2 m-0 col-md-12">
+              <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="form-group">
+                  <div class="input-group input-group-sm">
+                    <input type="text" formControlName="firstName" class="form-control" placeholder="Nom">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-sm">
+                    <input type="text" formControlName="lastName" class="form-control" placeholder="prenom">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="form-group">
+                  <div class="input-group input-group-sm">
+                    <input type="text" formControlName="patientExternalId" class="form-control"
+                      placeholder="N° patient">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-sm">
+                    <input type="text" formControlName="cellPhone" class="form-control" placeholder="N° tel">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="form-group">
+                  <div class="input-group input-group-sm">
+                    <input type="text" formControlName="idCardNumber" class="form-control"
+                      placeholder="N° carte d'identité">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-sm">
+                    <input type="text" formControlName="cnamNumber" class="form-control" placeholder="N° CNAM">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12">
+                <span class="btn btn-light px-3" (click)="search()" style="width:100%">
+                  <i class="fas fa-search"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-4">
+        <div class="row" *ngIf="listPatientComponent">
+          <div class="p-1 col-lg-4 col-md-6 col-sm-12">
+            <a routerLink="../add" class="btn btn-block btn-success btn-sm font-weight-bold text-nowrap text-white">
+              <i class="fas fa-plus mr-1"></i>
+              Nouveau
+            </a>
+          </div>
+          <div class="p-1 col-lg-4 col-md-6 col-sm-12">
+            <a routerLink="../update/{{selectedItem}}"
+              class="btn btn-block btn-secondary btn-sm font-weight-bold text-nowrap text-white"
+              [ngClass]="{'disabled': !selectedItem }">
+              <i class="fas fa-pen-alt mr-1"></i>
+              Modifier
+            </a>
+          </div>
+          <div class="p-1 col-lg-4 col-md-6 col-sm-12">
+            <a routerLink="/medical-folder/{{selectedItem}}"
+              class="btn btn-block btn-primary btn-sm font-weight-bold text-nowrap text-white"
+              [ngClass]="{'disabled': !selectedItem }">
+              <i class="fas fa-folder-plus mr-1"></i>
+              Dossier
+            </a>
+          </div>
+          <div class="p-1 col-lg-4 col-md-6 col-sm-12">
+            <a routerLink="/patient-constant/list/{{selectedItem}}"
+              class="btn btn-block btn-warning btn-sm font-weight-bold text-nowrap text-white"
+              [ngClass]="{'disabled': !selectedItem }">
+              <i class="fas fa-stethoscope mr-1"></i>
+              constantes
+            </a>
+          </div>
+          <div class="p-1 col-lg-4 col-md-6 col-sm-12">
+            <a routerLink="/admission/add/{{selectedItem}}"
+              class="btn btn-block btn-info btn-sm font-weight-bold text-nowrap text-white"
+              [ngClass]="{'disabled': !selectedItem }">
+              <i class="fas fa-plus-square"></i>
+              Nv. admiss°
+            </a>
+          </div>
+
+          <div class="p-1 col-lg-4 col-md-6 col-sm-12">
+            <a class="btn btn-block btn-default btn-sm font-weight-bold" [ngClass]="{'disabled': !selectedItem }"
+              (click)="generateBarCode()" data-toggle="modal" data-target="#staticBackdrop">
+              <i class="fas fa-tag mr-1"></i>
+              Etiquette
+            </a>
+          </div>
+        </div>
+        <div class="row  mt-2" *ngIf="schedulerComponent">
+          <div class="p-1 col-lg-8 col-md-6 col-sm-12">
+            <ng-select formControlName="appointmentAct" placeholder=" Acte">
+              <ng-option *ngFor="let appointmentAct of appointmentActs" [value]="appointmentAct.id">
+                {{appointmentAct.name}}</ng-option>
+            </ng-select>
+          </div>
+          <div class="p-1 col-lg-4 col-md-6 col-sm-12">
+            <button type="button" class="btn btn-block btn-success btn-sm font-weight-bold text-nowrap text-white"
+              [ngClass]="{'disabled': !selectedItem }" (click)="appointment()">
+              Valider le RDV
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-10 text-center text-muted">
+        <h4>list de patients</h4>
+      </div>
+      <div class="col-md-2 text-right">
+        <form [formGroup]="entryForm">
+          <div class="row">
+            <div for="entries" class="col-sm-12 text-right mt-1"> Afficher</div>
+            <div class="col-sm-12 mb-2">
+              <ng-select formControlName="entries" [searchable]="false" [clearable]="false" (change)="OnEntryChange()">
+                <ng-option *ngFor="let entry of entries" [value]="entry.id">{{entry.value}}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-sm table-hover table-bordered ">
+        <thead class="thead-light text-center">
+          <tr>
+            <th scope="col"></th>
+            <th scope="col" class="text-nowrap"> N° patient
+              <i class="fa fa-sort ml-2" (click)="onSort('id')" ngbTooltip="trier par ordre {{orderDescription }}"></i>
+            </th>
+            <th scope="col" class="text-nowrap"> Nom <i class="fa fa-sort ml-2" (click)="onSort('firstName')"
+                ngbTooltip="trier par ordre {{orderDescription }}"></i>
+            </th>
+            <th scope="col" class="text-nowrap"> prenom <i class="fa fa-sort ml-2" (click)="onSort('lastName')"
+                ngbTooltip="trier par ordre {{orderDescription }}"></i>
+            </th>
+            <th scope="col" class="text-nowrap">Date de naissance</th>
+            <th scope="col" class="text-nowrap">Sexe</th>
+            <th scope="col" class="text-nowrap">Civilité</th>
+            <th scope="col" class="text-nowrap">profession</th>
+            <th scope="col" class="text-nowrap">Contact 1</th>
+            <th scope="col" class="text-nowrap">Contact 2</th>
+            <th scope="col" class="text-nowrap">Type Carte ID</th>
+            <th scope="col" class="text-nowrap">N° carte ID</th>
+            <th scope="col" class="text-nowrap">N° CNAM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let patient of patients">
+            <th class="text-center" scope="row">
+              <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" id="{{patient.id}}" name="radio-stacked"
+                  value="{{patient.id}}" (change)="onItemChange(patient)">
+                <label class="custom-control-label" for="{{patient.id}}"></label>
+              </div>
+            </th>
+            <td class="text-center">{{patient.patientExternalId}}</td>
+            <td class="text-capitalize text-nowrap">{{patient.firstName}}</td>
+            <td class="text-capitalize text-nowrap">{{patient.maidenName +" "+ patient.lastName}}</td>
+            <td class="text-center text-nowrap">{{patient.birthDate | date:'dd/MM/yyyy'}}</td>
+            <td class="text-center text-capitalize">{{patient.gender}}</td>
+            <td class="text-center">{{patient.civility}}</td>
+            <td class="text-nowrap">{{patient.profession}}</td>
+            <td class="text-nowrap">{{patient.cellPhone1}}</td>
+            <td class="text-nowrap">{{patient.cellPhone2}}</td>
+            <td class="text-nowrap">{{patient.idcardType}}</td>
+            <td class="text-nowrap">{{patient.idCardNumber}}</td>
+            <td class="text-nowrap">{{patient.cnamNumber}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="text-center mb-5 mt-4">
+      <div *ngIf="loading" class="spinner-border text-info" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <span class="text-muted ml-3 " *ngIf="loading">Loading...</span>
+      <div *ngIf="hasNoData" class="mt-3">
+        <span class="text-muted ml-3 ">{{EmptyMessage}}</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7 offset-md-5">
+        <ngb-pagination [collectionSize]="totalItem" [pageSize]="perPage" [(page)]="page" [maxSize]="10"
+          (pageChange)="onPageChange(page)" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+<app-patient-tag [patient]="patient"></app-patient-tag>
+<!-- pdf viewer Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-body">
+        <!-- ngx-extended-pdf-viewer -->
+        <ngx-extended-pdf-viewer *ngIf='docSrc' [src]="docSrc" useBrowserLocale="true" height="80vh">
+        </ngx-extended-pdf-viewer>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--end pdf viewer Modal -->

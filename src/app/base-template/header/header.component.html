@@ -1,0 +1,268 @@
+<!-- navbar -->
+<nav class="main-header navbar navbar-expand navbar-dark navbar-info">
+  <!-- Left navbar links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" data-widget="pushmenu" role="button"><i class="fas fa-bars"></i></a>
+    </li>
+    <li class="nav-item dropdown">
+      <a id="dropdownSubMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+        class="nav-link dropdown-toggle">Parametrage</a>
+      <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="width: 150%">
+        <!-- Level two dropdown-->
+        <li class="dropdown-submenu dropdown-hover">
+          <a id="dropdownSubMenu2" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false" class="dropdown-item dropdown-toggle">Paramètre application</a>
+          <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow" style="width: 102%;">
+
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Actes</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/act/list-category" class="dropdown-item">Categories des actes</a></li>
+                <li><a routerLink="/act/list-code" class="dropdown-item">Codes des actes</a></li>
+                <li><a routerLink="/act/list-family" class="dropdown-item">Familles des actes</a></li>
+                <li><a routerLink="/act/list" class="dropdown-item">Liste des Actes</a></li>
+              </ul>
+            </li>
+            <!-- End Level three -->
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Antécédents</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/antecedent/list-family" class="dropdown-item">Famille d'antécédents</a></li>
+                <li><a routerLink="/antecedent/list" class="dropdown-item">Antécédents</a></li>
+              </ul>
+            </li>
+            <!-- End Level three -->
+        
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Assurances</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/insurance/list" class="dropdown-item">Assurances / Mutuelles</a></li>
+                <li><a routerLink="/insurance/list-subscriber" class="dropdown-item">Etalissements garants</a></li>
+              </ul>
+            </li>
+            <!-- End Level three -->
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Caisses de règlements</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/cash-register/list" class="dropdown-item">Liste des caisses</a></li>
+                <li><a routerLink="/cash-register/add" class="dropdown-item">Ajouter une Caisse</a></li>
+              </ul>
+            </li>
+             
+            <!-- End Level three -->
+
+             <!-- Level three dropdown-->
+             <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Caissiers</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/cashier/list" class="dropdown-item">Liste des caissiers</a></li>
+                <li><a routerLink="/cashier/add" class="dropdown-item">Ajouter un Caissier</a></li>
+              </ul>
+            </li>
+             
+            <!-- End Level three -->
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Constantes médicales</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/constant-domain/list" class="dropdown-item">Groupe de constantes</a></li>
+                <li><a routerLink="/constant-type/list" class="dropdown-item">Constantes type</a></li>
+
+              </ul>
+            </li>
+            <!-- End Level three -->
+     
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Documents types</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/check-up/list" class="dropdown-item">Bilan type</a></li>
+                <li><a routerLink="/certificate-type/list" class="dropdown-item">Certificat type</a></li>
+                <li><a routerLink="/mail-type/list" class="dropdown-item">Courier type</a></li>
+                <li><a routerLink="/prescription-type/list" class="dropdown-item">Ordonnance type</a></li>
+                <li><a routerLink="/cro-type/list" class="dropdown-item">CRO</a></li>
+                <li><a routerLink="/cro-family/list" class="dropdown-item"> Famille de CRO</a></li>
+              </ul>
+            </li>
+            <!-- End Level three -->
+          
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Nos conventions</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/convention/list" class="dropdown-item">Liste des conventions</a></li>
+                <li><a routerLink="/convention/add" class="dropdown-item">Creer une convention</a></li>
+              </ul>
+            </li>
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Nos étalissements</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/facility/list" class="dropdown-item">Liste des établissements</a></li>
+                <li><a routerLink="/facility/add" class="dropdown-item">Creer un établissement</a></li>
+              </ul>
+            </li>
+             <!-- Level three dropdown-->
+             <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Pathologies</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/pathology/list" class="dropdown-item">Liste des Pathologies</a></li>
+                <li><a routerLink="/pathology/add" class="dropdown-item">Ajouter une pathologie</a></li>
+              </ul>
+            </li>
+            <!-- End Level three -->
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Pharmacie</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/pharmacy/drug-list" class="dropdown-item">Médicament</a></li>
+                <li><a routerLink="/pharmacy/dci-list" class="dropdown-item">DCI</a></li>
+                <li><a routerLink="/pharmacy/therapeutic-class-list" class="dropdown-item">Classe thérapeutique</a></li>
+                <li><a routerLink="/pharmacy/pharmacological-form-list" class="dropdown-item">Forme pharmacologique</a></li>
+                <li><a routerLink="/pharmacy/laboratory-list" class="dropdown-item">Laboratoire</a></li>
+                <li><a routerLink="/pharmacy/dcu-list" class="dropdown-item">Unite de conditionnement</a></li>
+              </ul>
+            </li>
+            <!-- End Level three -->
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Praticiens</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/practician/list" class="dropdown-item">Liste des praticiens</a></li>
+                <li><a routerLink="/practician/add" class="dropdown-item">Ajouter un praticien</a></li>
+              </ul>
+            </li>
+            <!-- End Level three -->
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Salles d'attente</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/waiting-room/list" class="dropdown-item">Liste des salles</a></li>
+                <li><a routerLink="/waiting-room/add" class="dropdown-item">Ajouter une salle</a></li>
+              </ul>
+            </li>
+            <!-- End Level three -->
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Services</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/service/list" class="dropdown-item">Liste des services</a></li>
+                <li><a routerLink="/service/add" class="dropdown-item">Ajouter un service</a></li>
+              </ul>
+            </li>
+            <!-- End Level three -->
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Stock</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                
+                <li><a  class="dropdown-item">Gestion de kits</a></li>
+                <li><a routerLink="article/list"  class="dropdown-item">Articles</a></li>
+                <li><a  class="dropdown-item">Détail des entrée en stock</a></li>
+                <li><a  class="dropdown-item">Détail des entrée en stock</a></li>
+                <li><a routerLink="/article-location/list" class="dropdown-item">Emplacement d'articles</a></li>
+                <li><a routerLink="/article-group/list" class="dropdown-item">Famille d'articles</a></li>
+                <li><a routerLink="/article-supplier/list" class="dropdown-item">fournisseur</a></li>
+                
+              </ul>
+            </li>
+            <!-- End Level three -->
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Spécialités</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/speciality/list" class="dropdown-item">Liste des Spécialités</a></li>
+                <li><a routerLink="/speciality/add" class="dropdown-item">Ajouter une spécialités</a></li>
+              </ul>
+            </li>
+            <!-- End Level three -->
+
+            <!-- Level three dropdown-->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">
+                Subdivision territoriale</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/country/list" class="dropdown-item">Pays</a></li>
+                <li><a routerLink="/city/list" class="dropdown-item">Villes</a></li>
+                <li><a routerLink="/region/list" class="dropdown-item">Régions</a></li>
+                <li><a routerLink="/district/list" class="dropdown-item">District</a></li>
+                <li><a routerLink="/locality/list" class="dropdown-item">Localités</a></li>
+              </ul>
+            </li>
+            <!-- End Level three -->
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">
+                Symptômes</a>
+                <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                  <li><a routerLink="/symptom/list" class="dropdown-item">Liste des symptômes</a></li>
+                  <li><a routerLink="/symptom/add" class="dropdown-item">Creer un symptômes</a></li>
+                </ul>
+            </li>
+            <!-- Level three dropdown-->
+
+            <li class="dropdown-submenu">
+              <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" class="dropdown-item dropdown-toggle">Type de payement</a>
+              <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                <li><a routerLink="/payment-type/list" class="dropdown-item">Liste des types de payements</a></li>
+                <li><a routerLink="/payment-type/add" class="dropdown-item">Ajouter un type de payement</a></li>
+              </ul>
+            </li>
+            <!-- End Level three -->
+                 <!-- Level three dropdown-->
+                 <li class="dropdown-submenu">
+                  <a id="dropdownSubMenu3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false" class="dropdown-item dropdown-toggle">Unités de mesures</a>
+                  <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                    <li><a routerLink="/uom/list" class="dropdown-item">Liste des unités de mesures</a></li>
+                    <li><a routerLink="/uom/add" class="dropdown-item">Ajouter une unité de mesures</a></li>
+                  </ul>
+                </li>
+                <!-- End Level three -->
+          </ul>
+        </li>
+        <!-- Level two dropdown-->
+        <li class="dropdown-submenu dropdown-hover">
+          <a id="dropdownSubMenu2" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false" class="dropdown-item dropdown-toggle">Paramètre généraux</a>
+          <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
+            <li>
+              <a tabindex="-1" class="dropdown-item">Paramètres du centre médical</a>
+            </li>
+          </ul>
+        </li>
+        <!-- End Level two -->
+      </ul>
+    </li>
+  </ul>
+
+  <!-- Right navbar links -->
+  <ul class="navbar-nav ml-auto">
+    <li>
+      <a class="nav-link" (click)="logout()">Deconnexion</a>
+    </li>
+  </ul>
+</nav>

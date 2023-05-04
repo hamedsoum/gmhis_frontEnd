@@ -1,0 +1,116 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="mr-auto p-2 col-md-7">
+                    <h3>{{title}}</h3>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="py-1 col-lg-4  col-md-6 col-sm-12  text-nowrap">
+                            <button type="submit" (click)="actionToDo('save')"
+                                class="btn btn-block btn-success btn-sm font-weight-bold" value="save">
+                                Enregistrer
+                            </button>
+                        </div>
+                        <div class="py-1 col-lg-4  col-md-6 col-sm-12  text-nowrap" *ngIf='!articleSupplierId'>
+                            <button type="submit" (click)="actionToDo('save_and_new')"
+                                class="btn btn-block btn-info btn-sm font-weight-bold" value="save_and_new">
+                                Enreg. & nouveau
+                            </button>
+                        </div>
+                        <div class="py-1 col-lg-4  col-md-6 col-sm-12  text-nowrap">
+                            <span (click)="cancelAction()" class="btn btn-block btn-danger btn-sm font-weight-bold"
+                                value="cancel">
+                                Annuler
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="text-muted"> NB: les champs marqués d'un astérisque ( <span class="text-danger">*</span> ) sont
+                obligatoire pour la validation du formulare</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="name">fournisseur</label>
+                        <span class="text-danger">*</span>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="name" class="form-control" placeholder="Fournisseur">
+                        </div>
+                        <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.name">
+                            ce champ doit être renseigné
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="code">code postale</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="postalCode" class="form-control" placeholder="code postale">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="address">Adresse</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="address" class="form-control" placeholder="Adresse">
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="account">Pays</label>
+                            <span class="text-red">*</span>
+                            <ng-select formControlName="country" placeholder="Pays">
+                                <ng-option *ngFor="let country of countries" [value]="country.id">{{country.name}}
+                                </ng-option>
+                            </ng-select>
+                            <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.country">
+                                ce champ doit être renseigné
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="typeactive">Etat</label>
+                            <span class="text-red">*</span>
+                            <ng-select formControlName="active" placeholder="Etat">
+                                <ng-option *ngFor="let active of actives" [value]="active.id">{{active.value}}
+                                </ng-option>
+                            </ng-select>
+                            <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.active">
+                                ce champ doit être renseigné
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="account">Numéro de téléphone</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" formControlName="contact" class="form-control"
+                                    placeholder="Numéro de téléphone">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">                                                                                                                           
+                        <div class="form-group">
+                            <label for="account">Email</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" formControlName="email" class="form-control"
+                                    placeholder="Adresse email">
+                            </div>
+                            <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.name">
+                                entrer une adresse email valide
+                            </span>
+                        </div>
+                    </div>
+                                                                          
+                <input type="hidden" formControlName="id">
+            </div>
+        </div>
+    </div>
+</form>

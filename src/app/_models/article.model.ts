@@ -1,0 +1,28 @@
+export interface Article {
+        active: string,
+        alertQuantity: number,
+        articleGroup: number,
+        articleLocation: number,
+        buyingPrice: number,
+        condQty: number,
+        conditioningUnit: number,
+        dcns:any,
+        defaultDosage: string,
+        generic: string,
+        id: number,
+        laboratory: number,
+        location: string,
+        name: string,
+        pharmaceuticClass: number,
+        pharmacologicalForm: number,
+        ppv: number,
+        princeps: string,
+        quantityInStock: number,
+        reference: string,
+        sellingPrice: number,
+        supplier: number,
+        therapeuticClass: number,
+        type: string,
+        valQty: number
+      
+}

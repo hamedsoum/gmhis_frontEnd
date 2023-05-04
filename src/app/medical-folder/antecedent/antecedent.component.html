@@ -1,0 +1,210 @@
+<form [formGroup]='form' (submit)='save()'>
+    <div class="row col-md-4 offset-md-8">
+        <div class="col-md-6 mb-1">
+            <button type="submit" class="btn btn-success">Valider</button>
+        </div>
+        <div class="col-md-6 mb-1">
+            <button type="button" class="btn btn-danger">Annuler</button>
+        </div>
+    </div>
+    <div class="my-2">
+        <h5 class="text-bold m-3 text-center">Antécédents</h5>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label for="medicalHistories">
+                <h6 class="text-bold"><u>Médicaux</u>
+                    <!-- trigger modal -->
+                    <span class="badge bg-success m-1 p-1" (click)="resetHistories()"
+                        (click)="setHistoriesType('medicalHistories')" data-toggle="modal" data-target="#history"><i
+                            class="fa fa-plus"></i></span>
+                </h6>
+            </label>
+            <div class="form-group border rounded" style="min-height: 10rem;">
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover ">
+                            <tr *ngFor="let mHistory of medicalHistories">
+                                <td class="text-capitalize">{{mHistory}}</td>
+                                <td>
+                                    <div class="badge badge-danger" (click)="removeMedicalHistory(mHistory)">X
+                                    </div>
+                                </td>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <label for="surgicalHistories">
+                <h6 class="text-bold"><u>Chirugicaux</u>
+                    <!-- trigger modal -->
+                    <span class="badge bg-success m-1 p-1" (click)="resetHistories()"
+                        (click)="setHistoriesType('surgicalHistories')" data-toggle="modal" data-target="#history"><i
+                            class="fa fa-plus"></i></span>
+                </h6>
+            </label>
+            <div class="form-group border rounded" style="min-height: 10rem;">
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover ">
+                            <tr *ngFor="let sHistory of surgicalHistories">
+                                <td class="text-capitalize">{{sHistory}}</td>
+                                <td>
+                                    <div class="badge badge-danger" (click)="removeSurgicalHistory(sHistory)">X
+                                    </div>
+                                </td>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <label for="familyHistories">
+                <h6 class="text-bold"><u>Familiaux</u>
+                    <!-- trigger modal -->
+                    <span class="badge bg-success m-1 p-1" (click)="resetHistories()"
+                        (click)="setHistoriesType('familyHistories')" data-toggle="modal" data-target="#history"><i
+                            class="fa fa-plus"></i></span>
+                </h6>
+            </label>
+            <div class="form-group border rounded" style="min-height: 10rem;">
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover ">
+                            <tr *ngFor="let fHistory of familyHistories">
+                                <td class="text-capitalize">{{fHistory}}</td>
+                                <td>
+                                    <div class="badge badge-danger" (click)="removeFamilyHistory(fHistory)">X
+                                    </div>
+                                </td>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+    <div>
+        <div class="my-2">
+            <h5 class="text-bold m-3 text-center">Traitement Actuel & allergie</h5>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <form [formGroup] = "currentTreatmentForm">
+                <label for="description">
+                    <h6 class="text-bold"><u>Traitement actuel</u></h6>
+                </label>
+                <div class="form-group">
+                    <textarea class="form-control" formControlName="description" rows="5"
+                        placeholder="Traitement actuel"></textarea>
+                </div>
+            </form>
+            </div>
+            <div class="col-md-6">
+                <form [formGroup] = "allergyForm">
+                <label for="description">
+                    <h6 class="text-bold"><u>Allergies</u></h6>
+                </label>
+                <div class="form-group">
+                    <textarea formControlName="description" class="form-control" rows="5"
+                        placeholder="Allergies"></textarea>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="history" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="historyLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="historyLabel">Choisir des Antecedents</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              
+                <form [formGroup]="searchForm" (submit)="search()">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" formControlName="history" class="form-control"
+                                        placeholder="Antécédent">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <ng-select formControlName="historyFamily" placeholder=" Type d'antécédent">
+                                <ng-option *ngFor="let type of historyFamilies" [value]="type.id"> {{type.name}}
+                                </ng-option>
+                            </ng-select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-light px-3 py-1" style="width:100%" (click)="getHistories()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-stripped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 35px;"></th>
+                                        <th>Antécédents</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let history of histories">
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input"
+                                                    value="{{history.name}}" id="{{history.name}}"
+                                                    (change)="getSelectedHistories(history)">
+                                                <label class="custom-control-label" for="{{history.name}}"></label>
+                                            </div>
+                                        </td>
+                                        <td>{{history.name}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover table-bordered ">
+                                <thead class="thead-light text-center">
+                                    <tr>
+                                        <th scope="col"> Liste des antecedents Selectionnés</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let selectedHistory of selectedHistories">
+                                        <td class="text-capitalize">{{selectedHistory.name}}</td>
+                                        <td>
+                                            <div class="badge badge-danger" (click)="removeSelectedHistory(selectedHistory)">X
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    (click)="setHistories()">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>

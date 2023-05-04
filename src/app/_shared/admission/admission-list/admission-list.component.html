@@ -1,0 +1,408 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row pl-3 pr-3">
+      <div class="col-md-8">
+        <form [formGroup]="form">
+          <div class="row">
+            <div class="row pt-2 m-0 col-md-12">
+              <div class="col-lg-3 col-md-5 col-sm-12">
+                <div class="form-group">
+                  <div class="input-group-sm">
+                    <input type="text" formControlName="admissionNumber" class="form-control"
+                      placeholder="N° admission">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group-sm">
+                    <input type="text" formControlName="firstName" class="form-control" placeholder="Nom">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-5 col-sm-12">
+                <div class="form-group">
+                  <div class="input-group-sm">
+                    <input type="text" formControlName="patientExternalId" class="form-control"
+                      placeholder="N° patient">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group-sm">
+                    <input type="text" formControlName="lastName" class="form-control" placeholder="Prenom">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-5 col-sm-12">
+                <div class="form-group">
+                  <div class="input-group-sm">
+                    <input type="text" formControlName="idCardNumber" class="form-control" placeholder="N° CNI">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group-sm">
+                    <input type="text" formControlName="cnamNumber" class="form-control" placeholder="N° CNAM">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-5 col-sm-12">
+                <div class="input-group-sm">
+                  <ng-select formControlName="practician" placeholder="practicien">
+                    <ng-option *ngFor="let practician of practicians" [value]="practician.userId">
+                      {{practician.userFirstName +" "+ practician.userLastName}}
+                    </ng-option>
+                  </ng-select>
+                </div>
+                <div class="input-group-sm mt-3">
+                  <ng-select formControlName="service" placeholder="service">
+                    <ng-option *ngFor="let service of services" [value]="service.id">{{service.name}}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+
+              <div class="input-group-sm col-lg-3 col-md-5 col-sm-12  mb-3">
+                <div class="form-group">
+                  <div class="input-group-sm">
+                    <input type="text" formControlName="cellPhone" class="form-control" placeholder="N° tel">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group hidden">
+                <div class="input-group ml-2 input-group-sm">
+                  <input name="datepicker" class="form-control" ngbDatepicker #datepicker="ngbDatepicker"
+                    [autoClose]="'outside'" (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"
+                    outsideDays="hidden" [startDate]="fromDate!">
+                  <ng-template #t let-date let-focused="focused">
+                    <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                      [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+                      (mouseleave)="hoveredDate = null">
+                      {{ date.day }}
+                    </span>
+                  </ng-template>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-5 col-sm-12 ">
+                <div class="input-group input-group-sm">
+                  <input #dpFromDate class="form-control" placeholder="jj/mm/aaaa" formControlName="dpFromDate"
+                    [value]="formatter.format(fromDate)" (input)="fromDate = validateInput(fromDate, dpFromDate.value)"
+                    style="margin-left: -10px;">
+                  <div class="input-group-append">
+                    <span class="input-group-text" (click)="datepicker.toggle()"><i
+                        class="far fa-calendar-alt"></i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-5 col-sm-12">
+                <div class="input-group input-group-sm">
+                  <input #dpToDate class="form-control" placeholder="jj/mm/aaaa" formControlName="dpToDate"
+                    [value]="formatter.format(toDate)" (input)="toDate = validateInput(toDate, dpToDate.value)"
+                    style="margin-left: -10px;">
+                  <div class="input-group-append">
+                    <span class="input-group-text" (click)="datepicker.toggle()"><i
+                        class="far fa-calendar-alt"></i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-2 col-sm-12">
+                <ng-select formControlName="act" placeholder="Admission act">
+                  <ng-option *ngFor="let act of acts" [value]="act.id">{{act.name}}
+                  </ng-option>
+                </ng-select>
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-4">
+        <div *ngIf='!waitingRoom'>
+          <div class="row">
+            <div class="py-1 col-lg-4  col-md-6 col-sm-12 ">
+              <a routerLink="/patient/list"
+                class="btn btn-block btn-info btn-sm font-weight-bold text-nowrap text-white">
+                <i class="fas fa-list mr-1"></i>
+                Patientèle
+              </a>
+            </div>
+            <div class="py-1 col-lg-4  col-md-6 col-sm-12 ">
+              <a routerLink="/admission/update/{{selectedItemId}}"
+                class="btn btn-block btn-secondary btn-sm font-weight-bold text-nowrap text-white"
+                [ngClass]="{'disabled': !selectedItemId || isbilled }">
+                <i class="fas fa-pen-alt mr-1"></i>
+                Modifier
+              </a>
+            </div>
+            <div class="py-1 col-lg-4  col-md-6 col-sm-12 ">
+              <a class="btn btn-block btn-danger btn-sm font-weight-bold text-nowrap text-white"
+                [ngClass]="{'disabled': !selectedItemId , 'disabled': isbilled}" (click)="deleteAdmission()">
+                <i class="fas fa-trash"></i>
+                suspprimer
+              </a>
+            </div>
+            <div class="py-1 col-lg-4  col-md-6 col-sm-12 ">
+              <a routerLink="/admission/add-invoice/{{selectedItemId}}"
+                class="btn btn-block btn-primary btn-sm font-weight-bold text-nowrap text-white"
+                [ngClass]="{'disabled': !selectedItemId || isbilled }">
+                <i class="fas fa-file-invoice-dollar mr-1"></i>
+                Facture
+              </a>
+            </div>
+            <div class="py-1 col-lg-4  col-md-6 col-sm-12 ">
+              <a routerLink="/pharmacy/{{patientId}}"
+                class="btn btn-block btn-warning btn-sm font-weight-bold text-nowrap text-white"
+                [ngClass]="{'disabled': !patientId }">
+                <i class="fas fa-clinic-medical"></i>
+                Pharmacie
+              </a>
+            </div>
+            <div class="py-1 col-lg-4  col-md-6 col-sm-12 ">
+              <a class="btn btn-block btn-dark btn-sm font-weight-bold text-nowrap text-white"
+                [ngClass]="{'disabled': !selectedItemId }" data-toggle="modal" data-target=".bd-example-modal-lg"
+                (click)="invoicePreview()">
+                <i class="fas fa-file-pdf"></i>
+                Editer PDF
+              </a>
+            </div>
+
+          </div>
+        </div>
+        <div >
+          <!-- <div class="row"> -->
+          <div class="py-1 col-lg-5 col-md-6 col-sm-12">
+            <a routerLink="/patient-constant/list/1"
+              class="btn btn-block btn-warning btn-sm font-weight-bold text-nowrap text-white"
+             >
+              <i class="fas fa-stethoscope mr-2"></i>
+              constantes
+            </a>
+          </div>
+          <div class="py-1 col-lg-5 col-md-6 col-sm-12">
+            <a routerLink="/medical-folder/{{1}}/{{selectedItemId}}"
+              class="btn btn-block btn-primary btn-sm font-weight-bold text-nowrap text-white"
+              >
+              <i class="fas fa-folder-plus mr-2"></i>
+              Dossier
+            </a>
+          </div>
+          <!-- </div> -->
+        </div>
+        <div class="py-1 col-lg-4  col-md-6 col-sm-12 ">
+          <span class="btn btn-light btn-sm " (click)="search()" style="width:100%">
+            <i class="fas fa-search"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3 text-center text-muted">
+        <h4>{{title}}</h4>
+      </div>
+      <div class="col-md-7">
+        <!-- <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="allAdmissions" name="allAdmissions" class="custom-control-input" disabled ="{{waitingRoom}}" (click)="setAdmissionStatus(null)">
+            <label class="custom-control-label" for="allAdmissions">Toutes les admissions</label>
+          </div> -->
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="billedAdmissions" name="allAdmissions" class="custom-control-input"
+            checked="{{waitingRoom}}" (click)="setAdmissionStatus('B')">
+          <label class="custom-control-label" for="billedAdmissions">Admission facturées</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="nonBilledAdmission" name="allAdmissions" class="custom-control-input"
+            disabled="{{waitingRoom}}" checked="{{nonBilledAdmission}}" (click)="setAdmissionStatus('R')">
+          <label class="custom-control-label" for="nonBilledAdmission">Admission non facturées</label>
+        </div>
+        <div class="col-md-6" *ngIf='waitingRoom'>
+        <div class="input-group-sm " [formGroup]="waitingRoomForm">  
+          <ng-select formControlName="waitingRoom" placeholder="salle d'attente" (change)="onRoomChange()">
+            <ng-option *ngFor="let waitingRoom of waitingRooms" [value]="waitingRoom.id">{{waitingRoom.name}}
+            </ng-option>
+          </ng-select>
+        </div>
+      </div>
+      </div>
+      <div class="col-md-2 text-right">
+        <form [formGroup]="entryForm">
+          <div class="row">
+            <div for="entries" class="col-sm-12 text-right mt-1"> Afficher</div>
+            <div class="col-sm-12 mb-2">
+              <ng-select formControlName="entries" [searchable]="false" [clearable]="false" (change)="OnEntryChange()">
+                <ng-option *ngFor="let entry of entries" [value]="entry.id">{{entry.value}}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-sm table-hover table-bordered ">
+        <thead class="thead-light text-center">
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">N° admission</th>
+            <th scope="col">Facturé</th>
+            <th scope="col">N° patient</th>
+            <th scope="col">Nom</th>
+            <th scope="col">prenom</th>
+            <th scope="col">Date d'admissio</th>
+            <th scope="col">Acte</th>
+            <th scope="col">Service</th>
+            <th scope="col">Médecin</th>
+            <th scope="col">Admis par</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let admission of admissions">
+            <th class="text-center" scope="row">
+              <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" id="{{admission.id}}" name="radio-stacked"
+                  value="{{admission.id}}" (change)="onItemChange(admission)">
+                <label class="custom-control-label" for="{{admission.id}}"></label>
+              </div>
+            </th>
+            <td class="text-center text-nowrap">{{admission.admissionNumber}}</td>
+            <td class="text-center"><i class="fas fa-circle"
+                [ngClass]="{'text-green': admission.admissionStatus=='B', 'text-red': admission.admissionStatus=='R'}"
+                ngbTooltip="{{admission.admissionStatus=='B'? 'Facturé' : 'Non facturé'}}"></i></td>
+            <td class="text-capitalize text-nowrap">{{admission.patientExternalId}}</td>
+            <td class="text-capitalize text-nowrap">{{admission.patientFirstName}}</td>
+            <td class="text-center text-nowrap">{{admission.patientMaidenName + " " + admission.patientLastName}}</td>
+            <td class="text-center text-nowrap">{{admission.admissionDate | date:'dd/MM/yyyy H:mm:ss'}}</td>
+            <td class="text-capitalize text-nowrap">{{admission.act}}</td>
+            <td class="text-capitalize text-nowrap">{{admission.service}}</td>
+            <td class="text-nowraptext-capitalize text-nowrap">{{admission.practicianFirstName + " "+
+              admission.practicianLastName }}</td>
+            <td class="text-nowrap text-capitalize text-nowrap">{{admission.createdByFirstName+ ' '+
+              admission.createdByLastName}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="text-center mb-5 mt-4">
+      <div *ngIf="loading" class="spinner-border text-info" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <span class="text-muted ml-3 " *ngIf="loading">Loading...</span>
+      <div *ngIf="hasNoData" class="mt-3">
+        <span class="text-muted ml-3 ">{{EmptyMessage}}</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7 offset-md-5">
+        <ngb-pagination [collectionSize]="totalItem" [pageSize]="perPage" [(page)]="page" [maxSize]="10"
+          (pageChange)="onPageChange(page)" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- pdf viewer Modal -->
+<!-- <div  class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true" *ngIf="selectedItem">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-body">
+        ngx-extended-pdf-viewer
+        <ngx-extended-pdf-viewer *ngIf='docSrc' [src]="docSrc" useBrowserLocale="true" height="80vh">
+        </ngx-extended-pdf-viewer>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">fermer</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!--end pdf viewer Modal -->
+
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content" *ngIf="invoices">
+      <span type="button" class="text-right mr-2" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </span>
+      <div class="modal-body">
+        <table>
+          <tr>
+            <td><img src="assets/img/medical-logo-design.jpeg" alt="Logo" width="100"></td>
+            <td class="text-bold text-nowrap text-right"> Numero patient : {{invoices[0].patientExternalId}}</td>
+          </tr>
+        </table>
+
+        <table>
+          <tr>
+            <td class="text-nowrap"> <strong>Facture N°: {{invoices[0].billNumber}} </strong> </td>
+            <td class="text-nowrap pl-5"> <strong>Date: </strong> {{invoices[0].billDate}} </td>
+          </tr>
+          <tr>
+            <td class="text-nowrap text-capitalize"> <strong>Patient:</strong> {{ invoices[0].patientFirstName +"
+              "+invoices[0].patientLastName}}</td>
+            <td class="text-nowrap pl-5"> <strong>contact: </strong>{{invoices[0].patientContact}} </td>
+          </tr>
+          <tr>
+            <td class="text-nowrap"> <strong>Type de client: {{(invoices[0].paymentType == 'C') ? 'Client comptant' :
+                'Patient assuré'}}</strong> </td>
+            <td class="text-nowrap pl-5"><strong>Etab.payeur/Sociétaire: </strong> {{invoices[0].insuranceSuscriber}}
+            </td>
+
+          </tr>
+          <tr>
+            <td class="text-nowrap"><strong>Matricule assuré: </strong> {{invoices[0].insuranceCardNumber}}</td>
+            <td></td>
+          </tr>
+        </table>
+
+        <table class="table table-bordered mt-4 table-sm">
+          <thead class="text-center" style="background-color: #DCDCDC;">
+            <th>Date</th>
+            <th>Service</th>
+            <th>Medecin</th>
+            <th>Acte</th>
+            <th class="text-nowrap">Coût</th>
+          </thead>
+          <tbody style="min-height: 40rem !important">
+            <tr *ngFor='let act of invoices[0].acts'>
+              <td>{{invoices[0].billDate}}</td>
+              <td class="text-capitalized"></td>
+              <td class="text-capitalized">{{act.practicianFirstName +" "+ act.practicianLastName}}</td>
+              <td class="text-capitalized">{{act.name}}</td>
+              <td class="text-nowrap">{{act.actCost}}</td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td colspan="1">Part PEC</td>
+              <td colspan="1">{{invoices[0].partTakenCareOf ? invoices[0].partTakenCareOf : 0}}</td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td colspan="1">Part consommable</td>
+              <td colspan="1" class="text-danger text-bold">{{invoices[0].patientPart ? invoices[0].patientPart : 0}}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td colspan="1">Remise</td>
+              <td colspan="1"></td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td colspan="1">Total</td>
+              <td colspan="1" class="text-bold">{{invoices[0].totalAmount}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-dark" (click)="generateInvoicePdf()">Exporter PDF</button>
+      </div>
+    </div>
+  </div>
+</div>

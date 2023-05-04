@@ -1,0 +1,124 @@
+<form [formGroup]='form'>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="form-group">
+                <label for="firstName">Nom</label>
+                <span class="text-danger">*</span>
+                <div class="input-group input-group-sm">
+                    <input type="text" formControlName="firstName" class="form-control" placeholder="Nom du patient">
+                </div>
+                <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.firstName">ce champ
+                    doit être renseigné
+                </span>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Prenom</label>
+                <span class="text-danger">*</span>
+                <div class="input-group input-group-sm">
+                    <input type="text" formControlName="lastName" class="form-control" placeholder="prenom du patient">
+                </div>
+                <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.lastName">ce champ
+                    doit être renseigné
+                </span>
+            </div>
+            <div class="form-group">
+                <label for="phoneContact">Contact</label>
+                <span class="text-danger">*</span>
+                <div class="input-group input-group-sm">
+                    <input type="text" formControlName="phoneContact" class="form-control" placeholder="Contact">
+                </div>
+                <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.lastName">ce champ
+                    doit être renseigné
+                </span>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <span class="text-danger">*</span>
+                <div class="input-group input-group-sm">
+                    <input type="email" formControlName="email" class="form-control" placeholder="E-mail">
+                </div>
+                <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.email">
+                    ce champ doit être au format E-mail
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="form-group">
+                <label for="login">Identifiant</label>
+                <span class="text-danger">*</span>
+                <div class="input-group input-group-sm">
+                    <input type="text" formControlName="login" class="form-control" placeholder="Identifiant">
+                </div>
+                <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.login">
+                    ce champ doit être renseigné
+                </span>
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <span class="text-danger">*</span>
+                <div class="input-group input-group-sm">
+                    <input type="password" formControlName="password" class="form-control" placeholder="Mot de passe">
+                </div>
+                <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.password">
+                    ce champ doit être renseigné
+                </span>
+            </div>
+            <div class="form-group">
+                <label for="repassword">Confirmation du mot de passe</label>
+                <span class="text-danger">*</span>
+                <div class="input-group input-group-sm">
+                    <input type="password" formControlName="repassword" class="form-control"
+                        placeholder="Confirmation du mot de passe">
+                </div>
+                <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.repassword">
+                    ce champ doit être renseigné
+                </span>
+            </div>
+            <div class="form-group">
+                <label for="passwordMustChange">Changer le mot de passe à la prochaine connexion</label>
+                <ng-select formControlName="passwordMustChange">
+                    <ng-option *ngFor="let change of changePassword" [value]="change.id">{{change.value}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="active">Actif</label>
+                        <ng-select formControlName="active">
+                            <ng-option *ngFor="let active of active" [value]="active.id">{{active.value}}</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="locked">Verrouillé</label>
+                        <ng-select formControlName="locked">
+                            <ng-option *ngFor="let locked of locked" [value]="locked.id">{{locked.value}}</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label for="passwordExpireAt">Date d'expiration du MP:</label>
+                        <div class="input-group  input-group-sm">
+                            <input class="form-control" placeholder="dd-mm-AAAA" formControlName="passwordExpireAt"
+                                ngbDatepicker #d="ngbDatepicker">
+                            <div class="input-group-append">
+                                <span class="input-group-text" (click)="d.toggle()">
+                                    <i class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-lg-4 col-md-12" style="margin-top: -0.70rem;">
+                    <ngb-timepicker [(ngModel)]="timePicker" formControlName="passwordExpireTime"></ngb-timepicker>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

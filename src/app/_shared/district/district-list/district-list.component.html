@@ -1,0 +1,87 @@
+<div class="card">
+    <div class="card-header">
+        <div class="row pl-3 pr-3">
+            <div class="col-md-8">
+                <form [formGroup]="form">
+                    <div class="row">
+                        <div class="row pt-2 m-0 col-md-12">
+                            <div class="col-lg-5 col-md-6 col-sm-12">
+                                    <ng-select formControlName="region"  (change)="OnCountryChange()" placeholder="Region">
+                                        <ng-option *ngFor="let region of regions" [value]="region.id">{{region.name}}</ng-option>
+                                    </ng-select>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" formControlName="name" class="form-control"
+                                            placeholder="District">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 mb-1">
+                                <span class="btn btn-light btn-sm" (click)="search()" style="width: 100%;">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-10 text-center text-muted">
+                <h4>{{title}}</h4>
+            </div>
+            <div class="col-md-2 text-right">
+                <form [formGroup]="entryForm">
+                     <div class="row">
+                        <div for="entries" class="col-sm-12 text-right mt-1"> Afficher</div>
+                        <div class="col-sm-12 mb-2">
+                            <ng-select formControlName="entries" [searchable]="false" [clearable]="false"
+                                (change)="OnEntryChange()">
+                                <ng-option *ngFor="let entry of entries" [value]="entry.id">{{entry.value}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover table-bordered ">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <th>ID<i class="fa fa-sort ml-2" (click)="onSort('id')"
+                            ngbTooltip="trier par ordre {{orderDescription }}"></i></th>
+                        <th scope="col">District<i class="fa fa-sort ml-2" (click)="onSort('name')"
+                                ngbTooltip="trier par ordre {{orderDescription }}"></i></th>
+                        <th scope="col">Code DHIS</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let district of districts">
+                        <td>{{district.id}}</td>
+                        <td class="text-capitalize">{{district.name}}</td>
+                        <td class="text-capitalize">{{district.dhisCode}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center mb-5 mt-4">
+            <div *ngIf="loading" class="spinner-border text-info" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <span class="text-muted ml-3 " *ngIf="loading">Loading...</span>
+        </div>
+        <div class="row">
+            <div class="col-md-7 offset-md-5">
+                <ngb-pagination [collectionSize]="totalItem" [pageSize]="perPage" [(page)]="page" [maxSize]="10"
+                    (pageChange)="onPageChange(page)" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+            </div>
+
+        </div>
+    </div>
+</div>

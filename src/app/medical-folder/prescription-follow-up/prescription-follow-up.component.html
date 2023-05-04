@@ -1,0 +1,138 @@
+<ul class="nav nav-pills" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="pills-prescription-list-tab" data-toggle="pill" href="#pills-prescription-list"
+      role="tab" aria-controls="pills-prescription-list" aria-selected="true">Liste des Ordonance</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-new-prescription-tab" data-toggle="pill" href="#pills-new-prescription" role="tab"
+      aria-controls="pills-new-prescription" aria-selected="false">Ordonancier</a>
+  </li>
+</ul>
+<div class="tab-content mt-3" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-prescription-list" role="tabpanel"
+    aria-labelledby="pills-prescription-list-tab">
+    <div class="table-responsive">
+      <table class="table table-sm table-hover table-striped">
+        <thead>
+          <th>Date</th>
+          <th>ordonnance</th>
+          <th>Medecin</th>
+          <th>Etat</th>
+          <th>Centre Médical</th>
+          <th>PDF</th>
+        </thead>
+        <tr *ngFor="let prescription of patientPrescriptions ">
+          <td>{{ prescription.date | date: 'dd/MM/yyyy hh:mm:ss'}} </td>
+          <td><b>Ordonance médical</b></td>
+          <td>{{prescription.practician.firstName +" "+ prescription.practician.lastName}}</td>
+          <td class="text-capitalize text-center text-nowrap">
+            <i class="fas fa-circle" [ngClass]="{'text-green': prescription.state=='Y', 'text-red': prescription.state=='N'}"
+              ngbTooltip="{{prescription.state=='Y'? 'Servi' : 'Non servi'}}"></i>
+          </td>
+          <td>{{prescription.facility.name}}</td>
+          <td><button class="btn btm-sm btn-light" style="width: 100%;" (click)="generatePrescription(prescription)"
+              data-toggle="modal" data-target="#prescriptionPdfModal"><i class="fa fa-file-pdf text-danger"
+                aria-hidden="true"></i></button></td>
+        </tr>
+      </table>
+      <div class="text-center mb-5 mt-4">
+        <div *ngIf="loading" class="spinner-border text-info" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <span class="text-muted ml-3 " *ngIf="loading">Loading...</span>
+        <div *ngIf="hasNoData" class="mt-3">
+          <span class="text-muted ml-3 ">{{EmptyMessage}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-7 offset-md-5">
+          <ngb-pagination [collectionSize]="totalItem" [pageSize]="perPage" [(page)]="page" [maxSize]="10"
+            (pageChange)="onPageChange(page)" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tab-pane fade " id="pills-new-prescription" role="tabpanel" aria-labelledby="pills-new-prescription-tab">
+
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="name">Type d'ordonnance</label>
+            <span class="text-danger">*</span>
+            <div class="input-group input-group-sm">
+              <ng-select placeholder="Type d'ordonnance" (change)="setPrescriptionContent()"
+                formControlName="prescriptionType" style="width: 100%;">
+                <ng-option *ngFor="let type of prescriptionTypes" [value]="type.id">{{type.name}}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <button type="button" class="btn btn-success mt-4" data-toggle="modal" data-target="#prescription"
+            (click)="atModalshow()">
+            Nouvel ordonnance
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<app-patient-tag [patient]="patient"></app-patient-tag>
+
+<!-- prescription type modal -->
+<div class="modal fade" id="prescription" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="prescriptionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="atModalsClose()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success" role="alert" *ngIf="message">
+          {{message}}
+        </div>
+        <div class="alert alert-danger" role="alert" *ngIf="error">
+          {{error}}
+        </div>
+        <app-prescribing-medication [drugFormGroup]="drugFormGroup" [selectedDrugs]="selectedDrugs">
+        </app-prescribing-medication>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="atModalsClose()">Annuler</button>
+        <button type="button" class="btn btn-success" (click)="save()">valider</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--pdf  Modal -->
+<div class="modal fade" id="prescriptionPdfModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- ngx-extended-pdf-viewer -->
+        <ngx-extended-pdf-viewer *ngIf='docSrc' [src]="docSrc" useBrowserLocale="true" height="80vh">
+        </ngx-extended-pdf-viewer>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">fermer</button>
+      </div>
+    </div>
+  </div>
+</div>

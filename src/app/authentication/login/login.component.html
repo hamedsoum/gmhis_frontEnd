@@ -1,0 +1,61 @@
+<div class="hold-transition login-page">
+  <div class="login-box">
+    <div class="card text-center">
+      <div class="card-header">
+        <div class="login-logo">
+          <b> Connexion </b>
+        </div>
+      </div>
+      <!-- /.login-logo -->
+      <div class="card-body login-card-body">
+        <p class="login-box-msg">Saissisez vos identifiants de connexion !</p>
+        <div *ngIf="loginErrorMessage" class="alert alert-danger alert-dismissible">
+          {{loginErrorMessage}}
+        </div>
+        <form [formGroup]="loginForm" (ngSubmit)="loginProcess()">
+          <div class="input-group mb-3">
+            <input type="text" formControlName="username" class="form-control" placeholder="login">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" formControlName="password" class="form-control" placeholder="Password">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="text-center mb-5 mt-4">
+                <div *ngIf="loading" class="spinner-border text-info" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                <span class="text-muted ml-3 " *ngIf="loading">Loading...</span>
+              </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-6">
+              <button type="submit" class="btn btn-primary btn-block" [disabled]="!loginForm.valid">Se
+                connecter</button>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
+
+        <!-- /.social-auth-links -->
+        <div class="card-footer text-muted mt-3">
+          <p class="mb-1">
+            Vérification de l'identité
+          </p>
+        </div>
+        <!-- /.login-card-body -->
+      </div>
+    </div>
+  </div>
+  <!-- /.login-box -->
+</div>

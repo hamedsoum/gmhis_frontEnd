@@ -1,0 +1,238 @@
+
+<form [formGroup]="form" (ngSubmit)="save()">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="mr-auto p-2 col-md-7">
+                    <h3>{{title}}</h3>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="py-1 col-lg-4  col-md-6 col-sm-12  text-nowrap">
+                            <button type="submit" (click)="actionToDo('save')"
+                                class="btn btn-block btn-success btn-sm font-weight-bold" value="save">
+                                Enregistrer
+                            </button>
+                        </div>
+                        <div class="py-1 col-lg-4  col-md-6 col-sm-12  text-nowrap" *ngIf='!articleId'>
+                            <button type="submit" (click)="actionToDo('save_and_new')"
+                                class="btn btn-block btn-info btn-sm font-weight-bold" value="save_and_new">
+                                Enreg. & nouveau
+                            </button>
+                        </div>
+                        <div class="py-1 col-lg-4  col-md-6 col-sm-12  text-nowrap">
+                            <span (click)="cancelAction()" class="btn btn-block btn-danger btn-sm font-weight-bold"
+                                value="cancel">
+                                Annuler
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="text-muted"> NB: les champs marqués d'un astérisque ( <span class="text-danger">*</span> ) sont
+                obligatoire pour la validation du formulare</p>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="reference">Réference</label>
+                        <span class="text-danger">*</span>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="reference" class="form-control" id="reference" >
+                        </div>
+                        <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.reference">
+                            ce champ doit être renseigné
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">Article</label>
+                        <span class="text-danger">*</span>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="name" class="form-control" placeholder="article">
+                        </div>
+                        <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.name">
+                            ce champ doit être renseigné
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="typeactive">Etat</label>
+                        <span class="text-red">*</span>
+                        <ng-select formControlName="active" placeholder="Etat">
+                            <ng-option *ngFor="let active of actives" [value]="active.id">{{active.value}}
+                            </ng-option>
+                        </ng-select>
+                        <span class="text-danger" *ngIf="invalidFormControls && invalidFormControls.active">
+                            ce champ doit être renseigné
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">quantité alerte</label>
+                        <span class="text-danger">*</span>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="alertQuantity" class="form-control" placeholder="quantité alerte">
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">groupe</label>
+                        <span class="text-danger">*</span>
+                        <ng-select formControlName="articleGroup" >
+                            <ng-option *ngFor="let articleG of articleGroup" [value]="articleG.id">{{articleG.name}}
+                            </ng-option>
+                        </ng-select> 
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">fournisseur</label>
+                        <span class="text-danger">*</span>
+                        <ng-select formControlName="supplier" >
+                            <ng-option *ngFor="let articleSup of articleSupplier" [value]="articleSup.id">{{articleSup.name}}
+                            </ng-option>
+                        </ng-select> 
+                       
+                    </div>
+                </div>
+                          <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">prix d'achat</label>
+                        <span class="text-danger">*</span>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="buyingPrice" class="form-control" >
+                        </div>
+                       
+                    </div>
+                </div>
+                          <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">quantité condition</label>
+                        <span class="text-danger">*</span>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="condQty" class="form-control" >
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">condition unitaire</label>
+                        <span class="text-danger">*</span>
+                        <ng-select formControlName="conditioningUnit" >
+                            <ng-option *ngFor="let conditonUnit of conditonUnits" [value]="conditonUnit.id">{{conditonUnit.name}}
+                            </ng-option>
+                        </ng-select> 
+                      
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">PPV</label>
+                        <span class="text-danger">*</span>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="ppv" class="form-control" >
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">quantité en stock</label>
+                        <span class="text-danger">*</span>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="quantityInStock" class="form-control" >
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">prix de vente </label>
+                        <span class="text-danger">*</span>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="sellingPrice" class="form-control" >
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">emplacement</label>
+                        <span class="text-danger">*</span>
+                        <ng-select formControlName="articleLocation" >
+                            <ng-option *ngFor="let articleLocation of articleLocations" [value]="articleLocation.id">{{articleLocation.name}}
+                            </ng-option>
+                        </ng-select>  
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">quantité de valorisation</label>
+                        <span class="text-danger">*</span>
+                        <div class="input-group input-group-sm">
+                            <input type="text" formControlName="valQty" class="form-control" >
+                        </div>
+                       
+                    </div>
+                </div>
+                <!-- <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">laboratoire</label>
+                        <span class="text-danger">*</span>
+                        <ng-select formControlName="laboratory" >
+                            <ng-option *ngFor="let laboratory of laboratories" [value]="laboratory.id">{{laboratory.name}}
+                            </ng-option>
+                        </ng-select>
+                       
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">forme pharmacologique</label>
+                        <span class="text-danger">*</span>
+                        <ng-select formControlName="pharmacologicalForm">
+                            <ng-option *ngFor="let pharmacological of pharmacologicalForm" [value]="pharmacological.id">{{pharmacological.name}}
+                            </ng-option>
+                        </ng-select>
+                       
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">classe therapeutic</label>
+                        <span class="text-danger">*</span>
+                        <ng-select formControlName="therapeuticClass">
+                            <ng-option *ngFor="let therapeutic of therapeuticClass" [value]="therapeutic.id">{{therapeutic.name}}
+                            </ng-option>
+                        </ng-select>
+                       
+                    </div>
+                </div> -->
+               
+
+                <!-- <div style="display: none;">
+                                <input type="text" formControlName="dcns" class="form-control" >
+                                <input type="text" formControlName="defaultDosage" class="form-control" >
+                                <input type="text" formControlName="generic" class="form-control" >
+                               
+                                <input type="text" formControlName="location" class="form-control" >
+                                <input type="text" formControlName="pharmaceuticClass" class="form-control" >
+                               
+                                <input type="text" formControlName="princeps" class="form-control" >
+                                <input type="text" formControlName="therapeuticClass" class="form-control" >
+                                <input type="text" formControlName="type" class="form-control" >
+                </div> -->
+                <!-- hidden -->
+                <input type="hidden" formControlName="id">
+            </div>
+        </div>
+    </div>
+</form>

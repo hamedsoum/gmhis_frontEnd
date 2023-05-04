@@ -1,0 +1,20 @@
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="pills-constant-list-tab" data-toggle="pill" href="#pills-constant-list"
+            role="tab" aria-controls="pills-constant-list" aria-selected="true">Suivie des constantes</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-new-constant-tab" data-toggle="pill" href="#pills-new-constant" role="tab"
+            aria-controls="pills-new-constant" aria-selected="false">Nouvelles constantes</a>
+    </li>
+
+</ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-constant-list" role="tabpanel"
+        aria-labelledby="pills-constant-list-tab">
+        <app-patient-constant-list [title]="title" [patientId]="patientId"></app-patient-constant-list>
+    </div>
+    <div class="tab-pane fade" id="pills-new-constant" role="tabpanel" aria-labelledby="pills-new-constant-tab">
+        <app-patient-constant-form [title]="title"  [patientId]="patientId" (objectEmitter)="save($event)"></app-patient-constant-form>
+    </div>
+</div>
