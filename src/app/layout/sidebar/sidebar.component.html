@@ -1,0 +1,160 @@
+<p
+[hidden]="!canAccessDashBoard"
+  [ngClass]="{ menuActive: menuItem == 'Dashboard' }"
+  (click)="menuItemFunction('Dashboard')"
+  routerLink="/home"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faTachometerAlt"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Tableau de bord</span>
+</p>
+
+<p
+[hidden]="!canAccessPatient"
+  [routerLink]="['/patient/list']"
+  [ngClass]="{ menuActive: menuItem == 'patient' }"
+  (click)="menuItemFunction('patient')"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faHome"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Patients</span>
+</p>
+
+<p
+[hidden]="!canAccessAdmission"
+  [ngClass]="{ menuActive: menuItem == 'admission' }"
+  (click)="menuItemFunction('admission')"
+  routerLink="/admission/list"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faUsers"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Admissions</span>
+</p>
+
+<p
+  [hidden]="!canAccessCaisse"
+  [ngClass]="{ menuActive: menuItem == 'invoice' }"
+  (click)="menuItemFunction('invoice')"
+  routerLink="/invoice/list"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faKey"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Caisse</span>
+</p>
+
+<p
+  [hidden]="!canAccessInvoiceAssurance"
+  [ngClass]="{ menuActive: menuItem == 'insuranceBill' }"
+  (click)="menuItemFunction('insuranceBill')"
+  routerLink="/invoice/insuranceBill"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faKey"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Facture assurance</span>
+</p>
+<p
+  [hidden]="!canAccessConstantTaking"
+  [ngClass]="{ menuActive: menuItem == 'constantWaitingRoom' }"
+  (click)="menuItemFunction('constantWaitingRoom')"
+  routerLink="/waiting-room/constantWaitingRoom"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="falOGOUT"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Salle de prise de constante</span>
+</p>
+<p
+  [hidden]="!canAccessWaitingRoom"
+  [ngClass]="{ menuActive: menuItem == 'waitingRoom' }"
+  (click)="menuItemFunction('waitingRoom')"
+  routerLink="/waiting-room/waitingRoom"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="falOGOUT"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Salle d'attentes</span>
+</p>
+<p
+[hidden]="!canAccessPharmacy"
+  [ngClass]="{ menuActive: menuItem == 'pharmacy' }"
+  (click)="menuItemFunction('pharmacy')"
+  routerLink="/prescription/pharmacy"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faUser"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Pharmacie</span>
+</p>
+<p
+[hidden]="!canAccessLaboratory"
+[ngClass]="{ menuActive: menuItem == 'laboratory-exam' }"
+(click)="menuItemFunction('laboratory-exam')"
+routerLink="/examen/exam-list"
+class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faUser"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Laboratoire</span>
+</p>
+<p
+[hidden]="!canAccessHospitalisation"
+  [ngClass]="{ menuActive: menuItem == 'owner' }"
+  (click)="menuItemFunction('owner')"
+  routerLink="/owner/list"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faUser"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Hospitalisation</span>
+</p>
+<p
+  [hidden]="!canAccessStatistics"
+  [ngClass]="{ menuActive: menuItem == 'owner' }"
+  (click)="menuItemFunction('owner')"
+  routerLink="/owner/list"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faUser"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Etats</span>
+</p>
+
+<nb-accordion> </nb-accordion>

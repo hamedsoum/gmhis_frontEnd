@@ -1,0 +1,182 @@
+<nb-card class="nbCardList">
+    <nb-card-header class="row d-flex justify-content-between align-items-center">
+      <div class="col-lg-7 col-md-3 col-sm-12">
+        <h4
+          class="text-capitalize d-flex justify-content-start w-100 text-center"
+        >
+          MOUVEMENTS DE CAISSE
+        </h4>
+      </div>
+    
+    </nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="searchForm">
+        <div class="row d-flex justify-content-between align-items-center">
+          <div class="col-lg-9 col-md-9 col-sm-12">
+            <div class="row">
+              <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
+                <ng-select placeholder="Caisse" formControlName="cashRegister">
+                  <ng-option *ngFor="let cashRegister of cashRegistersNameAndId" [value]="cashRegister.id">{{
+                    cashRegister.name
+                  }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
+                <input type="text" class="form-control" formControlName="prestationNumber" name="" id="">
+              </div>
+              <div class="col-lg-2">
+                <span
+                  (click)="getCrMovement()"
+                  style="
+                    background-color: #ededed;
+                    color: #14a2b8;
+                    cursor: pointer;
+                  "
+                  class="material-icons px-2 p-1 rounded"
+                >
+                  search
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-12">
+            <ng-select
+              [(ngModel)]="selectedSize"
+              formControlName="size"
+              (change)="getCrMovement()"
+            >
+              <ng-option *ngFor="let size of sizes" [value]="size.id">{{
+                size.value
+              }} lignes</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </form>
+      <div class="tableFixHead">
+        <table class="table table-bordered table-hover table-md align-middle">
+          <thead class="pb-3 text-capitalize">
+            <tr class="pb-3">
+              <th>Date</th>
+              <th>Libelle</th>
+              <th>Debit</th>
+              <th>Credit</th>
+              <th scope="col">Numéro facture</th>
+              <th scope="col">Utilsateur</th>
+            </tr>
+  
+            <tr></tr>
+          </thead>
+  
+          <tbody>
+            <tr
+              *ngFor="
+                let crMovement of items
+                  | paginate
+                    : {
+                        itemsPerPage: selectedSize,
+                        currentPage: currentPage,
+                        totalItems: totalItems
+                      };
+                let i = index
+              "
+
+              [class.active]="i == currentIndex"
+              (click)="rowSelected(commune, i)"
+            >
+            <td>{{ crMovement?.date | date:  "dd/MM/yyyy HH:mm:ss" }}</td>
+              <td>{{ crMovement?.libelle }}</td>
+              <td class="text-right">{{ crMovement?.debit |  currency: " ":"symbol":"1.0-0" }}</td>
+              <td class="text-right">{{ crMovement?.credit | currency: " ":"symbol":"1.0-0" }}</td>
+              <td>{{ crMovement?.actNumber }}</td>
+            <td>{{ crMovement?.createdBy }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex w-100 justify-content-center">
+        <div
+          style="color: #623508"
+          *ngIf="showLoader"
+          class="spinner-border"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <pagination-controls
+          responsive="true"
+          previousLabel="Prev"
+          nextLabel="Next"
+          (pageChange)="onPageChange($event)"
+        >
+        </pagination-controls>
+      </div>
+      <div class="row">
+
+      <div class="col-md-4">
+        <label class="fw-bold" name="cashRegisterBalance" for="">Solde de caisse</label>
+        <input
+        [disabled]="true"
+        [(ngModel)]="cashRegisterBalance"
+          type="number"
+          class="form-control"
+        />
+      </div>
+      <div class="col-md-4">
+        <label class="fw-bold" for="">Solde réel fermeture</label>
+        <input
+        [(ngModel)]="realClosingBalance"
+          type="number"
+          class="form-control"
+        />
+      </div>
+      <div class="col-md-4 text-left">
+        <button (click)="closeCashRegister()" type="submit" class="btn-submit">FERMER LA CAISSE</button>
+      </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  
+  <!-- add modal -->
+  <ng-template #addFormContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
+        nouvelle ouverture de caisse
+      </h4>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+    <div class="modal-body">
+      <app-cractivity-form
+        (addCrActivity)="addCrActivity()"
+      ></app-cractivity-form>
+    </div>
+  </ng-template>
+  
+  <!-- update modal -->
+  <ng-template #updateFormContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
+        Modifer une activite de caisse
+      </h4>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+    <div class="modal-body">
+      <app-cractivity-form
+        [crActivity]="crActivity"
+        (updateCrActivity)="updateCrActivity()"
+      ></app-cractivity-form>
+    </div>
+  </ng-template>
+  

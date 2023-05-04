@@ -1,43 +1,65 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams  } from "@angular/common/http";
-import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { City } from '../_models/city.model';
+import { PageList } from '../_models/page-list.model';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class CityService {
 
-  constructor( private http: HttpClient) { }
+  private host = environment.apiUrl;
 
-   /**
-   * get a list of id and name of objects
+  constructor(private http: HttpClient) { }
+
+ /**
+  * get all city
+  * @param data 
+  * @returns 
+  */
+  getCity(data : any):Observable<PageList> {
+    let queryParams : {};
+    queryParams = {
+      params : new HttpParams()
+      .set('name', data['name'] ?? "")
+      .set('page', data['page'] ?? "")
+      .set('size', data['size'] ?? "")
+      .set('sort', data['sort'] ?? "")
+    };
+  return this.http.get<PageList>(`${this.host}/city/list`, queryParams)
+  }
+  /**
+   * create new 
+   * @param city 
+   * @returns 
    */
-  findByCountry(id: number){
-    return this.http.get<City>(environment.baseUrl2 + '/country/cities_name/' + id);
+  saveCity(city : City):Observable<City>{
+    return this.http.post<City>(`${this.host}/city/add`, city)
+  }
+/**
+ * updated exiting city
+ * @param city 
+ * @returns 
+ */
+  updateCity(city : City):Observable<City>{
+    return this.http.put<City>(`${this.host}/city/update/${city.id}`, city)
+  }
+/**
+ * get existing city details
+ * @param city 
+ * @returns 
+ */
+  getCityDetails(city : City):Observable<City>{
+    return this.http.get<City>(`${this.host}/city/get-detail/${city.id}`)
   }
 
-  /**
-   * get a paginated list of object
-   */
-  findAllByPage(data): Observable<City[]> {
-
-    let queryParams = {};
-
-    queryParams = { params: new HttpParams().set('page', data['page'])
-                                            .set('size', data['entries'])
-                                            .set('name', data['name'])
-                                            .set('sort', data['sort']+','+data['order'])
-  };
-    return this.http.get<City[]>(environment.baseUrl2 + '/country/p_cities/'+ data['country'], queryParams);
-  }
-
-  /**
-   * get a list of active object
-   */
-  getIdAndName(): Observable<any[]> {
-    return this.http.get<any[]>(environment.baseUrl2 + '/city/names');
+ /**
+  * 
+  * @returns 
+  */
+   getActifsCity():Observable<City[]>{
+    return this.http.get<City[]>(`${this.host}/city/list-all`)
   }
 }

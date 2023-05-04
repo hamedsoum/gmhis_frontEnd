@@ -1,45 +1,46 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Country } from '../_models/country.model';
-import { City } from '../_models/city.model';
+import { PageList } from '../_models/page-list.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CountryService {
 
+  private host = environment.apiUrl;
+
   constructor(private http: HttpClient) { }
 
-
   /**
-   * get a list of all object
+   *  get list of country 
+   * @returns Country[]
    */
-  findAll(): Observable<Country[]> {
-    return this.http.get<Country[]>(environment.baseUrl2 + '/country/all');
+  findActive(): Observable<Country[]> {
+    return this.http.get<Country[]>(`${this.host}/country/active-list`)
   }
 
+
   /**
- * get a paginated list of object
- */
-  findAllByPage(data): Observable<Country[]> {
+   *  get all paginated Bank 
+   * @param data 
+   * @returns PageList
+   */
+  findAll(data): Observable<PageList> {
+
     let queryParams = {};
 
     queryParams = {
-      params: new HttpParams().set('page', data['page'])
-        .set('size', data['entries'])
+      params: new HttpParams()
+        .set('page', data['page'])
+        .set('size', data['size'] ?? "")
         .set('name', data['name'])
-        .set('sort', data['sort'] + ',' + data['order'])
+        .set('isoCode', data['isoCode'])
+        .set('sort', data['sort'])
     };
-    return this.http.get<Country[]>(environment.baseUrl2 + '/country/p_all', queryParams);
-  }
 
-  /**
-   * get a list of active object
-   */
-  getIdAndName(): Observable<Country[]> {
-    return this.http.get<Country[]>(environment.baseUrl2 + '/country/names');
+    return this.http.get<PageList>(`${this.host}/country/list`, queryParams)
   }
-
 }

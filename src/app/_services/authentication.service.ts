@@ -1,69 +1,115 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from "../../environments/environment";
-import jwt_decode from 'jwt-decode';
-import { AppCookieService } from "./app-cookie.service";
+import { environment } from 'src/environments/environment';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http'
+import { Observable } from 'rxjs';
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { User } from '../_models/user.model';
 
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+  private host = environment.apiUrl;
+  private token: string;
+  private loggedInUsername: string;
+  private jwtHelper = new JwtHelperService()
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private cookieService: AppCookieService
-  ) { }
-
-
-  getToken(): string {
-    return this.cookieService.get('token');
+  constructor(private http: HttpClient) { }
+  /**
+   * 
+   * @param user 
+   * @returns User
+   */
+  public login(user: User): Observable<HttpResponse<User>> {
+    return this.http.post<User>(`${this.host}/user/login`, user, { observe: 'response' });
   }
 
-  login(data): Observable<any> {
-    let response = this.http.post(environment.baseUrl2 + '/login', data, { observe: 'response' });
-    return response;
+  /**
+   * user register
+   * @param user 
+   * @returns User
+   */
+  public register(user: User): Observable<User> {
+    return this.http.post<User>(`${this.host}/register`, user);
   }
 
-  getDecodedAccessToken(token: string): any {
-    try {
-      return jwt_decode(token);
+
+  /**
+   * logOut function
+   */
+  public logOut(): void {
+    this.token = null;
+    this.loggedInUsername = null;
+    localStorage.removeItem('user');
+    // localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    localStorage.removeItem('users');
+
+  }
+
+
+  /**
+   * create token auhtentication
+   * @param token 
+   */
+  public saveToken(token: string): void {
+    this.token = token;
+    this.loggedInUsername = null;
+    // localStorage.setItem('token', token);
+    sessionStorage.setItem('token', token);
+  }
+
+  /**
+   * add user information to localstrorage 
+   * @param user 
+   */
+  public addUserToLocalStorage(user: User): void {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+
+  /**
+   * get user to localstorage
+   * @returns user information in JSON format
+   */
+  public getUserFromLocalStorage(): User {
+    return JSON.parse(localStorage.getItem('user'));
+  }
+
+  /**
+   * get user token
+   */
+  public loadToken(): void {
+    // this.token = localStorage.getItem('token');
+    this.token = sessionStorage.getItem('token');
+  }
+
+
+  /**
+   * get user token
+   */
+
+  public getToken(): string {
+    return this.token;
+  }
+
+
+  /**
+   * verify if user is logged in 
+   * @returns 
+   */
+  public isLoggedIn(): boolean {
+    this.loadToken()
+    if (this.token != null && this.token !== '') {
+      if (this.jwtHelper.decodeToken(this.token).sub != null || '') {
+        if (!this.jwtHelper.isTokenExpired(this.token)) {
+          this.loggedInUsername = this.jwtHelper.decodeToken(this.token);
+          return true;
+        }
+      }
+    } else {
+      this.logOut();
+      return false;
     }
-    catch (Error) {
-      return null;
-    }
-  }
-
-  getTokenExpirationDate(token: string): Date {
-    const decoded = jwt_decode(token);
-
-    if (decoded.exp === undefined) return null;
-
-    const date = new Date(0);
-    date.setUTCSeconds(decoded.exp);
-    return date;
-  }
-
-  isTokenExpired(token?: string): boolean {
-    if (!token) token = this.getToken();
-    if (!token) return true;
-
-    const date = this.getTokenExpirationDate(token);
-    if (date === undefined) return false;
-    return !(date.valueOf() > new Date().valueOf());
-  }
-
-  getUsername() {
-    return atob(this.cookieService.get('username'))
-  }
-
-  logout(): void {
-    this.cookieService.remove('token');
-    this.cookieService.remove('username');
-    this.router.navigateByUrl('/login');
+    return;
   }
 
 }

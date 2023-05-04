@@ -1,36 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PatientInWaintingRoomComponent } from './patient-in-wainting-room/patient-in-wainting-room.component';
-import { WaitingRoomRoutingModule } from "./waiting-room-routing.module";
-import { AdmissionModule } from "./../admission/admission.module";
-import { AddWaitingRoomComponent } from './add-waiting-room/add-waiting-room.component';
-import { UpdateWaitingRoomComponent } from './update-waiting-room/update-waiting-room.component';
-import { NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { WaitingRoomFormComponent } from './../_shared/waiting-room/waiting-room-form/waiting-room-form.component';
-import { WaitingRoomListComponent } from './../_shared/waiting-room/waiting-room-list/waiting-room-list.component';
-import { ListWaitingRoomComponent } from './list-waiting-room/list-waiting-room.component';
+
+import { WaitingRoomRoutingModule } from './waiting-room-routing.module';
+import { WaitingRoomListComponent } from './waiting-room-list/waiting-room-list.component';
+import { WaitingRoomFormComponent } from './waiting-room-form/waiting-room-form.component';
+import { SharedModule } from '../shared/shared.module';
+import { PatientInWaitingRoomComponent } from './patient-in-waiting-room/patient-in-waiting-room.component';
+import { ConstantWaitingRoomComponent } from './constant-waiting-room/constant-waiting-room.component';
+import { InvoiceModule } from '../invoice/invoice.module';
 
 
 @NgModule({
-  declarations: [
-    PatientInWaintingRoomComponent, 
-    AddWaitingRoomComponent, 
-    UpdateWaitingRoomComponent,
-    ListWaitingRoomComponent, 
-    WaitingRoomFormComponent, 
-    WaitingRoomListComponent
-  ],
+  declarations: [WaitingRoomListComponent, WaitingRoomFormComponent, PatientInWaitingRoomComponent, ConstantWaitingRoomComponent],
   imports: [
     CommonModule,
     WaitingRoomRoutingModule,
-    AdmissionModule,
-    NgbPaginationModule,
-    NgbTooltipModule,
-    NgSelectModule,
-    FormsModule,
-    ReactiveFormsModule
+    SharedModule,
+    InvoiceModule
   ]
 })
 export class WaitingRoomModule { }

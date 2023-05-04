@@ -2,31 +2,46 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CityRoutingModule } from './city-routing.module';
-import { ListCityComponent } from './list-city/list-city.component';
-import { AddCityComponent } from './add-city/add-city.component';
-import { UpdateCityComponent } from './update-city/update-city.component';
-import { NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { CityFormComponent } from './city-form/city-form.component';
+import { CityListComponent } from './city-list/city-list.component';
+import { CityComponent } from './city.component';
+import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CityListComponent } from '../_shared/city/city-list/city-list.component';
-import { CityFormComponent } from '../_shared/city/city-form/city-form.component';
+import { NbCardModule, NbContextMenuModule, NbDatepickerModule, NbFormFieldModule, NbIconModule, NbTabsetModule } from '@nebular/theme';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbCarouselModule, NgbDropdownModule, NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { NgxCurrencyModule } from 'ngx-currency';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+
 
 @NgModule({
-  declarations: [
-    ListCityComponent, 
-    AddCityComponent, 
-    UpdateCityComponent, 
-    CityListComponent, 
-    CityFormComponent
-  ],
+  declarations: [CityComponent,CityFormComponent,CityListComponent],
   imports: [
     CommonModule,
     CityRoutingModule,
-    NgbPaginationModule,
-    NgbTooltipModule,
-    NgSelectModule,
+    RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NbCardModule,
+    NbIconModule,
+    NbFormFieldModule,
+    NgSelectModule,
+    NgxPaginationModule,
+    FontAwesomeModule,
+    NgbTooltipModule,
+    NgxDropzoneModule,
+    NbTabsetModule,
+    NbContextMenuModule,
+    NgxExtendedPdfViewerModule,
+    NgbPopoverModule,
+    NgbDropdownModule,
+    NgbTooltipModule,
+    NgxCurrencyModule,
+    NbDatepickerModule,
+    NgbCarouselModule
   ]
 })
 export class CityModule { }

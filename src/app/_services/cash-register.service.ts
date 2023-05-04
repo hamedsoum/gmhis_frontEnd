@@ -3,90 +3,64 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CashRegister } from '../_models/cashRegister.model';
+import { PageList } from '../_models/page-list.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CashRegisterService {
 
+  private host = environment.apiUrl;
+
   constructor(private http: HttpClient) { }
 
-
   /**
-   *  POST: add a new object to the database 
-   */
-  save(cashRegister: CashRegister): Observable<CashRegister> {
-    return this.http.post<CashRegister>(environment.baseUrl2 + '/cash-register/add', cashRegister);
-  }
-
-  /** 
-   * PUT: update the object on the server. Returns the updated objet upon success. 
-   */
-  update(data): Observable<CashRegister> {
-    return this.http.put<CashRegister>(environment.baseUrl2 + '/cash-register/update/' + data.id, data);
-  }
-
-  /**
-   * get a list of object
-   */
-  findAll(): Observable<CashRegister[]> {
-    return this.http.get<CashRegister[]>(environment.baseUrl2 + '/cash-register/list');
-  }
-
-  /**
- * get a paginated list of object
- */
-  findAllByPage(data): Observable<CashRegister[]> {
-    let queryParams = {};
-    data['active'] = (data['active'] == null) ? '' : data['active'];
-    //  data['deleted']= (data['deleted'] == null) ? '' : data['deleted'];
-
-    queryParams = {
-      params: new HttpParams().set('page', data['page'])
-        .set('size', data['entries'])
-        .set('name', data['name'])
-        .set('active', data['active'])
-        .set('sort', data['sort'] + ',' + data['order'])
-    };
-    return this.http.get<CashRegister[]>(environment.baseUrl2 + '/cash-register/p_list', queryParams);
-  }
-
-  /**
-   * get a list of active object
+   *  get list of CashRegister 
+   * @returns CashRegister[]
    */
   findActive(): Observable<CashRegister[]> {
-    return this.http.get<CashRegister[]>(environment.baseUrl2 + '/cash-register/active_list');
-
+    return this.http.get<CashRegister[]>(`${this.host}/cashRegister/active_cash_register_name`)
   }
+
 
   /**
-   * enable a object
+   * get all paginated CashRegister
+   * @param data 
+   * @returns PageList
    */
-  enable(id): Observable<CashRegister> {
-    return this.http.get<CashRegister>(environment.baseUrl2 + '/cash-register/enable/' + id);
+  findAll(data): Observable<any> {
 
+    let queryParams = {};
+    queryParams = {
+      params: new HttpParams()
+        .set('depot', data['depot'] ?? 0)
+        .set('sort', data['sort'] ?? "")
+    };
+
+    return this.http.get<any>(`${this.host}/cash-register/list`, queryParams)
   }
 
-  /**
-   * disable a object
-   */
-  disable(id): Observable<CashRegister> {
-    return this.http.get<CashRegister>(environment.baseUrl2 + '/cash-register/disable/' + id);
+  findAllSimplePage(data): Observable<CashRegister[]> {
+
+    let queryParams = {};
+    queryParams = {
+      params: new HttpParams()
+        .set('depot', data['depot'] ?? 0)
+    };
+
+    return this.http.get<CashRegister[]>(`${this.host}/cash-register/list-all`, queryParams)
   }
 
-  /**
-   * get object by id
-   * @param id 
-   */
-  findById(id: number): Observable<CashRegister> {
-    return this.http.get<CashRegister>(environment.baseUrl2 + '/cash-register/detail/' + id);
+  findAllCashRegisterPoint(data): Observable<any> {
+
+    let queryParams = {};
+    queryParams = {
+      params: new HttpParams()
+        .set('date', data['date'])
+    };
+
+    return this.http.get<any>(`${this.host}/cash-register/point-cash-register`, queryParams)
   }
 
-  /**
-   * get a list of object
-   */
-  getIdAndName(): Observable<any> {
-    return this.http.get<any>(environment.baseUrl2 + '/cash-register/active_cash_registers_name');
-  }
 
 }

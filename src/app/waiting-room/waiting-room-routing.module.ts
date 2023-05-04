@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddWaitingRoomComponent } from './add-waiting-room/add-waiting-room.component';
-import { ListWaitingRoomComponent } from './list-waiting-room/list-waiting-room.component';
-import { PatientInWaintingRoomComponent } from "./patient-in-wainting-room/patient-in-wainting-room.component";
-import { UpdateWaitingRoomComponent } from './update-waiting-room/update-waiting-room.component';
+import { ConstantWaitingRoomComponent } from './constant-waiting-room/constant-waiting-room.component';
+import { PatientInWaitingRoomComponent } from './patient-in-waiting-room/patient-in-waiting-room.component';
+import { WaitingRoomListComponent } from './waiting-room-list/waiting-room-list.component';
 
 const routes: Routes = [
-    { path: '', component:PatientInWaintingRoomComponent },
-    {path:"add", component:AddWaitingRoomComponent},
-    {path:"update/:id", component: UpdateWaitingRoomComponent},
-    {path:"list", component:ListWaitingRoomComponent},
+  {path : 'list', component: WaitingRoomListComponent},
+  {path : 'waitingRoom', component : PatientInWaitingRoomComponent},
+  {path : 'constantWaitingRoom', 
+  component : ConstantWaitingRoomComponent},
+
 ];
 
 @NgModule({

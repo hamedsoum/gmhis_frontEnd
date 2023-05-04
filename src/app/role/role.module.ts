@@ -2,33 +2,33 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RoleRoutingModule } from './role-routing.module';
-import { AddRoleComponent } from './add-role/add-role.component';
-import { UpdateRoleComponent } from './update-role/update-role.component';
-import { RoleFormComponent } from './../_shared/role/role-form/role-form.component';
-import { RoleListComponent } from './../_shared/role/role-list/role-list.component';
-import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgSelectModule } from "@ng-select/ng-select";
-import { NgbPaginationModule, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 import { ListRoleComponent } from './list-role/list-role.component';
-import { CommonComponentModule } from '../common-component/common-component.module';
+import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NbCardModule, NbFormFieldModule, NbIconModule } from '@nebular/theme';
+import { PermissionComponent } from './permission/permission.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { RoleFormComponent } from './role-form/role-form.component';
+
 
 @NgModule({
-  declarations: [
-    AddRoleComponent,
-    UpdateRoleComponent, 
-    RoleFormComponent, 
-    RoleListComponent, 
-    ListRoleComponent,
-  ],
+  declarations: [ListRoleComponent, PermissionComponent, RoleFormComponent],
   imports: [
     CommonModule,
     RoleRoutingModule,
-    ReactiveFormsModule,
+    RouterModule,
     FormsModule,
+    ReactiveFormsModule,
+    NbCardModule,
+    NbIconModule,
+    NbFormFieldModule,
     NgSelectModule,
-    NgbPaginationModule,
-    NgbTooltipModule,
-    CommonComponentModule
+    NgxPaginationModule,
+    FontAwesomeModule,
+    NgbTooltipModule
   ]
 })
 export class RoleModule { }

@@ -1,11 +1,8 @@
-import { User } from './user.model';
+import { Depot } from "./depot.model";
 
-export interface CashRegister {
-    id: number;
-    name: string;
-    active: string;
-    createdAt: Date;
-    createdBy: User;
-    updatedAt: Date;
-    updatedBy: User;
+export interface CashRegister{
+    id : number,
+    balance : number,
+    depot : Depot,
+    lastCollectionDate : Date
 }

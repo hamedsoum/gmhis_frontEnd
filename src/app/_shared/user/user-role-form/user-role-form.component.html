@@ -1,7 +1,0 @@
-<div class="row">
-    <div class="custom-control custom-checkbox col-md-2" *ngFor="let role of roles">
-        <input type="checkbox" class="custom-control-input" id="{{role.id}}" value="{{role.name}}"
-            (click)="getSelectedRoles($event.target.value)" [attr.checked]="userRoles.includes(role.name) ? true: null">
-        <label class="custom-control-label text-capitalize" for="{{role.id}}">{{role.name}}</label>
-    </div>
-</div>

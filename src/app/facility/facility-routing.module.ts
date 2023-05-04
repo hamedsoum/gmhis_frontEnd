@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddFacilityComponent } from './add-facility/add-facility.component';
-import { ListFacilityComponent } from './list-facility/list-facility.component';
-import { UpdateFacilityComponent } from './update-facility/update-facility.component';
+import { FacilityListComponent } from './facility-list/facility-list.component';
 
 const routes: Routes = [
-  {path:"add", component:AddFacilityComponent},
-  {path:"update/:id", component: UpdateFacilityComponent},
-  {path:"list", component:ListFacilityComponent},
+  {path : 'list', component : FacilityListComponent}
 ];
 
 @NgModule({

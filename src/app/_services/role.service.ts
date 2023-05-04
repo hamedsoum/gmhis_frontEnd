@@ -2,6 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { PageList } from '../_models/page-list.model';
+import { RoleAuthorities } from '../_models/role-authorities.model';
 import { Role } from '../_models/role.model';
 
 @Injectable({
@@ -9,82 +11,75 @@ import { Role } from '../_models/role.model';
 })
 export class RoleService {
 
-  constructor( private http: HttpClient) { }
+  private host = environment.apiUrl;
 
-  /**
-   *  POST: add a new object to the database 
-   */
-  save(role: Role): Observable<Role> {
-    return this.http.post<Role>(environment.baseUrl2 + '/role/add', role);
+  constructor(private http : HttpClient) { }
+
+/**
+ *  get list of Role active
+ * @returns Role[]
+ */
+  findAllActive():Observable<Role[]>{
+    return this.http.get<Role[]>(`${this.host}/role/active-list`) 
   }
 
-  /** 
-   * PUT: update the object on the server. Returns the updated objet upon success. 
-   */
-  update(data): Observable<Role> {
-    return this.http.put<Role>(environment.baseUrl2 + '/role/update/' + data.roleDTO.id, data);
-  }
-
-  /**
-   * get a list of object
-   */
-  findAll(): Observable<Role[]> {
-    return this.http.get<Role[]>(environment.baseUrl2 + '/role/list');
-  }
-
-    /**
-   * get a paginated list of object
-   */
-  findAllByPage(data): Observable<Role[]> {
+ /**
+  * get all paginated role 
+  * @param data 
+  * @returns PageList 
+  */
+  findAll(data):Observable<PageList>{
       let queryParams = {};
-       data['active']= (data['active'] == null) ? '' : data['active'];
-      //  data['deleted']= (data['deleted'] == null) ? '' : data['deleted'];
+      queryParams = {
+        params: new HttpParams()
+          .set('page', data['page'])
+          .set('size', data['size'] ?? "")
+          .set('name', data['name'])
+          .set('isActive', data['isActive'] ?? "")
+          .set('sort', data['sort'])
+      };
+
+      return this.http.get<PageList>(`${this.host}/role/list`, queryParams) 
+    }
+
+  /**
+   * Create new Role
+   * @param role 
+   * @returns Role
+   */
+  save(role:Role):Observable<Role>{
+    return this.http.post<Role>(`${this.host}/role/add`, role) 
+  }
+
+ /**
+  *  update a role
+  * @param role 
+  * @returns Role
+  */
+  update(role:Role):Observable<Role>{
+      return this.http.put<Role>(`${this.host}/role/update/`+role.id, role) 
+  }
+
+  /**
+   *  update a role
+   * @param roleAuthorities 
+   * @returns Role
+   */
+    setAuthorities(roleAuthorities: RoleAuthorities):Observable<Role>{
+      return this.http.put<Role>(`${this.host}/role/set-authorities/`+roleAuthorities.role, roleAuthorities) 
+  }
+
   
-      queryParams = { params: new HttpParams().set('page', data['page'])
-                                              .set('size', data['entries'])
-                                              .set('name', data['name'])
-                                              .set('active', data['active'])
-                                              .set('sort', data['sort']+','+data['order'])
-    };
-      return this.http.get<Role[]>(environment.baseUrl2 + '/role/p_list', queryParams);
-    }
-    
-  /**
-   * get a list of active object
-   */
-  findActive(): Observable<Role[]> {
-  return this.http.get<Role[]>(environment.baseUrl2 + '/role/active_list');
-
-  }
-
-  /**
-   * enable a object
-   */
-  enable(id) : Observable<Role> {
-  return this.http.get<Role>(environment.baseUrl2 + '/role/enable/' + id);
- 
-  }
-
-  /**
-   * disable a object
-   */
-  disable(id) : Observable<Role> {
-    return this.http.get<Role>(environment.baseUrl2 + '/role/disable/' + id);
-  }
-
-  /**
-   * get object by id
-   * @param id 
-   */
-  findById(id: number): Observable<Role> {
-    return this.http.get<Role>(environment.baseUrl2 + '/role/detail/' + id);
-  }
-
-  /**
-   * get a list of object
-   */
-  getIdAndName(): Observable<any> {
-      return this.http.get<any>(environment.baseUrl2 + '/role/active_roles_name');
+ /**
+  * get list of Role active
+  * @param role 
+  * @returns number
+  */
+    findRoleAuthorityIds(role: Role):Observable<number[]>{
+      return this.http.get<number[]>(`${this.host}/role/get-authority-ids/`+ role.id) 
     }
 
+    getRoleDetails(roleId : number):Observable<Role>{
+      return this.http.get<Role>(`${this.host}/role/get-detail/`+ roleId)
+    }
 }

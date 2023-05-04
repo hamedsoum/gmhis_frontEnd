@@ -2,26 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ArticleGroupRoutingModule } from './article-group-routing.module';
-import { AddArticleGroupComponent } from './add-article-group/add-article-group.component';
-import { ListArticleGroupComponent } from './list-article-group/list-article-group.component';
-import { UpdateArticleGroupComponent } from './update-article-group/update-article-group.component';
-import { ArticlegroupListComponent } from '../_shared/article-group/articlegroup-list/articlegroup-list.component';
-import { ArticlegroupFormComponent } from '../_shared/article-group/articlegroup-form/articlegroup-form.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { ArticleGroupListComponent } from './article-group-list/article-group-list.component';
+import { ArticleGroupFormComponent } from './article-group-form/article-group-form.component';
 
 
 @NgModule({
-  declarations: [AddArticleGroupComponent, ListArticleGroupComponent, UpdateArticleGroupComponent, ArticlegroupListComponent, ArticlegroupFormComponent],
+  declarations: [ArticleGroupListComponent, ArticleGroupFormComponent],
   imports: [
     CommonModule,
-    ArticleGroupRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    NgbPaginationModule, 
-    NgbTooltipModule
+    ArticleGroupRoutingModule
   ]
 })
 export class ArticleGroupModule { }

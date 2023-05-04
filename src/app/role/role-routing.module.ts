@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddRoleComponent } from "./add-role/add-role.component";
 import { ListRoleComponent } from './list-role/list-role.component';
-import { UpdateRoleComponent } from "./update-role/update-role.component";
+import { PermissionComponent } from './permission/permission.component';
 
 const routes: Routes = [
-  { path: 'add', component:AddRoleComponent },
-  { path: 'update/:id', component:UpdateRoleComponent },
-   { path: 'list', component:ListRoleComponent },
+  {path : "list", component: ListRoleComponent},
+  {path : "permission", component: PermissionComponent},
+ 
 ];
 
 @NgModule({

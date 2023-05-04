@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { FolderComponent } from "./folder/folder.component";
+import { NewExaminationComponent } from './examination/new-examination/new-examination.component';
+import { PatientFolderComponent } from './patient-folder/patient-folder.component';
 
 const routes: Routes = [
-  { path: ':patientId', component: FolderComponent },
-  { path: ':patientId/:admissionId', component: FolderComponent }
+  {path : "patient-folder/:id", component : PatientFolderComponent},
+  {path : "new-examination", component : NewExaminationComponent}
 ];
 
 @NgModule({
