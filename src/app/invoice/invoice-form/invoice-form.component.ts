@@ -1,12 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Row } from 'jspdf-autotable';
 import { ActService } from 'src/app/act/act/service/act.service';
 import { IAdmission } from 'src/app/admission/model/admission';
 import { CashRegisterService } from 'src/app/cash-register/cash-register.service';
 import { ConventionService } from 'src/app/convention/convention.service';
-import { InsuranceService } from 'src/app/insurance/insurance.service';
 import { InsuredServiceService } from 'src/app/insured/service/insured-service.service';
 import { PaymentTypeService } from 'src/app/payment-type/service/payment-type.service';
 import { PracticianService } from 'src/app/practician/practician.service';
@@ -16,7 +14,7 @@ import { User } from 'src/app/_models/user.model';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { UserService } from 'src/app/_services/user.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
-import { IInvoiceDto } from '../models/invoice-dto';
+import { IInvoiceDto, InvoiceCost } from '../models/invoice';
 import { InvoiceService } from '../service/invoice.service';
 
 @Component({
@@ -26,23 +24,18 @@ import { InvoiceService } from '../service/invoice.service';
 })
 export class InvoiceFormComponent implements OnInit {
 
-  @Output('addInvoice') addInvoice: EventEmitter<any> =
-    new EventEmitter();
-  @Output('updateInvoice') updateInvoice: EventEmitter<any> =
-    new EventEmitter();
+  @Output('addInvoice') addInvoice: EventEmitter<any> = new EventEmitter();
+  @Output('updateInvoice') updateInvoice: EventEmitter<any> = new EventEmitter();
 
-  @Output('addPayment') addPayment: EventEmitter<any> =
-    new EventEmitter();
-  @Input()
-  admission: IAdmission;
+  @Output('addPayment') addPayment: EventEmitter<any> = new EventEmitter();
+
+  @Input() admission: IAdmission;
 
   admissionForTemplate: IAdmission;
 
-  @Input()
-  makeInvoice: boolean;
+  @Input() makeInvoice: boolean;
 
-  @Input()
-  invoice: Invoice;
+  @Input() invoice: Invoice;
 
   public invoiceForm!: FormGroup;
 
@@ -72,23 +65,11 @@ export class InvoiceFormComponent implements OnInit {
 
   public patientInsurances: any[] = [];
 
-  public patientInsurances2: any[] = [];
-
-
   public patientInsurancesSinceCnam: any[] = [];
-
 
   public patientInsurancesForTemplate: any;
 
-  public calculConsommableRate: any;
-
-  public cashRegisterComponent: any;
-
   public conventions: any;
-
-  public invoiceId: any;
-
-  public: any;
 
   public practicians: any;
 
@@ -113,12 +94,9 @@ export class InvoiceFormComponent implements OnInit {
   public totalAmountToPay: number = 0;
   displayAddInssuranceBtn: boolean = true;
 
-
-
   constructor(
     private fb: FormBuilder,
     private cashRegisterService: CashRegisterService,
-    private insuranceService: InsuranceService,
     private conventionService: ConventionService,
     private actService: ActService,
     private practicianService: PracticianService,
@@ -130,16 +108,13 @@ export class InvoiceFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.admission);
     
     this.currentDate = new Date();
     this.user = this.userService.getUserFromLocalCache();
-
     this.initForm();
     this.addActs();
     if (this.admission) {
       this.admissionForTemplate = this.admission;
-      console.log(this.admission);
       this.invoiceForm.get('admissionNumber').setValue(this.admission.admissionNumber);
       this.invoiceForm.get('admission').setValue(this.admission.id);      
       this.invoiceForm.get('patientExternalId').setValue(this.admission.patientExternalId);
@@ -279,13 +254,16 @@ export class InvoiceFormComponent implements OnInit {
       society: [{ value: null, disabled: true }],
       insuredCoverage: [{ value: null, disabled: true }],
       insuredPart: [0],
+      costToApplyCNAMInsured: [0],
+
     })
   }
 
 
   onInvoice() {
     this.actionToDo = "makeInvoice";
-    this.calculInvoiceCost();
+
+    this.onCalculInvoiceCost();
     this.invoiceForm.get('patientPart').setValue(this.partientPart);
     this.invoiceForm.get('partTakenCareOf').setValue(this.partPecByOthherInsurance + this.partPecByCNAM);
     this.invoiceForm.get('patientType').value;
@@ -312,8 +290,6 @@ export class InvoiceFormComponent implements OnInit {
   }
 
 
-
-
   public get acts(): FormArray {
     return this.invoiceForm.get('acts') as FormArray;
   }
@@ -327,9 +303,6 @@ export class InvoiceFormComponent implements OnInit {
     this.acts.removeAt(index);
     this.acts.markAsDirty();
   }
-
-
-
 
   public get insureds(): FormArray {
     return this.invoiceForm.get('insuredList') as FormArray;
@@ -374,7 +347,6 @@ export class InvoiceFormComponent implements OnInit {
     this.showAddInsuredButton;
   }
 
-
   private findCashRegisternameAndIdList() {
     this.cashRegisterService.findCashRegisternameAndIdList().subscribe(
       (response: INameAndId[]) => {
@@ -399,7 +371,6 @@ export class InvoiceFormComponent implements OnInit {
     )
   }
 
-
   private findPracticianSimpleList() {
     this.practicianService.findPracticianSimpleList().subscribe(
       (response: any) => {
@@ -407,7 +378,6 @@ export class InvoiceFormComponent implements OnInit {
       }
     )
   }
-
 
   private findPaymentTypesActiveNameAndIds() {
     this.paymentTypeService.findPaymentTypesActiveNameAndIds().subscribe(
@@ -441,45 +411,22 @@ export class InvoiceFormComponent implements OnInit {
     this.insureds.controls[index].get('subscriber').setValue(insured["subscriberName"]);
     this.insureds.controls[index].get('society').setValue(insured["society"]);
     this.insureds.controls[index].get('insuredCoverage').setValue(insured["coverage"]);
-    // let data = {
-    //   "act" : this.acts.value[row]["act"],
-    //   "convention" : this.invoiceForm.get('convention').value
-    // } 
   }
 
   getInsured(insured, row) {
     return insured["insuranceId"] == row;
   }
 
-  calculInvoiceCost() {
-    let invoiceFormValue = this.invoiceForm.getRawValue();
-    let acts = invoiceFormValue["acts"];
-  this.totalInvoice = 0;
-    acts.forEach((el, index) => {
-      console.log(el);
-      
-      this.totalInvoice = this.totalInvoice  + el["cost"];
-    })
-    this.partPecByCNAM = 0;
-    this.partPecByOthherInsurance = 0; 
-    this.partientPart = 0;
-    let remaingAfterCnamReduction = 0;
-    this.partPecByCNAM =  this.totalInvoice*this.insureds.controls[0].get('insuredCoverage').value/100;
-    this.insureds.controls[0].get('insuredPart').setValue(this.partPecByCNAM);
-    remaingAfterCnamReduction = this.totalInvoice - this.partPecByCNAM;
-    if (this.insureds.controls.length > 1) {
-        for (let index = 1; index < invoiceFormValue["insuredList"].length; index++) {
-          this.partPecByOthherInsurance = remaingAfterCnamReduction*this.insureds.controls[index].get('insuredCoverage').value/100;
-          this.insureds.controls[index].get('insuredPart').setValue(this.partPecByOthherInsurance);
-        }
-    }
-    this.partientPart = this.totalInvoice - (this.partPecByCNAM + this.partPecByOthherInsurance)    
+  onCalculInvoiceCost() {  
+    let invoiceCost : InvoiceCost = this.invoiceService.calculInvoiceCost(this.invoiceForm.getRawValue(),this.invoiceForm.getRawValue(),this.totalInvoice, this.partPecByCNAM,this.partPecByOthherInsurance, this.partientPart,this.insureds.controls );
+    console.log(invoiceCost);
+    this.totalInvoice = invoiceCost.totalInvoice;
+    this.partPecByCNAM = invoiceCost.partPecByCNAM;
+    this.partPecByOthherInsurance = invoiceCost.partPecByOthherInsurance;
+    this.partientPart = invoiceCost.partientPart;
   }
 
-
-  
   collectAmount() {
-
     this.actionToDo = "makePayment";
 
     this.invoiceForm.get("cashRegister").clearValidators();
@@ -488,7 +435,6 @@ export class InvoiceFormComponent implements OnInit {
     this.invoiceForm.get("paymentType").setValidators([Validators.required]);
     this.invoiceForm.get("cashRegister").updateValueAndValidity();
     this.invoiceForm.get("paymentType").updateValueAndValidity();
-
 
     let cashRegister = this.invoiceForm.get("cashRegister").value
     let paymentType = this.invoiceForm.get("paymentType").value
@@ -510,6 +456,11 @@ export class InvoiceFormComponent implements OnInit {
       }
     );
 
+  }
+
+  fieldForCnamCost(controlIndex : number) : boolean {
+   if(controlIndex === 0) return true
+   return false;
   }
 }
 

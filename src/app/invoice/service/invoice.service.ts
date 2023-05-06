@@ -1,8 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { PageList } from 'src/app/_models/page-list.model';
 import { environment } from 'src/environments/environment';
+import { InvoiceCost } from '../models/invoice';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,31 @@ export class InvoiceService {
   private readonly apiUrl = environment.apiUrl;
  
   constructor(private http: HttpClient) {}
+
+  calculInvoiceCost(formValue : any, acts : any, totalInvoice : number, partPecByCNAM : number, partPecByOthherInsurance : number, partientPart : number, controls : AbstractControl[]) : InvoiceCost{
+    let invoiceFormValue = formValue;
+     acts = invoiceFormValue["acts"];
+  totalInvoice = 0;
+    acts.forEach((el) => {      
+      totalInvoice = totalInvoice  + el["cost"];
+    })
+    partPecByCNAM = 0;
+    partPecByOthherInsurance = 0; 
+   partientPart = 0;
+    let remaingAfterCnamReduction = 0;
+    partPecByCNAM = controls[0].get('costToApplyCNAMInsured').value*controls[0].get('insuredCoverage').value/100;
+    // partPecByCNAM = totalInvoice*controls[0].get('insuredCoverage').value/100;
+    controls[0].get('insuredPart').setValue(partPecByCNAM);
+    remaingAfterCnamReduction = totalInvoice - partPecByCNAM;
+    if (controls.length > 1) {
+        for (let index = 1; index < invoiceFormValue["insuredList"].length; index++) {
+          partPecByOthherInsurance = remaingAfterCnamReduction*controls[index].get('insuredCoverage').value/100;
+          controls[index].get('insuredPart').setValue(partPecByOthherInsurance);
+        }
+    }
+    partientPart = totalInvoice - (partPecByCNAM + partPecByOthherInsurance) 
+    return {totalInvoice, partPecByCNAM, partPecByOthherInsurance,partientPart }
+  }
 
   createInvoice(invoice: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/bill/add`, invoice);
@@ -64,7 +91,6 @@ export class InvoiceService {
   }
 
   getActCost(data: object): Observable<any[]> {
-
     let queryParams = {};
     queryParams = {
       params: new HttpParams()
