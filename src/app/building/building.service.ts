@@ -30,12 +30,6 @@ export class BuildingService {
     return this.http.get<any[]>(`${this.apiUrl}/building/list-simple`);
   }
 
-  // findCashRegisternameAndIdList(): Observable<IBuilding[]> {
-  //   return this.http.get<IBuilding[]>(
-  //     `${this.apiUrl}/cashRegister/active_cash_register_name`
-  //   );
-  // }
-
   createBuilding(newBuilding: any): Observable<IBuilding> {
     return this.http.post<IBuilding>(
       `${this.apiUrl}/building/add`,

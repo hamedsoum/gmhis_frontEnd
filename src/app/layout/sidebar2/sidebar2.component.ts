@@ -413,10 +413,30 @@ export class Sidebar2Component implements OnInit, OnDestroy {
       hidden: !this.canAccessEventLog(),
     },
     {
-      title: "BATIMENT",
-      icon: "question-mark-circle-outline",
-      link: "/building/list",
-      // hidden: !this.canAccessEventLog(),
+      title: "LOGEMENT",
+      icon: "home-outline",
+      children: [
+        {
+          title: "Batiment",
+          link: "/building/list",
+          icon: "minus-outline",
+        },
+        {
+          title: "Etage",
+          link: "/floor/list",
+          icon: "minus-outline",
+        },
+        {
+          title: "Chambre",
+          link: "/room/list",
+          icon: "minus-outline",
+        },
+        {
+          title: "Lit",
+          link: "/bed/list",
+          icon: "minus-outline",
+        },
+      ],
     },
     {
       title: "PARAMETRE D'APPLICATION",

@@ -146,6 +146,20 @@ const routes: Routes = [
         loadChildren: () =>
           import("./building/building.module").then((m) => m.BuildingModule),
       },
+      {
+        path: "floor",
+        loadChildren: () =>
+          import("./floor/floor.module").then((m) => m.FloorModule),
+      },
+      {
+        path: "room",
+        loadChildren: () =>
+          import("./room/room.module").then((m) => m.RoomModule),
+      },
+      {
+        path: "bed",
+        loadChildren: () => import("./bed/bed.module").then((m) => m.BedModule),
+      },
     ],
   },
   { path: "login", component: LoginComponent },
