@@ -19,35 +19,37 @@ export class FloorService {
         .set("page", data["page"])
         .set("size", data["size"] ?? "")
         .set("libelle", data["libelle"])
+        .set("buildingId", data["buildingId"])
         .set("sort", data["sort"]),
     };
 
-    return this.http.get<PageList>(`${this.apiUrl}/floor/list`, queryParams);
+    return this.http.get<PageList>(`${this.apiUrl}/storey/list`, queryParams);
   }
 
   findFloorSimpleList(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/floor/list-simple`);
+    return this.http.get<any[]>(`${this.apiUrl}/storey/list-simple`);
   }
 
   createFloor(newFloor: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/floor/add`, newFloor);
+    return this.http.post<any>(`${this.apiUrl}/storey/add`, newFloor);
   }
 
   updateFloor(floor: any): Observable<any> {
     const floorUpdate = {
       libelle: floor.libelle,
+      building: floor.building,
     };
     return this.http.put<any>(
-      `${this.apiUrl}/floor/update/${floor.id}`,
+      `${this.apiUrl}/storey/update/${floor.id}`,
       floorUpdate
     );
   }
 
   getFloorDetail(floor: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/floor/detail/${floor.id}`);
+    return this.http.get<any>(`${this.apiUrl}/storey/detail/${floor.id}`);
   }
 
   deleteFloor(floorId: any): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/floor/delete/${floorId}`);
+    return this.http.delete<any>(`${this.apiUrl}/storey/delete/${floorId}`);
   }
 }
