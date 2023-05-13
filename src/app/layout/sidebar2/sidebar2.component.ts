@@ -436,6 +436,11 @@ export class Sidebar2Component implements OnInit, OnDestroy {
           link: "/bed/list",
           icon: "minus-outline",
         },
+        {
+          title: "Type de chambre",
+          link: "/bedroom-type/list",
+          icon: "minus-outline",
+        },
       ],
     },
     {

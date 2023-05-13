@@ -160,6 +160,13 @@ const routes: Routes = [
         path: "bed",
         loadChildren: () => import("./bed/bed.module").then((m) => m.BedModule),
       },
+      {
+        path: "bedroom-type",
+        loadChildren: () =>
+          import("./bedroom-type/bedroom-type.module").then(
+            (m) => m.BedroomTypeModule
+          ),
+      },
     ],
   },
   { path: "login", component: LoginComponent },
