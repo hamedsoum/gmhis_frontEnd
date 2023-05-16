@@ -16,9 +16,11 @@ export class BedService {
     let queryParams = {};
     queryParams = {
       params: new HttpParams()
+        .set("libelle", data["libelle"])
+        .set("bedroomId", data["bedroomId"])
+        .set("state", data["state"])
         .set("page", data["page"])
         .set("size", data["size"] ?? "")
-        .set("libelle", data["libelle"])
         .set("sort", data["sort"]),
     };
 
@@ -33,11 +35,11 @@ export class BedService {
     return this.http.post<any>(`${this.apiUrl}/bed/add`, newBed);
   }
 
-  updateBed(bed: any): Observable<any> {
-    const bedUpdate = {
-      libelle: bed.libelle,
-    };
-    return this.http.put<any>(`${this.apiUrl}/bed/update/${bed.id}`, bedUpdate);
+  updateBed(bedUpdate: any): Observable<any> {
+    return this.http.put<any>(
+      `${this.apiUrl}/bed/update/${bedUpdate.id}`,
+      bedUpdate
+    );
   }
 
   getBedDetail(bed: any): Observable<any> {

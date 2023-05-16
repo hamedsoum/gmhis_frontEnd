@@ -16,38 +16,34 @@ export class RoomService {
     let queryParams = {};
     queryParams = {
       params: new HttpParams()
-        .set("page", data["page"])
-        .set("size", data["size"] ?? "")
         .set("libelle", data["libelle"])
+        .set("storeyId", data["storeyId"])
+        .set("type", data["type"])
+        .set("size", data["size"] ?? "")
+        .set("page", data["page"])
         .set("sort", data["sort"]),
     };
 
-    return this.http.get<PageList>(`${this.apiUrl}/room/list`, queryParams);
+    return this.http.get<PageList>(`${this.apiUrl}/bedroom/list`, queryParams);
   }
 
   findRoomSimpleList(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/room/list-simple`);
+    return this.http.get<any[]>(`${this.apiUrl}/bedroom/list-simple`);
   }
 
   createRoom(newRoom: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/room/add`, newRoom);
+    return this.http.post<any>(`${this.apiUrl}/bedroom/add`, newRoom);
   }
 
   updateRoom(room: any): Observable<any> {
-    const roomUpdate = {
-      libelle: room.libelle,
-    };
-    return this.http.put<any>(
-      `${this.apiUrl}/room/update/${room.id}`,
-      roomUpdate
-    );
+    return this.http.put<any>(`${this.apiUrl}/bedroom/update/${room.id}`, room);
   }
 
   getRoomDetail(room: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/room/detail/${room.id}`);
+    return this.http.get<any>(`${this.apiUrl}/bedroom/detail/${room.id}`);
   }
 
   deleteRoom(roomId: any): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/room/delete/${roomId}`);
+    return this.http.delete<any>(`${this.apiUrl}/bedroom/delete/${roomId}`);
   }
 }
