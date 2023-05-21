@@ -4,7 +4,7 @@
         <h4
           class="text-capitalize d-flex justify-content-start w-100 text-center"
         >
-        SALLE D'ATTENTE
+        Salle d'Attente
         </h4>
       </div>
     </nb-card-header>
@@ -172,7 +172,7 @@
                   <div class="text" ngbDropdownMenu aria-labelledby="dropdownBasic1">
 
                     <button class="text-center" 
-                    routerLink="/medical-folder/patient-folder/{{admission.id}}"               
+                    (click)=" onOpenCheckPatientNumberModal(checkPatientNumberModal, admission)"               
                     ngbDropdownItem>Dossier</button>
                   </div>
                 </div>
@@ -256,6 +256,30 @@
   <div class="modal-body bg-gray">
     <ngx-extended-pdf-viewer *ngIf='docSrc' [src]="docSrc" useBrowserLocale="true" height="80vh">
     </ngx-extended-pdf-viewer>
+  </div>
+</ng-template>
+
+<ng-template #checkPatientNumberModal let-c="close" let-d="dismiss">
+  <div class="modal-header ">
+    <small>Veuillez Entrer le Code du Patient afin d'avoir accès à son DPI</small>
+    <nb-icon
+      style="cursor: pointer"
+      (click)="d('Cross click')"
+      class="h4"
+      icon="close-circle-outline"
+    ></nb-icon>
+  </div>
+  <div class="modal-body ">
+    <input
+        type="text"
+        class="form-control"
+        placeholder="Code"
+        [(ngModel)]="PatientDPIChecknumber"
+      />
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-danger mx-2">Annuler</button>
+      <button (click)="onVerifyCheckPatientNumber()" class="btn btn-success">Valider</button>
   </div>
 </ng-template>
   

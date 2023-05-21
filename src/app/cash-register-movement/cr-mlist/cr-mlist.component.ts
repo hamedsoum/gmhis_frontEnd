@@ -8,6 +8,9 @@ import { PageList } from 'src/app/_models/page-list.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { CashRegisterService } from 'src/app/cash-register/cash-register.service';
+import { PredefinedPeriodService } from 'src/app/_common/services/predefined-period.service';
+import { PrintCashRegisterMovementService } from 'src/app/_services/documents/print-cash-register-movement.service';
+import { PredefinedDate } from 'src/app/_common/domain/predefinedDate';
 
 @Component({selector: 'app-cr-mlist',templateUrl: './cr-mlist.component.html'})
 export class CrMListComponent implements OnInit {
@@ -41,8 +44,16 @@ export class CrMListComponent implements OnInit {
   crActivity : ICashRegisterActivity;
   cashRegisterBalance : number = 0;
   realClosingBalance : number = 0;
+  docSrc: any;
 
-
+  predefined =  "PERIODE";
+  dateOptions = [
+    {id:PredefinedDate.TODAY, value:"Aujourd'hui"},
+    {id:PredefinedDate.THIS_WEEK , value:"Semaine en cours"},
+    {id:PredefinedDate.THIS_MONTH , value:"Mois en cours"},
+    {id:PredefinedDate.THIS_YEAR , value:"Année en cours"},
+  ]
+  defaultSearchPeriode: object;
 
   constructor(
     private crMovementService : CashRegisterMovementService,
@@ -51,7 +62,9 @@ export class CrMListComponent implements OnInit {
     private userService : UserService,
     config: NgbModalConfig,
     private modalService: NgbModal,
-    private crActivityService : CashRegisterActivityService
+    private crActivityService : CashRegisterActivityService,
+    private predefinedPeriodService: PredefinedPeriodService,
+    private printCashRegisterMovementService : PrintCashRegisterMovementService
   ) { }
 
   ngOnInit(): void {   
@@ -61,6 +74,16 @@ export class CrMListComponent implements OnInit {
    this.findActiveCashRegisterNameAndId();
    this.getCrActivityByCahier(this.user.id);
   }
+
+
+  printInsuranceList(printContent) : void {
+    this.getCrMovement();
+    this.modalService.open(printContent, { size: 'xl' });
+    let doc =this.printCashRegisterMovementService.buildCashRegisterMovPrintList(this.items)
+    this.docSrc = doc.output('datauristring'); 
+  
+}
+
 
 
   initSearchForm(){

@@ -3,7 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { InsuranceService } from 'src/app/insurance/insurance.service';
+import { PredefinedDate } from 'src/app/_common/domain/predefinedDate';
+import { PredefinedPeriodService } from 'src/app/_common/services/predefined-period.service';
 import { PageList } from 'src/app/_models/page-list.model';
+import { PrintListService } from 'src/app/_services/documents/print-list.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
@@ -67,23 +70,49 @@ export class InsuranceBillComponent implements OnInit {
 
   searchDateRange : string;
 
+  predefined =  "PERIODE";
+  dateOptions = [
+    {id:PredefinedDate.TODAY, value:"Aujourd'hui"},
+    {id:PredefinedDate.THIS_WEEK , value:"Semaine en cours"},
+    {id:PredefinedDate.THIS_MONTH , value:"Mois en cours"},
+    {id:PredefinedDate.THIS_YEAR , value:"Année en cours"},
+  ]
+  defaultSearchPeriode: object;
+
+
   constructor(
     private invoiceService: InvoiceService,
     private notificationService: NotificationService,
     config: NgbModalConfig,
     private modalService: NgbModal,
-    private insuranceService : InsuranceService
+    private insuranceService : InsuranceService,
+    private printListService : PrintListService,
+    private predefinedPeriodService: PredefinedPeriodService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
 
   ngOnInit(): void {
-   
     this.initform();
     console.log(this.actServicesNameAndId);
     this.getInsuranceBill();
     this.getAllInsuranceActiveIdAndName();
+  }
+
+  getSelectedPeriode(period) {
+    const resultat = this.dateOptions.find(dateOption => dateOption.id === period);
+    this.predefined = resultat.value;
+    this.defaultSearchPeriode = this.predefinedPeriodService.getSelectedPeriode(period);
+    this.searchForm.get("date").setValue(this.defaultSearchPeriode);
+    this.getInsuranceBill();
+  }
+
+  printInsuranceList(printContent) : void {
+      this.modalService.open(printContent, { size: 'xl' });
+      let doc =this.printListService.buildPrintList(this.items)
+      this.docSrc = doc.output('datauristring'); 
+    
   }
 
   initform() {
@@ -106,16 +135,13 @@ export class InsuranceBillComponent implements OnInit {
   
 
   public getInsuranceBill() {
-
     let start = null;
     let end = null;
     let date = this.searchForm.get("date").value;
-  
     if (typeof (date) == "object") {
       start = date.start.toISOString().split('T')[0];
       end = (!date.end) ? date.start.toISOString().split('T')[0] : date.end.toISOString().split('T')[0]
       this.searchDateRange = start + "," + end;
-      console.log(this.searchDateRange);  
       this.searchForm.get("date").setValue(this.searchDateRange);
     }
     this.showloading = true;
@@ -155,22 +181,7 @@ export class InsuranceBillComponent implements OnInit {
     this.getInsuranceBill();
   }
 
-  // openAddForm(addFormContent) {
-  //   this.modalService.open(addFormContent, { size: 'xl' });
-  // }
-
-  // openUpdateForm(updateFormContent, item?) {
-  //   this.invoice = item;
-  //   console.log(this.invoice);
-  //   this.modalService.open(updateFormContent, { size: 'xl' });
-  // }
-
-  // openPaymentForm(paymentFormContent, item?) {
-  //   this.invoice = item;
-  //   this.makeInvoice = false;
-  //   console.log(this.invoice);
-  //   this.modalService.open(paymentFormContent, { size: 'xl' });
-  // }
+  
 
   updateAdmission() {
     this.modalService.dismissAll();
@@ -245,5 +256,7 @@ addPayment(){
   //     }
   //   )
   // }
+
+
 
 }

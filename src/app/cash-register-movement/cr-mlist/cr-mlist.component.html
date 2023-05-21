@@ -4,7 +4,7 @@
         <h4
           class="text-capitalize d-flex justify-content-start w-100 text-center"
         >
-          MOUVEMENTS DE CAISSE
+          Mouvement de Caisse
         </h4>
       </div>
     
@@ -24,7 +24,7 @@
               <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
                 <input type="text" class="form-control" formControlName="prestationNumber" name="" id="">
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-1">
                 <span
                   (click)="getCrMovement()"
                   style="
@@ -35,6 +35,19 @@
                   class="material-icons px-2 p-1 rounded"
                 >
                   search
+                </span>
+              </div>
+              <div class="col-lg-1">
+                <span
+                  (click)="printInsuranceList(printContent)"
+                  style="
+                    background-color: #ededed;
+                    color: #14a2b8;
+                    cursor: pointer;
+                  "
+                  class="material-icons px-2 p-1 rounded"
+                >
+                ios_share
                 </span>
               </div>
             </div>
@@ -137,5 +150,26 @@
       </div>
     </nb-card-body>
   </nb-card>
+
+  <ng-template #printContent let-c="close" let-d="dismiss">
+    <div class="modal-header bg-gray">
+      <h4 class="text-capitalize modal-title" id="update-form-modal">IMPRIMER</h4>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+    <div class="modal-body bg-gray">
+      <ngx-extended-pdf-viewer
+        *ngIf="docSrc"
+        [src]="docSrc"
+        useBrowserLocale="true"
+        height="80vh"
+      >
+      </ngx-extended-pdf-viewer>
+    </div>
+  </ng-template>
 
   

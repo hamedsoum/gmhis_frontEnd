@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ActService } from 'src/app/act/act/service/act.service';
 import { IAdmission } from 'src/app/admission/model/admission';
@@ -66,6 +67,9 @@ export class PatientInWaitingRoomComponent implements OnInit {
   waitingRooms: any;
   practicians: any;
   user: User;
+
+  PatientDPIChecknumber : string ;
+  admissionId: number;
   constructor(
     private admissionService: AdmissionService,
     private notificationService: NotificationService,
@@ -73,11 +77,10 @@ export class PatientInWaitingRoomComponent implements OnInit {
     private modalService: NgbModal,
     private serviceService : ServiceService,
     private actService : ActService,
-    private invoiceDocumentService : InvoiceDocumentService,
     private waitingRoomService : WaitingRoomService,
     private practicianService : PracticianService,
-    private userService : UserService
-
+    private userService : UserService,
+    private route : Router
 
   ) {}
 
@@ -92,6 +95,21 @@ export class PatientInWaitingRoomComponent implements OnInit {
     console.log(this.actServicesNameAndId);
     this.getPatient();
   }
+
+  onOpenCheckPatientNumberModal(checkPatientNumberModal, admission){
+    this.admission = admission;
+    this.admissionId = this.admission.id
+    this.modalService.open(checkPatientNumberModal, {size : 'md', centered : true})
+  }
+
+  onVerifyCheckPatientNumber(){   
+    console.log(this.admissionId);
+     
+    this.modalService.dismissAll();
+    this.route.navigateByUrl(`/medical-folder/patient-folder/${this.admissionId}`)
+    console.log(this.PatientDPIChecknumber);
+  }
+
 
   initform() {
     this.searchForm = new FormGroup({
@@ -160,14 +178,12 @@ export class PatientInWaitingRoomComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.admission = item;
-    console.log(this.admission);
     this.modalService.open(updateFormContent, { size: 'xl' });
   }
 
   openInvoiceForm(invoiceFormContent, item?) {
     this.admission = item;
     this.makeInvoice = false;
-    console.log(this.admission);
     this.modalService.open(invoiceFormContent, { size: 'xl' });
   }
 
@@ -231,13 +247,7 @@ addInvoice(){
 
 
   printInvoice(printContent) {
-    
     this.modalService.open(printContent, { size: 'xl' });
-
-    // let doc = this.invoiceDocumentService.getInvoiceDocument();
-    // this.docSrc = doc.output('datauristring');
-
-  
   }
 
   public findActiveWaitingRoomNameAndId(){

@@ -1,16 +1,8 @@
-import { not } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { faNapster } from '@fortawesome/free-brands-svg-icons';
-import { faBell, faBox, faTachometerAlt,faShoppingCart, faCubes, faChartLine, faClipboardList, faCartArrowDown, faCartPlus, faCashRegister, faUser, faFileInvoiceDollar, faHeadset, faHome, faUsers,faUserAlt, faKey, faDollarSign, faLongArrowAltRight, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { LocalAuthorityEnum } from 'src/app/_enum/localAuthority.enum';
+import {  faTachometerAlt, faUser, faHome, faUsers,faKey, faDollarSign,  faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { SideBar1MenuAuthorityEnum } from 'src/app/_enum/sideBar1MenuAuthority.enum';
 
-import { AssetsService } from 'src/app/_services/assets.service';
-import { CustomerOrderService } from 'src/app/_services/customer-order.service';
-import { InventoryService } from 'src/app/_services/inventory.service';
 import { NotifService } from 'src/app/_services/notif.service';
-import { StockEntryService } from 'src/app/_services/stock-entry.service';
-import { TransfertService } from 'src/app/_services/transfert.service';
 import { UserService } from 'src/app/_services/user.service';
 
 import { SubSink } from 'subsink';
@@ -52,11 +44,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private notificationService: NotifService,
-    private transferService: TransfertService,
-    private stockEntryService: StockEntryService,
-    private customerOrderService : CustomerOrderService,
-    private inventoryService : InventoryService,
-    private assetService : AssetsService
      ) {
 
 

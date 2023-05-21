@@ -39,7 +39,9 @@ export class AnalysisBulletinComponent implements OnInit {
     private modalService: NgbModal
   ) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {  
+    console.log(this.examen);
+      
     this.getAnalysisRequestItemsByAnalysisId(this.examen.id);
     this.getAnalysisRequestResultFile(this.examen.id);
   }
