@@ -15,9 +15,6 @@
                         <span class="spanDefault">date de naissance :</span>                     
                        <span > {{patient?.birthDate - currentDate | date : 'dd/MM/yyy'}}</span>
                     </div>
-                     <!-- - né(e) le
-                    {{patient?.birthDate | date : 'dd/MM/yyy'}}
-                    14 ans -->
                 </div>
                 <div class="col-lg-4"> 
                     <div class="mb-2">
@@ -27,11 +24,7 @@
                     <div>
                         <span class="spanDefault">Profession :</span>                      
                        <span > {{patient?.profession}}</span>
-                    </div>
-
-                     <!-- - né(e) le
-                    {{patient?.birthDate | date : 'dd/MM/yyy'}}
-                    14 ans -->
+                    </div>  
                 </div>
                 <div class="col-lg-4"> 
                     <div>
@@ -41,49 +34,76 @@
                     <div>
                         <span class="spanDefault">Nombre d'enfant :</span>                       
                         <span > {{patient?.numberOfChildren }}</span>
-                     </div>
-                     <!-- - né(e) le
-                    {{patient?.birthDate | date : 'dd/MM/yyy'}}
-                    14 ans -->
+                     </div>      
                 </div>
-                <!-- <div>175cm, 71kg</div> -->
-            </div>
-            <!-- <div class="col-lg-4 text-center">
-                <div><u>Correspondants</u></div>
-                <div>
-                    <div> {{patient?.correspondant}}: {{patient?.correspondantCellPhone}}</div>
-                </div>
-            </div> -->
+            </div> 
            </div>
         </div>
     </nb-card-header>
     <nb-card-body>
-        <div class="row">
-            <div class="col-lg-2">
-                <nb-menu [items]="items2"  autoCollapse="true">
-                </nb-menu>
-            </div>      
-            <div *ngIf="showConsultationList == true && menuClick=='Consultations'" class="col-lg-10">
-                <h5 class="mb-4">LISTE DES CONSULTATIONS</h5>
-                <app-examination-list (updatePatientPrescriptionNumber)="updatePatientPrescriptionNumber()"  (updateExaminationNuber)="updateExaminationNuber()" [admissionId]="admissionId" [patientId]="patientId"></app-examination-list>
-            </div>
-            <div *ngIf="menuClick=='Constantes'" class="col-lg-9"> 
-                <h5 class="mb-4">LISTE DES CONSTANTES</h5>
-                <app-patient-constant (updatePattientConstantNumber)="updatePattientConstantNumber()" *ngIf="showConstantList == true" [patientId]="patientId"></app-patient-constant>
-            </div>
-            <div *ngIf="menuClick=='Examens'" class="col-lg-10">
-                <h5 class="mb-4">LISTE DES DEMANDES D'EXAMENS</h5>
-                <app-examen-list (updatePatientExamenNumber)="updatePatientExamenNumber()" [admissionId]="admissionId" [patientId]="patientId"></app-examen-list>
-            </div>
-            <div *ngIf="menuClick=='Ordonances'" class="col-lg-10">
-                <h5 class="mb-4">LISTE DES ORDONNANCES</h5>
-                <app-prescription-list  (updatePatientPrescriptionNumber)="updatePatientPrescriptionNumber()" [patientId]="patientId"></app-prescription-list>
-            </div>
-            <div *ngIf="menuClick=='Certificats médicaux'" class="col-lg-10">
-                <h5 class="mb-4">CERTIFICATS MEDICAUX</h5>
-                <app-medical-certificates-list></app-medical-certificates-list>
-            </div>
+     
+        <div  class="row">
+           <div
+           [style.cursor]="'pointer'"
+           routerLink="/medical-folder/patient-folder-details/{{examination.admission}}"               
+            [style.padding]="'15px'" *ngFor="
+           let examination of items
+             | paginate
+               : {
+                   itemsPerPage: selectedSize,
+                   currentPage: currentPage,
+                   totalItems: totalItems
+                 };
+           let i = index
+         "
+         [class.active]="i == currentIndex" class="col-lg-4">
+            <nb-card accent="info">
+                <nb-card-header>
+                    <span [style.margin-botton]="'25px'" [style.font-size]="'13px'" [style.display]="'block'"><span>Médecin : Dr</span> {{examination.practicianFirstName}} {{examination.practicianLastName}}</span>
+                    <span [style.font-size]="'13px'" [style.display]="'block'">Centre de Santé : {{examination.facility}}</span>
+                </nb-card-header>
+                    <nb-card-body>
+                    {{truncate(examination.conclusion,100)}}
+                </nb-card-body>
+                <nb-card-footer>
+                    {{examination.date | date: "dd/MM/yyyy"}}
+
+                </nb-card-footer>
+              </nb-card>
+           </div>
+         
         </div>
-    </nb-card-body>
+
+        <div [style.margin-top]="'30px'" class="d-flex justify-content-center">
+            <pagination-controls
+              responsive="true"
+              previousLabel="Prev"
+              nextLabel="Next"
+              (pageChange)="onPageChange($event)"
+            >
+            </pagination-controls>
+          </div>
+      </nb-card-body>
 </nb-card>
+
+  <!-- add modal -->
+  <ng-template #addFormContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
+        Ajouter une consultation
+      </h4>
+      <nb-icon
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+    <div class="modal-body">
+      <app-new-examination
+        [admissionId]="admissionId"
+        (addExamination)="addExamination()"
+      ></app-new-examination>
+    </div>
+  </ng-template>
+  
 

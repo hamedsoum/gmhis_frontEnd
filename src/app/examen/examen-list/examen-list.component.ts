@@ -76,6 +76,7 @@ export class ExamenListComponent implements OnInit {
   initform() {
     this.searchForm = new FormGroup({
       patientId: new FormControl(this.patientId),
+      admissionId: new FormControl(this.admissionId),
       page: new FormControl(0),
       size: new FormControl(10),
       sort: new FormControl('id,desc'),
@@ -91,9 +92,7 @@ export class ExamenListComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;
-          console.log(this.items);
-          
+          this.items = response.items;          
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;

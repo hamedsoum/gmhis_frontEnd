@@ -113,8 +113,7 @@
         >
         </pagination-controls>
       </div>
-      <div class="row">
-
+      <div class="row " style="display: flex; align-items: end;">
       <div class="col-md-4">
         <label class="fw-bold" name="cashRegisterBalance" for="">Solde de caisse</label>
         <input
@@ -138,45 +137,5 @@
       </div>
     </nb-card-body>
   </nb-card>
-  
-  <!-- add modal -->
-  <ng-template #addFormContent let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
-        nouvelle ouverture de caisse
-      </h4>
-      <nb-icon
-        style="cursor: pointer"
-        (click)="d('Cross click')"
-        class="h4"
-        icon="close-circle-outline"
-      ></nb-icon>
-    </div>
-    <div class="modal-body">
-      <app-cractivity-form
-        (addCrActivity)="addCrActivity()"
-      ></app-cractivity-form>
-    </div>
-  </ng-template>
-  
-  <!-- update modal -->
-  <ng-template #updateFormContent let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
-        Modifer une activite de caisse
-      </h4>
-      <nb-icon
-        style="cursor: pointer"
-        (click)="d('Cross click')"
-        class="h4"
-        icon="close-circle-outline"
-      ></nb-icon>
-    </div>
-    <div class="modal-body">
-      <app-cractivity-form
-        [crActivity]="crActivity"
-        (updateCrActivity)="updateCrActivity()"
-      ></app-cractivity-form>
-    </div>
-  </ng-template>
+
   

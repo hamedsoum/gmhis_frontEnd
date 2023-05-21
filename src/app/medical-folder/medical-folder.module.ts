@@ -11,10 +11,11 @@ import { ConstantModule } from '../constant/constant.module';
 import { ExamenModule } from '../examen/examen.module';
 import { PrescriptionModule } from '../prescription/prescription.module';
 import { MedicalCertificatesModule } from '../medical-certificates/medical-certificates.module';
+import { PatientFolderExaminationDetailsComponent } from './patient-folder-details/patient-folder-examination.details.component';
 
 
 @NgModule({
-  declarations: [NewExaminationComponent, PatientFolderComponent,ExaminationListComponent],
+  declarations: [NewExaminationComponent, PatientFolderComponent,ExaminationListComponent,PatientFolderExaminationDetailsComponent],
   imports: [
     CommonModule,
     MedicalFolderRoutingModule,

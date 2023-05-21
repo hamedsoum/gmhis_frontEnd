@@ -6,5 +6,6 @@ export interface ICashRegisterActivity {
     openingDate: Date,
     state: boolean,
     cashRegisterBalance : number,
+    closingBalance: number,
     realClosingBalance : number
 }

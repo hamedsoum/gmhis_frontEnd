@@ -1,5 +1,5 @@
 {
-  "name": "gesti-biblos-web",
+  "name": "ghmis",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -61,6 +61,7 @@
     "subsink": "^1.0.2",
     "sweetalert2": "^10.16.7",
     "tslib": "^2.0.0",
+    "turn.js": "^1.0.5",
     "xlsx": "^0.17.0",
     "zone.js": "~0.10.2"
   },

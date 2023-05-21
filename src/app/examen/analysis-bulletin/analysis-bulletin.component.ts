@@ -52,11 +52,7 @@ export class AnalysisBulletinComponent implements OnInit {
       this.imageURL = reader.result as string;
     }
     reader.readAsDataURL(this.file)
-    // this.analysisRequestItems[2]["file"] = this.file;
-    
-    // this.readFile(this.files[0]).then(fileContents => {
-
-    // })
+   
   }
 
   

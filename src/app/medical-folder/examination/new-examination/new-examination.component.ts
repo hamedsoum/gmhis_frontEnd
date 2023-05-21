@@ -25,22 +25,16 @@ export class NewExaminationComponent implements OnInit {
    */
     form: FormGroup;
 
-    @Input()
-    patientId: number;
+    @Input() patientId: number;
 
-    @Input()
-    patient: IPatient;
+    @Input() patient: IPatient;
    
-    @Input()
-    admissionId: number;
+    @Input() admissionId: number;
   
-    @Input()
-    startDate: Date;
+    @Input() startDate: Date;
 
-    @Output('addExamination') addExamination: EventEmitter<any> =
-    new EventEmitter();
-  @Output('updateExamination') updateExamination: EventEmitter<any> =
-    new EventEmitter();
+    @Output('addExamination') addExamination: EventEmitter<any> = new EventEmitter();
+  @Output('updateExamination') updateExamination: EventEmitter<any> = new EventEmitter();
 
       /**
    * consultation object
@@ -96,14 +90,14 @@ export class NewExaminationComponent implements OnInit {
      initForm() {
       this.form = new FormGroup({
         date: new FormControl(this.datepipe.transform(new Date(), "MM-dd-yyyy")), 
-        conclusionExamResult: new FormControl(''),
+        // conclusionExamResult: new FormControl(''),
         admission: new FormControl(this.admissionId),
         conclusion: new FormControl('', Validators.required),
         examinationReasons: new FormControl('', Validators.required),
-        examinationType: new FormControl('', Validators.required),
-        history: new FormControl('', Validators.required),
+        // examinationType: new FormControl('', Validators.required),
+        // history: new FormControl('', Validators.required),
         id: new FormControl(0),
-        pathologies: new FormControl(null, Validators.required ),
+        // pathologies: new FormControl(null, Validators.required ),
         symptoms: new FormControl(null, Validators.required),
         startDate: new FormControl(this.startDate),
         pratician : new FormControl(1)

@@ -9,11 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { CashRegisterService } from 'src/app/cash-register/cash-register.service';
 
-@Component({
-  selector: 'app-cr-mlist',
-  templateUrl: './cr-mlist.component.html',
-  styleUrls: ['./cr-mlist.component.scss']
-})
+@Component({selector: 'app-cr-mlist',templateUrl: './cr-mlist.component.html'})
 export class CrMListComponent implements OnInit {
 
   private subs = new SubSink();
@@ -168,6 +164,8 @@ export class CrMListComponent implements OnInit {
       this.crActivityService.getCrActivityByCahier(cashier).subscribe(
         (response : ICashRegisterActivity) => {
           this.crActivity = response;
+          console.log(this.crActivity.closingBalance);
+          
           this.cashRegisterBalance = this.crActivity.cashRegisterBalance;
           console.log(this.crActivity);
         },

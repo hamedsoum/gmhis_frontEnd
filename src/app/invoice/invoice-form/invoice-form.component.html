@@ -69,7 +69,7 @@
                 </div>
                 <div class="col-lg-1  col-md-12 col-sm-12">
                     <div class="form-group">
-                        <label for="{{'insuredCoverage' + i}}">couverture (%)</label>
+                        <label for="{{'insuredCoverage' + i}}">PEC (%)</label>
                         <div class="input-group input-group-sm">
                             <input id="{{'insuredCoverage' + i}}" name="{{'insuredCoverage' + i}}" type="text" formControlName="insuredCoverage" class="form-control text-bold ">
                          
@@ -111,7 +111,7 @@
          ajouter une assurance
         </button>
      </div>
-     <div class="acts container">
+<div class="acts container">
 <div *ngIf="this.admissionForTemplate.admissionStatus == 'B'">
     <span class="subTitle mx-2">Actes</span><br>
     <div class="" formArrayName="acts">
@@ -167,10 +167,8 @@
          </div>
     </div>
   
-</div>
-       
+</div>   
      </div>
-
     <div class="montant row d-flex flex-colunm justify-content-end mb-5">
         <div class="row col-lg-6 ">
             <div class="d-flex row mb-3">
@@ -178,15 +176,15 @@
                 <div class="col value strong">: {{totalInvoice | currency:'FCFA' : 'symbol' : '1.0-0'}} </div>
             </div>
             <div class="d-flex row mb-3">
-                <div class="col">Part Prise en charge par la CNAM </div>
+                <div class="col">PEC CNAM </div>
                 <div class="col value strong">: {{partPecByCNAM | currency:'FCFA' : 'symbol' : '1.0-0'}} </div>
             </div>
             <div class="d-flex row mb-3">
-                <div class="col">Part Prise en charge par l'assurance </div>
+                <div class="col">PEC Assurance </div>
                 <div class="col value strong">: {{partPecByOthherInsurance | currency:'FCFA' : 'symbol' : '1.0-0'}} </div>
             </div>
             <div class="d-flex row mb-3">
-                <div class="col">Part total Prise en charge : </div>
+                <div class="col">PEC TOTAL : </div>
                 <div class="col value strong">: {{partPecByCNAM + partPecByOthherInsurance | currency:'FCFA' : 'symbol' : '1.0-0'}} </div>
             </div>
             <div class="d-flex  mb-3">

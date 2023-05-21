@@ -67,29 +67,35 @@ export class ExaminationListComponent implements OnInit {
   constructor(
     private examinationService: ExaminationService,
     private notificationService: NotificationService,
-    config: NgbModalConfig,
     private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
     this.initform();
-    this.getConvention();
+    this.getExamination();
   }
 
   initform() {
+    console.log("admission", this.admissionId);
+    
+    console.log(this.patientId);
+    
     this.searchForm = new FormGroup({
+      admissionID: new FormControl(this.admissionId),
       patient: new FormControl(this.patientId),
       page: new FormControl(0),
-      size: new FormControl(10),
+      size: new FormControl(9),
       sort: new FormControl('id,desc'),
     });
   }
 
   onSearchValueChange(): void {
-    this.getConvention();
+    this.getExamination();
   }
 
-  public getConvention() {
+  
+
+  public getExamination() {
     this.showloading = true;
     this.subs.add(
       this.examinationService.getPatientExamination(this.searchForm.value).subscribe(
@@ -98,7 +104,7 @@ export class ExaminationListComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;
+          this.items = response.items;          
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -116,26 +122,26 @@ export class ExaminationListComponent implements OnInit {
   }
 
   onIsActiveChange() {
-    this.getConvention();
+    this.getExamination();
   }
 
   onPageChange(event) {
     this.searchForm.get('page').setValue(event - 1);
-    this.getConvention();
+    this.getExamination();
   }
 
   openAddForm(addFormContent) {
-    this.modalService.open(addFormContent, { size: 'xl' });
+    this.modalService.open(addFormContent, { size: 'lg' });
   }
 
   openUpdateForm(updateFormContent, item?) {
     this.examination = item;
-    this.modalService.open(updateFormContent, { size: 'xl' });
+    this.modalService.open(updateFormContent, { size: 'lg' });
   }
 
   openPrescriptionForm(prescriptionFormContent, item?) {
     this.examinationId = item.id;
-    this.modalService.open(prescriptionFormContent, { size: 'xl' });
+    this.modalService.open(prescriptionFormContent, { size: 'lg' });
   }
 
   addExamination() {
@@ -145,7 +151,7 @@ export class ExaminationListComponent implements OnInit {
       "Consultation ajoutée avec succès"
     );
     this.updateExaminationNuber.emit();
-    this.getConvention();
+    this.getExamination();
   }
 
   updateConvention() {
@@ -154,7 +160,7 @@ export class ExaminationListComponent implements OnInit {
       NotificationType.SUCCESS,
       "Consultation modifiée avec succès"
     );
-    this.getConvention();
+    this.getExamination();
   }
 
   addPrescription() {

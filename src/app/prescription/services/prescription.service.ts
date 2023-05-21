@@ -18,6 +18,7 @@ export class PrescriptionService {
     queryParams = {
       params: new HttpParams()
         .set('patient', data['patient'])
+        .set('admissionID', data['admissionID'])
         .set('page', data['page'])
         .set('size', data['size'] ?? '')
         .set('active', data['active'] ?? '')

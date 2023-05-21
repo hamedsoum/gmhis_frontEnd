@@ -26,6 +26,7 @@ export class ExaminationService {
     queryParams = {
       params: new HttpParams()
         .set('patient', data['patient'])
+        .set('admissionID', data['admissionID'])
         .set('page', data['page'])
         .set('size', data['size'] ?? '')
         .set('sort', data['sort']),
@@ -36,7 +37,24 @@ export class ExaminationService {
     );
   }
 
+  findPatientFirstExaminationsOfAdmisions(data): Observable<any> {
+    let queryParams = {};
+    queryParams = {
+      params: new HttpParams()
+        .set('patient', data['patient'])
+        .set('page', data['page'])
+        .set('size', data['size'] ?? '')
+        .set('sort', data['sort']),
+    };
+    return this.http.get<any>(
+      `${this.apiUrl}/examination/lastExaminatonOfAdmission`,
+      queryParams
+    );
+  }
+
   getExaminationNumberByAdmissionId(admissionId: number): Observable<any> {
+    console.log(admissionId);
+    
     return this.http.get<any>(`${this.apiUrl}/examination/getPatientExaminationNumber/${admissionId}`);
   }
 

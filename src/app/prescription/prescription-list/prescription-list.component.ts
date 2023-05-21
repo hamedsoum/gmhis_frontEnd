@@ -28,6 +28,9 @@ export class PrescriptionListComponent implements OnInit {
   @Input()
   patientId : number;
 
+  @Input()
+  admissionId : number;
+
   @Output('updatePatientPrescriptionNumber') updatePatientPrescriptionNumber: EventEmitter<any> =
   new EventEmitter();
 
@@ -59,7 +62,6 @@ export class PrescriptionListComponent implements OnInit {
     private notificationService: NotificationService,
     config: NgbModalConfig,
     private modalService: NgbModal,
-    private datePipe: DatePipe,
     private prescriptionDocumentService  : PrescriptionDocumentService
   ) { }
 
@@ -72,8 +74,11 @@ export class PrescriptionListComponent implements OnInit {
   }
 
   initform() {
+    console.log(this.admissionId);
+    
     this.searchForm = new FormGroup({
       patient: new FormControl(this.patientId),
+      admissionID: new FormControl(this.admissionId),
       page: new FormControl(0),
       size: new FormControl(10),
       sort: new FormControl('id,desc'),
