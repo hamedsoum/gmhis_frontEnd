@@ -228,7 +228,7 @@ export class PatientFormmComponent implements OnInit {
       cellPhone1: new FormControl('', [Validators.required]),
       // cellPhone2: new FormControl(''),
       birthDate: new FormControl('', [Validators.required]),
-      gender: new FormControl('', [Validators.required]),
+      // gender: new FormControl('', [Validators.required]),
       civility: new FormControl('', [Validators.required]),
       idcardType: new FormControl('', [Validators.required]),
       idCardNumber: new FormControl(''),

@@ -167,6 +167,26 @@ th{
   font-size: 0.95rem !important;
 }
 
+.iti__selected-flag {
+  z-index: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 6px 0 8px;
+  border :1px solid #ced4da;
+}
+
+.iti{
+  width: 100%;
+  padding: 0 0px 0px 47px ;
+
+}
+.iti--allow-dropdown input, .iti--allow-dropdown input[type=text], .iti--allow-dropdown input[type=tel], .iti--separate-dial-code input, .iti--separate-dial-code input[type=text], .iti--separate-dial-code input[type=tel]{
+  width: 100%;
+  border-left: 0px;
+}
+
 //nb-calendar, nb-header and ngb-modal z-index
 ngb-modal-backdrop {
   z-index: 1030 !important;

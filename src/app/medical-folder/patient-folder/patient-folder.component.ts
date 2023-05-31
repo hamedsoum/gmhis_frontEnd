@@ -18,6 +18,7 @@ import { ExaminationService } from '../examination/services/examination.service'
 
 import $ from 'jquery';
 import 'turn.js';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-patient-folder',
@@ -136,7 +137,7 @@ export class PatientFolderComponent implements OnInit {
         }
   ];
   ngOnInit(): void {
-  
+    
     this.currentDate = new Date();
     this.route.paramMap.subscribe(
       params => {
@@ -148,6 +149,7 @@ export class PatientFolderComponent implements OnInit {
           this.patientService.getPatientDetail(this.patientId).subscribe(
           (response : any) => {
             this.patient = response;
+            console.log(this.patient);
             this.showConsultationList = true;
             this.showConstantList = true;
             this.initform();
@@ -168,6 +170,9 @@ export class PatientFolderComponent implements OnInit {
           this.menuClick = res['item']['title'];
         }
       )
+  }
+  public ageFromDateOfBirthday(dateOfBirth: any): number {
+    return moment().diff(dateOfBirth, 'years');
   }
 
   public getExamination() {

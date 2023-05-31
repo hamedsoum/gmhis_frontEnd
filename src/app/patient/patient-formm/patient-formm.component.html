@@ -27,17 +27,6 @@
     <div *ngIf="patientInfo" class="patientInfo row">
       
       <input type="text" [hidden]="true" />
-      <!-- Numero patient -->
-      <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="patientExternalId" class="form-label text-capitalize">N° patient</label>
-        <span *ngIf="!details" class="text-danger">*</span>
-        <input type="text" id="patientExternalId" class="form-control" formControlName="patientExternalId"
-          [ngClass]="{'is-invalid' : !patientForm.get('patientExternalId')?.valid && patientForm.get('patientExternalId')?.touched}" />
-        <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('patientExternalId')?.errors?.required">Ce champ est requis</span>
-        </div>
-      </div> -->
-      <!-- Nom -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
         <label for="name" class="form-label text-capitalize">Nom</label>
         <span *ngIf="!details" class="text-danger">*</span>
@@ -98,22 +87,25 @@
 
       <!-- Téléphone 1 -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="cellPhone1" class="form-label text-capitalize"
-          >N° de téléphone</label
+        <label for="cellPhone1" style="display: block;" class="form-label text-capitalize"
+          >N° de téléphone
+          <span *ngIf="!details" class="text-danger">*</span>
+          </label
         >
-        <span *ngIf="!details" class="text-danger">*</span>
-        <input
-          type="number"
-          id="cellPhone1"
-          class="form-control"
-          formControlName="cellPhone1"
-          [ngClass]="{
-            'is-invalid':
-              (!patientForm.get('cellPhone1')?.valid &&
-                patientForm.get('cellPhone1')?.touched) ||
-              (!patientForm.get('cellPhone1')?.valid && formSubmitted)
-          }"
+        <input type="text"
+        id="cellPhone1"
+        class="form-control w-100"
+        formControlName="cellPhone1"
+        [ngClass]="{
+          'is-invalid':
+            (!patientForm.get('cellPhone1')?.valid &&
+              patientForm.get('cellPhone1')?.touched) ||
+            (!patientForm.get('cellPhone1')?.valid && formSubmitted)
+        }"
+        ng2TelInput
+        [ng2TelInputOptions]="{initialCountry: 'ci'}"
         />
+     
         <div class="invalid-feedback">
           <span *ngIf="patientForm.get('cellPhone1')?.errors?.required"
             >Ce champ est requis</span
@@ -121,19 +113,9 @@
         </div>
       </div>
 
-      <!-- Téléphone 2 -->
-      <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="cellPhone2" class="form-label text-capitalize"
-          >Second N° de téléphone</label
-        >
-        <input
-          type="number"
-          id="cellPhone2"
-          class="form-control"
-          formControlName="cellPhone2"
-        />
-      </div> -->
+ 
 
+  
       <!-- Date de naissance -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
         <label for="birthDate" class="form-label text-capitalize"
@@ -160,7 +142,7 @@
       </div>
 
       <!-- Sexe -->
-      <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
+      <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
         <label for="gender" class="form-label text-capitalize">Sexe</label>
         <span *ngIf="!details" class="text-danger">*</span>
         <ng-select
@@ -182,7 +164,7 @@
             >Ce champ est requis</span
           >
         </div>
-      </div>
+      </div> -->
 
       <!-- Civilité -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
@@ -287,29 +269,7 @@
         />
       </div>
 
-      <!-- Numero de sécurité -->
-      <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="cnamNumber" class="form-label text-capitalize"
-          >N° de sécurité social</label
-        >
-        <input
-          type="text"
-          id="cnamNumber"
-          class="form-control"
-          formControlName="cnamNumber"
-          [ngClass]="{
-            'is-invalid':
-              (!patientForm.get('cnamNumber')?.valid &&
-                patientForm.get('cnamNumber')?.touched) ||
-              (!patientForm.get('cnamNumber')?.valid && formSubmitted)
-          }"
-        />
-        <div class="invalid-feedback">
-          <span *ngIf="!patientForm.get('cnamNumber')?.valid"
-            >Ce champ requiet 13 caractères</span
-          >
-        </div>
-      </div> -->
+   
 
       <!-- Profession -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
@@ -364,31 +324,23 @@
 
       <!-- N° Correspondant -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="correspondantCellPhone" class="form-label text-capitalize"
+        <label for="correspondantCellPhone" style="display: blcok;" class="form-label text-capitalize"
           >Contact du correspondant</label
         >
         <div class="row">
           <div class="col">
-            <input
-              type="number"
-              id="emergencyContact"
-              class="form-control"
-              formControlName="emergencyContact"
-              placeholder="Numéro d'urgence"
+          
+            <input type="text"
+            id="emergencyContact"
+            class="form-control w-100"
+            formControlName="emergencyContact"
+            ng2TelInput
+            [ng2TelInputOptions]="{initialCountry: 'ci'}"
             />
           </div>
-          <!-- <div class="col">
-            <input
-              type="number"
-              id="emergencyContact2"
-              class="form-control"
-              formControlName="emergencyContact2"
-              placeholder="Contact 2"
-            />
-          </div> -->
+         
         </div>
-        <!-- <input type="number" id="correspondantCellPhone" class="form-control" formControlName="correspondantCellPhone"
-          [ngClass]="{ 'is-invalid': formsErrors['correspondantCellPhone'] }" /> -->
+   
       </div>
 
       <!-- Statut Matrimonial -->
@@ -408,48 +360,7 @@
         </ng-select>
       </div>
 
-      <!-- Nom Epous(e) -->
-      <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="maidenName" class="form-label text-capitalize"
-          >Nom de jeune fille</label
-        >
-        <input
-          type="text"
-          id="maidenName"
-          class="form-control"
-          formControlName="maidenName"
-          [ngClass]="{ 'is-invalid': formsErrors['maidenName'] }"
-        />
-      </div> -->
-
-      <!-- Contact d'urgence -->
-      <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="emergencyContact" class="form-label text-capitalize"
-          >Nom du père</label
-        >
-        <input
-          type="text"
-          id="emergencyContact"
-          class="form-control"
-          formControlName="fatherName"
-        />
-      </div> -->
-
-      <!-- Contact d'urgence -->
-      <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="emergencyContact" class="form-label text-capitalize">Contact d'urgence</label>
-        <input type="number" id="emergencyContact" class="form-control" formControlName="emergencyContact"
-          [ngClass]="{ 'is-invalid': formsErrors['emergencyContact'] }" />
-
-      </div> -->
-
-      <!-- Contact d'urgence 2 -->
-      <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="emergencyContact2" class="form-label text-capitalize">Contact d'urgence 2</label>
-        <input type="number" id="emergencyContact2" class="form-control" formControlName="emergencyContact2"
-          [ngClass]="{ 'is-invalid': formsErrors['emergencyContact2'] }" />
-
-      </div> -->
+  
 
       <!-- Nombre d'enfant -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
@@ -490,70 +401,7 @@
         </ng-select>
       </div>
 
-      <!-- Nom de la mère -->
-      <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="motherLastName" class="form-label text-capitalize"
-          >Nom de la mère</label
-        >
-        <span *ngIf="!details" class="text-danger">*</span>
-        <input
-          [ngClass]="{
-            'is-invalid':
-              (!patientForm.get('motherLastName')?.valid &&
-                patientForm.get('motherLastName')?.touched) ||
-              (!patientForm.get('motherLastName')?.valid && formSubmitted)
-          }"
-          type="text"
-          id="motherLastName"
-          class="form-control"
-          formControlName="motherLastName"
-        />
-        <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('motherLastName')?.errors?.required"
-            >Ce champ est requis</span
-          >
-        </div>
-      </div> -->
-
-      <!-- Prenom(s) de la mère -->
-      <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="motherFirstName" class="form-label text-capitalize"
-          >Prenom(s) de la mère</label
-        >
-        <span *ngIf="!details" class="text-danger">*</span>
-        <input
-          [ngClass]="{
-            'is-invalid':
-              (!patientForm.get('motherFirstName')?.valid &&
-                patientForm.get('motherFirstName')?.touched) ||
-              (!patientForm.get('motherFirstName')?.valid && formSubmitted)
-          }"
-          type="text"
-          id="motherFirstName"
-          class="form-control"
-          formControlName="motherFirstName"
-          [ngClass]="{ 'is-invalid': formsErrors['motherFirstName'] }"
-        />
-        <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('motherFirstName')?.errors?.required"
-            >Ce champ est requis</span
-          >
-        </div>
-      </div> -->
-
-      <!-- Profession de la mère -->
-      <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="motherProfession" class="form-label text-capitalize"
-          >Profession de la mère</label
-        >
-        <input
-          type="text"
-          id="motherProfession"
-          class="form-control"
-          formControlName="motherProfession"
-          [ngClass]="{ 'is-invalid': formsErrors['motherProfession'] }"
-        />
-      </div> -->
+      
 
       <div class="text-center fw-bold mb-2">le Patient est t-il assuré ?</div>
       <div class="insurance_choise d-flex justify-content-center">
@@ -692,74 +540,7 @@
         </div>
           </div>
 
-          <!-- isPrincipalInsured -->
-          <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-            <label
-              for="isPrincipalInsured-{{ i }}"
-              class="form-label text-capitalize"
-              >Assuré principal</label
-            >
-            <ng-select
-              class=""
-              formControlName="isPrincipalInsured"
-              (change)="isPrincipalInsuredChange(i)"
-            >
-              <ng-option
-                *ngFor="let option of isPrincipalInsuredOptions"
-                [value]="option.id"
-                >{{ option.value }}</ng-option
-              >
-            </ng-select>
-          </div> -->
-
-          <!-- patient -->
-          <!-- principalInsuredAffiliation -->
-          <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-            <label
-              for="principalInsuredAffiliation-{{ i }}"
-              class="form-label text-capitalize"
-              >Lien de parenté</label
-            >
-            <input
-              type="text"
-              id="principalInsuredAffiliation-{{ i }}"
-              class="form-control"
-              formControlName="principalInsuredAffiliation"
-            />
-          </div> -->
-          <!-- principalInsuredName -->
-          <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-            <label
-              for="principalInsuredName-{{ i }}"
-              class="form-label text-capitalize"
-              >Nom Assuré principal</label
-            >
-            <input
-              type="text"
-              id="principalInsuredName-{{ i }}"
-              class="form-control"
-              formControlName="principalInsuredName"
-            />
-          </div> -->
-          <!-- principalInsuredContact -->
-
-          <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-            <label
-              for="principalInsuredContact-{{ i }}"
-              class="form-label text-capitalize"
-              >Contact de l'assuré principale</label
-            >
-            <input
-              type="text"
-              id="principalInsuredContact-{{ i }}"
-              class="form-control"
-              formControlName="principalInsuredContact"
-              [ngClass]="{
-                'is-invalid': formsErrors['principalInsuredContact']
-              }"
-            />
-          </div> -->
-
+          
           <!-- Remove insurance -->
           <div class="col-md-6">
             <button (click)="removeInsurance(i)" class="deleteInsurance">

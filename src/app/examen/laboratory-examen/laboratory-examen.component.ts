@@ -7,6 +7,7 @@ import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
+import { LaboratoryTypeEnum } from '../examen-list/examen';
 import { IExam } from '../models/exam';
 import { IExamItemDto } from '../models/exam-item-dto';
 import { ExamService } from '../services/exam.service';
@@ -64,6 +65,11 @@ export class LaboratoryExamenComponent implements OnInit {
   pdfFile: File;
 
 
+  examenTypes = [
+    { id: true, value: LaboratoryTypeEnum.INTERN },
+    { id: false, value: LaboratoryTypeEnum.EXTERN },
+  ];
+
   constructor(
     private examenService: ExamService,
     private notificationService: NotificationService,
@@ -78,7 +84,9 @@ export class LaboratoryExamenComponent implements OnInit {
 
   initform() {
     this.searchForm = new FormGroup({
-      name: new FormControl(''),
+      analysisNumber: new FormControl(''),
+      state: new FormControl(''),
+      examenType: new FormControl(false),
       active: new FormControl(null),
       page: new FormControl(0),
       size: new FormControl(50),

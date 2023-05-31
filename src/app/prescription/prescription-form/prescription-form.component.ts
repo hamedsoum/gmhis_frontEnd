@@ -67,7 +67,6 @@ export class PrescriptionFormComponent implements OnInit {
 
   public formsErrors: { [key: string]: string } = {};
 
-  private isFormSubmitted: boolean = false;
   drugsNameAndId: any;
 
   constructor(
@@ -93,7 +92,7 @@ export class PrescriptionFormComponent implements OnInit {
   initForm() {
     this.prescriptionForm = this.fb.group({
       id: new FormControl(null),
-      examinationId: new FormControl(this.examinationId),
+      examinationId: new FormControl(38),
       observation: new FormControl(""),
       prescriptionItemsDto: this.fb.array([this.createPresciptionItem()]),
     });

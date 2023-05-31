@@ -61,10 +61,10 @@
         <div class="">T. cons (%)</div>
         <div class="strong">{{ 100 - patientInvoice?.insured?.coverage }}</div>
       </div>
-      <div class="flex-item">
+      <!-- <div class="flex-item">
         <div class="">Convention</div>
         <div class="strong">{{ patientInvoice?.convention?.name }}</div>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -96,14 +96,14 @@
   <div class="payment-section">
     <h5 class="payment-section__title">Montants</h5>
     <div class="card-payment">
-      <div class="flex-item">
+      <!-- <div class="flex-item">
         <div class="">Remise en %</div>
         <div class="strong">{{ patientInvoice?.discountInPercentage }}</div>
       </div>
       <div class="flex-item">
         <div class="">Remise en fcfa</div>
         <div class="strong">{{ patientInvoice?.discountInCfa }}</div>
-      </div>
+      </div> -->
       <div class="flex-item">
         <div class="">Part PEC</div>
         <div class="strong">{{ patientInvoice?.partTakenCareOf }}</div>
@@ -154,8 +154,9 @@
     </div>
    </div>
 
-    <div class="col-md-4 text-left">
-      <button type="submit" class="btn-submit">ENCAISSER</button>
+    <div class=" text-left">
+      <span *ngIf="amountReceivedIsvalid" [style.display]="'block'" [style.color]="'red'" class="color-danger mb-2">Veuillez entrer un montant supérieur au montant de la facture.</span>
+      <button  type="submit" class="btn btn-submit">ENCAISSER</button>
     </div>
 
     

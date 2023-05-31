@@ -40,7 +40,7 @@
    
      <div class="mb-3" formArrayName="insuredList">
         <div class="form-group  mb-2" *ngFor="let insured of insureds.controls; let i = index">
-            <div formGroupName="{{i}}" class="row d-flex align-items-end">
+            <div formGroupName="{{i}}" class="row d-flex align-items-end justify-content-center">
 
                 <div class="col-lg-2 col-md-12 col-sm-12">
                     <label for="insurance">Assurance / mutuelle</label>
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="fieldForCnamCost(i)" class="col-lg-2  col-md-12 col-sm-12">
+                <div *ngIf="fieldForCnamCost(i) && this.admissionForTemplate.admissionStatus != 'B'" class="col-lg-2  col-md-12 col-sm-12">
                     <div class="form-group">
                         <label for="{{'costToApplyCNAMInsured' + i}}">Montant Alloué à la CNAM</label>
                         <div class="input-group input-group-sm">
@@ -126,7 +126,7 @@
                             {{act.name}}</ng-option>
                     </ng-select>
                 </div>
-                <div class="col-lg-4 col-md-12 col-sm-12">
+                <div class="col-lg-3 col-md-12 col-sm-12">
                     <div class="form-group">
                         <div class="input-group-sm">
                             <label for="{{'pratician' + i}}">Practician</label>
@@ -140,7 +140,7 @@
                     </div>
                     </div>
                 </div> 
-                <div class="col-lg-3 col-md-12 col-sm-12">
+                <div class="col-lg-2 col-md-12 col-sm-12">
                     <div class="form-group">
                         <label for="{{'cost' + i}}">Cout</label>
                         <div class="input-group-sm">
@@ -148,7 +148,16 @@
                                 id="{{'cost' + i}}"> 
                     </div>
                     </div>
-                </div>      
+                </div>  
+                <div class="col-lg-2 col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="{{'cost' + i}}">Montant pris en charge par la CNAM</label>
+                        <div class="input-group-sm">
+                            <input formControlName="costToApplyCNAMInsured" type="number" name="{{'cost' + i}}"
+                                id="{{'cost' + i}}"> 
+                    </div>
+                    </div>
+                </div>    
                 <div class="col-md-1">
                     <label for=""></label>
                     <span (click)="deleteAct(i)" style=" color: red; cursor: pointer;"

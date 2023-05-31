@@ -118,9 +118,6 @@
             <th>Patient</th>
             <th>Date d'admission</th>
             <th>N° Admission</th>
-            <!-- <th>Acte</th> -->
-            <!-- <th>Assurance</th>
-            <th>Etablissement garant</th> -->
             <th>Montant</th>
             <th>Etat</th>
             <th>Actions</th>
@@ -156,11 +153,6 @@
             <td class="text-nowrap">
               {{ invoice?.admission?.admissionNumber }}
             </td>
-            <!-- <td></td> -->
-            <!-- <td class="text-nowrap">{{invoice.billActs[0].act.name}}</td> -->
-            <!-- <td class="text-nowrap">{{invoicie?.patientType}}</td> -->
-            <!-- <td class="text-nowrap">{{ invoice.insurance?.name }}</td>
-            <td>{{ invoice?.subscriber?.name }}</td> -->
             <td>
               {{ invoice?.patientPart | currency: "FCFA":"symbol":"1.0-0" }}
             </td>

@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PathologyService } from 'src/app/pathalogy/services/pathology.service';
 import { IPatient } from 'src/app/patient/patient';
 import { SymptomService } from 'src/app/symptom/services/symptom.service';
@@ -23,7 +24,7 @@ export class NewExaminationComponent implements OnInit {
    /**
    * the form
    */
-    form: FormGroup;
+    examinationForm: FormGroup;
 
     @Input() patientId: number;
 
@@ -33,8 +34,8 @@ export class NewExaminationComponent implements OnInit {
   
     @Input() startDate: Date;
 
-    @Output('addExamination') addExamination: EventEmitter<any> = new EventEmitter();
-  @Output('updateExamination') updateExamination: EventEmitter<any> = new EventEmitter();
+    @Output() addExamination: EventEmitter<any> = new EventEmitter();
+  @Output() updateExamination: EventEmitter<any> = new EventEmitter();
 
       /**
    * consultation object
@@ -67,13 +68,17 @@ export class NewExaminationComponent implements OnInit {
     * check if the form is submitted
     */
    public formSubmitted = false;
+
+   examenType: boolean;
+
   showloading: boolean;
   constructor(
     private examinationService: ExaminationService,
     private pathologyService : PathologyService,
     private symptomService : SymptomService,
     private notificationService: NotificationService,
-    private datepipe : DatePipe
+    private datepipe : DatePipe,
+    private modalService: NgbModal,
 
   ) { }
 
@@ -88,36 +93,36 @@ export class NewExaminationComponent implements OnInit {
    * init form
    */
      initForm() {
-      this.form = new FormGroup({
+      this.examinationForm = new FormGroup({
         date: new FormControl(this.datepipe.transform(new Date(), "MM-dd-yyyy")), 
-        // conclusionExamResult: new FormControl(''),
         admission: new FormControl(this.admissionId),
         conclusion: new FormControl('', Validators.required),
         examinationReasons: new FormControl('', Validators.required),
-        // examinationType: new FormControl('', Validators.required),
-        // history: new FormControl('', Validators.required),
         id: new FormControl(0),
-        // pathologies: new FormControl(null, Validators.required ),
-        // symptoms: new FormControl(null, Validators.required),
         startDate: new FormControl(this.startDate),
         pratician : new FormControl(1)
+        // conclusionExamResult: new FormControl(''),
+        // examinationType: new FormControl('', Validators.required),
+        // history: new FormControl('', Validators.required),
+        // pathologies: new FormControl(null, Validators.required ),
+        // symptoms: new FormControl(null, Validators.required),
        
       })
     }
 
-    get examinationType(){return this.form.get('examinationType');}
-    get pathology(){return this.form.get('pathologies');}
-    get conclusion(){ return this.form.get('conclusion');}
-    get symptom(){return this.form.get('symptoms');}
-    get examinationReasons(){return this.form.get('examinationReasons'); }
-    get history(){return this.form.get('conclusion');}
+    get examinationType(){return this.examinationForm.get('examinationType');}
+    get pathology(){return this.examinationForm.get('pathologies');}
+    get conclusion(){ return this.examinationForm.get('conclusion');}
+    get symptom(){return this.examinationForm.get('symptoms');}
+    get examinationReasons(){return this.examinationForm.get('examinationReasons'); }
+    get history(){return this.examinationForm.get('conclusion');}
 
     save() {
-      this.invalidFom = !this.form.valid;
+      this.invalidFom = !this.examinationForm.valid;
       this.formSubmitted = true;
-      if (this.form.valid) {
+      if (this.examinationForm.valid) {
         this.showloading = true;
-        this.examinationDto = this.form.value;
+        this.examinationDto = this.examinationForm.value;
         console.log(this.examinationDto);
   
         if (this.examinationDto.id) {
@@ -190,4 +195,24 @@ export class NewExaminationComponent implements OnInit {
       )
     }
 
+    onChooseLaboratory(addFormContent, size:string) {    
+      this.modalService.open(addFormContent, { size: size, centered : true });
+    }
+
+    ChooseLaboratoryType(exameFormContent,laboratoryType : boolean) : void {
+      this.examenType = laboratoryType;
+      // this.modalService.dismissAll();
+      this.modalService.open(exameFormContent, { size: 'xl' });
+    }
+
+
+    addExam() {
+      this.modalService.dismissAll();
+      // this.notificationService.notify(
+      //   NotificationType.SUCCESS,
+      //   "analyse démandé avec succèsssss"
+      // );
+      this.addExamination.emit();
+        }
+    
 }

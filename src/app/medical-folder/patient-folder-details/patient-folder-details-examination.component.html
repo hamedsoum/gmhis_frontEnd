@@ -1,31 +1,109 @@
 <nb-card>
+   
     <nb-card-body>
+        <div class="row d-flex justify-content-end">
+            <div class="col-lg-2">
+              <button 
+              (click)="openExaminationForm(addFormContent, 'lg')"
+                class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+                style="background-color: #14a2b8;">
+                <nb-icon icon="plus-outline"></nb-icon>
+                <span>Consultation</span>
+              </button>
+            </div>
+            <div class="col-lg-2">
+              <button (click)="onOpenModal(constantForm, 'lg')"
+                class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+                style="background-color: #14a2b8;">
+                <nb-icon icon="plus-outline"></nb-icon>
+                <span>Constante</span>
+              </button>
+            </div>        
+            <div class="col-lg-2">
+              <button 
+              (click)="onOpenModal(prescriptionFormContent, 'xl')"
+                class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+                style="background-color: #14a2b8;">
+                <nb-icon icon="plus-outline"></nb-icon>
+                <span [style.display]="'block'">Ordonnance </span>
+              </button>
+            </div>
+            <div class="col-lg-2">
+              <button 
+                class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+                style="background-color: #14a2b8;">
+                <nb-icon icon="plus-outline"></nb-icon>
+                <span [style.display]="'block'">Certificats </span>
+              </button>
+            </div>
+          </div>
         <div class="row">
             <div class="col-lg-2">
                 <nb-menu [items]="items2"  autoCollapse="true">
                 </nb-menu>
             </div>      
             <div *ngIf="showConsultationList == true && menuClick=='Consultations'" class="col-lg-10">
-                <h5 class="mb-4">CONSULTATIONS</h5>
-                <app-examination-list (updatePatientPrescriptionNumber)="updatePatientPrescriptionNumber()"  (updateExaminationNuber)="updateExaminationNuber()" [admissionId]="admissionId" [patientId]="patientId"></app-examination-list>
+                <app-examination-list [(newExamination)]="newExamination" (updatePatientPrescriptionNumber)="updatePatientPrescriptionNumber()" (updatePattientConstantNumber)="updatePattientConstantNumber()"  (updateExaminationNuber)="updateExaminationNuber()" [admissionId]="admissionId" [patientId]="patientId"></app-examination-list>
             </div>
-            <div *ngIf="menuClick=='Constantes'" class="col-lg-9"> 
-                <h5 class="mb-4">CONSTANTES</h5>
+            <div *ngIf="menuClick=='Constantes'" class="col-lg-10"> 
                 <app-patient-constant (updatePattientConstantNumber)="updatePattientConstantNumber()" *ngIf="showConstantList == true" [admissionId]="admissionId" [patientId]="patientId"></app-patient-constant>
             </div>
             <div *ngIf="menuClick=='Examens'" class="col-lg-10">
-                <h5 class="mb-4">DEMANDES D'EXAMENS</h5>
                 <app-examen-list (updatePatientExamenNumber)="updatePatientExamenNumber()" [admissionId]="admissionId" [patientId]="patientId"></app-examen-list>
             </div>
             <div *ngIf="menuClick=='Ordonances'" class="col-lg-10">
-                <h5 class="mb-4">ORDONNANCES</h5>
                 <app-prescription-list  (updatePatientPrescriptionNumber)="updatePatientPrescriptionNumber()" [admissionId]="admissionId" [patientId]="patientId"></app-prescription-list>
             </div>
             <div *ngIf="menuClick=='Certificats médicaux'" class="col-lg-10">
-                <h5 class="mb-4">CERTIFICATS MEDICAUX</h5>
                 <app-medical-certificates-list></app-medical-certificates-list>
             </div>
         </div>
     </nb-card-body>
 </nb-card>
+
+<ng-template #addFormContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
+      Ajouter une consultation
+    </h4>
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+  </div>
+  <div class="modal-body">
+    <app-new-examination [admissionId]="admissionId"  (addExamination)="addExamination()"></app-new-examination>
+  </div>
+</ng-template>
+
+<ng-template #constantForm let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
+      Ajouter une constante
+    </h4>
+    <nb-icon
+      style="cursor: pointer"
+      (click)="d('Cross click')"
+      class="h4"
+      icon="close-circle-outline"
+    ></nb-icon>
+  </div>
+  <div class="modal-body">
+    <app-patient-constant-form
+    [patientId]="patientId"
+      (addConstantType)="addConstantType()"
+    ></app-patient-constant-form>
+  </div>
+</ng-template>
+
+<ng-template #prescriptionFormContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
+      Ajouter une ordonnance
+    </h4>
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+  </div>
+  <div class="modal-body">
+    <app-prescription-form [examinationId]="examinationId" (addPrescription)="addPrescription()">
+    </app-prescription-form>
+  </div>
+</ng-template>
+
 

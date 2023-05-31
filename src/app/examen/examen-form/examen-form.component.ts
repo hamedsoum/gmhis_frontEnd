@@ -29,7 +29,8 @@ export class ExamenFormComponent implements OnInit {
     admission: 0,
     diagnostic: 'ok ok ',
     id: 0,
-    observation: null
+    observation: null,
+    examenTytpe: false
   };
   selectectedItems = [];
   medicalAnalysisSpeciality: any;
@@ -77,6 +78,17 @@ export class ExamenFormComponent implements OnInit {
     this.getAllInsuranceActive();
   }
 
+  onOpenChooseLaboratoryTypeModal( chooseLaboratoryContent) {
+    this.modalService.open(chooseLaboratoryContent, {size : 'md', centered : true})
+  }
+
+  ChooseLaboratoryType(laboratoryType : number){
+    console.log(laboratoryType);
+    if (laboratoryType == 1) this.saveExamanRequest();
+  }
+
+
+
   initForm():void {
     this.examenForm = new FormGroup({
         id : new FormControl(null),
@@ -90,12 +102,12 @@ export class ExamenFormComponent implements OnInit {
     this.actService.getListOfAllMedicalAnalysis().subscribe(
       (response : any) => {
         this.acts = response;
+        
       }
     )
   }
 
   getPrescriptionItemsIdToCollected(item) {  
-      
     this.examDto.acts = [];
     if (this.selectectedItems.includes(item)) {
       let index = this.selectectedItems.indexOf(item);
@@ -114,8 +126,8 @@ export class ExamenFormComponent implements OnInit {
     }
 }
 
-
   saveExamanRequest(){
+    this.examDto.examenTytpe = false;
     this.selectectedItems.forEach((el) => {
       this.examDto.acts.push(el["id"])
     })

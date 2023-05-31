@@ -81,7 +81,7 @@ export class InvoiceListComponent implements OnInit {
   ngOnInit(): void {
    
     this.initform();
-    this.getPatient();
+    this.getInvoice();
   }
 
   initform() {
@@ -107,10 +107,10 @@ export class InvoiceListComponent implements OnInit {
   }
 
   onSearchValueChange(): void {
-    this.getPatient();
+    this.getInvoice();
   }
 
-  public getPatient() {
+  public getInvoice() {
     this.showloading = true;
     this.subs.add(
       this.invoiceService.findAll(this.searchForm.value).subscribe(
@@ -120,9 +120,8 @@ export class InvoiceListComponent implements OnInit {
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;
-          this.items.forEach(element => {
-console.log(element["admission"]["facility"]["name"]);
-          });
+            console.log(this.items);
+            
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -140,12 +139,12 @@ console.log(element["admission"]["facility"]["name"]);
   }
 
   onIsActiveChange() {
-    this.getPatient();
+    this.getInvoice();
   }
 
   onPageChange(event) {
     this.searchForm.get('page').setValue(event - 1);
-    this.getPatient();
+    this.getInvoice();
   }
 
   // openAddForm(addFormContent) {
@@ -159,6 +158,8 @@ console.log(element["admission"]["facility"]["name"]);
   // }
 
   openPaymentForm(paymentFormContent, item?) {
+    console.log(item);
+    
     this.invoice = item;
     this.makeInvoice = false;
     console.log(this.invoice);
@@ -171,7 +172,7 @@ console.log(element["admission"]["facility"]["name"]);
       NotificationType.SUCCESS,
       'admission modifié avec succès'
     );
-    this.getPatient();
+    this.getInvoice();
   }
 
 addInvoice(){
@@ -180,7 +181,7 @@ addInvoice(){
     NotificationType.SUCCESS,
     'facture crée avec succès'
   );
-  this.getPatient();
+  this.getInvoice();
 }
 
 
@@ -190,7 +191,7 @@ addPayment(){
     NotificationType.SUCCESS,
     'facture encaissée avec succès'
   );
-  this.getPatient();
+  this.getInvoice();
 }
 
 

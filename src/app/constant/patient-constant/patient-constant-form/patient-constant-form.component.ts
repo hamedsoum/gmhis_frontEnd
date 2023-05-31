@@ -44,7 +44,7 @@ export class PatientConstantFormComponent implements OnInit {
   details: boolean;
 
   @Input()
-  patient: IPatient;
+  patientId: number;
   
   patientConstantDto : IPatientConstantDto
 
@@ -111,7 +111,6 @@ export class PatientConstantFormComponent implements OnInit {
 
   public formsErrors: { [key: string]: string } = {};
 
-  private isFormSubmitted: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -126,7 +125,7 @@ export class PatientConstantFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.patient);
+    console.log(this.patientId);
     
     this.globalGenericValidator = new GlobalGenerateValidator(
       this.validatiomMessage
@@ -136,16 +135,7 @@ export class PatientConstantFormComponent implements OnInit {
     if (this.constantType) {
       console.log(this.constantType);
       this.constantTypeForm.patchValue(this.constantType);
-      // this.subs.add(
-      //   this.communeService.getCommuneDetails(this.commune).subscribe(
-      //     (response : Commune)=>{
-      //       this.communeForm.patchValue(response);
-      //       if (this.details) {
-      //         this.communeForm.disable();
-      //       }
-      //     }
-      //   )
-      // )
+    
     }
   }
 
@@ -157,8 +147,6 @@ export class PatientConstantFormComponent implements OnInit {
 
     merge(this.constantTypeForm.valueChanges, ...formControlBlurs)
       .pipe(
-        //si on clique sur le boutton sauvegarder ne pas utiliser le debounce time sinon l'utiliser pour les autres
-        // debounce(() => this.isFormSubmitted ? EMPTY : timer(800))
         debounceTime(500)
       )
       .subscribe(() => {
@@ -166,7 +154,6 @@ export class PatientConstantFormComponent implements OnInit {
           this.constantTypeForm,
           this.formSubmitted
         );
-        console.log('error :', this.formsErrors);
       });
   }
 
@@ -190,7 +177,7 @@ export class PatientConstantFormComponent implements OnInit {
       description: [''],
       constant: [null],
       observation : [""],
-      patient : [this.patient.id]
+      patient : [this.patientId]
     });
   }
 

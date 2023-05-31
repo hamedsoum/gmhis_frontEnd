@@ -12,8 +12,8 @@
                         <span >{{patient?.firstName+' '+patient?.lastName | uppercase}}</span>
                     </div>
                     <div>
-                        <span class="spanDefault">date de naissance :</span>                     
-                       <span > {{patient?.birthDate - currentDate | date : 'dd/MM/yyy'}}</span>
+                        <span class="spanDefault">date de naissance : </span>  
+                        <span> {{ ageFromDateOfBirthday(patient?.birthDate)}} ans</span>                   
                     </div>
                 </div>
                 <div class="col-lg-4"> 
@@ -41,7 +41,14 @@
         </div>
     </nb-card-header>
     <nb-card-body>
-     
+     <div class="w-100 d-flex justify-content-end">
+      <button (click)="openAddForm(addFormContent)"
+      class="text-capitalize btn mb-2 btn-block d-flex align-items-center justify-content-center text-white rounded"
+      style="background-color: #14a2b8;">
+      <nb-icon icon="plus-outline"></nb-icon>
+      <span>consultation</span>
+    </button>
+     </div>
         <div  class="row">
            <div
            [style.cursor]="'pointer'"

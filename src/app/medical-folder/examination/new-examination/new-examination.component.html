@@ -1,27 +1,11 @@
-<form [formGroup]='form' (submit)='save()'>
+<form [formGroup]='examinationForm' (submit)='save()'>
     <div class="row">
-        <div class="col-md-12">
-            <label class="fw-bold mb-2" for="date">Date : &nbsp;</label>
-            <input type="text" formControlName="date" class="form-control" disabled>
-        </div>
-
-        <!-- <div class="col-md-12">
-            <label for="symptoms" class="fw-bold mb-2">Choix de symptômes
-                <span class="text-danger">*</span>
-            </label>
-            <ng-select formControlName="symptoms" [multiple]="true">
-                <ng-option *ngFor="let symptom of symptoms" [value]="symptom.id"> {{symptom.name}}
-                </ng-option>
-            </ng-select>
-            <span class="text-danger" *ngIf="formSubmitted && !form.controls.symptoms.valid">
-                <div *ngIf="symptom.errors.required" class="text-danger">Veuillez choisir les symptomes </div>
-            </span>
-        </div> -->
+  
         <div class="col-md-12">
             <label class="fw-bold mb-2" for="reason">Motif de la consultation<span class="text-danger">*</span></label>
             <textarea class="form-control" formControlName="examinationReasons" rows="8"
                 placeholder="Motif de la consultation"></textarea>
-            <span class="text-danger" *ngIf="formSubmitted && !form.controls.examinationReasons.valid">
+            <span class="text-danger" *ngIf="formSubmitted && !examinationForm.controls.examinationReasons.valid">
                 <div *ngIf="examinationReasons.errors.required" class="text-danger">Veuillez renseigner le motif de la
                     consultation </div>
             </span>
@@ -33,13 +17,49 @@
             </label>
             <textarea class="form-control " formControlName="conclusion" rows="8"
                 placeholder="Diagnonstic l'Interrogatoire"></textarea>
-            <span class="text-danger" *ngIf="formSubmitted && !form.controls.conclusion.valid">
+            <span class="text-danger" *ngIf="formSubmitted && !examinationForm.controls.conclusion.valid">
                 <div *ngIf="conclusion.errors.required" class="text-danger">Veuillez remplir ce champs</div>
             </span>
         </div>
     </div>
   
-    <div [style.margin-top]="'20px'" class="col-md-6">
-        <button type="submit" class="btn-submit">Enregistrer</button>
-    </div>
+   
 </form>
+<div [style.margin-top]="'20px'" class=" d-flex justify-content-end">
+    <button (click)="save()" class="btn-submit mx-4">Enregistrer</button>
+    <button  class="btn-submit " (click)="onChooseLaboratory(chooseLaboratoryContent, 'md')">Examen</button>
+
+</div>
+<ng-template #exameFormContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
+        Demande d'analayse(s)
+      </h4>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+    <div class="modal-body">
+      <app-examen-form  [admissionId]="admissionId" (addExam)="addExam()"></app-examen-form>
+    </div>
+  </ng-template>
+
+<ng-template #chooseLaboratoryContent let-c="close" let-d="dismiss">
+    <div class="modal-header ">
+      <small>Selectionner le Type de Laboratoire ?</small>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+    <div class="modal-body d-flex justify-content-center">
+        <button (click)="ChooseLaboratoryType(exameFormContent,false)" class="btn btn-danger mx-2">Externe</button>
+        <button (click)="ChooseLaboratoryType(exameFormContent,true)" class="btn btn-success">Interne</button>
+    </div>
+  
+  </ng-template>

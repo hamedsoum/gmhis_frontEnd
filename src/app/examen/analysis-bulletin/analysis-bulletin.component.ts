@@ -96,6 +96,8 @@ export class AnalysisBulletinComponent implements OnInit {
     this.examenService.getAnalysisRequestItemsByAnalysisId(analysisId).subscribe(
       (response : any) => {
         this.analysisRequestItems = response;
+        console.log();
+        
         this.medicalAnalysisSpeciality = [];
         this.analysisRequestItems.forEach((el,i)=>{
           this.removeDuplicates(this.medicalAnalysisSpeciality,el["medicalAnalysisName"]);    
@@ -119,7 +121,6 @@ export class AnalysisBulletinComponent implements OnInit {
     this.examenService.getAnalysisRequestRquestFiles(analysisId).subscribe(
       (response : any) => {
         this.medicalAnalysisResultFiles = response;
-        console.log(this.medicalAnalysisResultFiles);
                 
       },
       (errorResponse: HttpErrorResponse) => {

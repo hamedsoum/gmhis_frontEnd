@@ -68,6 +68,7 @@
       </div>
     </div>
     <button
+    *ngIf="allPrescriptionWasCollected"
     (click)="collectedPrescription(invoicePrescriptionModal)"
     style="background-color: #14a2b8;"
     class="text-capitalize btn btn-block w-25 text-white rounded mt-4"

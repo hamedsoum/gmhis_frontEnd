@@ -2,9 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { IExamDto } from 'src/app/examen/models/exam-dto';
+import { ExamService } from 'src/app/examen/services/exam.service';
 import { PaymentTypeService } from 'src/app/payment-type/service/payment-type.service';
-import { Invoice } from 'src/app/_models/invoice.model';
-import { InvoiceSavService } from 'src/app/_services/afterSalesService/invoice-sav.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { InvoiceService } from '../service/invoice.service';
@@ -21,15 +21,27 @@ export class PaymentComponent implements OnInit {
   @Output('addPayment') addPayment: EventEmitter<any> = new EventEmitter();
   selectedSize: number;
 
+
   paymentTypeList = [
     { id: 'E', value: 'Espèce' },
     { id: 'M', value: 'Mobile Money' },
     { id: 'B', value: 'Bancaire' },
   ];
 
+  examDto: IExamDto = {
+    acts: [],
+    admission: 0,
+    diagnostic: 'ok ok ',
+    id: 0,
+    observation: null,
+    examenTytpe: false
+  };
+
   public paymentForm!: FormGroup;
   patientInvoice: any;
   paymentTypes: any;
+  amountReceived: any;
+  amountReceivedIsvalid: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -37,7 +49,9 @@ export class PaymentComponent implements OnInit {
     private notificationService: NotificationService,
     config: NgbModalConfig,
     private modalService: NgbModal,
-    private paymentTypeService: PaymentTypeService
+    private paymentTypeService: PaymentTypeService,
+    private examenService: ExamService
+
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -46,6 +60,10 @@ export class PaymentComponent implements OnInit {
   ngOnInit(): void {
     if (this.invoice) {
       this.patientInvoice = this.invoice;
+      this.examDto.admission = this.patientInvoice.admission.id;
+      console.log(this.examDto);
+
+
     }
     this.initForm();
     console.log(this.invoice);
@@ -60,35 +78,41 @@ export class PaymentComponent implements OnInit {
       paymentType: new FormControl(''),
       bill: new FormControl(null),
       admissionNumber: new FormControl({ value: '', disabled: true }),
-      amountReceived : new FormControl(null),
-      amountReturned : new FormControl(null)
+      amountReceived: new FormControl(0),
+      amountReturned: new FormControl(null)
     });
   }
 
   collectAmount() {
     let cashRegister = this.paymentForm.get('cashRegister').value;
     let paymentType = this.paymentForm.get('paymentType').value;
+    let amountReceived = this.paymentForm.get("amountReceived").value;
 
     let data = {
       cashRegister: cashRegister,
       bill: this.patientInvoice.id,
       paymentType: paymentType,
-      amountReceived : this.paymentForm.get('amountReceived').value,
-      amountReturned : this.paymentForm.get('amountReturned').value
+      amountReceived: this.paymentForm.get('amountReceived').value,
+      amountReturned: this.paymentForm.get('amountReturned').value
     };
-    console.log(data);
 
-    this.invoiceService.collectAmount(data).subscribe(
-      (response: any) => {
-        this.addPayment.emit();
-      },
-      (errorResponse: HttpErrorResponse) => {
-        this.notificationService.notify(
-          NotificationType.ERROR,
-          errorResponse.error.message
-        );
-      }
-    );
+    if (amountReceived < this.patientInvoice?.patientPart) {
+      this.amountReceivedIsvalid = true;
+    } else {
+      this.invoiceService.collectAmount(data).subscribe(
+        (response: any) => {
+          this.saveExamanRequest();
+          this.addPayment.emit();
+        },
+        (errorResponse: HttpErrorResponse) => {
+          this.notificationService.notify(
+            NotificationType.ERROR,
+            errorResponse.error.message
+          );
+        }
+      );
+    }
+
   }
 
   private findPaymentTypesActiveNameAndIds() {
@@ -99,9 +123,41 @@ export class PaymentComponent implements OnInit {
       });
   }
 
-  getamountReceived(){
+  getamountReceived() {
     let amountReceived = this.paymentForm.get("amountReceived").value;
-    let amountReturned = amountReceived > this.patientInvoice?.patientPart ? amountReceived - this.patientInvoice?.patientPart : 0;
+    let amountReturned = 0;
+    if (amountReceived > this.patientInvoice?.patientPart) {
+      amountReturned = amountReceived - this.patientInvoice?.patientPart;
+      this.amountReceivedIsvalid = false;
+
+    } else {
+      amountReturned = 0;
+
+    }
     this.paymentForm.get("amountReturned").setValue(amountReturned);
+
+  }
+
+  saveExamanRequest() {
+    this.examDto.examenTytpe = true;
+    this.patientInvoice?.billActs.forEach((el) => {
+      this.examDto.acts.push(el["id"])
+    })
+
+    this.amountReceivedIsvalid = false;
+
+    this.examenService.createExam(this.examDto).subscribe(
+      (response: any) => {
+        this.modalService.dismissAll();
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.notificationService.notify(
+          NotificationType.ERROR,
+          errorResponse.error.message
+        );
+      }
+    )
+
+
   }
 }

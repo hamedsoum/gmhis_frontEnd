@@ -22,7 +22,6 @@ import { ConstantListComponent } from './patient-constant/constant-list/constant
     ConstantListComponent,
   ],
   imports: [CommonModule, ConstantRoutingModule, SharedModule],
-  exports: [PatientConstantComponent,
-  ]
+  exports: [PatientConstantComponent,PatientConstantFormComponent]
 })
 export class ConstantModule {}

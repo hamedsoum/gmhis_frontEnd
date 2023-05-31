@@ -102,12 +102,9 @@ export class PatientInWaitingRoomComponent implements OnInit {
     this.modalService.open(checkPatientNumberModal, {size : 'md', centered : true})
   }
 
-  onVerifyCheckPatientNumber(){   
-    console.log(this.admissionId);
-     
+  onVerifyCheckPatientNumber(){        
     this.modalService.dismissAll();
     this.route.navigateByUrl(`/medical-folder/patient-folder/${this.admissionId}`)
-    console.log(this.PatientDPIChecknumber);
   }
 
 

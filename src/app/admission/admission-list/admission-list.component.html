@@ -53,10 +53,7 @@
                       placeholder="N° du Patient"
                     />
                   </div>
-                  <!-- <div class="col-lg-3 col-md-4 col-sm-12 mb-1 rounded-pill">
-                    <input [nbDatepicker]="datepicker" class="form-control" formControlName="date">
-                    <nb-rangepicker #datepicker ></nb-rangepicker>
-                  </div> -->
+             
                   <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
                     <ng-select formControlName="admissionStatus" placeholder="choisisez une date">
                         <ng-option *ngFor="let admissionStatu of admissionStatus" [value]="admissionStatu.id">
@@ -64,15 +61,6 @@
                         </ng-option>
                       </ng-select>
                   </div>
-
-                  <!-- <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                    <ng-select formControlName="practician" placeholder="practicien">
-                        <ng-option *ngFor="let practician of practicians" [value]="practician.userId">
-                          {{practician.userFirstName +" "+ practician.userLastName}}
-                        </ng-option>
-                      </ng-select>
-                  </div> -->
-
                   <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
                     <ng-select formControlName="service" placeholder="service">
                         <ng-option *ngFor="let actServiceNameAndId of actServicesNameAndId" [value]="actServiceNameAndId.id">
@@ -176,18 +164,9 @@
                      Modifier
                     </button>
                     <button 
-                    class="text-center" 
-                    ngbDropdownItem>patienttèle</button>
-                    <button class="text-center" ngbDropdownItem>Supprimer</button>
-                    <button 
                      class="text-center"
                     (click)="openInvoiceForm(invoiceFormContent, admission)"
                     ngbDropdownItem>Facture</button>
-                    <button class="text-center" ngbDropdownItem>Pharmacie</button>
-                    <button class="text-center"
-                    (click)="printInvoice(printContent)"
-                     ngbDropdownItem
-                     >Edit PDF</button>
                   </div>
                 </div>
               </td>
@@ -255,7 +234,6 @@
     <div class="modal-body">
       <app-invoice-form
         [admission]="admission"
-        [makeInvoiceByAdmission]="makeInvoiceByAdmission"
         (addInvoice)="addInvoice()"
       ></app-invoice-form>
     </div>

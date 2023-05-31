@@ -21,7 +21,7 @@ import { AnalysisBulletinComponent } from './analysis-bulletin/analysis-bulletin
 
   ],
   exports: [
-    ExamenListComponent
+    ExamenListComponent, ExamenFormComponent
   ]
 })
 export class ExamenModule { }

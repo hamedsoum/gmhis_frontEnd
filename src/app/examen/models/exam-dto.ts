@@ -3,5 +3,6 @@ export interface IExamDto {
         admission: number,
         diagnostic: string,
         id: number,
-        observation: string   
+        observation: string ,
+        examenTytpe : boolean  
 }

@@ -12,12 +12,12 @@
         <div class="col-lg-9 col-md-9 col-sm-12">
           <div class="row">
             <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-              <input type="text" class="form-control" formControlName="name" placeholder="Code" />
+              <input type="text" class="form-control" formControlName="analysisNumber" placeholder="N° de demande " />
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-              <ng-select placeholder="Etat" formControlName="active">
-                <ng-option *ngFor="let actif of actives" [value]="actif.id">{{
-                  actif.value
+            <div class="col-lg-4 col-md-4 col-sm-12 mb-2 rounded-pill">
+              <ng-select placeholder="Type d'Examen" formControlName="examenType">
+                <ng-option *ngFor="let examenType of examenTypes" [value]="examenType.id">{{
+                  examenType.value
                   }}</ng-option>
               </ng-select>
             </div>

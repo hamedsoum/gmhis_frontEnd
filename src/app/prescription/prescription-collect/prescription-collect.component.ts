@@ -50,12 +50,11 @@ export class PrescriptionCollectComponent implements OnInit {
     let prescriptionNumber = this.searchForm.get('prescriptionNumber').value;
     this.prescriptionService.getPrescriptionDetailsByPrescriptionNumber(prescriptionNumber).subscribe(
       (res : any) => {
-        this.prescriptionInfos = res;
-        console.log(this.prescriptionInfos);
-        
+        this.prescriptionInfos = res;        
         this.prescriptionService.getPrescriptionItemByPrescriptionId(this.prescriptionInfos['id']).subscribe(
           (res : any ) => {
             this.perscriptionItems = res;
+            this.allPrescriptionWasCollected;
             this.showloading = false;
             this.searchForm.get('prescriptionNumber').setValue("");
           }
@@ -81,18 +80,26 @@ export class PrescriptionCollectComponent implements OnInit {
   }
 
   collectedPrescription( invoicePrescriptionModal){
-    this.modalService.dismissAll();
-    this.modalService.open(invoicePrescriptionModal, { size: 'xl' });  
-    // this.prescriptionService.setPrescriptionItems(this.prescriptionItemsId).subscribe(
-    //   (res : any) => {
-    //     this.modalService.dismissAll();
-    //     this.notificationService.notify(
-    //       NotificationType.SUCCESS,
-    //       "medicaments(s) collecté avec succès"
-    //     );
+    // this.modalService.dismissAll();
+    // this.modalService.open(invoicePrescriptionModal, { size: 'xl' });  
+    this.prescriptionService.setPrescriptionItems(this.prescriptionItemsId).subscribe(
+      (res : any) => {
+        this.modalService.dismissAll();
+        this.notificationService.notify(
+          NotificationType.SUCCESS,
+          "medicaments(s) collecté avec succès"
+        );
         
-    //   }
-    // )
+      }
+    )
   }
 
+
+get allPrescriptionWasCollected() : boolean {    
+    let perscriptionItemCollectedStatus:boolean[] = [];
+    this.perscriptionItems.forEach(el =>{
+      perscriptionItemCollectedStatus.push(el.collected);
+    })    
+    return perscriptionItemCollectedStatus.includes(false);
+  }
 }

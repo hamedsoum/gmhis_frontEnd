@@ -17,7 +17,10 @@ export class ExamService {
     let queryParams = {};
     queryParams = {
       params: new HttpParams()
-        .set('patient', data['patient'])
+        .set('state', data['state'])
+        .set('patientExternalId', data['patientExternalId'])
+        .set('analysisNumber', data['analysisNumber'])
+        .set('examenType', data['examenType'])
         .set('page', data['page'])
         .set('size', data['size'] ?? '')
         .set('active', data['active'] ?? '')
