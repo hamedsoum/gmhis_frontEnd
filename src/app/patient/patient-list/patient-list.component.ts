@@ -72,11 +72,11 @@ export class PatientListComponent implements OnInit {
   initform() {
     this.searchForm = new FormGroup({
       patientExternalId: new FormControl(''),
-      firstName: new FormControl(null),
-      cellPhone: new FormControl(null),
-      lastName: new FormControl(null),
-      cnamNumber: new FormControl(null),
-      idCardNumber: new FormControl(null),
+      firstName: new FormControl(''),
+      cellPhone: new FormControl(''),
+      lastName: new FormControl(''),
+      cnamNumber: new FormControl(''),
+      idCardNumber: new FormControl(''),
       page: new FormControl(0),
       size: new FormControl(50),
       sort: new FormControl('id,desc'),

@@ -1,11 +1,6 @@
 <nb-card class="nbCardList">
     <nb-card-header class="row d-flex justify-content-between align-items-center">
       <div class="col-lg-7 col-md-3 col-sm-12">
-        <!-- <h4
-          class="text-capitalize d-flex justify-content-start w-100 text-center"
-        >
-          Liste des constante du Patient 
-        </h4> -->
       </div>
  
     </nb-card-header>
@@ -13,30 +8,24 @@
       <div class="tableFixHead">
         <table class="table table-bordered table-hover table-md align-middle">
           <thead class="pb-3 text-capitalize">
-            <tr class="pb-3">
-              <th>Date</th>
-              <th>Contante</th>
-              <th>Valeur</th>
-              <th>Description</th>
+            <tr
+             class="pb-3">
+              <th *ngFor="
+              let constant of items
+              let i = index
+            ">{{constant?.constant}}</th>
             </tr>
   
             <tr></tr>
           </thead>
   
           <tbody>
-            <tr
-           
-              *ngFor="
-                let constant of items
-                let i = index
-              "
-              [class.active]="i == currentIndex"
-              (click)="rowSelected(commune, i)"
-            >
-              <td>{{ constant?.takenAt | date: "medium" }}</td>
-              <td>{{ constant?.constant  }}</td>
-              <td  [ngClass]="{'badConstant' : constant?.badConstant == true}">{{ constant?.value }}</td>
-              <td>{{ constant?.observation }}</td>
+            <tr>
+              <td *ngFor="
+              let constant of items
+              let i = index
+            " 
+            [style.textAlign]="'center'">{{ constant?.value }}</td>
             </tr>
           </tbody>
         </table>

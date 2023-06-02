@@ -19,11 +19,12 @@ import { ExamService } from '../services/exam.service';
 export class ExamenFormComponent implements OnInit {
   acts: INameAndId;
 
-  @Output('addExam') addExam: EventEmitter<any> =
-  new EventEmitter();
+  @Output() addExam: EventEmitter<any> = new EventEmitter();
   
-  @Input()
-  admissionId : number;
+  @Input() admissionId : number;
+
+  @Input() examenType : boolean;
+
   examDto : IExamDto = {
     acts: [],
     admission: 0,
@@ -71,6 +72,8 @@ export class ExamenFormComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    console.log(this.examenType);
+    
     this.getAllAct();
     this.examDto.admission = this.admissionId;
     this.getAllMedicalAnalysisSpeciality();

@@ -16,12 +16,12 @@ export class PatientService {
     let queryParams = {};
     queryParams = {
       params: new HttpParams()
-        .set('patientExternalId', data['patientExternalId'])
-        .set('firstName', data['firstName'] ?? '')
-        .set('lastName', data['lastName'] ?? '')
-        .set('cellPhone', data['cellPhone'] ?? '')
-        .set('cnamNumber', data['cnamNumber'] ?? '')
-        .set('idCardNumber', data['idCardNumber'] ?? '')
+        .set('patientExternalId', data['patientExternalId'].trim() )
+        .set('firstName', data['firstName'].trim() ?? '')
+        .set('lastName', data['lastName'].trim() ?? '')
+        .set('cellPhone', data['cellPhone'].trim() ?? '')
+        .set('cnamNumber', data['cnamNumber'].trim() ?? '')
+        .set('idCardNumber', data['idCardNumber'].trim() ?? '')
         .set('page', data['page'])
         .set('size', data['size'] ?? '')
         .set('sort', data['sort']),

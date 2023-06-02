@@ -117,7 +117,6 @@
               <th>Service</th>
               <th>Motif d'admission</th>
               <th>Médecin</th> 
-              <!-- <th>Admis par</th>      -->
               <th>Facturé</th>
               <th>Actions</th>   
             </tr>
@@ -141,8 +140,8 @@
               <td class="text-nowrap ">{{admission.admissionDate | date:  "dd/MM/yyyy HH:mm:ss"}}</td>
               <td>{{admission?.admissionNumber | uppercase }}</td>
               <td class="text-nowrap">{{admission.patientExternalId}}</td>
-              <td class="text-nowrap">{{admission.patientFirstName}}</td>
               <td class="text-nowrap">{{admission.patientLastName}}</td>
+              <td class="text-nowrap">{{admission.patientFirstName}}</td>
               <td class="text-nowrap">{{admission.service}}</td>
               <td class="text-nowrap">{{admission.act}}</td>
               <td>Dr {{admission.practicianFirstName}} {{admission.practicianLastName}}</td>

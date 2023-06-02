@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { map } from 'rxjs/operators';
 import { IPatient } from 'src/app/patient/patient';
 import { PatientService } from 'src/app/patient/patient.service';
 import { PageList } from 'src/app/_models/page-list.model';
@@ -12,11 +13,7 @@ import { SubSink } from 'subsink';
 import { IPatientConstant } from './models/patient-constant';
 import { PatientConstantService } from './service/patient-constant.service';
 
-@Component({
-  selector: 'app-patient-constant',
-  templateUrl: './patient-constant.component.html',
-  styleUrls: ['./patient-constant.component.scss']
-})
+@Component({selector: 'app-patient-constant',templateUrl: './patient-constant.component.html'})
 export class PatientConstantComponent implements OnInit {
 
   private subs = new SubSink();
@@ -52,9 +49,13 @@ export class PatientConstantComponent implements OnInit {
   @Input()
   patientId: number;
 
+  @Input()
+  newConstantsButtonVisibled: boolean = true ;
 
   @Output('updatePattientConstantNumber') updatePattientConstantNumber: EventEmitter<any> =
   new EventEmitter();
+  uniquefieldHeader: string[];
+  uniqueTableHeaders: any[];
   constructor(
     private route : ActivatedRoute,
     private patientConstantService : PatientConstantService,
@@ -79,8 +80,6 @@ export class PatientConstantComponent implements OnInit {
         this.getPatientDetailsByPatientId(id);
       }
       ) 
-
-    
   }
 
   initform() {
@@ -88,7 +87,7 @@ export class PatientConstantComponent implements OnInit {
       patientId: new FormControl(null),
       date: new FormControl(""),
       page: new FormControl(0),
-      size: new FormControl(10),
+      size: new FormControl(25),
       sort: new FormControl('id,desc'),
     });
   }
@@ -97,20 +96,52 @@ export class PatientConstantComponent implements OnInit {
     this.getPatientConstant();
   }
 
+
+  
   public getPatientConstant() {
     this.showloading = true;
     if (this.patientId) {
       this.searchForm.get("patientId").setValue(this.patientId);
     }
     this.subs.add(
-      this.patientConstantService.findAll(this.searchForm.value).subscribe(
+      this.patientConstantService.findAll(this.searchForm.value).
+      pipe(
+        map((response: PageList) => {
+            let data = response.items;            
+            const constantgroupedByDate : any[] = data.reduce((constantGroup: {[key: string]: any[]}, item) => {
+              if (!constantGroup[item.takenAt]) {
+               constantGroup[item.takenAt] = [];
+              }
+              constantGroup[item.takenAt].push(item);      
+              return constantGroup;
+             }, {});
+             let constantTab  = [];
+             let TableHeader  = [];
+             Object.values(constantgroupedByDate).forEach((el, i) => {
+              let newObject = {};
+               el.forEach((item) => {
+                newObject[`${item['constant']}`] = item['value'];
+               })
+               constantTab.push(newObject);
+             } )
+             constantTab.forEach((item) => {
+              Object.keys(item).forEach(key => {
+                TableHeader.push(key);
+              })
+             })   
+             this.uniqueTableHeaders = [...new Set(TableHeader)];
+             response.items = constantTab;
+          return response;
+        })
+    )
+      .subscribe(
         (response: PageList) => {
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;
-          console.log(this.items); 
+          console.log(this.items);
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;

@@ -116,8 +116,6 @@ export class InvoiceFormComponent implements OnInit {
     this.addActs();
     if (this.admission) {
       this.admissionForTemplate = this.admission;
-      console.log(this.admissionForTemplate);
-
       this.invoiceForm.get('admissionNumber').setValue(this.admission.admissionNumber);
       this.invoiceForm.get('admission').setValue(this.admission.id);
       this.invoiceForm.get('patientExternalId').setValue(this.admission.patientExternalId);
@@ -197,12 +195,10 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   dateOutputFormat(date: Date): string {
-
     let newDate = new Date(date);
     let day = ("0" + newDate.getDate()).slice(-2);
     let month = ("0" + (newDate.getMonth() + 1)).slice(-2);
     let year = newDate.getFullYear();
-
     return day + '/' + month + '/' + year;
   }
 
@@ -267,19 +263,13 @@ export class InvoiceFormComponent implements OnInit {
     this.onCalculInvoiceCost();
     this.invoiceForm.get('patientPart').setValue(this.partientPart);
     this.invoiceForm.get('partTakenCareOf').setValue(this.partPecByOthherInsurance + this.partPecByCNAM);
-    this.invoiceForm.get('patientType').value;
-    this.invoiceForm.get('patientType').value;
-
     this.invoiceDto = this.invoiceForm.getRawValue();
     if (!!this.InvoiceType)  this.invoiceDto.billType = this.InvoiceType;
-    console.log(this.invoiceDto);
     this.invoiceDto.acts.forEach((el, index) => {
       el["admission"] = this.admissionForTemplate.id
     })
     this.invoiceService.createInvoice(this.invoiceDto).subscribe(
       (response: any) => {
-        console.log(response);
-
         this.addInvoice.emit();
       },
       (errorResponse: HttpErrorResponse) => {

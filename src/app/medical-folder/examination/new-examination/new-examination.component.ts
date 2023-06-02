@@ -69,6 +69,7 @@ export class NewExaminationComponent implements OnInit {
     */
    public formSubmitted = false;
 
+   // => examenType has two values, true for internal examinations and false for external examinations
    examenType: boolean;
 
   showloading: boolean;
@@ -196,7 +197,14 @@ export class NewExaminationComponent implements OnInit {
     }
 
     onChooseLaboratory(addFormContent, size:string) {    
-      this.modalService.open(addFormContent, { size: size, centered : true });
+      if(this.examinationForm.get('examinationReasons').value == ''){
+        this.notificationService.notify(
+          NotificationType.ERROR,
+         'veuillez préciser le motif de la consultation avant de demander un examen'
+        ); 
+      }else{
+        this.modalService.open(addFormContent, { size: size, centered : true });
+      }
     }
 
     ChooseLaboratoryType(exameFormContent,laboratoryType : boolean) : void {
@@ -208,10 +216,7 @@ export class NewExaminationComponent implements OnInit {
 
     addExam() {
       this.modalService.dismissAll();
-      // this.notificationService.notify(
-      //   NotificationType.SUCCESS,
-      //   "analyse démandé avec succèsssss"
-      // );
+      this.save();
       this.addExamination.emit();
         }
     

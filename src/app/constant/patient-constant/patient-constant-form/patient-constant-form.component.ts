@@ -1,235 +1,115 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChildren,
-} from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormControlName,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { fromEvent, merge, Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
-import { IPatient } from 'src/app/patient/patient';
-import { GlobalGenerateValidator } from 'src/app/shared/validators/global-generic.validator';
+import {Component,EventEmitter,Input, OnInit,Output } from '@angular/core';
+import {FormArray,FormBuilder,FormControl,FormGroup,} from '@angular/forms';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
 import { IConstant } from '../../constantDomain/constant.model';
 import { IConstantType } from '../../constantType/constant-type.model';
 import { ConstantTypeService } from '../../constantType/constant-type.service';
-import { IPatientConstantDto } from '../models/patient-constant-dto';
+import { IPatientConstantDto as constantCreateData } from '../models/patient-constant-dto';
 import { PatientConstantService } from '../service/patient-constant.service';
 
-@Component({
-  selector: 'app-patient-constant-form',
-  templateUrl: './patient-constant-form.component.html',
-  styleUrls: ['./patient-constant-form.component.scss'],
-})
-export class PatientConstantFormComponent implements OnInit {
+@Component({selector: 'app-patient-constant-form',templateUrl: './patient-constant-form.component.html'})
+export class CreateConstantFormComponent implements OnInit {
+  
   private subs = new SubSink();
 
-  @Input()
-  constantType: IConstantType;
-
-  @Input()
-  details: boolean;
-
-  @Input()
-  patientId: number;
+  @Input() constantType: IConstantType;
+  @Input() details: boolean;
+  @Input() patientId: number;
   
-  patientConstantDto : IPatientConstantDto
 
-  @Output('addConstantType') addConstantType: EventEmitter<any> =
-    new EventEmitter();
-  @Output('updateConstantType') updateConstantType: EventEmitter<any> =
-    new EventEmitter();
+  @Output() addConstantType = new EventEmitter();
+  @Output() updateConstantType = new EventEmitter();
 
 
-  /**
-   * form
-   */
-  public constantTypeForm: FormGroup;
+  public ConstantsCreateForm: FormGroup;
+  public createConstantFormIsInvalid:boolean = false;
+  public createConstantFormIsSubmitted:boolean = false;
+  public spinnerIsVisibled: boolean = false;
 
-  /**
-   * the form valid state
-   */
-  public invalidFom = false;
 
-  /**
-   * check if the form is submitted
-   */
-  public formSubmitted = false;
-
-  /**
-   * define isActive options
-   */
   states = [
     { id: true, value: 'Actif' },
     { id: false, value: 'En sommeil' },
   ];
-
-  /**
-   * handle the spinner
-   */
-  showloading: boolean = false;
-
   actives = [
     { id: true, value: 'Actif' },
     { id: false, value: 'Inactif' },
   ];
-  constantDomainList: IConstant[];
 
-  private validatiomMessage: { [key: string]: { [key: string]: string } } = {
-    hotelName: {
-      required: "Le nom de l'hotel est obligatoire",
-      minlength: "Le nom de l'hotel doit comporter au moins 4 caractères",
-    },
-    price: {
-      required: "Le prix de l'hotel est obligatoire",
-      pattern: "Le prix de l'hotel doit etre un nombre",
-    },
-    rating: {
-      range: 'Donnez une note comprise entre 1 et 5',
-    },
-  };
+  constantCreateData : constantCreateData;
+  constantData: IConstant[];
 
-  private globalGenericValidator!: GlobalGenerateValidator;
+  constructor(private fb: FormBuilder,private constantTypeService: ConstantTypeService,private notificationService: NotificationService,private patientConstantService : PatientConstantService) {}
 
-  @ViewChildren(FormControlName, { read: ElementRef })
-  inputElements!: ElementRef[];
-
-  public errorMessage!: string;
-
-  public formsErrors: { [key: string]: string } = {};
-
-
-  constructor(
-    private fb: FormBuilder,
-    private constantTypeService: ConstantTypeService,
-    private notificationService: NotificationService,
-    private patientConstantService : PatientConstantService
-  ) {}
-
-  // Unsubscribe when the component dies
-  ngOnDestroy() {
-    this.subs.unsubscribe();
-  }
-
-  ngOnInit(): void {
-    console.log(this.patientId);
-    
-    this.globalGenericValidator = new GlobalGenerateValidator(
-      this.validatiomMessage
-    );
-    this.initForm();
-    this.onGetPatientDomainActe();
+  ngOnInit(): void {    
+    this.buildConstantCreateForm();
+    this.getActes();
     if (this.constantType) {
-      console.log(this.constantType);
-      this.constantTypeForm.patchValue(this.constantType);
-    
+      this.ConstantsCreateForm.patchValue(this.constantType);
     }
   }
 
-  ngAfterViewInit(): void {
-    const formControlBlurs: Observable<unknown>[] = this.inputElements.map(
-      (FormControlElementRef: ElementRef) =>
-        fromEvent(FormControlElementRef.nativeElement, 'blur')
-    );
-
-    merge(this.constantTypeForm.valueChanges, ...formControlBlurs)
-      .pipe(
-        debounceTime(500)
-      )
-      .subscribe(() => {
-        this.formsErrors = this.globalGenericValidator.createErrorMessage(
-          this.constantTypeForm,
-          this.formSubmitted
-        );
-      });
-  }
-
-  initForm() {
-    this.constantTypeForm = this.fb.group({
+  buildConstantCreateForm() {
+    this.ConstantsCreateForm = this.fb.group({
       id: new FormControl(null),
-      constants: this.fb.array([this.createConstant()]),
+      constants: this.fb.array([this.buildcreateConstantForm()]),
     });
   }
-  get name() {
-    return this.constantTypeForm.get('name');
-  }
+  get name() {return this.ConstantsCreateForm.get('name');}
 
-  get constants(): FormArray {
-    return <FormArray>this.constantTypeForm.get('constants') as FormArray;
-  }
+  get constantFormArray(): FormArray {return <FormArray>this.ConstantsCreateForm.get('constants') as FormArray;}
 
-  createConstant(): FormGroup {
+  buildcreateConstantForm(): FormGroup {
     return this.fb.group({
       value: [''],
       description: [''],
       constant: [null],
-      observation : [""],
       patient : [this.patientId]
     });
   }
 
-  addConstant() {
-    this.constants.push(this.createConstant());
+  addCreateConstantFormBuilded() {
+    this.constantFormArray.push(this.buildcreateConstantForm());
   }
 
-  removeConstant(index: number) {
-    this.constants.removeAt(index);
+  removeCreateConstantForm(index: number) {
+    this.constantFormArray.removeAt(index);
   }
 
   save() {
-    this.invalidFom = !this.constantTypeForm.valid;
-    this.formSubmitted = true;
-    if (this.constantTypeForm.valid) {
-      // this.showloading = true;
-      this.patientConstantDto =  this.constantTypeForm.get("constants").value;
-      console.log(this.patientConstantDto);
-
-      if (this.patientConstantDto.id) {
+    this.createConstantFormIsInvalid = !this.ConstantsCreateForm.valid;
+    this.createConstantFormIsSubmitted = true;
+    if (this.ConstantsCreateForm.valid) {
+      this.constantCreateData =  this.ConstantsCreateForm.get("constants").value;
+      if (this.constantCreateData.id) {
         this.subs.add(
-          this.patientConstantService
-            .updatePatientConstant(this.patientConstantDto)
+          this.patientConstantService.updatePatientConstant(this.constantCreateData)
             .subscribe(
-              (response: IPatientConstantDto) => {
-                this.showloading = false;
+              (response: constantCreateData) => {
+                this.spinnerIsVisibled = false;
                 this.updateConstantType.emit();
               },
               (errorResponse: HttpErrorResponse) => {
-                this.showloading = false;
-                this.notificationService.notify(
-                  NotificationType.ERROR,
-                  errorResponse.error.message
-                );
+                this.spinnerIsVisibled = false;
+                this.notificationService.notify( NotificationType.ERROR,errorResponse.error.message);
               }
             )
         );
       } else {
         this.subs.add(
           this.patientConstantService
-            .createPatientConstant(this.patientConstantDto)
+            .createPatientConstant(this.constantCreateData)
             .subscribe(
-              (response: IPatientConstantDto) => {
-                this.showloading = false;
+              (response: constantCreateData) => {
+                this.spinnerIsVisibled = false;
                 this.addConstantType.emit();
               },
               (errorResponse: HttpErrorResponse) => {
-                this.showloading = false;
-                this.notificationService.notify(
-                  NotificationType.ERROR,
-                  errorResponse.error.message
-                );
+                this.spinnerIsVisibled = false;
+                this.notificationService.notify( NotificationType.ERROR,errorResponse.error.message);
               }
             )
         );
@@ -237,15 +117,20 @@ export class PatientConstantFormComponent implements OnInit {
     }
   }
 
-  onGetPatientDomainActe() {
+  getActes() {
     this.constantTypeService.getNameAndIdOfConstanteTypeActive().subscribe(
       (res) => {
-        console.log('Domaine acte ::', res);
-        this.constantDomainList = res;
+        this.constantData = res;
       },
-      (err) => {
-        console.log(err);
+      (errorResponse: HttpErrorResponse) => {
+        this.spinnerIsVisibled = false;
+        this.notificationService.notify( NotificationType.ERROR,errorResponse.error.message);
       }
     );
   }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
 }

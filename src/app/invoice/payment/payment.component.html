@@ -155,10 +155,8 @@
    </div>
 
     <div class=" text-left">
-      <span *ngIf="amountReceivedIsvalid" [style.display]="'block'" [style.color]="'red'" class="color-danger mb-2">Veuillez entrer un montant supérieur au montant de la facture.</span>
+      <span *ngIf="amountReceivedIsvalid" [style.display]="'block'" [style.color]="'red'" class="color-danger mb-2">Veuillez entrer un montant supérieur ou égale au montant de la facture.</span>
       <button  type="submit" class="btn btn-submit">ENCAISSER</button>
     </div>
-
-    
   </form>
 </div>

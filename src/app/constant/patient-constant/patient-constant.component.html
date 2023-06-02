@@ -1,14 +1,24 @@
 <nb-card class="nbCardList">
   <nb-card-header class="row d-flex justify-content-between align-items-center">
-    <div class="col-lg-7 col-md-3 col-sm-12">
+    <div class=" col-md-4 col-sm-12">
       <h4
       *ngIf="patientId == null"
         class="text-capitalize d-flex justify-content-start w-100 text-center"
       >
-        Liste des constante du Patient : {{ patient?.lastName }}
+       {{ patient?.lastName }}
         {{ patient?.firstName }}
       </h4>
     </div>
+    <div  class="col-md-4 col-sm-12">
+      <div class="d-flex justify-content-end">
+        <button *ngIf="newConstantsButtonVisibled" (click)="openAddForm(addFormContent)"
+        class="text-capitalize btn mb-2 btn-block d-flex align-items-center justify-content-center text-white rounded"
+        style="background-color: #14a2b8;">
+        <nb-icon icon="plus-outline"></nb-icon>
+      </button>
+      </div>
+     
+   </div>
   </nb-card-header>
   <nb-card-body>
     <form [formGroup]="searchForm">
@@ -33,43 +43,34 @@
       <table class="table table-bordered table-hover table-md align-middle">
         <thead class="pb-3 text-capitalize">
           <tr class="pb-3">
-            <th>Date</th>
-            <th>N° Contante</th>
-            <th scope="col">Action</th>
+            <th *ngFor="let uniquefieldHeade of uniqueTableHeaders">{{uniquefieldHeade}}</th>
           </tr>
 
           <tr></tr>
         </thead>
 
         <tbody>
-          <tr
-         
-            *ngFor="
-              let constant of items
-                | paginate
-                  : {
-                      itemsPerPage: selectedSize,
-                      currentPage: currentPage,
-                      totalItems: totalItems
-                    };
-              let i = index
-            "
-            [class.active]="i == currentIndex"
-            (click)="rowSelected(commune, i)"
+          <ng-container
+          *ngFor="
+          let constant of items
+            | paginate
+              : {
+                  itemsPerPage: selectedSize,
+                  currentPage: currentPage,
+                  totalItems: totalItems
+                };
+          let i = index
+        "[class.active]="i == currentIndex"
+        (click)="rowSelected(commune, i)"
           >
-            <td>{{ constant?.takenAt | date: "medium" }}</td>
-            <td>N° {{ i + 1 }}</td>
-            <!-- <td>{{ constant?.value }}</td> -->
-            <td style="font-size: 30px">
-              <!-- <nb-icon
-                (click)="openUpdateForm(updateFormContent, constant)"
-                class="mx-2 pointer"
-                style="cursor: pointer"
-                icon="edit-outline"
-              ></nb-icon> -->
-              <nb-icon (click)="openDetailsForm(constantListFormContent, constant)" class="mx-2 pointer" style=" cursor: pointer;" icon="eye-outline"></nb-icon>
-            </td>
-          </tr>
+           <tr>
+            <ng-container *ngFor="let uniqueTableHeader of uniqueTableHeaders">
+             <td style="text-align: center;">
+              <span >{{constant[uniqueTableHeader] ? constant[uniqueTableHeader] : "-"}}</span>
+             </td>
+          </ng-container>
+           </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>
@@ -96,7 +97,6 @@
   </nb-card-body>
 </nb-card>
 
-<!-- add modal -->
 <ng-template #addFormContent let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
@@ -117,7 +117,6 @@
   </div>
 </ng-template>
 
-<!-- update modal -->
 <ng-template #updateFormContent let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
@@ -131,10 +130,6 @@
     ></nb-icon>
   </div>
   <div class="modal-body">
-    <!-- <app-constant-type-form
-        [constantType]="constantType"
-        (updateConstantType)="updateConstantType()"
-      ></app-constant-type-form> -->
     <app-patient-constant-form
       [constantType]="constantType"
       (updateConstantType)="updateConstantType()"
@@ -143,11 +138,10 @@
 </ng-template>
 
 
-<!-- constant modal list -->
 <ng-template #constantListFormContent let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
-      Detail de la constante
+      Détails
     </h4>
     <nb-icon
       style="cursor: pointer"

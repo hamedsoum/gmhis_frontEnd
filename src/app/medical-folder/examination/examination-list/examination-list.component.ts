@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
@@ -14,7 +14,7 @@ import { ExaminationService } from '../services/examination.service';
   templateUrl: './examination-list.component.html',
   styleUrls: ['./examination-list.component.scss']
 })
-export class ExaminationListComponent implements OnInit {
+export class ExaminationListComponent implements OnInit, OnChanges {
 
   private subs = new SubSink();
 
@@ -30,6 +30,9 @@ export class ExaminationListComponent implements OnInit {
 
   @Input()
   admissionId : number;
+
+  @Input() newExamination : boolean;
+  @Output() newExaminationChange = new EventEmitter();
 
 
   @Output() updateExaminationNuber: EventEmitter<any> = new EventEmitter();
@@ -78,11 +81,24 @@ export class ExaminationListComponent implements OnInit {
     private modalService: NgbModal,
     private admissionService : AdmissionService
   ) {}
+  ngOnChanges(changes: SimpleChanges): void {    
+      if(changes.newExamination){
+        this.findAdmission({id : this.admissionId});
+        this.initform();
+        this.getExamination();
+        this.newExamination = false;
+      }
+  }
 
   ngOnInit(): void {
+    console.log(this.newExamination);
     this.findAdmission({id : this.admissionId});
     this.initform();
     this.getExamination();
+  }
+
+  changeNewExaminationValue(){
+    this.newExamination = !this.newExamination;
   }
 
   initform() {
@@ -111,7 +127,7 @@ export class ExaminationListComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;          
+          this.items = response.items;   
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;

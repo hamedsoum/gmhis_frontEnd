@@ -8,7 +8,7 @@ import { ConstantTypeFormComponent } from './constantType/constant-type-form/con
 import { ConstantTypeListComponent } from './constantType/constant-type-list/constant-type-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { PatientConstantComponent } from './patient-constant/patient-constant.component';
-import { PatientConstantFormComponent } from './patient-constant/patient-constant-form/patient-constant-form.component';
+import { CreateConstantFormComponent } from './patient-constant/patient-constant-form/patient-constant-form.component';
 import { ConstantListComponent } from './patient-constant/constant-list/constant-list.component';
 
 @NgModule({
@@ -18,10 +18,10 @@ import { ConstantListComponent } from './patient-constant/constant-list/constant
     ConstantTypeFormComponent,
     ConstantTypeListComponent,
     PatientConstantComponent,
-    PatientConstantFormComponent,
+    CreateConstantFormComponent,
     ConstantListComponent,
   ],
   imports: [CommonModule, ConstantRoutingModule, SharedModule],
-  exports: [PatientConstantComponent,PatientConstantFormComponent]
+  exports: [PatientConstantComponent,CreateConstantFormComponent]
 })
 export class ConstantModule {}

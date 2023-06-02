@@ -221,14 +221,11 @@ export class PatientFormmComponent implements OnInit {
   initForm() {
     this.patientForm = new FormGroup({
       id: new FormControl(null),
-      // active: new FormControl(true),
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       email: new FormControl(''),
       cellPhone1: new FormControl('', [Validators.required]),
-      // cellPhone2: new FormControl(''),
       birthDate: new FormControl('', [Validators.required]),
-      // gender: new FormControl('', [Validators.required]),
       civility: new FormControl('', [Validators.required]),
       idcardType: new FormControl('', [Validators.required]),
       idCardNumber: new FormControl(''),
@@ -240,8 +237,6 @@ export class PatientFormmComponent implements OnInit {
       numberOfChildren: new FormControl('0'),
       country: new FormControl(null),
       cityId: new FormControl(null),
-
-      age: new FormControl(null),
       height: new FormControl(null),
       weight: new FormControl(null),
       insurances: new FormControl([]),

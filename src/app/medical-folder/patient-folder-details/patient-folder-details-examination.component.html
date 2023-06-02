@@ -43,10 +43,10 @@
                 </nb-menu>
             </div>      
             <div *ngIf="showConsultationList == true && menuClick=='Consultations'" class="col-lg-10">
-                <app-examination-list [(newExamination)]="newExamination" (updatePatientPrescriptionNumber)="updatePatientPrescriptionNumber()" (updatePattientConstantNumber)="updatePattientConstantNumber()"  (updateExaminationNuber)="updateExaminationNuber()" [admissionId]="admissionId" [patientId]="patientId"></app-examination-list>
+                <app-examination-list [(newExamination)]="newExamination" [admissionId]="admissionId" [patientId]="patientId"></app-examination-list>
             </div>
             <div *ngIf="menuClick=='Constantes'" class="col-lg-10"> 
-                <app-patient-constant (updatePattientConstantNumber)="updatePattientConstantNumber()" *ngIf="showConstantList == true" [admissionId]="admissionId" [patientId]="patientId"></app-patient-constant>
+                <app-patient-constant [newConstantsButtonVisibled]="false" (updatePattientConstantNumber)="updatePattientConstantNumber()" *ngIf="showConstantList == true" [admissionId]="admissionId" [patientId]="patientId"></app-patient-constant>
             </div>
             <div *ngIf="menuClick=='Examens'" class="col-lg-10">
                 <app-examen-list (updatePatientExamenNumber)="updatePatientExamenNumber()" [admissionId]="admissionId" [patientId]="patientId"></app-examen-list>

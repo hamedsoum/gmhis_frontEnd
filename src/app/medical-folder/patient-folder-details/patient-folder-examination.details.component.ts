@@ -25,6 +25,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
   patientPrescriptionNumber: number = 0;
   examenType: boolean;
 
+  newExamination : boolean = false;
 
   currentDate : any;
   patientExamNumber: number = 0;
@@ -121,9 +122,14 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
       )
   }
 
+
   onOpenModal(addFormContent, size:string, centered? : boolean) {
     console.log(addFormContent);
     this.modalService.open(addFormContent, { size: size, centered: centered});
+  }
+
+  changeNewExaminationValue(){
+    this.newExamination = !this.newExamination;
   }
   
   openExaminationForm(addFormContent, size:string) {
@@ -177,7 +183,8 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
     this.updateExaminationNuberEvent.emit();
     this.updateExaminationNuber();
     this.updatePatientExamenNumber();
-  }
+    this.changeNewExaminationValue()
+    }
 
   addConstantType() {
     this.modalService.dismissAll();
