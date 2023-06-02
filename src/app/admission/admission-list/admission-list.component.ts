@@ -110,19 +110,10 @@ export class AdmissionListComponent implements OnInit {
   }
 
   onSearchValueChange(): void {
-    // let fromDate = this.searchForm.get('fromDate').value.toISOString().slice(0, 10);
-    // let toDate = this.searchForm.get('toDate').value.toISOString().slice(0, 10);
-    // this.searchForm.get('fromDate').setValue(new Date(fromDate));
-    // console.log(fromDate);
-    // console.log(toDate);
     this.getPatient();
   }
 
   public getPatient() {
-    let start = null;
-    let end = null;
-    let date = this.searchForm.get("date").value;
-  
     this.showloading = true;
     this.subs.add(
       this.admissionService.findAll(this.searchForm.value).subscribe(

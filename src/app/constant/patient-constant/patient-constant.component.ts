@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -62,8 +63,8 @@ export class PatientConstantComponent implements OnInit {
     private notificationService: NotificationService,
     config: NgbModalConfig,
     private modalService: NgbModal,
-    private patientService : PatientService
-
+    private patientService : PatientService,
+    private datePipe : DatePipe
     ) { }
 
   ngOnInit(): void {
@@ -118,18 +119,29 @@ export class PatientConstantComponent implements OnInit {
              let constantTab  = [];
              let TableHeader  = [];
              Object.values(constantgroupedByDate).forEach((el, i) => {
+               console.log(el);
+               
               let newObject = {};
+              newObject['date'] = this.datePipe.transform(new Date(el[0]['takenAt'])) ;
                el.forEach((item) => {
                 newObject[`${item['constant']}`] = item['value'];
                })
+               
                constantTab.push(newObject);
              } )
+             console.log(constantTab);
+             
              constantTab.forEach((item) => {
               Object.keys(item).forEach(key => {
                 TableHeader.push(key);
               })
-             })   
+             })
+                             
              this.uniqueTableHeaders = [...new Set(TableHeader)];
+             console.log(this.uniqueTableHeaders);
+             console.log(constantTab.sort((a, b) => a.date - b.date));
+             ;
+
              response.items = constantTab;
           return response;
         })
