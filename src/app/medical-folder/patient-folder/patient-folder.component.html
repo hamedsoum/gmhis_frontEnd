@@ -41,7 +41,7 @@
         </div>
     </nb-card-header>
     <nb-card-body>
-     <div class="w-100 d-flex justify-content-end">
+     <div *ngIf="lastAdmissionNoHaveExamination" class="w-100 d-flex justify-content-end">
       <button (click)="openAddForm(addFormContent)"
       class="text-capitalize btn mb-2 btn-block d-flex align-items-center justify-content-center text-white rounded"
       style="background-color: #14a2b8;">

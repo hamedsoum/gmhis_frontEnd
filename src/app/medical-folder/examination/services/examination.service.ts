@@ -13,6 +13,14 @@ export class ExaminationService {
  
   constructor(private http: HttpClient) {}
 
+
+  AdmissionNoHaveExamination(patientID:number):Observable<boolean>{
+    return this.http.get<boolean>(`${this.apiUrl}/examination/findPatientExaminationsOfLastAdmission/${patientID}`);
+  }
+  retrieveDayNumberBetweenAdmissionFirstExaminationAndCurrentDate(admissionID: number): Observable<number> {    
+    return this.http.get<number>(`${this.apiUrl}/examination/firstExaminationDayNumber/${admissionID}`);
+  }
+
   createExamination(examinationDto: IExaminationDto): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/examination/add`, examinationDto);
   }
@@ -52,9 +60,7 @@ export class ExaminationService {
     );
   }
 
-  getExaminationNumberByAdmissionId(admissionId: number): Observable<any> {
-    console.log(admissionId);
-    
+  getExaminationNumberByAdmissionId(admissionId: number): Observable<any> {    
     return this.http.get<any>(`${this.apiUrl}/examination/getPatientExaminationNumber/${admissionId}`);
   }
 

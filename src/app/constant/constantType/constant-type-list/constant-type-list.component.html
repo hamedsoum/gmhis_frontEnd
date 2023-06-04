@@ -99,8 +99,8 @@
             (click)="rowSelected(commune, i)"
           >
             <td>{{ constant?.name | uppercase }}</td>
-            <td>{{ constant?.constantDomain }}</td>
-            <td>{{ constant?.constantUnit }}</td>
+            <td>{{ constant?.constantDomainName }}</td>
+            <td>{{ constant?.unitOfMesure }}</td>
             <td>
               <nb-icon
                 *ngIf="constant.active == true"

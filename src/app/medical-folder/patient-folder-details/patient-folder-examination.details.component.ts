@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbMenuItem, NbMenuService } from '@nebular/theme';
@@ -94,8 +95,6 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
       params => {
         const id = Number(params.get('id'));
         this.admissionId = id;
-        console.log(this.admissionId);
-        
         this.admissionService.getAdmissionDetailById(id).subscribe(
           (response : any)=>{
             this.patientId = response["patientId"];
@@ -123,9 +122,10 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
   }
 
 
+ 
+  
   onOpenModal(addFormContent, size:string, centered? : boolean) {
-    console.log(addFormContent);
-    this.modalService.open(addFormContent, { size: size, centered: centered});
+        this.modalService.open(addFormContent, { size: size, centered: centered});
   }
 
   changeNewExaminationValue(){

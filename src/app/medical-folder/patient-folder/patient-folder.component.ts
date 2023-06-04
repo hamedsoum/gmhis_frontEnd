@@ -67,6 +67,7 @@ export class PatientFolderComponent implements OnInit {
   ];
 
   showloading: boolean = false;
+  lastAdmissionNoHaveExamination: boolean;
 
   constructor(
     private route : ActivatedRoute,
@@ -158,6 +159,7 @@ export class PatientFolderComponent implements OnInit {
             this.updatePattientConstantNumber(this.patient.id);
             this.updatePatientPrescriptionNumber(this.patient.id)
             this.updatePatientExamenNumber(this.patient.id)
+            this.AdmissionNoHaveExamination();
           }
         )
           }
@@ -170,6 +172,17 @@ export class PatientFolderComponent implements OnInit {
           this.menuClick = res['item']['title'];
         }
       )
+  }
+
+  AdmissionNoHaveExamination(){
+    this.examinationService.AdmissionNoHaveExamination(this.patient.id).subscribe(
+      (response : boolean) =>{
+        this.lastAdmissionNoHaveExamination = response;
+      },
+      (errorResponse : HttpErrorResponse) => {
+        console.log(errorResponse);      
+      }
+    )
   }
   public ageFromDateOfBirthday(dateOfBirth: any): number {
     return moment().diff(dateOfBirth, 'years');
@@ -184,9 +197,7 @@ export class PatientFolderComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;
-          console.log(this.items);
-          
+          this.items = response.items;          
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -251,10 +262,6 @@ export class PatientFolderComponent implements OnInit {
 
   addExamination() {
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      "Consultation ajoutée avec succès"
-    );
     this.getExamination();
   }
 

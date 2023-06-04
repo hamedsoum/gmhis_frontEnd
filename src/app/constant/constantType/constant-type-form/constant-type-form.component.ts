@@ -121,42 +121,13 @@ export class ConstantTypeFormComponent implements OnInit {
     this.initForm();
     this.onGetPatientDomainActe();
     if (this.constantType) {
-      console.log(this.constantType);
       this.constantTypeForm.patchValue(this.constantType);
-      // this.subs.add(
-      //   this.communeService.getCommuneDetails(this.commune).subscribe(
-      //     (response : Commune)=>{
-      //       this.communeForm.patchValue(response);
-      //       if (this.details) {
-      //         this.communeForm.disable();
-      //       }
-      //     }
-      //   )
-      // )
     }
   }
 
-  ngAfterViewInit(): void {
-    const formControlBlurs: Observable<unknown>[] = this.inputElements.map(
-      (FormControlElementRef: ElementRef) =>
-        fromEvent(FormControlElementRef.nativeElement, 'blur')
-    );
+  
 
-    merge(this.constantTypeForm.valueChanges, ...formControlBlurs)
-      .pipe(
-        //si on clique sur le boutton sauvegarder ne pas utiliser le debounce time sinon l'utiliser pour les autres
-        // debounce(() => this.isFormSubmitted ? EMPTY : timer(800))
-        debounceTime(500)
-      )
-      .subscribe(() => {
-        this.formsErrors = this.globalGenericValidator.createErrorMessage(
-          this.constantTypeForm,
-          this.formSubmitted
-        );
-        console.log('error :', this.formsErrors);
-      });
-  }
-
+  
   initForm() {
     this.constantTypeForm = new FormGroup({
       id: new FormControl(null),
@@ -164,10 +135,9 @@ export class ConstantTypeFormComponent implements OnInit {
       active: new FormControl(true),
       description: new FormControl(null),
       constantDomain: new FormControl(null),
-      // resultType: new FormControl(null),
       shortName: new FormControl(null),
       significantDigits: new FormControl(null),
-      unitOfMesure: new FormControl(1),
+      unitOfMesure: new FormControl(''),
     });
   }
   get name() {
@@ -180,8 +150,6 @@ export class ConstantTypeFormComponent implements OnInit {
     if (this.constantTypeForm.valid) {
       this.showloading = true;
       this.constantType = this.constantTypeForm.value;
-      console.log(this.constantType);
-
       if (this.constantType.id) {
         this.subs.add(
           this.constantTypeService
@@ -225,13 +193,10 @@ export class ConstantTypeFormComponent implements OnInit {
   onGetPatientDomainActe() {
     this.constanteDomainService.getNameAndIdOfConstanteDomainActive().subscribe(
       (res) => {
-        console.log('Constante domaine ::', res);
-        this.constantDomainList = res;
-        console.log(this.constantDomainList);
-        
+        this.constantDomainList = res;        
       },
       (err) => {
-        console.log(err);
+        console.error(err);
       }
     );
   }

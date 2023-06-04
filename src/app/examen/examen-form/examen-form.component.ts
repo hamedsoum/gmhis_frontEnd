@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActService } from 'src/app/act/act/service/act.service';
 import { InsuranceService } from 'src/app/insurance/insurance.service';
 import { MedicalAnalysisSpecialityService } from 'src/app/medical-analysis-speciality/service/medical-analysis-speciality.service';
+import { ExaminationService } from 'src/app/medical-folder/examination/services/examination.service';
 import { INameAndId } from 'src/app/shared/models/name-and-id';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
@@ -62,23 +63,42 @@ export class ExamenFormComponent implements OnInit {
 
   InsurrancesList : INameAndId;
 
+  dayBetweenLastExaminationAndCurrentDate: number;
+
+
   constructor(
     private actService : ActService,
     private examenService : ExamService,
     private modalService: NgbModal,
     private notificationService: NotificationService,
     private medicalAnalysisSpecialityService : MedicalAnalysisSpecialityService,
-    private insuranceService : InsuranceService
+    private insuranceService : InsuranceService,
+    private examinationService : ExaminationService
     ) { }
 
   ngOnInit(): void {
     console.log(this.examenType);
     
+    this.retrieveDayNumberBetweenAdmissionFirstExaminationAndCurrentDate();
+
     this.getAllAct();
     this.examDto.admission = this.admissionId;
     this.getAllMedicalAnalysisSpeciality();
     this.initForm();
     this.getAllInsuranceActive();
+  }
+
+  retrieveDayNumberBetweenAdmissionFirstExaminationAndCurrentDate(){
+    this.examinationService.retrieveDayNumberBetweenAdmissionFirstExaminationAndCurrentDate(this.admissionId).subscribe(
+      (response : number) => {
+        this.dayBetweenLastExaminationAndCurrentDate = response;
+        console.log(this.dayBetweenLastExaminationAndCurrentDate);
+        
+      },
+      (errorResponse : HttpErrorResponse) => {
+        console.log(errorResponse);
+      }
+    )
   }
 
   onOpenChooseLaboratoryTypeModal( chooseLaboratoryContent) {
@@ -130,29 +150,39 @@ export class ExamenFormComponent implements OnInit {
 }
 
   saveExamanRequest(){
-    this.examDto.examenTytpe = false;
-    this.selectectedItems.forEach((el) => {
-      this.examDto.acts.push(el["id"])
-    })
-    if (this.examDto.acts.length != 0) {
-      this.examenService.createExam(this.examDto).subscribe(
-        (response : any) => {
-          this.modalService.dismissAll();
-          this.addExam.emit()
-        },
-        (errorResponse : HttpErrorResponse) => {
-          this.notificationService.notify(
-            NotificationType.ERROR,
-            errorResponse.error.message
-          );
-        }
-      )
-    }else{
+
+    if (this.dayBetweenLastExaminationAndCurrentDate > 7) {
       this.notificationService.notify(
         NotificationType.ERROR,
-        "Veuillez selectionner au moins une analyse médicale"
+        `Vous ne pouvez pas effectuer de nouvelle consultation, car cette admission date de plus de ${this.dayBetweenLastExaminationAndCurrentDate}.
+         Veuillez effectuer une autre admission pour ce patient`
       );
+    }else{
+      this.examDto.examenTytpe = this.examenType;
+      this.selectectedItems.forEach((el) => {
+        this.examDto.acts.push(el["id"])
+      })
+      if (this.examDto.acts.length != 0) {
+        this.examenService.createExam(this.examDto).subscribe(
+          (response : any) => {
+            this.modalService.dismissAll();
+            this.addExam.emit()
+          },
+          (errorResponse : HttpErrorResponse) => {
+            this.notificationService.notify(
+              NotificationType.ERROR,
+              errorResponse.error.message
+            );
+          }
+        )
+      }else{
+        this.notificationService.notify(
+          NotificationType.ERROR,
+          "Veuillez selectionner au moins une analyse médicale"
+        );
+      }
     }
+   
   }
 
   getAllMedicalAnalysisSpeciality(){

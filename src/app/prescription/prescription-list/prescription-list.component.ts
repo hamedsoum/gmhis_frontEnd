@@ -73,9 +73,7 @@ export class PrescriptionListComponent implements OnInit {
     this.getPrescription();
   }
 
-  initform() {
-    console.log(this.admissionId);
-    
+  initform() {    
     this.searchForm = new FormGroup({
       patient: new FormControl(this.patientId),
       admissionID: new FormControl(this.admissionId),

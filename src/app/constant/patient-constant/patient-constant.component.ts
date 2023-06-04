@@ -53,6 +53,8 @@ export class PatientConstantComponent implements OnInit {
   @Input()
   newConstantsButtonVisibled: boolean = true ;
 
+  @Input() PaginationSize = 10 ;
+
   @Output('updatePattientConstantNumber') updatePattientConstantNumber: EventEmitter<any> =
   new EventEmitter();
   uniquefieldHeader: string[];
@@ -68,6 +70,8 @@ export class PatientConstantComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    console.log(this.patientId);
+    
     this.initform();
     if (this.patientId) {
       console.log(this.patientId);
@@ -108,6 +112,8 @@ export class PatientConstantComponent implements OnInit {
       this.patientConstantService.findAll(this.searchForm.value).
       pipe(
         map((response: PageList) => {
+          console.log(response);
+          
             let data = response.items;            
             const constantgroupedByDate : any[] = data.reduce((constantGroup: {[key: string]: any[]}, item) => {
               if (!constantGroup[item.takenAt]) {
@@ -116,6 +122,8 @@ export class PatientConstantComponent implements OnInit {
               constantGroup[item.takenAt].push(item);      
               return constantGroup;
              }, {});
+             console.log(constantgroupedByDate);
+             
              let constantTab  = [];
              let TableHeader  = [];
              Object.values(constantgroupedByDate).forEach((el, i) => {
@@ -124,6 +132,8 @@ export class PatientConstantComponent implements OnInit {
               let newObject = {};
               newObject['date'] = this.datePipe.transform(new Date(el[0]['takenAt'])) ;
                el.forEach((item) => {
+                 console.log(item);
+                 
                 newObject[`${item['constant']}`] = item['value'];
                })
                

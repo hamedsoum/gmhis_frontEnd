@@ -1,6 +1,8 @@
 <form [formGroup]='examinationForm' (submit)='save()'>
     <div class="row">
-  
+        <div>
+          <app-patient-constant [patientId]="patientId" [PaginationSize]="3" [newConstantsButtonVisibled]="false"></app-patient-constant>
+        </div>
         <div class="col-md-12">
             <label class="fw-bold mb-2" for="reason">Motif de la consultation<span class="text-danger">*</span></label>
             <textarea class="form-control" formControlName="examinationReasons" rows="8"
@@ -26,7 +28,6 @@
    
 </form>
 <div [style.margin-top]="'20px'" class=" d-flex justify-content-end">
-    <button (click)="save()" class="btn-submit mx-4">Enregistrer</button>
     <button  class="btn-submit " (click)="onChooseLaboratory(chooseLaboratoryContent, 'md')">Examen</button>
 
 </div>

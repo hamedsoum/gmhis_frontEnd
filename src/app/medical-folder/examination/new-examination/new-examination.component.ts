@@ -73,6 +73,9 @@ export class NewExaminationComponent implements OnInit {
    examenType: boolean;
 
   showloading: boolean;
+
+  dayBetweenLastExaminationAndCurrentDate: number;
+
   constructor(
     private examinationService: ExaminationService,
     private pathologyService : PathologyService,
@@ -87,9 +90,10 @@ export class NewExaminationComponent implements OnInit {
     this.findActivePathologiesNameAndId();
     this.findActiveSymptomssNameAndId();
     this.initForm();
-    console.log(this.admissionId);
   }
 
+
+ 
     /**
    * init form
    */
@@ -119,55 +123,60 @@ export class NewExaminationComponent implements OnInit {
     get history(){return this.examinationForm.get('conclusion');}
 
     save() {
-      this.invalidFom = !this.examinationForm.valid;
-      this.formSubmitted = true;
-      if (this.examinationForm.valid) {
-        this.showloading = true;
-        this.examinationDto = this.examinationForm.value;
-        console.log(this.examinationDto);
+    
+        this.invalidFom = !this.examinationForm.valid;
+        this.formSubmitted = true;
+        if (this.examinationForm.valid) {
+          this.showloading = true;
+          this.examinationDto = this.examinationForm.value;
   
-        if (this.examinationDto.id) {
-          this.subs.add(
-            this.examinationService.updateExamination(this.examinationDto).subscribe(
-              (response: IExaminationDto) => {
-                this.showloading = false;
-                this.updateExamination.emit();
-              },
-              (errorResponse: HttpErrorResponse) => {
-                this.showloading = false;
-                this.notificationService.notify(
-                  NotificationType.ERROR,
-                  errorResponse.error.message
-                );
-              }
-            )
-          );
-        } else {
-          this.subs.add(
-            this.examinationService.createExamination(this.examinationDto).subscribe(
-              (response: any) => {
-                this.showloading = false;
-                this.addExamination.emit();
-              },
-              (errorResponse: HttpErrorResponse) => {
-                this.showloading = false;
-                this.notificationService.notify(
-                  NotificationType.ERROR,
-                  errorResponse.error.message
-                );
-              }
-            )
-          );
+          if (this.examinationDto.id) {
+            this.subs.add(
+              this.examinationService.updateExamination(this.examinationDto).subscribe(
+                (response: IExaminationDto) => {
+                  this.showloading = false;
+                  this.notificationService.notify(
+                    NotificationType.SUCCESS,
+                    "Consultation modifiée avec succès"
+                  );
+                  this.updateExamination.emit();
+                },
+                (errorResponse: HttpErrorResponse) => {
+                  this.showloading = false;
+                  this.notificationService.notify(
+                    NotificationType.ERROR,
+                    errorResponse.error.message
+                  );
+                }
+              )
+            );
+          } else {
+            this.subs.add(
+              this.examinationService.createExamination(this.examinationDto).subscribe(
+                (response: any) => {
+                  this.showloading = false;
+                  this.addExamination.emit();
+                },
+                (errorResponse: HttpErrorResponse) => {
+                  this.showloading = false;
+                
+                  this.notificationService.notify(
+                    NotificationType.ERROR,
+                    errorResponse.error.message
+                  );
+                }
+              )
+            );
+          }
         }
-      }
+      
+     
     }
 
     private findActivePathologiesNameAndId(){
       this.pathologyService.findActivePathologyNameAndId().subscribe(
         (response : any) => {
-          this.pathologies = response;
-          console.log("pathologies", this.pathologies);
-          
+          this.pathologies = response;          
         },
         (errorResponse : HttpErrorResponse) => {
           this.showloading = false;
@@ -182,9 +191,7 @@ export class NewExaminationComponent implements OnInit {
     private findActiveSymptomssNameAndId(){
       this.symptomService.findActiveSymptomNameAndId().subscribe(
         (response : any) => {
-          this.symptoms = response;
-          console.log("pathologies", this.symptoms);
-          
+          this.symptoms = response;          
         },
         (errorResponse : HttpErrorResponse) => {
           this.showloading = false;
@@ -208,8 +215,7 @@ export class NewExaminationComponent implements OnInit {
     }
 
     ChooseLaboratoryType(exameFormContent,laboratoryType : boolean) : void {
-      this.examenType = laboratoryType;
-      // this.modalService.dismissAll();
+      this.examenType = laboratoryType;      
       this.modalService.open(exameFormContent, { size: 'xl' });
     }
 

@@ -82,9 +82,6 @@ export class PrescriptionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.patient);
-    console.log(this.examinationId);
-    
     this.findActiveDrugNameAndId();
     this.initForm(); 
   }
@@ -92,7 +89,8 @@ export class PrescriptionFormComponent implements OnInit {
   initForm() {
     this.prescriptionForm = this.fb.group({
       id: new FormControl(null),
-      examinationId: new FormControl(38),
+      examinationId: new FormControl(this.examinationId),
+      patientID : new FormControl(this.patient.id),
       observation: new FormControl(""),
       prescriptionItemsDto: this.fb.array([this.createPresciptionItem()]),
     });
@@ -131,8 +129,6 @@ export class PrescriptionFormComponent implements OnInit {
       this.prescriptionDto = this.prescriptionForm.value;
       // this.showloading = true;
       this.prescriptionDto.prescriptionItemsDto =  this.prescriptionForm.get("prescriptionItemsDto").value;
-      console.log(this.prescriptionDto);
-
       this.subs.add(
         this.prescriptionService
           .createPrescription(this.prescriptionDto)
@@ -159,7 +155,6 @@ export class PrescriptionFormComponent implements OnInit {
     this.drugService.findActivedrugNameAndId().subscribe(
       (response : any) => {
         this.drugsNameAndId = response;
-        console.log("drugsNameAndId", this.drugsNameAndId);
         
       },
       (errorResponse : HttpErrorResponse) => {

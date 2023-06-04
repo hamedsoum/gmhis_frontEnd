@@ -91,7 +91,6 @@ export class ExaminationListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log(this.newExamination);
     this.findAdmission({id : this.admissionId});
     this.initform();
     this.getExamination();
@@ -154,7 +153,6 @@ export class ExaminationListComponent implements OnInit, OnChanges {
   }
 
   openAddForm(addFormContent, size:string) {
-    console.log(addFormContent);
     this.modalService.open(addFormContent, { size: size });
   }
 
@@ -176,20 +174,13 @@ export class ExaminationListComponent implements OnInit, OnChanges {
 
   addExamination() {
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      "Consultation ajoutée avec succès"
-    );
+  
     this.updateExaminationNuber.emit();
     this.getExamination();
   }
 
   updateConvention() {
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      "Consultation modifiée avec succès"
-    );
     this.getExamination();
   }
 
@@ -238,9 +229,7 @@ export class ExaminationListComponent implements OnInit, OnChanges {
     this.subs.add(
       this.admissionService.getAdmissionDetail(admission).subscribe(
         (res : any) => {
-          this.admission = res;
-          console.log(this.admission);
-          
+          this.admission = res;          
         },
         
       )
