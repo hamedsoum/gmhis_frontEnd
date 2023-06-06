@@ -69,6 +69,41 @@ export class PrescriptionFormComponent implements OnInit {
 
   drugsNameAndId: any;
 
+  drugQuantities = [
+    { name: 1 , value : 1},
+    { name: 2 , value : 2},
+    { name: 3 , value : 3},
+    { name: 4 , value : 4},
+    { name: 5 , value : 5},
+    { name: 6 , value : 6},
+    { name: 7 , value : 7},
+    { name: 8 , value : 8},
+    { name: 9 , value : 9},
+    { name: 10 , value : 10},
+  ];
+
+  traitmentDurations = [
+    { name:  'un jour', value :'un jour' },
+    { name:  'deux jours', value :'deux jours' },
+    { name:  'trois jours', value :'trois jours' },
+    { name:  'quatres jours', value :'quatres jours' },
+    { name:  'cing jours', value :'cing jours' },
+    { name:  'six jours', value :'six jours' },
+    { name:  'une semaine', value :'une semaine' },
+    { name:  'deux semaines', value :'deux semaines' },
+    { name:  'trois semains ', value :'trois semains ' },
+    { name:  'un mois ', value :'un mois ' },
+    { name:  'un an', value :'un an' }
+  ]
+
+  posologies = [
+    { name: 'Un matin, un à midi , un le soir', value: 'Un matin, un à midi , un le soir'},
+    { name: 'Un matin, un le soir', value: 'Un matin,  un le soir'},
+    { name: 'Un matin, un à midi ', value: 'Un matin, un à midi '},
+    { name: 'Un à midi , un le soir', value: 'Un à midi , un le soir'},
+
+  ]
+
   constructor(
     private fb: FormBuilder,
     private notificationService: NotificationService,

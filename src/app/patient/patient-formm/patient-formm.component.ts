@@ -17,6 +17,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import * as moment from 'moment';
 import { InsuranceService } from 'src/app/insurance/insurance.service';
 import { SubscriberService } from 'src/app/insurance/subscriber.service';
 import { InsuredServiceService } from 'src/app/insured/service/insured-service.service';
@@ -218,6 +219,31 @@ export class PatientFormmComponent implements OnInit {
     this.getInsuranceSubscriberSimpleList();
   }
 
+  isAnAdult(): boolean{
+    let patientAge = this.ageFromDateOfBirthday(this.patientForm.get('birthDate').value);
+    return patientAge >= 16;
+  }
+  public ageFromDateOfBirthday(dateOfBirth: any): number {
+    return moment().diff(dateOfBirth, 'years');
+  }
+
+  onBirthDateChange(){
+   if (!this.isAnAdult()) {
+      this.patientForm.get('idcardType').clearValidators();
+      this.patientForm.get('idcardType').updateValueAndValidity();
+      this.patientForm.get('idCardNumber').clearValidators();
+      this.patientForm.get('idCardNumber').updateValueAndValidity();
+   }else{
+    this.patientForm.get('idcardType').setValidators(Validators.required);
+    this.patientForm.get('idcardType').updateValueAndValidity();
+    this.patientForm.get('idCardNumber').setValidators(Validators.required);
+    this.patientForm.get('idCardNumber').updateValueAndValidity();
+   }
+
+   console.log(this.patientForm.get('idcardType'));
+   
+  }
+
   initForm() {
     this.patientForm = new FormGroup({
       id: new FormControl(null),
@@ -227,7 +253,7 @@ export class PatientFormmComponent implements OnInit {
       cellPhone1: new FormControl('', [Validators.required]),
       birthDate: new FormControl('', [Validators.required]),
       civility: new FormControl('', [Validators.required]),
-      idcardType: new FormControl('', [Validators.required]),
+      idcardType: new FormControl(''),
       idCardNumber: new FormControl(''),
       profession: new FormControl('', [Validators.required]),
       correspondant: new FormControl('', [Validators.required]),

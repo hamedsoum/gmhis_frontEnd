@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { IExamDto } from 'src/app/examen/models/exam-dto';
 import { ExamService } from 'src/app/examen/services/exam.service';
@@ -43,6 +43,9 @@ export class PaymentComponent implements OnInit {
   amountReceived: any;
   amountReceivedIsvalid: boolean;
 
+
+  public paymentTypeForm: FormGroup;
+
   constructor(
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
@@ -58,15 +61,12 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initForm();
     if (this.invoice) {
       this.patientInvoice = this.invoice;
       this.examDto.admission = this.patientInvoice.admission.id;
       console.log(this.examDto);
-
-
     }
-    this.initForm();
-    console.log(this.invoice);
     this.findPaymentTypesActiveNameAndIds();
   }
 
@@ -79,9 +79,27 @@ export class PaymentComponent implements OnInit {
       bill: new FormControl(null),
       admissionNumber: new FormControl({ value: '', disabled: true }),
       amountReceived: new FormControl(0),
-      amountReturned: new FormControl(null)
+      amountReturned: new FormControl(null),
+      paymentsType: this.fb.array([this.createPaymentsType()]),
+
     });
   }
+  get paymentsType(): FormArray {
+    return <FormArray>this.paymentForm.get('paymentsType') as FormArray;
+  }
+
+  createPaymentsType(): FormGroup {
+    return this.fb.group({
+      id : [''],
+      amount: [''],
+      paymentTypeID: [null],
+      amountReturned: [''],
+    });
+  }
+
+  addPaymentType() {this.paymentsType.push(this.createPaymentsType());}
+
+  removePaymentType(index: number) {this.paymentsType.removeAt(index);}
 
   collectAmount() {
     let cashRegister = this.paymentForm.get('cashRegister').value;
@@ -92,6 +110,14 @@ export class PaymentComponent implements OnInit {
       cashRegister: cashRegister,
       bill: this.patientInvoice.id,
       paymentType: paymentType,
+      // paymentHasPaymentTypeDTO : [{
+      //   amount : 20000,
+      //   paymentTypeID : 1
+      // },
+      // {
+      //   amount : 30000,
+      //   paymentTypeID : 2
+      // }],
       amountReceived: this.paymentForm.get('amountReceived').value,
       amountReturned: this.paymentForm.get('amountReturned').value
     };
@@ -123,21 +149,19 @@ export class PaymentComponent implements OnInit {
       });
   }
 
-  getamountReceived() {
+  onGetamountReceived(index? : any) {
+    // console.log(this.paymentsType.controls[index].get('amount').value);
     let amountReceived = this.paymentForm.get("amountReceived").value;
     let amountReturned = 0;
     if (amountReceived > this.patientInvoice?.patientPart) {
       amountReturned = amountReceived - this.patientInvoice?.patientPart;
       this.amountReceivedIsvalid = false;
-
     } else {
       amountReturned = 0;
-
     }
     this.paymentForm.get("amountReturned").setValue(amountReturned);
-
   }
-
+  
   saveExamanRequest() {
     this.examDto.examenTytpe = true;
     this.patientInvoice?.billActs.forEach((el) => {

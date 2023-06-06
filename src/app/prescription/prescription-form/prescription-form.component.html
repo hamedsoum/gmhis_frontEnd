@@ -46,24 +46,34 @@
               <span *ngIf="!details" class="text-danger">*</span>
               </label
             >
-            <input
-              type="number"
-              id="quantity-{{ i }}"
-              class="form-control"
-              formControlName="quantity"
-            />
+            <ng-select
+            placeholder="Quantité de Medicament à prescrit"
+            id="drug-{{ i }}"
+            formControlName="quantity"
+          >
+            <ng-option
+              *ngFor="let drugQuantity of drugQuantities"
+              [value]="drugQuantity.value"
+              >{{ drugQuantity.name  }} </ng-option
+            >
+          </ng-select>
           </div>
         <div class="col-lg-2 col-md-4 col-sm-12">
           <label for="duration-{{ i }}" class="form-label text-capitalize"
-            >duré du traitement</label
+            >Duré du traitement</label
           >
           <span *ngIf="!details" class="text-danger">*</span>
-          <input
-              type="text"
-              id="duration-{{ i }}"
-              class="form-control"
-              formControlName="duration"
-            />
+            <ng-select
+            placeholder="Duré du Traitement"
+            id="drug-{{ i }}"
+            formControlName="duration"
+          >
+            <ng-option
+              *ngFor="let duration of traitmentDurations"
+              [value]="duration.value"
+              >{{ duration.name  }} </ng-option
+            >
+          </ng-select>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12">
             <label for="dosage-{{ i }}" class="form-label text-capitalize"
@@ -71,13 +81,17 @@
               <span *ngIf="!details" class="text-danger">*</span>
               </label
             >
-            <textarea
-            type="text"
-            id="dosage-{{ i }}"
-            class="form-control"
-            formControlName="dosage"
-            rows="1"
-          ></textarea>
+          <ng-select
+          placeholder="Posologie"
+          id="drug-{{ i }}"
+          formControlName="dosage"
+        >
+          <ng-option
+            *ngFor="let posology of posologies"
+            [value]="posology.value"
+            >{{ posology.name  }} </ng-option
+          >
+        </ng-select>
           </div>
         <div class="col-lg-1 col-md-1 col-sm-12 d-flex align-items-end">
           <span

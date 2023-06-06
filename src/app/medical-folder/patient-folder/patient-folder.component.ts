@@ -15,9 +15,6 @@ import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
 import { ExaminationService } from '../examination/services/examination.service';
-
-import $ from 'jquery';
-import 'turn.js';
 import * as moment from 'moment';
 
 @Component({

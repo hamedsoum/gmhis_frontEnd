@@ -115,6 +115,7 @@ export class InvoiceFormComponent implements OnInit {
     this.initForm();
     this.addActs();
     if (this.admission) {
+      console.log("admission here",this.admission);
       this.admissionForTemplate = this.admission;
       this.invoiceForm.get('admissionNumber').setValue(this.admission.admissionNumber);
       this.invoiceForm.get('admission').setValue(this.admission.id);
@@ -146,7 +147,7 @@ export class InvoiceFormComponent implements OnInit {
         this.acts.at(0).get('pratician').setValue(this.admission["practicianId"]);
       }
     }
-    if (this.invoice) {
+    if (this.invoice) {      
       this.invoice["billActs"].forEach((element, i) => {
         this.addActs();
         if (element["act"]) this.acts.at(i).get('act').setValue(element["act"]["id"]);
@@ -268,6 +269,8 @@ export class InvoiceFormComponent implements OnInit {
     this.invoiceDto.acts.forEach((el, index) => {
       el["admission"] = this.admissionForTemplate.id
     })
+    console.log(this.invoiceDto);
+    
     this.invoiceService.createInvoice(this.invoiceDto).subscribe(
       (response: any) => {
         this.addInvoice.emit();
@@ -290,6 +293,8 @@ export class InvoiceFormComponent implements OnInit {
     console.log(this.admission);
 
     this.acts.push(this.createActsGroups())
+    console.log(this.acts);
+    
   }
   public deleteAct(index: number) {
     this.acts.removeAt(index);

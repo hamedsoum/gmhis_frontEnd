@@ -120,43 +120,69 @@
   </div>
 
   <form [formGroup]="paymentForm" class="row mb-3" (ngSubmit)="collectAmount()">
-   <div class="row mb-2">
-    <div class="col-md-4">
-      <div class="form-group">
-        <ng-select formControlName="paymentType" placeholder="Type de payement">
-          <ng-option *ngFor="let type of paymentTypes" [value]="type.id">
-            {{ type.name }}
-          </ng-option>
-        </ng-select>
-        <!-- <span class="text-danger"
+    <div formArrayName="paymentsType" *ngFor="let payment of paymentsType.controls; let i = index">
+      <div [formGroupName]="i" class="row mb-2">
+        <div class="col-lg-4 col-md-4 col-sm-12 rounded-pill">
+          <ng-select placeholder="Mode de Payement" id="paymentTypeID-{{ i }}" formControlName="paymentTypeID">
+            <ng-option *ngFor="let type of paymentTypes" [value]="type.id">
+              {{ type.name }}
+            </ng-option>
+          </ng-select>
+        </div>
+
+        <div class="col-md-3">
+          <input (keyup)="onGetamountReceived(i)" type="number" class="form-control" id="amount-{{ i }}"
+            formControlName="amount" placeholder="Montant récu" />
+        </div>
+        <div class="col-md-3">
+          <input type="number" class="form-control" formControlName="amountReturned" placeholder="Monnaie" />
+        </div>
+        <div class="col-md-2">
+          <span
+          (click)="removePaymentType(i)"
+          style="color: red; cursor: pointer"
+          class="material-icons px-2 p-1 rounded"
+        >
+          delete
+        </span>        </div>
+      </div>
+    </div>
+    <div class="mb-2">
+      <span (click)="addPaymentType()" style="color: white; cursor: pointer; background-color: green"
+        class="material-icons px-2 p-1 rounded">
+        add
+      </span>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-md-4">
+
+        <div class="form-group">
+          <ng-select formControlName="paymentType" placeholder="Mode de payement">
+            <ng-option *ngFor="let type of paymentTypes" [value]="type.id">
+              {{ type.name }}
+            </ng-option>
+          </ng-select>
+          <!-- <span class="text-danger"
                 *ngIf="invalidFormControls && invalidFormControls.paymentType">
                 ce champ doit renseigné
             </span> -->
+        </div>
+      </div>
+      <div class="col-md-4">
+        <input (keyup)="onGetamountReceived()" type="number" class="form-control" formControlName="amountReceived"
+          placeholder="Montant récu" />
+      </div>
+
+      <div class="col-md-4">
+        <input type="number" class="form-control" formControlName="amountReturned" placeholder="Monnaie" />
       </div>
     </div>
-    <div class="col-md-4">
-      <input
-      (keyup)="getamountReceived()"
-        type="number"
-        class="form-control"
-        formControlName="amountReceived"
-        placeholder="Montant récu"
-      />
-    </div>
-
-    <div class="col-md-4">
-      <input
-        type="number"
-        class="form-control"
-        formControlName="amountReturned"
-        placeholder="Monnaie"
-      />
-    </div>
-   </div>
 
     <div class=" text-left">
-      <span *ngIf="amountReceivedIsvalid" [style.display]="'block'" [style.color]="'red'" class="color-danger mb-2">Veuillez entrer un montant supérieur ou égale au montant de la facture.</span>
-      <button  type="submit" class="btn btn-submit">ENCAISSER</button>
+      <span *ngIf="amountReceivedIsvalid" [style.display]="'block'" [style.color]="'red'"
+        class="color-danger mb-2">Veuillez entrer un montant supérieur ou égale au montant de la facture.</span>
+      <button type="submit" class="btn btn-submit">ENCAISSER</button>
     </div>
   </form>
 </div>

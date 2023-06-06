@@ -77,6 +77,8 @@ export class PatientListComponent implements OnInit {
       lastName: new FormControl(''),
       cnamNumber: new FormControl(''),
       idCardNumber: new FormControl(''),
+      correspondant: new FormControl(''),
+      emergencyContact: new FormControl(''),
       page: new FormControl(0),
       size: new FormControl(50),
       sort: new FormControl('id,desc'),
@@ -85,6 +87,7 @@ export class PatientListComponent implements OnInit {
 
   onSearchValueChange(): void {
     this.getPatient();
+    
   }
 
   public getPatient() {

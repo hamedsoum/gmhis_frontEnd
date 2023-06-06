@@ -27,25 +27,9 @@
   <nb-card-body>
     <form [formGroup]="searchForm">
       <div class="row d-flex justify-content-between align-items-end mb-2">
-        <div class="col-lg-8 col-md-9 col-sm-12 row">
+        <div class="col-lg-10 col-md-10 col-sm-12 row">
           <div class="col-lg-11 row">
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-2 rounded-pill">
-              <input
-                type="text"
-                class="form-control"
-                formControlName="lastName"
-                placeholder="Nom"
-              />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-2 rounded-pill">
-              <input
-                type="text"
-                class="form-control"
-                formControlName="firstName"
-                placeholder="Prenom"
-              />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-2 rounded-pill">
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-2 rounded-pill">
               <input
                 type="text"
                 class="form-control"
@@ -53,7 +37,7 @@
                 placeholder="N° Patient"
               />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-2 rounded-pill">
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-2 rounded-pill">
               <input
                 type="text"
                 class="form-control"
@@ -61,7 +45,7 @@
                 placeholder="N° carte d'identité"
               />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-2 rounded-pill">
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-2 rounded-pill">
               <input
                 type="text"
                 class="form-control"
@@ -69,12 +53,44 @@
                 placeholder="N° CNAM"
               />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-2 rounded-pill">
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-2 rounded-pill">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="lastName"
+                placeholder="Nom"
+              />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-2 rounded-pill">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="firstName"
+                placeholder="Prenom"
+              />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-2 rounded-pill">
               <input
                 type="text"
                 class="form-control"
                 formControlName="cellPhone"
                 placeholder="N° Tel"
+              />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-2 rounded-pill">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="correspondant"
+                placeholder="correspondant"
+              />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-2 rounded-pill">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="emergencyContact"
+                placeholder="N° Tel. Correspondant"
               />
             </div>
           </div>
@@ -88,7 +104,7 @@
             </span>
           </div>
         </div>
-        <div class="col-lg-2 col-md-3 col-sm-12">
+        <div class="col-lg-1 col-md-1 col-sm-12">
           <ng-select
             [(ngModel)]="selectedSize"
             formControlName="size"
@@ -110,12 +126,12 @@
             <th>Nom</th>
             <th>Prénom(s)</th>
             <th>Date de naissance</th>
-            <th>Sexe</th>
             <th>profession</th>
             <th>Contact 1</th>
             <th>Type Carte ID</th>
-            <!-- <th>N° CNAM</th> -->
             <th>N° carte ID</th>
+            <th>Correspondant</th>
+            <th>N° De Tel. Correspondant</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -144,12 +160,12 @@
               {{ patient?.firstName | uppercase }}
             </td>
             <td>{{ patient?.birthDate | date }}</td>
-            <td>{{ patient?.gender }}</td>
             <td>{{ patient?.profession }}</td>
             <td>{{ patient?.cellPhone1 }}</td>
-            <td class="text-nowrap">{{ patient.idcardType }}</td>
-            <!-- <td class="text-nowrap">{{ patient.cnamNumber }}</td> -->
-            <td class="text-nowrap">{{ patient.idCardNumber }}</td>
+            <td class="text-nowrap">{{ patient?.idcardType }}</td>
+            <td class="text-nowrap">{{ patient?.idCardNumber }}</td>
+            <td class="text-nowrap">{{ patient.correspondant }}</td>
+            <td class="text-nowrap">{{ patient.emergencyContact }}</td>
             <td>
               <div ngbDropdown class="d-inline-block">
                 <button
