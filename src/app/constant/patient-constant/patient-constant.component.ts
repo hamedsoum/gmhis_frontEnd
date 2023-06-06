@@ -69,9 +69,7 @@ export class PatientConstantComponent implements OnInit {
     private datePipe : DatePipe
     ) { }
 
-  ngOnInit(): void {
-    console.log(this.patientId);
-    
+  ngOnInit(): void {    
     this.initform();
     if (this.patientId) {
       console.log(this.patientId);
@@ -81,7 +79,6 @@ export class PatientConstantComponent implements OnInit {
     this.route.paramMap.subscribe(
       params => {
         const id = Number(params.get('patientId'));
-        console.log(id);
         this.getPatientDetailsByPatientId(id);
       }
       ) 
@@ -111,9 +108,7 @@ export class PatientConstantComponent implements OnInit {
     this.subs.add(
       this.patientConstantService.findAll(this.searchForm.value).
       pipe(
-        map((response: PageList) => {
-          console.log(response);
-          
+        map((response: PageList) => {          
             let data = response.items;            
             const constantgroupedByDate : any[] = data.reduce((constantGroup: {[key: string]: any[]}, item) => {
               if (!constantGroup[item.takenAt]) {
@@ -121,26 +116,18 @@ export class PatientConstantComponent implements OnInit {
               }
               constantGroup[item.takenAt].push(item);      
               return constantGroup;
-             }, {});
-             console.log(constantgroupedByDate);
-             
+             }, {});             
              let constantTab  = [];
              let TableHeader  = [];
-             Object.values(constantgroupedByDate).forEach((el, i) => {
-               console.log(el);
-               
+             Object.values(constantgroupedByDate).forEach((el, i) => {               
               let newObject = {};
               newObject['date'] = this.datePipe.transform(new Date(el[0]['takenAt'])) ;
-               el.forEach((item) => {
-                 console.log(item);
-                 
+               el.forEach((item) => {                 
                 newObject[`${item['constant']}`] = item['value'];
                })
                
                constantTab.push(newObject);
-             } )
-             console.log(constantTab);
-             
+             } )             
              constantTab.forEach((item) => {
               Object.keys(item).forEach(key => {
                 TableHeader.push(key);
@@ -148,8 +135,6 @@ export class PatientConstantComponent implements OnInit {
              })
                              
              this.uniqueTableHeaders = [...new Set(TableHeader)];
-             console.log(this.uniqueTableHeaders);
-             console.log(constantTab.sort((a, b) => a.date - b.date));
              ;
 
              response.items = constantTab;
@@ -163,7 +148,6 @@ export class PatientConstantComponent implements OnInit {
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;
-          console.log(this.items);
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -195,7 +179,6 @@ export class PatientConstantComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.PatientconstantDomain = item;
-    console.log(this.PatientconstantDomain);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 
@@ -237,7 +220,6 @@ export class PatientConstantComponent implements OnInit {
     this.patientService.getPatientDetail(patientId).subscribe(
       (response : any) => {
         this.patient = response;
-        console.log(this.patient);
       }
     )
   }

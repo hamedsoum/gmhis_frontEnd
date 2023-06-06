@@ -50,11 +50,16 @@ export class PatientListComponent implements OnInit {
   showloading: boolean = false;
   currentIndex: number;
 
+  emptyListMessage : string ; 
+
   acctionsList : boolean = false;
+
+  disabledAllFormFiled : boolean;
+
+
   constructor(
     private patientService: PatientService,
     private notificationService: NotificationService,
-    config: NgbModalConfig,
     private modalService: NgbModal
   ) {}
 
@@ -75,7 +80,6 @@ export class PatientListComponent implements OnInit {
       firstName: new FormControl(''),
       cellPhone: new FormControl(''),
       lastName: new FormControl(''),
-      cnamNumber: new FormControl(''),
       idCardNumber: new FormControl(''),
       correspondant: new FormControl(''),
       emergencyContact: new FormControl(''),
@@ -91,6 +95,7 @@ export class PatientListComponent implements OnInit {
   }
 
   public getPatient() {
+    this.emptyListMessage = '';
     this.showloading = true;
     this.subs.add(
       this.patientService.findAll(this.searchForm.value).subscribe(
@@ -99,19 +104,16 @@ export class PatientListComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;
-          console.log(this.items);
+          this.items = response.items; 
+          console.log(this.items); 
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
           this.totalPages = response.totalPages;
         },
-        (errorResponse: HttpErrorResponse) => {
+        (errorResponse: HttpErrorResponse) => {         
           this.showloading = false;
-          this.notificationService.notify(
-            NotificationType.ERROR,
-            errorResponse.error.message
-          );
+          this.emptyListMessage = errorResponse.error.message + ':(';
         }
       )
     );
@@ -126,11 +128,17 @@ export class PatientListComponent implements OnInit {
     this.getPatient();
   }
 
+  onOpenModal(modalKey : any,size? : string, data? : any) {
+      if (data) this.patient = data;
+      this.modalService.open(modalKey, { size : size} )
+  }
+
   openAddForm(addFormContent) {
     this.modalService.open(addFormContent, { size: 'xl' });
   }
 
   openUpdateForm(updateFormContent, item?) {
+    this.disabledAllFormFiled = true;
     this.patient = item;
     this.modalService.open(updateFormContent, { size: 'xl' });
   }
@@ -138,6 +146,11 @@ export class PatientListComponent implements OnInit {
   openAdmissionForm(admissionFormContent, item?) {
     this.patient = item;
     this.modalService.open(admissionFormContent, { size: 'lg' });
+  }
+
+  onOpenDetailModal(modalKey : any,size? : string, data? : any){
+    this.disabledAllFormFiled = true;
+    this.onOpenModal(modalKey, size,data )
   }
 
   addPatient() {

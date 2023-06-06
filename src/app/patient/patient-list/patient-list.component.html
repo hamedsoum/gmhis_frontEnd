@@ -16,7 +16,7 @@
         <span class="fw-bold"> NOUVEAU</span>
       </button> -->
       <button
-      (click)="openAddForm(addFormContent)"
+      (click)="onOpenModal(addFormContent,'xl', null)"
       class="text-capitalize btn mb-2 btn-block  w-100 d-flex align-items-center justify-content-center text-white rounded"
       style="background-color: #14a2b8;"
     >
@@ -43,14 +43,6 @@
                 class="form-control"
                 formControlName="idCardNumber"
                 placeholder="N° carte d'identité"
-              />
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-12 mb-2 rounded-pill">
-              <input
-                type="text"
-                class="form-control"
-                formControlName="cnamNumber"
-                placeholder="N° CNAM"
               />
             </div>
             <div class="col-lg-3 col-md-3 col-sm-12 mb-2 rounded-pill">
@@ -182,7 +174,7 @@
                   aria-labelledby="dropdownBasic1"
                 >
                   <button
-                    (click)="openUpdateForm(updateFormContent, patient)"
+                  (click)="onOpenModal(updateFormContent,'xl', patient)"
                     class="text-center"
                     ngbDropdownItem
                   >
@@ -190,11 +182,18 @@
                   </button>
                   <button
                     class="text-center"
-                    (click)="openAdmissionForm(admissionFormContent, patient)"
+                    (click)="onOpenModal(admissionFormContent,'lg', patient)"
                     ngbDropdownItem
                   >
                     Nv.admiss
                   </button>
+                  <button
+                  class="text-center"
+                  (click)="onOpenDetailModal(updateFormContent,'xl', patient)"
+                  ngbDropdownItem
+                >
+                  Details
+                </button>
                 </div>
               </div>
             </td>
@@ -213,7 +212,7 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <div  class="d-flex justify-content-center">
+    <div *ngIf="emptyListMessage == '' "  class="d-flex justify-content-center">
       <pagination-controls
         responsive="true"
         previousLabel="Prev"
@@ -222,6 +221,10 @@
       >
       </pagination-controls>
     </div>
+    <span style="display: block; text-align: center;" *ngIf="emptyListMessage != '' ">
+      {{emptyListMessage}}
+    </span>
+
   </nb-card-body>
 </nb-card>
 
@@ -279,6 +282,7 @@
   </div>
   <div class="modal-body">
     <app-patient-formm
+    [disabledAllFormFiled]="disabledAllFormFiled"
       [patient]="patient"
       (updatePatient)="updatePatient()"
     ></app-patient-formm>

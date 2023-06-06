@@ -20,7 +20,6 @@ export class PatientService {
         .set('firstName', data['firstName'].trim() ?? '')
         .set('lastName', data['lastName'].trim() ?? '')
         .set('cellPhone', data['cellPhone'].trim() ?? '')
-        .set('cnamNumber', data['cnamNumber'].trim() ?? '')
         .set('idCardNumber', data['idCardNumber'].trim() ?? '')
         .set('correspondant', data['correspondant'].trim() ?? '')
         .set('emergencyContact', data['emergencyContact'].trim() ?? '')

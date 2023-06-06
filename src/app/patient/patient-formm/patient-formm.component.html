@@ -402,19 +402,31 @@
         </ng-select>
       </div>
 
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
+        <label for="solde" class="form-label text-capitalize"
+          >Solde Patient</label
+        >
+        <input
+          type="number"
+          id="solde"
+          class="form-control"
+          formControlName="solde"
+        />
+      </div>
       
-
-      <div class="text-center fw-bold mb-2">le Patient est t-il assuré ?</div>
-      <div class="insurance_choise d-flex justify-content-center">
+      <div  *ngIf="!disabledAllFormFiled" class="text-center fw-bold mb-2">le Patient est t-il assuré ?</div>
+      <div  class="insurance_choise d-flex justify-content-center">
         <button
           style="background-color: rgb(91, 216, 91)"
           (click)="showInsuranceView()"
           type="button"
           class="btn mx-3 text-capitalize bg-biblos text-white rounded px-4 py-2 fw-bold"
         >
-          Oui! Ajouter une assurance
+        <span >{{!disabledAllFormFiled == true ? 'Oui! Ajouter une assurance' : 'Assurance(s)'}}</span>
+          
         </button>
         <button
+        *ngIf="!disabledAllFormFiled"
           style="background-color: #14a2b8"
           type="submit"
           class="btn text-capitalize bg-biblos text-white rounded px-4 py-2 fw-bold"
@@ -543,14 +555,14 @@
 
           
           <!-- Remove insurance -->
-          <div class="col-md-6">
+          <div *ngIf="!disabledAllFormFiled" class="col-md-6">
             <button (click)="removeInsurance(i)" class="deleteInsurance">
               <fa-icon [icon]="AddIcon"></fa-icon>
             </button>
           </div>
         </ng-container>
       </div>
-      <div class="row d-flex justify-content-center">
+      <div *ngIf="!disabledAllFormFiled" class="row d-flex justify-content-center">
         <div class="col-md-6 text-center">
           <button type="button" (click)="addInsurance()" class="addInsurance">
             Ajouter une assurance
@@ -567,6 +579,7 @@
         </button>
 
         <button
+        *ngIf="!disabledAllFormFiled"
           style="background-color: #14a2b8"
           type="submit"
           class="btn text-capitalize bg-biblos justify-content-center text-white rounded px-4 py-2 fw-bold"

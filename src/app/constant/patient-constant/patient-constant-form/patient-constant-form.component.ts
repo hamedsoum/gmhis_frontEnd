@@ -46,7 +46,7 @@ export class CreateConstantFormComponent implements OnInit {
 
   ngOnInit(): void {    
     this.buildConstantCreateForm();
-    this.getActes();
+    this.getConstant();
     if (this.constantType) {
       this.ConstantsCreateForm.patchValue(this.constantType);
     }
@@ -117,10 +117,29 @@ export class CreateConstantFormComponent implements OnInit {
     }
   }
 
-  getActes() {
+  getConstant() {
     this.constantTypeService.getNameAndIdOfConstanteTypeActive().subscribe(
       (res) => {
         this.constantData = res;
+        console.log(this.constantData);
+        let defaultConstant = ["Température","TENSION ARTÉRIELLE  GAUCHE","TENSION ARTÉRIELLE dROIT","pouls","Poids","taille"];
+        let newConstantData = [];
+        this.constantData.forEach((el,index) => {
+          defaultConstant.forEach((elD) => {
+            if (el.name === elD) {
+             newConstantData.push(el);
+            }
+          })
+      
+        })
+        console.log(newConstantData);
+        newConstantData.forEach((el, index) => {
+              this.addCreateConstantFormBuilded();              
+              this.constantFormArray.controls[index]
+              .get('constant')
+              .setValue(el.id);
+        })
+        
       },
       (errorResponse: HttpErrorResponse) => {
         this.spinnerIsVisibled = false;

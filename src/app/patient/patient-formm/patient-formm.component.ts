@@ -36,15 +36,14 @@ export class PatientFormmComponent implements OnInit {
   private subs = new SubSink();
   AddIcon = faTrash;
 
-  @Input()
-  patient: IPatient;
+  @Input() patient: IPatient;
 
-  @Input()
-  details: boolean;
+  @Input() details: boolean;
 
-  @Output('addPatient') addPatient: EventEmitter<any> = new EventEmitter();
-  @Output('updatePatient') updatePatient: EventEmitter<any> =
-    new EventEmitter();
+  @Input() disabledAllFormFiled : boolean ;
+
+  @Output() addPatient = new EventEmitter();
+  @Output() updatePatient = new EventEmitter();
 
   /**
    * form
@@ -158,10 +157,9 @@ export class PatientFormmComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.initForm();
-    if (this.patient) {
-      console.log(this.patient);
-      
+    if (this.patient) {      
       this.patientService
         .getPatientDetail(this.patient.id)
         .subscribe((response: IPatient) => {
@@ -169,10 +167,9 @@ export class PatientFormmComponent implements OnInit {
           this.patientForm.get('country').setValue(response['country']['id']);
           this.onGetCityBycountry(response['country']['id']);
           this.patientForm.get('cityId').setValue(response['city']['id']);
-          let date = this.datePipe.transform(response.birthDate, "yyyy-MM-dd")
-          console.log(date);
-          
+          let date = this.datePipe.transform(response.birthDate, "yyyy-MM-dd")          
           this.patientForm.get('birthDate').setValue(date);
+         
           this.insuredServiceService
             .getInsuredByPatientId(response.id)
             .subscribe((res: any) => {              
@@ -203,6 +200,12 @@ export class PatientFormmComponent implements OnInit {
                   .setValue(el.society);
               });
             });
+            if (this.disabledAllFormFiled) {
+              this.patientForm.disable();
+              console.log(this.insuranceFormGroup);
+              console.log(this.insuranceFormGroup.controls);
+              
+            }
         });
     
     }else{
@@ -265,6 +268,7 @@ export class PatientFormmComponent implements OnInit {
       cityId: new FormControl(null),
       height: new FormControl(null),
       weight: new FormControl(null),
+      solde : new FormControl(0),
       insurances: new FormControl([]),
     });
   }
