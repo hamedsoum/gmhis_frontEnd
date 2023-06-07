@@ -71,12 +71,9 @@ export class AdmissionListComponent implements OnInit {
   constructor(
     private admissionService: AdmissionService,
     private notificationService: NotificationService,
-    config: NgbModalConfig,
     private modalService: NgbModal,
     private serviceService : ServiceService,
     private actService : ActService,
-    private invoiceDocumentService : InvoiceDocumentService
-
   ) {}
 
   ngOnInit(): void {
@@ -124,6 +121,7 @@ export class AdmissionListComponent implements OnInit {
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;
+          console.log(this.items);          
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;

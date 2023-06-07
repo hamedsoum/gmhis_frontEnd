@@ -89,7 +89,7 @@
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
         <label for="cellPhone1" style="display: block;" class="form-label text-capitalize"
           >N° de téléphone
-          <span *ngIf="!details" class="text-danger">*</span>
+          <span *ngIf="!details && isAnAdult()" class="text-danger">*</span>
           </label
         >
         <input type="text"
@@ -123,7 +123,7 @@
         >
         <span *ngIf="!details" class="text-danger">*</span>
         <input
-        (change)="onBirthDateChange($event)"
+        (change)="onBirthDateChange()"
           type="date"
           id="birthDate"
           class="form-control"
@@ -141,32 +141,6 @@
           >
         </div>
       </div>
-
-      <!-- Sexe -->
-      <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
-        <label for="gender" class="form-label text-capitalize">Sexe</label>
-        <span *ngIf="!details" class="text-danger">*</span>
-        <ng-select
-          [ngClass]="{
-            'is-invalid':
-              (!patientForm.get('gender')?.valid &&
-                patientForm.get('gender')?.touched) ||
-              (!patientForm.get('gender')?.valid && formSubmitted)
-          }"
-          placeholder="Homme/Femme"
-          formControlName="gender"
-        >
-          <ng-option *ngFor="let gender of genders" [value]="gender.id">{{
-            gender.value
-          }}</ng-option>
-        </ng-select>
-        <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('gender')?.errors?.required"
-            >Ce champ est requis</span
-          >
-        </div>
-      </div> -->
-
       <!-- Civilité -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
         <label for="civility" class="form-label text-capitalize"
@@ -277,7 +251,7 @@
         <label for="profession" class="form-label text-capitalize"
           >Profession</label
         >
-        <span *ngIf="!details" class="text-danger">*</span>
+        <span *ngIf="!details && isAnAdult()" class="text-danger">*</span>
         <input
           [ngClass]="{
             'is-invalid':

@@ -124,11 +124,15 @@ export class PrescriptionFormComponent implements OnInit {
   initForm() {
     this.prescriptionForm = this.fb.group({
       id: new FormControl(null),
+      conclusion : new FormControl(null),
       examinationId: new FormControl(this.examinationId),
       patientID : new FormControl(this.patient.id),
       observation: new FormControl(""),
       prescriptionItemsDto: this.fb.array([this.createPresciptionItem()]),
     });
+  }
+  get conclusion() {
+    return this.prescriptionForm.get('conclusion');
   }
   get name() {
     return this.prescriptionForm.get('name');

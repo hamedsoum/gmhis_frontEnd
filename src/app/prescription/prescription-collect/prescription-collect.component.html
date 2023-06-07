@@ -51,16 +51,9 @@
            {{perscriptionItem?.drug | uppercase}}
           </div>
           <div class="col-lg-1">{{perscriptionItem?.quantity}}</div>
-          <!-- <div class="col-lg-3">
-            {{perscriptionItem?.dosage}}
-          </div> -->
           <div class="col-lg-4">
             <span [ngClass]="{'statusColected' : perscriptionItem?.collected == true,'statusDontColected' : perscriptionItem?.collected == false }" class=" px-2 ">{{perscriptionItem?.collected == true ? 'Servir' : 'Non Servir'}}</span>
           </div>
-          <!-- <div class="col-lg-2">
-            <span  [ngClass]="{'price':perscriptionItem?.coverredByCMU == true}">{{perscriptionItem?.drugPrice | currency:'FCFA' : 'symbol' }}</span><br>
-            <span *ngIf="perscriptionItem?.coverredByCMU == true">{{perscriptionItem?.drugPrice - ((perscriptionItem?.drugPrice*70)/100) | currency:'FCFA' : 'symbol' }}</span>
-          </div> -->
           <div  class="col-lg-1">
             <nb-checkbox *ngIf="perscriptionItem?.collected == false" (checkedChange)="getPrescriptionItemsIdToCollected($event,perscriptionItem?.id)"  ></nb-checkbox>
           </div>

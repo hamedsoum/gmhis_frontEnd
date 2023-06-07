@@ -132,15 +132,18 @@ export class PatientFormmComponent implements OnInit {
 
   public formsErrors: { [key: string]: string } = {};
 
-  private isFormSubmitted: boolean = false;
   public insuranceForm!: FormGroup;
   public insuranceFormGroup: any = new FormArray([]);
+  private readonly FORM_FIELDS_TO_CLEAR_VALIDATOR: string[] = ['idcardType','idCardNumber', 'cellPhone1','profession'];
+
   countryList: any = [];
   cityList: any = [];
   insurances: any;
   insurancesSubscribers: any;
 
   patientInfo: boolean = true;
+
+
 
   constructor(
     private patientService: PatientService,
@@ -201,10 +204,7 @@ export class PatientFormmComponent implements OnInit {
               });
             });
             if (this.disabledAllFormFiled) {
-              this.patientForm.disable();
-              console.log(this.insuranceFormGroup);
-              console.log(this.insuranceFormGroup.controls);
-              
+              this.patientForm.disable();              
             }
         });
     
@@ -223,29 +223,25 @@ export class PatientFormmComponent implements OnInit {
   }
 
   isAnAdult(): boolean{
-    let patientAge = this.ageFromDateOfBirthday(this.patientForm.get('birthDate').value);
+    let patientAge = this.ageFromDateOfBirthday(this.patientForm.get('birthDate').value);    
     return patientAge >= 16;
   }
   public ageFromDateOfBirthday(dateOfBirth: any): number {
     return moment().diff(dateOfBirth, 'years');
   }
 
-  onBirthDateChange(){
-   if (!this.isAnAdult()) {
-      this.patientForm.get('idcardType').clearValidators();
-      this.patientForm.get('idcardType').updateValueAndValidity();
-      this.patientForm.get('idCardNumber').clearValidators();
-      this.patientForm.get('idCardNumber').updateValueAndValidity();
-   }else{
-    this.patientForm.get('idcardType').setValidators(Validators.required);
-    this.patientForm.get('idcardType').updateValueAndValidity();
-    this.patientForm.get('idCardNumber').setValidators(Validators.required);
-    this.patientForm.get('idCardNumber').updateValueAndValidity();
-   }
-
-   console.log(this.patientForm.get('idcardType'));
-   
+  onBirthDateChange(){    
+      this.FORM_FIELDS_TO_CLEAR_VALIDATOR.forEach(el => {
+        if (!this.isAnAdult()) {
+          this.patientForm.get(el).clearValidators();
+      this.patientForm.get(el).updateValueAndValidity();
+        }else{
+          this.patientForm.get(el).setValidators(Validators.required);
+          this.patientForm.get(el).updateValueAndValidity()
+        }
+      })   
   }
+
 
   initForm() {
     this.patientForm = new FormGroup({
@@ -481,9 +477,7 @@ export class PatientFormmComponent implements OnInit {
     );
   }
 
-  isPrincipalInsuredChange(row) {  
-    console.log( this.insuranceFormGroup.controls[row].get('isPrincipalInsured').value);
-  }
+  
 
   showInsuranceView() {
     this.patientInfo = !this.patientInfo;

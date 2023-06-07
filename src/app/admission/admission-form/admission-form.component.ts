@@ -87,8 +87,6 @@ admissionDto : IAdmissionDto;
     this.admissionForm.get('patientExternalId').setValue(this.patient.patientExternalId)
     }
   
-
-    // this.findActiveActNameAndId();
     this.findActiveServiceNameAndId();
     this.findActCategorieNameAndId();
     this.findActPracticiainNameAndId();
@@ -113,9 +111,7 @@ admissionDto : IAdmissionDto;
     this.formSubmitted = true;
     if (this.admissionForm.valid) {
       this.showloading = true;
-      this.admissionDto = this.admissionForm.value;
-      console.log(this.admissionDto);
-      
+      this.admissionDto = this.admissionForm.value;      
       if (this.admissionDto.id) {
         this.subs.add(
           this.admissionService.updateAdmission(this.admissionDto).subscribe(
