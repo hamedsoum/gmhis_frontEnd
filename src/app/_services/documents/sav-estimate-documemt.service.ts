@@ -17,8 +17,7 @@ export class SavEstimateDocumemtService {
   totalHt : number;
   constructor(
     private pageHeaderService: PageHeaderService,
-    private datePipe: DatePipe,
-    private invoiceService: InvoiceService) { }
+    private datePipe: DatePipe) { }
     
   getEstimateDoc(appParam: AppParam, estimate: RepairEstimate) {
 

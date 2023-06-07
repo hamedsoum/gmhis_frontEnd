@@ -112,7 +112,6 @@ export class InsuranceBillComponent implements OnInit {
       this.modalService.open(printContent, { size: 'xl' });
       let doc =this.printListService.buildPrintList(this.items)
       this.docSrc = doc.output('datauristring'); 
-    
   }
 
   initform() {

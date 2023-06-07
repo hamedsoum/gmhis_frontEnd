@@ -6,7 +6,6 @@ import { Asset } from 'src/app/_models/asset.model';
 import { PageHeaderService } from './page-header.service';
 import 'jspdf-autotable';
 import { Customer } from 'src/app/_models/customer.model';
-import { BranchOffice } from 'src/app/_models/branchOffice.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -45,7 +44,6 @@ export class AssetInvoiceDocumentService {
     doc.text(": " + asset[4].toUpperCase(), 45, 80);
     doc.line(15, 81, 30, 81)
     doc.text("SUCCURSALE", 15, 86);
-  //  doc.text(": " + (this.branchOffice ? this.branchOffice.name.toUpperCase() : ""), 45, 86);
     doc.text("TEL" , 15, 92);
     doc.text(": " , 45, 92);
     doc.text("N° CC" , 15, 98)

@@ -117,6 +117,7 @@
               <th>Service</th>
               <th>Motif d'admission</th>
               <th>Médecin</th> 
+              <th>Caution</th>
               <th>Facturé</th>
               <th>Actions</th>   
             </tr>
@@ -145,6 +146,7 @@
               <td class="text-nowrap">{{admission.service}}</td>
               <td class="text-nowrap">{{admission.act}}</td>
               <td>Dr {{admission.practicianFirstName}} {{admission.practicianLastName}}</td>
+              <td class="text-center">{{admission.caution != 0 ? ( admission.caution | currency: "FCFA":"symbol":"1.0-0") : '-'}}</td>
               <td class="text-center">
                 <nb-icon *ngIf="admission.admissionStatus == 'B'" style="color: green;" icon="checkmark-circle-2"></nb-icon>
                 <nb-icon *ngIf="admission.admissionStatus == 'R'" style="color: red;" icon="close-circle"></nb-icon>
@@ -166,6 +168,11 @@
                      class="text-center"
                     (click)="openInvoiceForm(invoiceFormContent, admission)"
                     ngbDropdownItem>Facture</button>
+                    <button 
+                    *ngIf="admission.caution != 0"
+                    class="text-center"
+                   (click)="onPrintAdmissionBailReceipt(printContent, admission)"
+                   ngbDropdownItem>Réçu Caution</button>
                   </div>
                 </div>
               </td>
@@ -249,4 +256,5 @@
     </ngx-extended-pdf-viewer>
   </div>
 </ng-template>
+
   

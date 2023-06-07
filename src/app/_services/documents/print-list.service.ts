@@ -13,8 +13,6 @@ export class PrintListService {
 
 
   buildPrintList(insurance: any) {
-
-
     var printDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy');
     var body: any[] = [];
     insurance.forEach((insuranceContent: any) => {
@@ -33,20 +31,14 @@ export class PrintListService {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(19);
     doc.text(`Factures d'Assurance`, 60, 11);
- 
-
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7);
     doc.text(`imprimé le ${printDate}`, 15, 11);
-
     autoTable(doc, {
       headStyles: { fillColor: '#16a2b8' },
       footStyles: { fillColor: '#16a2b8' },
       head: [['Date de Facturation', 'N° Facture', 'N° Admission', 'Assurance', 'Total Facture', 'Part prise en charge']],
       body: body,
-      // foot: [
-      //   ['Total Part Mutuelle', '', '', '', '', ` FCFA`],
-      // ],
       startY: 20,
     });
 

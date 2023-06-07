@@ -6,6 +6,7 @@ import { ActService } from 'src/app/act/act/service/act.service';
 import { InvoiceDocumentService } from 'src/app/invoice/service/document/invoice-document.service';
 import { ServiceService } from 'src/app/service/service/service.service';
 import { PageList } from 'src/app/_models/page-list.model';
+import { AdmissionReceiptPaymentService } from 'src/app/_services/documents/admission-receipt-payment.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
@@ -74,6 +75,7 @@ export class AdmissionListComponent implements OnInit {
     private modalService: NgbModal,
     private serviceService : ServiceService,
     private actService : ActService,
+    private admissionReceiptPaymentService : AdmissionReceiptPaymentService
   ) {}
 
   ngOnInit(): void {
@@ -115,13 +117,11 @@ export class AdmissionListComponent implements OnInit {
     this.subs.add(
       this.admissionService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;
-          console.log(this.items);          
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -223,14 +223,14 @@ addInvoice(){
   }
 
 
-  printInvoice(printContent) {
-    
+  printInvoice(printContent) { 
+    this.modalService.open(printContent, { size: 'xl' })
+  }
+
+  onPrintAdmissionBailReceipt(printContent, admissionData) {
     this.modalService.open(printContent, { size: 'xl' });
-
-    // let doc = this.invoiceDocumentService.getInvoiceDocument();
-    // this.docSrc = doc.output('datauristring');
-
-  
+    let doc =this.admissionReceiptPaymentService.buildPdfDocument(admissionData)
+    this.docSrc = doc.output('datauristring'); 
   }
 
 }
