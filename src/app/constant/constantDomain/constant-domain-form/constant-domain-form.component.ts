@@ -118,16 +118,6 @@ export class ConstantDomainFormComponent implements OnInit {
     if (this.constantDomain) {
       console.log(this.constantDomain);
       this.constantDomainForm.patchValue(this.constantDomain);
-      // this.subs.add(
-      //   this.communeService.getCommuneDetails(this.commune).subscribe(
-      //     (response : Commune)=>{
-      //       this.communeForm.patchValue(response);
-      //       if (this.details) {
-      //         this.communeForm.disable();
-      //       }
-      //     }
-      //   )
-      // )
     }
   }
 
@@ -139,8 +129,6 @@ export class ConstantDomainFormComponent implements OnInit {
 
     merge(this.constantDomainForm.valueChanges, ...formControlBlurs)
       .pipe(
-        //si on clique sur le boutton sauvegarder ne pas utiliser le debounce time sinon l'utiliser pour les autres
-        // debounce(() => this.isFormSubmitted ? EMPTY : timer(800))
         debounceTime(500)
       )
       .subscribe(() => {

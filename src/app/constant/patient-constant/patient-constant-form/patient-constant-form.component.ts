@@ -124,16 +124,15 @@ export class CreateConstantFormComponent implements OnInit {
         console.log(this.constantData);
         let defaultConstant = ["Température","TENSION ARTÉRIELLE  GAUCHE","TENSION ARTÉRIELLE dROIT","pouls","Poids","taille"];
         let newConstantData = [];
-        this.constantData.forEach((el,index) => {
+        let newConstantData2 = [];
+
           defaultConstant.forEach((elD) => {
-            if (el.name === elD) {
-             newConstantData.push(el);
-            }
+            newConstantData = this.constantData.filter(el => el.name === elD);
+            console.log(newConstantData);
+            newConstantData2.push(newConstantData[0]);
           })
       
-        })
-        console.log(newConstantData);
-        newConstantData.forEach((el, index) => {
+            newConstantData2.forEach((el, index) => {
               this.addCreateConstantFormBuilded();              
               this.constantFormArray.controls[index]
               .get('constant')

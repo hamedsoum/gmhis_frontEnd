@@ -173,6 +173,12 @@
                     class="text-center"
                    (click)="onPrintAdmissionBailReceipt(printContent, admission)"
                    ngbDropdownItem>Réçu Caution</button>
+
+                   <button 
+                   *ngIf="admission.caution != 0"
+                   class="text-center"
+                  (click)="onRevokeAdmission(admission)"
+                  ngbDropdownItem>Révoquer</button>
                   </div>
                 </div>
               </td>

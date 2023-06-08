@@ -134,7 +134,7 @@ export class PatientFormmComponent implements OnInit {
 
   public insuranceForm!: FormGroup;
   public insuranceFormGroup: any = new FormArray([]);
-  private readonly FORM_FIELDS_TO_CLEAR_VALIDATOR: string[] = ['idcardType','idCardNumber', 'cellPhone1','profession'];
+  private readonly FORM_FIELDS_TO_CLEAR_VALIDATOR: string[] = ['idcardType','idCardNumber', 'cellPhone1','profession', 'email'];
 
   countryList: any = [];
   cityList: any = [];
@@ -235,9 +235,12 @@ export class PatientFormmComponent implements OnInit {
         if (!this.isAnAdult()) {
           this.patientForm.get(el).clearValidators();
       this.patientForm.get(el).updateValueAndValidity();
+      this.patientForm.get(el).disable();
         }else{
           this.patientForm.get(el).setValidators(Validators.required);
-          this.patientForm.get(el).updateValueAndValidity()
+          this.patientForm.get(el).updateValueAndValidity();
+          this.patientForm.get(el).enable();
+
         }
       })   
   }
@@ -248,7 +251,7 @@ export class PatientFormmComponent implements OnInit {
       id: new FormControl(null),
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
-      email: new FormControl(''),
+      email: new FormControl(null),
       cellPhone1: new FormControl('', [Validators.required]),
       birthDate: new FormControl('', [Validators.required]),
       civility: new FormControl('', [Validators.required]),
@@ -266,6 +269,7 @@ export class PatientFormmComponent implements OnInit {
       weight: new FormControl(null),
       solde : new FormControl(0),
       insurances: new FormControl([]),
+      motherName : new FormControl(null),
     });
   }
   get lastName() {
@@ -362,12 +366,13 @@ export class PatientFormmComponent implements OnInit {
       this.invalidInsuranceFom = element.invalid;
     }
     this.formSubmitted = true;
-
     if (this.patientForm.valid) {
       this.invalidFom = !this.insuranceFormGroup.valid;
       if (this.insuranceFormGroup.valid) {
         this.showloading = true;
-      this.patient = this.patientForm.value;      
+      this.patient = this.patientForm.value;   
+      console.log(this.patient);
+         
       this.infoFormString();
       this.patient.insurances = this.insuranceFormGroup.value;
       if (this.patient.id) {

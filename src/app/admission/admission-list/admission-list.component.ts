@@ -1,9 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActService } from 'src/app/act/act/service/act.service';
-import { InvoiceDocumentService } from 'src/app/invoice/service/document/invoice-document.service';
 import { ServiceService } from 'src/app/service/service/service.service';
 import { PageList } from 'src/app/_models/page-list.model';
 import { AdmissionReceiptPaymentService } from 'src/app/_services/documents/admission-receipt-payment.service';
@@ -79,12 +78,15 @@ export class AdmissionListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-   
     this.initform();
     this.findActiveAServiceNameAndId();
     this.findActiveActNameAndId();
     console.log(this.actServicesNameAndId);
     this.getPatient();
+  }
+
+  onRevokeAdmission(admission): void {
+    this.revokeAdmission(admission.id);
   }
 
   initform() {
@@ -107,6 +109,8 @@ export class AdmissionListComponent implements OnInit {
       sort: new FormControl('id,desc'),
     });
   }
+
+
 
   onSearchValueChange(): void {
     this.getPatient();
@@ -231,6 +235,23 @@ addInvoice(){
     this.modalService.open(printContent, { size: 'xl' });
     let doc =this.admissionReceiptPaymentService.buildPdfDocument(admissionData)
     this.docSrc = doc.output('datauristring'); 
+  }
+
+  private revokeAdmission(admissionId : number){
+    this.admissionService.revokeAdmission(admissionId).subscribe(
+      (response : any) => {
+        this.notificationService.notify(
+          NotificationType.SUCCESS,
+          'admission revoqué avec succès'
+        ); 
+      },
+      (errorResponse : HttpErrorResponse) => {
+        this.notificationService.notify(
+          NotificationType.ERROR,
+          errorResponse.error.message
+        );
+      }
+    )
   }
 
 }

@@ -74,6 +74,31 @@
         </div>
       </div>
 
+         <!-- Date de naissance -->
+         <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
+          <label for="birthDate" class="form-label text-capitalize"
+            >Date de naissance</label
+          >
+          <span *ngIf="!details" class="text-danger">*</span>
+          <input
+          (change)="onBirthDateChange()"
+            type="date"
+            id="birthDate"
+            class="form-control"
+            formControlName="birthDate"
+            [ngClass]="{
+              'is-invalid':
+                (!patientForm.get('birthDate')?.valid &&
+                  patientForm.get('birthDate')?.touched) ||
+                (!patientForm.get('birthDate')?.valid && formSubmitted)
+            }"
+          />
+          <div class="invalid-feedback">
+            <span *ngIf="patientForm.get('birthDate')?.errors?.required"
+              >Ce champ est requis</span
+            >
+          </div>
+        </div>
       <!-- E-mail -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
         <label for="email" class="form-label text-capitalize">E-mail</label>
@@ -113,34 +138,6 @@
         </div>
       </div>
 
- 
-
-  
-      <!-- Date de naissance -->
-      <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="birthDate" class="form-label text-capitalize"
-          >Date de naissance</label
-        >
-        <span *ngIf="!details" class="text-danger">*</span>
-        <input
-        (change)="onBirthDateChange()"
-          type="date"
-          id="birthDate"
-          class="form-control"
-          formControlName="birthDate"
-          [ngClass]="{
-            'is-invalid':
-              (!patientForm.get('birthDate')?.valid &&
-                patientForm.get('birthDate')?.touched) ||
-              (!patientForm.get('birthDate')?.valid && formSubmitted)
-          }"
-        />
-        <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('birthDate')?.errors?.required"
-            >Ce champ est requis</span
-          >
-        </div>
-      </div>
       <!-- Civilité -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
         <label for="civility" class="form-label text-capitalize"
@@ -387,6 +384,18 @@
           formControlName="solde"
         />
       </div>
+
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
+        <label for="solde" class="form-label text-capitalize"
+          >Nom de la Mère</label
+        >
+        <input
+          type="text"
+          id="solde"
+          class="form-control"
+          formControlName="motherName"
+        />
+      </div>
       
       <div  *ngIf="!disabledAllFormFiled" class="text-center fw-bold mb-2">le Patient est t-il assuré ?</div>
       <div  class="insurance_choise d-flex justify-content-center">
@@ -442,7 +451,6 @@
                   Veuillez choisir une assurance </small>
           </div>
           </div>
-
                            <!-- insuranceSuscriber -->
                            <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
                             <label

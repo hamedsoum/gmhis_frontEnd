@@ -88,6 +88,9 @@ export class AdmissionService {
     );
   }
 
+
+  revokeAdmission(admission: any): Observable<any> {return this.http.put<any>(`${this.apiUrl}/admission/update/${admission.id}`,admission);}
+
   getAdmissionDetail(admission: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/admission/get-detail/${admission.id}`);
   }

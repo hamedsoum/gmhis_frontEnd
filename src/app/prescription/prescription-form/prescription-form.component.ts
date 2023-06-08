@@ -117,6 +117,8 @@ export class PrescriptionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.examinationId);
+    
     this.findActiveDrugNameAndId();
     this.initForm(); 
   }
@@ -166,8 +168,9 @@ export class PrescriptionFormComponent implements OnInit {
     this.formSubmitted = true;
     if (this.prescriptionForm.valid) {
       this.prescriptionDto = this.prescriptionForm.value;
-      // this.showloading = true;
       this.prescriptionDto.prescriptionItemsDto =  this.prescriptionForm.get("prescriptionItemsDto").value;
+      console.log(this.prescriptionDto);
+      
       this.subs.add(
         this.prescriptionService
           .createPrescription(this.prescriptionDto)
