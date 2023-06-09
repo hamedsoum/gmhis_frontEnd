@@ -175,9 +175,8 @@
                    ngbDropdownItem>Réçu Caution</button>
 
                    <button 
-                   *ngIf="admission.caution != 0"
                    class="text-center"
-                  (click)="onRevokeAdmission(admission)"
+                  (click)="onRevokeConfirmation(revokeConfirmation, admission)"
                   ngbDropdownItem>Révoquer</button>
                   </div>
                 </div>
@@ -261,6 +260,23 @@
     <ngx-extended-pdf-viewer *ngIf='docSrc' [src]="docSrc" useBrowserLocale="true" height="80vh">
     </ngx-extended-pdf-viewer>
   </div>
+</ng-template>
+
+<ng-template #revokeConfirmation let-c="close" let-d="dismiss">
+  <div class="modal-header ">
+    <small>Voulez vous vraiment revoquer cette admission ? si oui continuer :-)....</small>
+    <nb-icon
+      style="cursor: pointer"
+      (click)="d('Cross click')"
+      class="h4"
+      icon="close-circle-outline"
+    ></nb-icon>
+  </div>
+  <div class="modal-body d-flex justify-content-center">
+      <button (click)="OnRevokeAdmission(false)" class="btn btn-danger mx-2">Nom</button>
+      <button (click)="OnRevokeAdmission(true)" class="btn btn-success">Oui</button>
+  </div>
+
 </ng-template>
 
   

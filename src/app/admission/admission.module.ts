@@ -7,10 +7,11 @@ import { AdmissionListComponent } from './admission-list/admission-list.componen
 import { SharedModule } from '../shared/shared.module';
 import { InvoiceModule } from '../invoice/invoice.module';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 
 @NgModule({
-  declarations: [AdmissionFormComponent, AdmissionListComponent, ],
+  declarations: [AdmissionFormComponent, AdmissionListComponent, ConfirmationComponent, ],
   imports: [
     CommonModule,
     AdmissionRoutingModule,

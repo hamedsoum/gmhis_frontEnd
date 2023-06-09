@@ -25,6 +25,8 @@ export class AdmissionListComponent implements OnInit {
 
   public admission: IAdmission;
 
+  public admissionId : number;
+
   public makeInvoiceByAdmission : boolean;
 
   currentPage: number;
@@ -82,11 +84,20 @@ export class AdmissionListComponent implements OnInit {
     this.findActiveAServiceNameAndId();
     this.findActiveActNameAndId();
     console.log(this.actServicesNameAndId);
-    this.getPatient();
+    this.getAdmissions();
   }
 
-  onRevokeAdmission(admission): void {
-    this.revokeAdmission(admission.id);
+  onRevokeConfirmation(openRevokeConfirmation,admission, size:string) {  
+      this.admission = admission;  
+      this.admissionId = this.admission.id;    
+      this.modalService.open(openRevokeConfirmation, { size: size, centered : true });
+  }
+
+  OnRevokeAdmission(revoked : boolean) {  
+    if (revoked){
+      this.revokeAdmission(this.admissionId);
+    } 
+    this.modalService.dismissAll();
   }
 
   initform() {
@@ -113,10 +124,10 @@ export class AdmissionListComponent implements OnInit {
 
 
   onSearchValueChange(): void {
-    this.getPatient();
+    this.getAdmissions();
   }
 
-  public getPatient() {
+  public getAdmissions() {
     this.showloading = true;
     this.subs.add(
       this.admissionService.findAll(this.searchForm.value).subscribe(
@@ -143,12 +154,12 @@ export class AdmissionListComponent implements OnInit {
   }
 
   onIsActiveChange() {
-    this.getPatient();
+    this.getAdmissions();
   }
 
   onPageChange(event) {
     this.searchForm.get('page').setValue(event - 1);
-    this.getPatient();
+    this.getAdmissions();
   }
 
   openAddForm(addFormContent) {
@@ -174,7 +185,7 @@ export class AdmissionListComponent implements OnInit {
       NotificationType.SUCCESS,
       'admission modifié avec succès'
     );
-    this.getPatient();
+    this.getAdmissions();
   }
 
 addInvoice(){
@@ -183,7 +194,7 @@ addInvoice(){
     NotificationType.SUCCESS,
     'facture crée avec succès'
   );
-  this.getPatient();
+  this.getAdmissions();
 }
 
 
@@ -238,12 +249,15 @@ addInvoice(){
   }
 
   private revokeAdmission(admissionId : number){
+    console.log(admissionId);
     this.admissionService.revokeAdmission(admissionId).subscribe(
       (response : any) => {
         this.notificationService.notify(
           NotificationType.SUCCESS,
           'admission revoqué avec succès'
         ); 
+        this.getAdmissions();
+
       },
       (errorResponse : HttpErrorResponse) => {
         this.notificationService.notify(
