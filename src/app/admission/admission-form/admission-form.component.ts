@@ -209,7 +209,6 @@ admissionDto : IAdmissionDto;
       (response : INameAndId[])=> {
         this.practicians = response;
         console.log(this.practicians);
-        
       }
     )
   }

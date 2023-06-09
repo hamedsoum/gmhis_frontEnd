@@ -249,7 +249,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
       children: [
         {
           title: 'Liste des practiciens',
-          // link: '/constant/domain',
+          link: '/practician/list',
           icon: 'minus-outline',
         }    
       ],

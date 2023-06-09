@@ -117,6 +117,11 @@ const routes: Routes = [
           import('./patient/patient.module').then((m) => m.PatientModule),
       },
       {
+        path: 'practician',
+        loadChildren: () =>
+          import('./practician/practician.module').then((m) => m.PracticianModule),
+      },
+      {
         path: 'prescription',
         loadChildren: () =>
           import('./prescription/prescription.module').then((m) => m.PrescriptionModule),
