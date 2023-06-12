@@ -270,6 +270,8 @@ export class PatientFormmComponent implements OnInit {
       solde : new FormControl(0),
       insurances: new FormControl([]),
       motherName : new FormControl(null),
+      motherLocality : new FormControl(null),
+
     });
   }
   get lastName() {
@@ -370,9 +372,7 @@ export class PatientFormmComponent implements OnInit {
       this.invalidFom = !this.insuranceFormGroup.valid;
       if (this.insuranceFormGroup.valid) {
         this.showloading = true;
-      this.patient = this.patientForm.value;   
-      console.log(this.patient);
-         
+      this.patient = this.patientForm.value;            
       this.infoFormString();
       this.patient.insurances = this.insuranceFormGroup.value;
       if (this.patient.id) {
