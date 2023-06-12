@@ -47,15 +47,25 @@ export class PracticianFormComponent implements OnInit {
     this.buildField();
   }
 
+  showPreview(event: any) {
+    let file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      let result = reader.result as string;
+      this.fieldGroup.get('signature').setValue(result);
+    };    
+    reader.readAsDataURL(file);    
+  }
+
   private buildField() {
     this.fieldGroup = new FormGroup({
       id: new FormControl(null),
-      nom: new FormControl('', [Validators.required]),
-      prenoms: new FormControl(null),
+      nom: new FormControl('', Validators.required),
+      prenoms: new FormControl('', Validators.required),
       email: new FormControl(''),
-      signature: new FormControl('signature'),
+      signature: new FormControl('', Validators.required),
       speciliaty_id: new FormControl(2),
-      telephone: new FormControl(''),
+      telephone: new FormControl('', Validators.required),
     });
   }
   get nom() {return this.fieldGroup.get('nom')}
@@ -68,11 +78,12 @@ export class PracticianFormComponent implements OnInit {
   save() {
     this.invalidFom = !this.fieldGroup.valid;
     this.formSubmitted = true;
+    console.log(this.fieldGroup);
+    
     if (this.fieldGroup.valid) {
       this.loading = true;
       this.practicianDto = this.fieldGroup.value;  
       console.log(this.practicianDto);
-          
       if (this.practicianDto.id) {
         this.subs.add(
           this.practicienService.update(this.practicianDto).subscribe(

@@ -15,7 +15,7 @@ import { ExaminationService } from '../examination/services/examination.service'
 @Component({selector :'patient-detail-component', templateUrl :'patient-folder-details-examination.component.html'})
 export class PatientFolderExaminationDetailsComponent implements OnInit{
 
-    patient: IPatient;
+  patient: IPatient;
   patientId: number;
   admissionId: number;
   showConsultationList : boolean;
@@ -120,9 +120,6 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
         }
       )
   }
-
-
- 
   
   onOpenModal(addFormContent, size:string, centered? : boolean) {
         this.modalService.open(addFormContent, { size: size, centered: centered});

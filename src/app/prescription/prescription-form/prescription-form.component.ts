@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DrugService } from 'src/app/drug/services/drug.service';
+import { IExamination } from 'src/app/medical-folder/examination/models/examination';
+import { ExaminationService } from 'src/app/medical-folder/examination/services/examination.service';
 import { IPatient } from 'src/app/patient/patient';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
@@ -20,14 +22,13 @@ export class PrescriptionFormComponent implements OnInit {
   private subs = new SubSink();
 
 
-  @Input()
-  details: boolean;
+  @Input() details: boolean;
 
-  @Input()
-  patient: IPatient;
+  @Input() patient: IPatient;
 
-  @Input()
-  examinationId : number;
+  @Input() examinationId : number;
+
+  @Input() admissionId : number;
   
   prescriptionDto : IPrescriptionDto
 
@@ -103,12 +104,14 @@ export class PrescriptionFormComponent implements OnInit {
     { name: 'Un à midi , un le soir', value: 'Un à midi , un le soir'},
 
   ]
+  examination: IExamination;
 
   constructor(
     private fb: FormBuilder,
     private notificationService: NotificationService,
     private prescriptionService : PrescriptionService,
-    private drugService : DrugService
+    private drugService : DrugService,
+    private examinationService : ExaminationService
   ) {}
 
   // Unsubscribe when the component dies
@@ -117,16 +120,35 @@ export class PrescriptionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.examinationId);
-    
+    this.retrieveLastExamination();
     this.findActiveDrugNameAndId();
     this.initForm(); 
+  }
+
+  private retrieveLastExamination() {
+    this.examinationService.retrieveLastExamination(this.admissionId).subscribe(
+        (response : any) => {
+           this.examination = response;
+        },
+        (errorResponse : HttpErrorResponse) => {
+          console.log(errorResponse);    
+        }
+    )
+  }
+
+  private updateExamination(){
+    this.examinationService.updateExamination(this.examination).subscribe(
+      (res : any) => {},
+      (errorResponse : HttpErrorResponse) => {
+
+      }
+    )
   }
 
   initForm() {
     this.prescriptionForm = this.fb.group({
       id: new FormControl(null),
-      conclusion : new FormControl(null),
+      conclusion : new FormControl("Paludisme"),
       examinationId: new FormControl(this.examinationId),
       patientID : new FormControl(this.patient.id),
       observation: new FormControl(""),
@@ -168,15 +190,15 @@ export class PrescriptionFormComponent implements OnInit {
     this.formSubmitted = true;
     if (this.prescriptionForm.valid) {
       this.prescriptionDto = this.prescriptionForm.value;
-      this.prescriptionDto.prescriptionItemsDto =  this.prescriptionForm.get("prescriptionItemsDto").value;
-      console.log(this.prescriptionDto);
-      
+      this.prescriptionDto.prescriptionItemsDto =  this.prescriptionForm.get("prescriptionItemsDto").value; 
+      this.examination.conclusion  = this.prescriptionForm.get('').value;     
       this.subs.add(
         this.prescriptionService
           .createPrescription(this.prescriptionDto)
           .subscribe(
             (response: any) => {
               this.showloading = false;
+              this.updateExamination();
               this.addPrescription.emit();
             },
             (errorResponse: HttpErrorResponse) => {

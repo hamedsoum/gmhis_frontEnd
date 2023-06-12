@@ -14,6 +14,11 @@ export class ExaminationService {
   constructor(private http: HttpClient) {}
 
 
+
+  retrieveLastExamination(admissionID:number):Observable<boolean>{
+    return this.http.get<boolean>(`${this.apiUrl}/patient/last_consultation/${admissionID}`);
+  }
+
   AdmissionNoHaveExamination(patientID:number):Observable<boolean>{
     return this.http.get<boolean>(`${this.apiUrl}/examination/findPatientExaminationsOfLastAdmission/${patientID}`);
   }

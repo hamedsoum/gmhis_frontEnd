@@ -72,8 +72,9 @@
               <th>Nom</th>
               <th>Prenoms</th>
               <th>Téléphone</th>
-              <th>Practicien</th>
+              <th>Email</th>
               <th>Spécialité</th>
+              <!-- <th>Statut</th> -->
               <th scope="col">Action</th>
             </tr>
             </thead>
@@ -93,13 +94,12 @@
               [class.active]="i == currentIndex"
               (click)="rowSelected(commune, i)"
             >
-              <td>{{ practicien?.name | uppercase }}</td>
-              <td>{{ practicien?.dci  }}</td>
-              <td>{{ practicien?.therapeuticClass  }}</td>
-              <td>{{ practicien?.pharmacologicalForm  }}</td>
-              <td>{{ practicien?.price | currency:'FCFA' : 'symbol' }}</td>
-              <td>{{ practicien?.dosage  }}</td>
-              <td>
+              <td>{{ practicien?.nom | uppercase }}</td>
+              <td>{{ practicien?.prenoms  }}</td>
+              <td>{{ practicien?.telephone  }}</td>
+              <td>{{ practicien?.email  }}</td>
+              <td></td>
+              <!-- <td>
                 <nb-icon
                   *ngIf="practicien.active == true"
                   style="color: green"
@@ -110,7 +110,7 @@
                   style="color: red"
                   icon="close-circle"
                 ></nb-icon>
-              </td>
+              </td> -->
               <td style="font-size: 30px">
                 <nb-icon
                   (click)="openUpdateForm(updateFormContent, practicien)"
