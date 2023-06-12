@@ -5,24 +5,18 @@ import { DrugService } from 'src/app/drug/services/drug.service';
 import { IExamination } from 'src/app/medical-folder/examination/models/examination';
 import { ExaminationService } from 'src/app/medical-folder/examination/services/examination.service';
 import { IPatient } from 'src/app/patient/patient';
+import { ItemValue } from 'src/app/shared/domain';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
 import { IPrescription } from '../models/prescription';
 import { IPrescriptionDto } from '../models/prescription-dto';
 import { PrescriptionService } from '../services/prescription.service';
+import { traitmentDuration } from './prescription';
 
-@Component({
-  selector: 'app-prescription-form',
-  templateUrl: './prescription-form.component.html',
-  styleUrls: ['./prescription-form.component.scss']
-})
+@Component({selector: 'app-prescription-form',templateUrl: './prescription-form.component.html'})
 export class PrescriptionFormComponent implements OnInit {
-
   private subs = new SubSink();
-
-
-  @Input() details: boolean;
 
   @Input() patient: IPatient;
 
@@ -30,39 +24,20 @@ export class PrescriptionFormComponent implements OnInit {
 
   @Input() admissionId : number;
   
+  @Output() addPrescription = new EventEmitter();
+  @Output() updatePrescription = new EventEmitter();
+
   prescriptionDto : IPrescriptionDto
 
-  @Output('addPrescription') addPrescription: EventEmitter<any> =
-    new EventEmitter();
-  @Output('updatePrescription') updatePrescription: EventEmitter<any> =
-    new EventEmitter();
-
-
-  /**
-   * form
-   */
   public prescriptionForm: FormGroup;
 
-  /**
-   * the form valid state
-   */
   public invalidFom = false;
 
-  /**
-   * check if the form is submitted
-   */
   public formSubmitted = false;
 
+  loading: boolean = false;
 
-
-  /**
-   * handle the spinner
-   */
-  showloading: boolean = false;
-
- 
   prescriptionList: IPrescription[];
-
 
   public errorMessage!: string;
 
@@ -83,46 +58,39 @@ export class PrescriptionFormComponent implements OnInit {
     { name: 10 , value : 10},
   ];
 
-  traitmentDurations = [
-    { name:  'un jour', value :'un jour' },
-    { name:  'deux jours', value :'deux jours' },
-    { name:  'trois jours', value :'trois jours' },
-    { name:  'quatres jours', value :'quatres jours' },
-    { name:  'cing jours', value :'cing jours' },
-    { name:  'six jours', value :'six jours' },
-    { name:  'une semaine', value :'une semaine' },
-    { name:  'deux semaines', value :'deux semaines' },
-    { name:  'trois semains ', value :'trois semains ' },
-    { name:  'un mois ', value :'un mois ' },
-    { name:  'un an', value :'un an' }
+  traitmentDurations:ItemValue[] = [
+    {item:traitmentDuration.ONE_DAY, value:traitmentDuration.ONE_DAY},
+    {item:traitmentDuration.ONE_YEAR, value:traitmentDuration.ONE_YEAR},
+    {item:traitmentDuration.SIX_DAYS, value :traitmentDuration.SIX_DAYS},
+    {item:traitmentDuration.ONE_WEEK, value :traitmentDuration.ONE_WEEK},
+    {item:traitmentDuration.TWO_DAYS, value :traitmentDuration.TWO_DAYS},
+    {item:traitmentDuration.ONE_MONTH, value:traitmentDuration.ONE_MONTH},
+    {item:traitmentDuration.TWO_WEEK, value :traitmentDuration.FOUR_DAYS},
+    {item:traitmentDuration.FIVE_DAYS, value :traitmentDuration.FIVE_DAYS},
+    {item:traitmentDuration.FOUR_DAYS, value :traitmentDuration.FOUR_DAYS},
+    {item:traitmentDuration.THREE_DAYS, value :traitmentDuration.THREE_DAYS},
+    {item:traitmentDuration.THREE_WEEK, value :traitmentDuration.THREE_WEEK},
+  ]
+  
+  posologies:ItemValue[] = [
+    { item: 'Un matin, un à midi', value: 'Un matin, un à midi'},
+    { item: 'Un matin, un le soir', value: 'Un matin,  un le soir'},
+    { item: 'Un à midi , un le soir', value: 'Un à midi , un le soir'},
+    { item: 'Un matin, un à midi , un le soir', value: 'Un matin, un à midi , un le soir'}
   ]
 
-  posologies = [
-    { name: 'Un matin, un à midi , un le soir', value: 'Un matin, un à midi , un le soir'},
-    { name: 'Un matin, un le soir', value: 'Un matin,  un le soir'},
-    { name: 'Un matin, un à midi ', value: 'Un matin, un à midi '},
-    { name: 'Un à midi , un le soir', value: 'Un à midi , un le soir'},
-
-  ]
   examination: IExamination;
 
-  constructor(
-    private fb: FormBuilder,
-    private notificationService: NotificationService,
-    private prescriptionService : PrescriptionService,
-    private drugService : DrugService,
-    private examinationService : ExaminationService
-  ) {}
-
-  // Unsubscribe when the component dies
-  ngOnDestroy() {
-    this.subs.unsubscribe();
-  }
+  constructor(private fb: FormBuilder,private drugService : DrugService,private examinationService : ExaminationService,private notificationService: NotificationService,private prescriptionService : PrescriptionService) {}
 
   ngOnInit(): void {
     this.retrieveLastExamination();
     this.findActiveDrugNameAndId();
     this.initForm(); 
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 
   private retrieveLastExamination() {
@@ -131,7 +99,6 @@ export class PrescriptionFormComponent implements OnInit {
            this.examination = response;
         },
         (errorResponse : HttpErrorResponse) => {
-          console.log(errorResponse);    
         }
     )
   }
@@ -140,7 +107,6 @@ export class PrescriptionFormComponent implements OnInit {
     this.examinationService.updateExamination(this.examination).subscribe(
       (res : any) => {},
       (errorResponse : HttpErrorResponse) => {
-
       }
     )
   }
@@ -148,23 +114,18 @@ export class PrescriptionFormComponent implements OnInit {
   initForm() {
     this.prescriptionForm = this.fb.group({
       id: new FormControl(null),
-      conclusion : new FormControl("Paludisme"),
+      conclusion : new FormControl(""),
       examinationId: new FormControl(this.examinationId),
       patientID : new FormControl(this.patient.id),
       observation: new FormControl(""),
       prescriptionItemsDto: this.fb.array([this.createPresciptionItem()]),
     });
   }
-  get conclusion() {
-    return this.prescriptionForm.get('conclusion');
-  }
-  get name() {
-    return this.prescriptionForm.get('name');
-  }
 
-  get prescriptionItemsDto(): FormArray {
-    return <FormArray>this.prescriptionForm.get('prescriptionItemsDto') as FormArray;
-  }
+  get conclusion() {return this.prescriptionForm.get('conclusion')};
+  get name() {return this.prescriptionForm.get('name')};
+
+  get prescriptionItemsDto(): FormArray {return <FormArray>this.prescriptionForm.get('prescriptionItemsDto') as FormArray};
 
   createPresciptionItem(): FormGroup {
     return this.fb.group({
@@ -197,12 +158,12 @@ export class PrescriptionFormComponent implements OnInit {
           .createPrescription(this.prescriptionDto)
           .subscribe(
             (response: any) => {
-              this.showloading = false;
+              this.loading = false;
               this.updateExamination();
               this.addPrescription.emit();
             },
             (errorResponse: HttpErrorResponse) => {
-              this.showloading = false;
+              this.loading = false;
               this.notificationService.notify(
                 NotificationType.ERROR,
                 errorResponse.error.message
@@ -213,16 +174,13 @@ export class PrescriptionFormComponent implements OnInit {
     }
   }
 
-
-
   private findActiveDrugNameAndId(){
     this.drugService.findActivedrugNameAndId().subscribe(
       (response : any) => {
-        this.drugsNameAndId = response;
-        
+        this.drugsNameAndId = response; 
       },
       (errorResponse : HttpErrorResponse) => {
-        this.showloading = false;
+        this.loading = false;
         this.notificationService.notify(
           NotificationType.ERROR,
           errorResponse.error.message

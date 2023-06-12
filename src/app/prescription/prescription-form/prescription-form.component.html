@@ -1,6 +1,6 @@
 <form [formGroup]="prescriptionForm" (ngSubmit)="save()">
     <div
-      *ngIf="showloading == true"
+      *ngIf="loading == true"
       class="overlay d-flex justify-content-center align-items-center"
     >
       <div class="d-flex w-100 justify-content-center">
@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <small *ngIf="!details" class="mb-2 fw-bold"
+    <small  class="mb-2 fw-bold"
       >Nb: Tous les champs marqués par <span class="text-danger">*</span> sont
       obligatoires</small
     >
