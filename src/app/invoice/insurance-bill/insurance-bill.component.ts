@@ -95,7 +95,6 @@ export class InsuranceBillComponent implements OnInit {
 
   ngOnInit(): void {
     this.initform();
-    console.log(this.actServicesNameAndId);
     this.getInsuranceBill();
     this.getAllInsuranceActiveIdAndName();
   }
@@ -129,7 +128,6 @@ export class InsuranceBillComponent implements OnInit {
   }
 
   onDateChange(range): void {
-    console.log(range);
   }
   
 
@@ -225,9 +223,7 @@ addPayment(){
     this.subs.add(
       this.insuranceService.getAllInsuranceActive().subscribe(
         (response : any) => {
-          this.insurances = response;
-          console.log(this.insurances);
-          
+          this.insurances = response;          
         },
         (errorResponse : HttpErrorResponse) =>{
           this.notificationService.notify(NotificationType.ERROR, errorResponse.message);
@@ -235,27 +231,5 @@ addPayment(){
       )
     )
   }
-
- 
-
-  // printInvoice(printContent, invoice) {
-  //   this.invoiceService.getInvoiceDetail(invoice.id).subscribe(
-  //     (res : any) => {
-  //     console.log(res);
-  //          this.actservice.getActsByBillId(res["billId"]).subscribe(
-  //       (response : any) => {
-  //         this.acts = response;
-  //         console.log(this.acts);
-  //         this.modalService.open(printContent, { size: 'xl' });
-  //         let doc = this.invoiceDocumentService.getInvoiceDocument(res,  this.acts);
-  //         this.docSrc = doc.output('datauristring');  
-  //       }
-  //     )
-    
-  //     }
-  //   )
-  // }
-
-
 
 }

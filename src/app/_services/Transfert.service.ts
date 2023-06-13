@@ -136,7 +136,6 @@ export class TransfertService {
         .set('page', data['page'])
         .set('size', data['size'] ?? "")
     };
-    console.log(queryParams);
     return this.http.get<PageList>(`${this.host}/transfer/list-transferred-article`, queryParams)
   }
 
@@ -149,7 +148,6 @@ export class TransfertService {
         .set('initialDepot', data['initialDepot'])
         .set('finalDepot', data['finalDepot'])
     };
-    console.log(queryParams);
     return this.http.get<any[]>(`${this.host}/transfer/simple-list-transferred-article`, queryParams)
   }
   

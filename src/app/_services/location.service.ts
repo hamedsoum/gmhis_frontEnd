@@ -37,9 +37,7 @@ export class LocationService {
    * @param location 
    * @returns 
    */
-  saveLocation(local : Location):Observable<Location>{
-    console.log(local);
-    
+  saveLocation(local : Location):Observable<Location>{    
     return this.http.post<Location>(`${this.host}/location/add`, local)
   }
 
@@ -48,9 +46,7 @@ export class LocationService {
  * @param location 
  * @returns 
  */
-  updateLocation(location : Location):Observable<Location>{
-    console.log(location);
-    
+  updateLocation(location : Location):Observable<Location>{    
     return this.http.put<Location>(`${this.host}/location/update/${location.id}`, location)
   }
 

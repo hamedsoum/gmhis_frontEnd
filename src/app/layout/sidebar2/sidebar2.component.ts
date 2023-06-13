@@ -318,7 +318,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
       children: [
         {
           title: 'Liste des spécialités',
-          // link: '/constant/domain',
+          link: '/speciality/list',
           icon: 'minus-outline',
         }     
       ],
@@ -329,27 +329,22 @@ export class Sidebar2Component implements OnInit, OnDestroy {
       children: [
         {
           title: 'Pays',
-          // link: '/constant/domain',
           icon: 'minus-outline',
         },
         {
           title: 'Villes',
-          // link: '/constant/type',
           icon: 'minus-outline',
         },
         {
           title: 'Regions',
-          // link: '/constant/type',
           icon: 'minus-outline',
         },
         {
           title: 'Districts',
-          // link: '/constant/type',
           icon: 'minus-outline',
         },
         {
           title: 'Localités',
-          // link: '/constant/type',
           icon: 'minus-outline',
         }
       ],
@@ -360,7 +355,6 @@ export class Sidebar2Component implements OnInit, OnDestroy {
       children: [
         {
           title: 'Liste des symptômes',
-          // link: '/constant/domain',
           icon: 'minus-outline',
         }       
       ],
@@ -371,7 +365,6 @@ export class Sidebar2Component implements OnInit, OnDestroy {
       children: [
         {
           title: 'Liste des types de payements',
-          // link: '/constant/domain',
           icon: 'minus-outline',
         }
       ],
@@ -421,67 +414,16 @@ export class Sidebar2Component implements OnInit, OnDestroy {
   ];
   constructor(private userService: UserService) {}
 
-  // Unsubscribe when the component dies
   ngOnDestroy() {
     this.subs.unsubscribe();
   }
 
   ngOnInit(): void {}
 
-  //basic files menu
   private canAccessBasicFiles() {
     return this.userService.checkAuthority(
       SideBar2MenuAuthorityEnum.ACCESS_BASIC_FILES
     );
-  }
-
-  private canAccessVehicle() {
-    return this.userService.checkAuthority(VehiculeAuthorityEnum.VEHICULE_LIST);
-  }
-
-  private canAccessDriver() {
-    return this.userService.checkAuthority(DriverAuthorityEnum.DRIVER_LIST);
-  }
-
-
-  private canAccessCountry() {
-    return this.userService.checkAuthority(CountryAuthorityEnum.COUNTRY_LIST);
-  }
-
-  private canAccessFreightForwarder() {
-    return this.userService.checkAuthority(
-      FreightForwarderAuthorityEnum.FREIGHT_FORWARDER_LIST
-    );
-  }
-
-  private canAccessContainerCost() {
-    return this.userService.checkAuthority(
-      containerCostAuthorityEnum.CONTAINER_COST_LIST
-    );
-  }
-
-  private canAccessExcess() {
-    return this.userService.checkAuthority(
-      containerCostAuthorityEnum.CONTAINER_COST_LIST
-    );
-  }
-
-  private canAccessShipper() {
-    return this.userService.checkAuthority(ShipperAuthorityEnum.SHIPPER_LIST);
-  }
-
-  private canAccessPort() {
-    return this.userService.checkAuthority(PortAuthorityEnum.PORT_LIST);
-  }
-
-  private canAccessStockOutReason() {
-    return this.userService.checkAuthority(
-      StockOutReasonAuthorityEnum.STOCK_OUT_REASON_LIST
-    );
-  }
-
-  private canAccessCarrier() {
-    return this.userService.checkAuthority(CarrierAuthorityEnum.CARRIER_LIST);
   }
   //user managenement menu
   private canAccessUserManagenent() {
@@ -505,17 +447,5 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     return this.userService.checkAuthority(
       SideBar2MenuAuthorityEnum.ACCESS_APPLICATION_SETTINGS
     );
-  }
-
-  private canAccessCity() {
-    return this.userService.checkAuthority(CityAuthorityEnum.CITY_LIST);
-  }
-
-  private canAccessCommune() {
-    return this.userService.checkAuthority(CommuneAuthorityEnum.COMMUNE_LIST);
-  }
-
-  private canAccessEditor() {
-    return this.userService.checkAuthority(EditorAuthorityEnum.EDITOR_LIST);
   }
 }

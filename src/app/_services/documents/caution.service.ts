@@ -12,9 +12,7 @@ export class CautionService {
 
   constructor(private datePipe : DatePipe) { }
 
-  printCaution (location : Location) {
-    console.log(location);
-    
+  printCaution (location : Location) {    
     var doc = new jsPDF('p', 'mm', 'a4');
 
    

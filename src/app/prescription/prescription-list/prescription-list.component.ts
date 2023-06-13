@@ -66,9 +66,7 @@ export class PrescriptionListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.initform();
-    console.log(this.patientId);
-    
+    this.initform();    
     let dateConvert: string;
     this.getPrescription();
   }
@@ -93,7 +91,6 @@ export class PrescriptionListComponent implements OnInit {
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;
-          console.log(this.items); 
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -140,9 +137,7 @@ export class PrescriptionListComponent implements OnInit {
 
   printPrescription(printContent, item : any){
       this.prescriptionService.getPrescriptionDetails(item["id"]).subscribe(
-        (response : any) => {
-          console.log(response);
-          
+        (response : any) => {          
           this.prescriptionService.getPrescriptionItemByPrescriptionId(response["id"]).subscribe(
             (res : any) => {
               this.modalService.open(printContent, { size: 'xl' });

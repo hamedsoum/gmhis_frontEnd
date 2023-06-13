@@ -80,7 +80,6 @@ export class CashRegisterListComponent implements OnInit {
     this.subs.add(
       this.cashRegisterService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -117,7 +116,6 @@ export class CashRegisterListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.cashRegister = item;
-    console.log(this.cashRegister);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 

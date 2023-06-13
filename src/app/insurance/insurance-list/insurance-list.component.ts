@@ -65,44 +65,7 @@ export class InsuranceListComponent implements OnInit {
       name: 'INSURANCE',
     };
 
-    // this.actGroupService.createActGroup(actGroup).subscribe(
-    //   (res : any)=>{
-    //     console.log(res);
-
-    //   },
-    //   (error : HttpErrorResponse) =>{
-    //     console.error(error.error.message);
-
-    //   }
-    // )
   }
-
-  // public getAntecedent() {
-  //   this.showloading = true;
-  //   this.subs.add(
-  //     this.actCodeService.findAll(this.searchForm.value).subscribe(
-  //       (response: PageList) => {
-  //         console.log(response);
-  //         this.showloading = false;
-  //         this.currentPage = response.currentPage + 1;
-  //         this.empty = response.empty;
-  //         this.firstPage = response.firstPage;
-  //         this.items = response.items;
-  //         this.lastPage = response.lastPage;
-  //         this.selectedSize = response.size;
-  //         this.totalItems = response.totalItems;
-  //         this.totalPages = response.totalPages;
-  //       },
-  //       (errorResponse: HttpErrorResponse) => {
-  //         this.showloading = false;
-  //         this.notificationService.notify(
-  //           NotificationType.ERROR,
-  //           errorResponse.error.message
-  //         );
-  //       }
-  //     )
-  //   );
-  // }
 
   initform() {
     this.searchForm = new FormGroup({
@@ -123,7 +86,6 @@ export class InsuranceListComponent implements OnInit {
     this.subs.add(
       this.insuranceService.findAllInsurance(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -160,7 +122,6 @@ export class InsuranceListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.insurance = item;
-    console.log(this.insurance);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 

@@ -122,8 +122,6 @@ export class WaitingRoomFormComponent implements OnInit {
     if (this.waitingRoomForm.valid) {
       this.showloading = true;
       this.waitingRoomDTO = this.waitingRoomForm.value;
-      console.log(this.waitingRoom);
-
       if (this.waitingRoomDTO.id) {
         this.subs.add(
           this.waitingRoomService.updatewaitingRoom(this.waitingRoomDTO).subscribe(

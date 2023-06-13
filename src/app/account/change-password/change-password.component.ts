@@ -47,9 +47,7 @@ export class ChangePasswordComponent implements OnInit {
       // } else {
       //   this.router.navigateByUrl('login');
       // }
-      this.username = this.route.snapshot.paramMap.get('username');
-      console.log(this.username);
-      
+      this.username = this.route.snapshot.paramMap.get('username');      
       this.initForm();
     }
   
@@ -95,7 +93,6 @@ export class ChangePasswordComponent implements OnInit {
       if(this.resetPasswordForm.valid){
         this.authenticationService.firstLoginChangePassword(password).subscribe(
           (res:any) => {
-            console.log(res);
             this.onLoading = false;
             this.resetPasswordForm.reset();
             this.messageService.add({
@@ -107,7 +104,6 @@ export class ChangePasswordComponent implements OnInit {
             this.router.navigate(['/account/login']);
           },
           (err: HttpErrorResponse) => {
-            console.log(err.message);
             this.onLoading = false;
             this.messageService.add({
               severity: 'error',

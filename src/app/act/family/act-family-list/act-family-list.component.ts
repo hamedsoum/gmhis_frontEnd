@@ -64,17 +64,6 @@ export class ActFamilyListComponent implements OnInit {
       id: 0,
       name: 'FAMILLE5',
     };
-
-    // this.actGroupService.createActGroup(actGroup).subscribe(
-    //   (res : any)=>{
-    //     console.log(res);
-
-    //   },
-    //   (error : HttpErrorResponse) =>{
-    //     console.error(error.error.message);
-
-    //   }
-    // )
   }
 
   public getactCategories() {
@@ -82,7 +71,6 @@ export class ActFamilyListComponent implements OnInit {
     this.subs.add(
       this.actGroupService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -123,7 +111,6 @@ export class ActFamilyListComponent implements OnInit {
     this.subs.add(
       this.actGroupService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -160,7 +147,6 @@ export class ActFamilyListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.actGroup = item;
-    console.log(this.actGroup);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 

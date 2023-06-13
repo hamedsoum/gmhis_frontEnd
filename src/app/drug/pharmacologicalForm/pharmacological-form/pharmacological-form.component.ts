@@ -87,13 +87,9 @@ export class PharmacologicalFormComponent implements OnInit {
   
     this.initForm();
     if (this.pharmacologicalForm) {
-      console.log(this.pharmacologicalForm);
       this.pharmacologicalFormForm.patchValue(this.pharmacologicalForm);
-  
     }
   }
-
- 
 
   initForm() {
     this.pharmacologicalFormForm = new FormGroup({
@@ -113,8 +109,6 @@ export class PharmacologicalFormComponent implements OnInit {
     if (this.pharmacologicalFormForm.valid) {
       this.showloading = true;
       this.pharmacologicalFormDto = this.pharmacologicalFormForm.value;
-      console.log(this.pharmacologicalFormDto);
-
       if (this.pharmacologicalFormDto.id) {
         this.subs.add(
           this.pharmacologicalServie.updatePharmacologicalForm(this.pharmacologicalFormDto).subscribe(

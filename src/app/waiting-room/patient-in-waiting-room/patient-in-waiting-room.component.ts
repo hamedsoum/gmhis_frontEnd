@@ -92,7 +92,6 @@ export class PatientInWaitingRoomComponent implements OnInit {
     this.findActiveActNameAndId();
     this.findActiveWaitingRoomNameAndId();
     this.findActivePracticianNameAndId();
-    console.log(this.actServicesNameAndId);
     this.getPatient();
   }
 
@@ -138,7 +137,6 @@ export class PatientInWaitingRoomComponent implements OnInit {
     this.subs.add(
       this.admissionService.findAdmissionQueue(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -216,7 +214,6 @@ addInvoice(){
     this.serviceService.findActiveServiceNameAndId().subscribe(
       (response : any) => { 
         this.actServicesNameAndId = response;
-        console.log(this.actServicesNameAndId);
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;
@@ -265,9 +262,7 @@ addInvoice(){
   public findActivePracticianNameAndId(){
     this.practicianService.findPracticianSimpleList().subscribe(
       (response : any) => {
-        this.practicians = response; 
-        console.log(this.practicians);
-        
+        this.practicians = response;         
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;

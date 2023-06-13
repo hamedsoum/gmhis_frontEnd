@@ -78,12 +78,9 @@ export class PracticianFormComponent implements OnInit {
   save() {
     this.invalidFom = !this.fieldGroup.valid;
     this.formSubmitted = true;
-    console.log(this.fieldGroup);
-    
     if (this.fieldGroup.valid) {
       this.loading = true;
       this.practicianDto = this.fieldGroup.value;  
-      console.log(this.practicianDto);
       if (this.practicianDto.id) {
         this.subs.add(
           this.practicienService.update(this.practicianDto).subscribe(

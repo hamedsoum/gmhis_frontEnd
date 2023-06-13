@@ -83,7 +83,6 @@ export class AdmissionListComponent implements OnInit {
     this.initform();
     this.findActiveAServiceNameAndId();
     this.findActiveActNameAndId();
-    console.log(this.actServicesNameAndId);
     this.getAdmissions();
   }
 
@@ -168,14 +167,12 @@ export class AdmissionListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.admission = item;
-    console.log(this.admission);
     this.modalService.open(updateFormContent, { size: 'xl' });
   }
 
   openInvoiceForm(invoiceFormContent, item?) {
     this.admission = item;
     this.makeInvoiceByAdmission = true;
-    console.log(this.admission);
     this.modalService.open(invoiceFormContent, { size: 'xl' });
   }
 
@@ -211,7 +208,6 @@ addInvoice(){
     this.serviceService.findActiveServiceNameAndId().subscribe(
       (response : any) => { 
         this.actServicesNameAndId = response;
-        console.log(this.actServicesNameAndId);
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;
@@ -249,7 +245,6 @@ addInvoice(){
   }
 
   private revokeAdmission(admissionId : number){
-    console.log(admissionId);
     this.admissionService.revokeAdmission(admissionId).subscribe(
       (response : any) => {
         this.notificationService.notify(

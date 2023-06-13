@@ -38,9 +38,7 @@ export class InvoiceAssDocumentService {
     var tBody = [];
   let article = [];
   let totalAmount : number = 0 ;
-    JSON.parse(invoiceAss["services"]).forEach((x, index) => {
-      console.log(x);
-      
+    JSON.parse(invoiceAss["services"]).forEach((x, index) => {      
       totalAmount = totalAmount + (x["unitQty"] * x["unitPrice"]);
       let cellBgColor = environment.docWhiteCellBgColor;
       if(index%2 != 0)  cellBgColor = environment.docStripedCellBgColor;

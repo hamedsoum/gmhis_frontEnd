@@ -9,9 +9,7 @@ export class AdmissionReceiptPaymentService {
 
   constructor( private datePipe: DatePipe) { }
 
-  buildPdfDocument(admision : any){
-    console.log(admision);
-    
+  buildPdfDocument(admision : any){    
     var doc = new jsPDF('p', 'mm', 'a5');
     doc.setFontSize(10)
     doc.setFont("arial", "normal")

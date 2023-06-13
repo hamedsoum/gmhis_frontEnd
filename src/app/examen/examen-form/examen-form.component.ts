@@ -76,9 +76,7 @@ export class ExamenFormComponent implements OnInit {
     private examinationService : ExaminationService
     ) { }
 
-  ngOnInit(): void {
-    console.log(this.examenType);
-    
+  ngOnInit(): void {    
     this.retrieveDayNumberBetweenAdmissionFirstExaminationAndCurrentDate();
 
     this.getAllAct();
@@ -91,12 +89,9 @@ export class ExamenFormComponent implements OnInit {
   retrieveDayNumberBetweenAdmissionFirstExaminationAndCurrentDate(){
     this.examinationService.retrieveDayNumberBetweenAdmissionFirstExaminationAndCurrentDate(this.admissionId).subscribe(
       (response : number) => {
-        this.dayBetweenLastExaminationAndCurrentDate = response;
-        console.log(this.dayBetweenLastExaminationAndCurrentDate);
-        
+        this.dayBetweenLastExaminationAndCurrentDate = response;        
       },
       (errorResponse : HttpErrorResponse) => {
-        console.log(errorResponse);
       }
     )
   }
@@ -106,11 +101,8 @@ export class ExamenFormComponent implements OnInit {
   }
 
   ChooseLaboratoryType(laboratoryType : number){
-    console.log(laboratoryType);
     if (laboratoryType == 1) this.saveExamanRequest();
   }
-
-
 
   initForm():void {
     this.examenForm = new FormGroup({

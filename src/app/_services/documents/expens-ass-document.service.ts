@@ -31,7 +31,6 @@ export class ExpensAssDocumentService {
     for (let index = 0; index < invoiceSaa.length; index++) {
       const item = invoiceSaa[index];
       totalInvoice = totalInvoice + item["totalInvoice"];
-      console.log(item);
       let article = [
         { content: this.datePipe.transform(new Date(item.date), 'dd/MM/yyyy'), styles: { valign: 'middle', halign: 'center' } },
         { content: item.libelle, styles: { valign: 'middle' } },

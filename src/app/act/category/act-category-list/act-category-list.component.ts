@@ -60,26 +60,10 @@ export class ActCategoryListComponent implements OnInit {
     this.initform();
     this.getSimpleList();
     this.getactCategories();
-    // const actCategory = {
-    //   active: true,
-    //   id: 11,
-    //   name: "CAAAARDIO"
-    // }
-    // this.actCategoryService.updateActCategory(actCategory).subscribe(
-    //   (res : any)=>{
-    //     console.log(res);
-
-    //   },
-    //   (error : HttpErrorResponse) =>{
-    //     console.error(error.error.message);
-
-    //   }
-    // )
   }
 
   getSimpleList() {
     this.actCategoryService.findActSimpleList().subscribe((response: any) => {
-      console.log(response);
     });
   }
 
@@ -102,7 +86,6 @@ export class ActCategoryListComponent implements OnInit {
     this.subs.add(
       this.actCategoryService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -139,7 +122,6 @@ export class ActCategoryListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.actCategory = item;
-    console.log(this.actCategory);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 

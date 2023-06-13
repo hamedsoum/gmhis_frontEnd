@@ -115,18 +115,7 @@ export class ActFamilyFormComponent implements OnInit {
     );
     this.initForm();
     if (this.actGroup) {
-      console.log(this.actGroup);
       this.actGroupForm.patchValue(this.actGroup);
-      // this.subs.add(
-      //   this.communeService.getCommuneDetails(this.commune).subscribe(
-      //     (response : Commune)=>{
-      //       this.communeForm.patchValue(response);
-      //       if (this.details) {
-      //         this.communeForm.disable();
-      //       }
-      //     }
-      //   )
-      // )
     }
   }
 
@@ -138,8 +127,6 @@ export class ActFamilyFormComponent implements OnInit {
 
     merge(this.actGroupForm.valueChanges, ...formControlBlurs)
       .pipe(
-        //si on clique sur le boutton sauvegarder ne pas utiliser le debounce time sinon l'utiliser pour les autres
-        // debounce(() => this.isFormSubmitted ? EMPTY : timer(800))
         debounceTime(500)
       )
       .subscribe(() => {
@@ -147,7 +134,6 @@ export class ActFamilyFormComponent implements OnInit {
           this.actGroupForm,
           this.formSubmitted
         );
-        console.log('error :', this.formsErrors);
       });
   }
 
@@ -168,8 +154,6 @@ export class ActFamilyFormComponent implements OnInit {
     if (this.actGroupForm.valid) {
       this.showloading = true;
       this.actGroup = this.actGroupForm.value;
-      console.log(this.actGroup);
-
       if (this.actGroup.id) {
         this.subs.add(
           this.actGroupService.updateActGroup(this.actGroup).subscribe(

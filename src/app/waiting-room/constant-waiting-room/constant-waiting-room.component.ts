@@ -89,7 +89,6 @@ export class ConstantWaitingRoomComponent implements OnInit {
     this.findActiveActNameAndId();
     this.findActiveWaitingRoomNameAndId();
     this.findActivePracticianNameAndId();
-    console.log(this.actServicesNameAndId);
     this.getPatient();
   }
 
@@ -123,7 +122,6 @@ export class ConstantWaitingRoomComponent implements OnInit {
     this.subs.add(
       this.admissionService.findAdmissionQueue(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -160,14 +158,12 @@ export class ConstantWaitingRoomComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.admission = item;
-    console.log(this.admission);
     this.modalService.open(updateFormContent, { size: 'xl' });
   }
 
   openInvoiceForm(invoiceFormContent, item?) {
     this.admission = item;
     this.makeInvoice = true;
-    console.log(this.admission);
     this.modalService.open(invoiceFormContent, { size: 'xl' });
   }
 
@@ -203,7 +199,6 @@ addInvoice(){
     this.serviceService.findActiveServiceNameAndId().subscribe(
       (response : any) => { 
         this.actServicesNameAndId = response;
-        console.log(this.actServicesNameAndId);
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;
@@ -258,9 +253,7 @@ addInvoice(){
   public findActivePracticianNameAndId(){
     this.practicianService.findPracticianSimpleList().subscribe(
       (response : any) => {
-        this.practicians = response; 
-        console.log(this.practicians);
-        
+        this.practicians = response;         
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;

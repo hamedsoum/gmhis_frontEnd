@@ -147,7 +147,6 @@ export class PatientFolderComponent implements OnInit {
           this.patientService.getPatientDetail(this.patientId).subscribe(
           (response : any) => {
             this.patient = response;
-            console.log(this.patient);
             this.showConsultationList = true;
             this.showConstantList = true;
             this.initform();
@@ -177,7 +176,6 @@ export class PatientFolderComponent implements OnInit {
         this.lastAdmissionNoHaveExamination = response;
       },
       (errorResponse : HttpErrorResponse) => {
-        console.log(errorResponse);      
       }
     )
   }

@@ -80,10 +80,8 @@ export class PermissionComponent implements OnInit, OnDestroy {
                 });
               },
               (errorResponse: HttpErrorResponse) => {
-                console.error(errorResponse.error.message);
               }));
         }, (error) => {
-          console.error(error.message);
         }));
 
   }

@@ -12,9 +12,7 @@ export class PasDePorteService {
 
   constructor(private datePipe : DatePipe) { }
 
-  printPasDePorte(location : Location){
-    console.log(location);
-    
+  printPasDePorte(location : Location){    
     var doc = new jsPDF('p', 'mm', 'a4');
 
     doc.setFontSize(16)

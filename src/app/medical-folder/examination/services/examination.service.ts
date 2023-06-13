@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { IExamination } from '../models/examination';
 import { IExaminationDto } from '../models/examination-dto';
 
 @Injectable({
@@ -30,8 +31,11 @@ export class ExaminationService {
     return this.http.post<any>(`${this.apiUrl}/examination/add`, examinationDto);
   }
 
-  updateExamination(examinationDto : any):Observable<IExaminationDto>{
-    return this.http.put<IExaminationDto>(`${this.apiUrl}/actCategory/update/${examinationDto.id}`, examinationDto)
+  updateExamination(examinationDto : IExamination):Observable<IExaminationDto>{    
+    let data  = {
+      diagnostic : examinationDto.conclusion
+      }
+    return this.http.put<IExaminationDto>(`${this.apiUrl}/examination/update-diagnostic/${examinationDto.id}`, data)
   }
 
   getPatientExamination(data): Observable<any> {

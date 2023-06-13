@@ -37,7 +37,6 @@ return this.http.get<PageList>(`${this.host}/proprietaire/list`, queryParams);
    * @returns An observable of type IOwner
    */
   saveLocation(owner : IOwner):Observable<IOwner>{
-    console.log(owner);
     return this.http.post<IOwner>(`${this.host}/proprietaire/add`, owner)
   }
 
@@ -46,9 +45,7 @@ return this.http.get<PageList>(`${this.host}/proprietaire/list`, queryParams);
    * @param {IOwner} owner - IOwner
    * @returns An observable of type IOwner
    */
-  updateOwner(owner : IOwner):Observable<IOwner>{
-    console.log(owner);
-    
+  updateOwner(owner : IOwner):Observable<IOwner>{    
     return this.http.put<IOwner>(`${this.host}/proprietaire/update/${owner.id}`, owner);
   }
 

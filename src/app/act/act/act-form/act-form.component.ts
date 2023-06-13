@@ -97,12 +97,9 @@ export class ActFormComponent implements OnInit {
    
     this.initForm();
     if (this.act) {
-      console.log(this.act);
       this.actService.getActById(this.act.id).subscribe(
         (response : any) => {
-          console.log(response);
           this.actForm.patchValue(response);
-          console.log(this.actForm.value);
         }
       )
     }
@@ -139,8 +136,6 @@ export class ActFormComponent implements OnInit {
     if (this.actForm.valid) {
       this.showloading = true;
       this.actDto = this.actForm.value;
-      console.log(this.actDto);
-
       if (this.actDto.id) {
         this.subs.add(
           this.actService.updateAct(this.actDto).subscribe(
@@ -180,9 +175,7 @@ export class ActFormComponent implements OnInit {
   private findActiveActCategoryNameAndId(){
     this.actCategoryService.findActiveActCategoryNameAndId().subscribe(
       (response : any) => {
-        this.actCategoriesNameAndId = response;
-        console.log("actCategoriesNameAndId",this.actCategoriesNameAndId);
-        
+        this.actCategoriesNameAndId = response;        
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;
@@ -197,9 +190,7 @@ export class ActFormComponent implements OnInit {
   private findActiveActCodeNameAndId(){
     this.actCodeService.findActiveActCodeNameAndId().subscribe(
       (response : any) => {
-        this.actCodeodesNameAndId = response;
-        console.log("actCodeodesNameAndId", this.actCodeodesNameAndId);
-        
+        this.actCodeodesNameAndId = response;        
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;
@@ -214,9 +205,7 @@ export class ActFormComponent implements OnInit {
   private findActiveActGroupNameAndId(){
     this.actGroupService.findActiveActGroupNameAndId().subscribe(
       (response : any) => {
-        this.actGroupsNameAndId = response;
-        console.log("actGroupsNameAndId", this.actGroupsNameAndId);
-        
+        this.actGroupsNameAndId = response;        
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;
@@ -232,9 +221,7 @@ export class ActFormComponent implements OnInit {
   private findActiveMedicalAnalysisSpecialityNameAndId(){
     this.medicalAnalysisSpecialityService.getListOfActiveMedicaleAnalysis().subscribe(
       (response : any) => {
-        this.medicalAnalysisSpecialityNameAndId = response;
-        console.log("medicalAnalysisSpecialityNameAndId",this.medicalAnalysisSpecialityNameAndId);
-        
+        this.medicalAnalysisSpecialityNameAndId = response;        
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;

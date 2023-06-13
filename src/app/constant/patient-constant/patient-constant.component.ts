@@ -72,7 +72,6 @@ export class PatientConstantComponent implements OnInit {
   ngOnInit(): void {    
     this.initform();
     if (this.patientId) {
-      console.log(this.patientId);
       this.getPatientDetailsByPatientId(this.patientId);
 
     }

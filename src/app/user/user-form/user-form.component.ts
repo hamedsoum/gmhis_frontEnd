@@ -26,19 +26,10 @@ export class UserFormComponent implements OnInit ,  OnDestroy{ private subs = ne
 
   @Output("addUser") addUser: EventEmitter<any> = new EventEmitter();
   @Output("updateUser") updateUser: EventEmitter<any> = new EventEmitter();
-  /* 
-    login form
-  */
   public userForm: FormGroup;
 
-  /**
-* the form valid state
-*/
   public invalidFom = false;
 
-  /**
-   * check if the form is submitted
-   */
   public formSubmitted = false;
 
   invalidFormControls: any;
@@ -54,9 +45,6 @@ export class UserFormComponent implements OnInit ,  OnDestroy{ private subs = ne
 
   files: File[] = [];
 
-  /**
-   * define isActive options
-   */
   states = [
     { id: true, value: "Actif" },
     { id: false, value: "En sommeil" },
@@ -69,40 +57,25 @@ export class UserFormComponent implements OnInit ,  OnDestroy{ private subs = ne
 
   ];
   
-  
-  /**
-  * define isActive options
-  */
   lockOptions = [
     { id: false, value: "Verrouillé" },
     { id: true, value: "Non verouillé" },
 
   ];
 
-  /**
-  * define isActive options
-  */
   changPwdOptions = [
     { id: true, value: "Oui" },
     { id: false, value: "Non" },
 
   ];
 
-  /**
-   * handle the spinner
-   */
   showloading: boolean = false;
-
-  
 
   constructor(private router: Router,
     private userService: UserService,
-    private depotService: DepotService,
     private roleService: RoleService,
     private notificationService: NotificationService) { }
 
-
-  // Unsubscribe when the component dies
   ngOnDestroy() {
     this.subs.unsubscribe();
   }
@@ -111,19 +84,14 @@ export class UserFormComponent implements OnInit ,  OnDestroy{ private subs = ne
     this.initForm();
     let userRoles = [];
     if (this.user) {
-
- 
       if (this.user.roleIds) {
         userRoles = this.user.roleIds.split(",").map(function (item) {
           if (item.trim) return parseInt(item, 10);
         });
       }
-      
       this.subs.add(
         this.userService.getUserDetail(this.user.id).subscribe(
-          (response : User)=>{
-            console.log(response);
-            
+          (response : User)=>{            
            this.userForm.patchValue(response)
            this.userForm.get("notLocked").setValue(response["notLocked"]);
            this.userForm.get("active").enable();
@@ -208,7 +176,6 @@ export class UserFormComponent implements OnInit ,  OnDestroy{ private subs = ne
       this.user = this.userForm.getRawValue();
 
       if (this.user.id) {
-        console.log(this.user);
         this.subs.add(
           this.userService.updateUser(this.user).subscribe(
           (response: User) => {
@@ -241,8 +208,7 @@ export class UserFormComponent implements OnInit ,  OnDestroy{ private subs = ne
     this.fileName = fileName;
     this.profileImage = profileImage;
   }
-
-
+  
   private getRoleActifList() {
     this.roleService.findAllActive().subscribe(
       (response: Role[]) => {

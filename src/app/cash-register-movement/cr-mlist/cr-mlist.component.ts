@@ -103,13 +103,11 @@ export class CrMListComponent implements OnInit {
     this.subs.add(
       this.crMovementService.getPaginatedListOfCrMovement(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showLoader = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;
-          console.log(this.items);
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -136,9 +134,7 @@ export class CrMListComponent implements OnInit {
   }
 
   openUpdateForm(updateFormContent, item?) {
-    this.crActivity = item;
-    console.log(this.crActivity);
-    
+    this.crActivity = item;    
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 
@@ -186,11 +182,8 @@ export class CrMListComponent implements OnInit {
  getCrActivityByCahier(cashier : number){
       this.crActivityService.getCrActivityByCahier(cashier).subscribe(
         (response : ICashRegisterActivity) => {
-          this.crActivity = response;
-          console.log(this.crActivity.closingBalance);
-          
+          this.crActivity = response;          
           this.cashRegisterBalance = this.crActivity.cashRegisterBalance;
-          console.log(this.crActivity);
         },
         (errorResponse : HttpErrorResponse) => {
           this.showLoader = false;
@@ -206,7 +199,6 @@ export class CrMListComponent implements OnInit {
     this.crActivity.realClosingBalance = this.realClosingBalance;
     this.crActivityService.updateCrActivity(this.crActivity).subscribe(
       (response : ICashRegisterActivity ) => {
-        console.log(response);
         this.notificationService.notify(
           NotificationType.SUCCESS,
           'Caisse fermée avec succès'

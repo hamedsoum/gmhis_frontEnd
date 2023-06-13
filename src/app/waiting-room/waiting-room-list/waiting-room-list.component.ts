@@ -88,7 +88,6 @@ export class WaitingRoomListComponent implements OnInit {
     this.subs.add(
       this.waitingRoomService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -124,9 +123,7 @@ export class WaitingRoomListComponent implements OnInit {
   }
 
   openUpdateForm(updateFormContent, item?) {
-    this.waitingRoom = item;
-    console.log(this.waitingRoom);
-    
+    this.waitingRoom = item;    
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 

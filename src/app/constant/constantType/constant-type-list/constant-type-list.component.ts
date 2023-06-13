@@ -85,7 +85,6 @@ export class ConstantTypeListComponent implements OnInit {
     this.subs.add(
       this.constantTypeService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -122,7 +121,6 @@ export class ConstantTypeListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.constantType = item;
-    console.log(this.constantType);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 

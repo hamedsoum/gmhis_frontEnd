@@ -137,9 +137,7 @@ export class CractivityFormComponent implements OnInit {
   private findActiveUserNameAndId(){
     this.cashierService.findAllActive().subscribe(
       (response : any) => {
-        this.cashiers = response;
-        console.log(this.cashiers);
-                
+        this.cashiers = response;                
       },
       (errorResponse : HttpErrorResponse) => {
         this.showLoader = false;

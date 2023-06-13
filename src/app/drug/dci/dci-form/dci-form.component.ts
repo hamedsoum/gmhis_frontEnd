@@ -87,9 +87,7 @@ export class DciFormComponent implements OnInit {
   
     this.initForm();
     if (this.dci) {
-      console.log(this.dci);
       this.dciForm.patchValue(this.dci);
-  
     }
   }
 
@@ -113,8 +111,6 @@ export class DciFormComponent implements OnInit {
     if (this.dciForm.valid) {
       this.showloading = true;
       this.dciDto = this.dciForm.value;
-      console.log(this.dciDto);
-
       if (this.dciDto.id) {
         this.subs.add(
           this.dciService.updateDci(this.dciDto).subscribe(

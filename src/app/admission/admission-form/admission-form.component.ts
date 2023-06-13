@@ -62,13 +62,10 @@ admissionDto : IAdmissionDto;
                ) { }
 
   ngOnInit(): void {
-    console.log(this.patient);
-    console.log(this.admission);
     this.initForm();
     if (this.admission) {      
       this.admissionService.getAdmissionDetail(this.admission).subscribe(
         (response : any) => {
-          console.log(response);
           this.admissionForm.get('id').setValue(response.id);
           this.admissionForm.get('patient').setValue(response.patientId);
           this.admissionForm.get('patientName').setValue(response.patientName );
@@ -81,7 +78,6 @@ admissionDto : IAdmissionDto;
       )
     }
     if (this.patient) {
-      console.log(this.patient);
       this.admissionForm.get('patient').setValue(this.patient.id);
     this.admissionForm.get('patientName').setValue(this.patient.firstName +" " + this.patient.lastName);
     this.admissionForm.get('patientExternalId').setValue(this.patient.patientExternalId)
@@ -151,9 +147,7 @@ admissionDto : IAdmissionDto;
   private findActiveActNameAndId(){
     this.actService.getListOfActiveAct().subscribe(
       (response : any) => {
-        this.actsNameAndId = response;
-        console.log("actNameAndId",this.actsNameAndId);
-        
+        this.actsNameAndId = response;        
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;
@@ -166,12 +160,9 @@ admissionDto : IAdmissionDto;
   }
 
   findActiveActByActCategoryId(categoryId : number){
-    console.log(categoryId);
     this.actService.getActsByActCategoryId(categoryId).subscribe(
       (res : any)=> {
-        this.actsNameAndId = res; 
-        console.log("this.actsNameAndId", this.actsNameAndId);
-        
+        this.actsNameAndId = res;       
       }
     )
   }
@@ -179,9 +170,7 @@ admissionDto : IAdmissionDto;
   private findActiveServiceNameAndId(){
     this.serviceService.findActiveServiceNameAndId().subscribe(
       (response : any) => {
-        this.servicesNameAndId = response;
-        console.log("serviceNameAndId",this.servicesNameAndId);
-        
+        this.servicesNameAndId = response; 
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;
@@ -196,9 +185,7 @@ admissionDto : IAdmissionDto;
   private findActCategorieNameAndId(){
     this.actCategorieService.findActiveActCategoryNameAndId().subscribe(
       (response : INameAndId[])=> {
-        this.actCategories = response;
-        console.log("this.actCategories", this.actCategories);
-        
+        this.actCategories = response;        
       }
     )
   }
@@ -208,7 +195,6 @@ admissionDto : IAdmissionDto;
     this.practicianService.findPracticianSimpleList().subscribe(
       (response : INameAndId[])=> {
         this.practicians = response;
-        console.log(this.practicians);
       }
     )
   }

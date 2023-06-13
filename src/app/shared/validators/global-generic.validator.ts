@@ -16,13 +16,9 @@ export class GlobalGenerateValidator {
                 const selectedControl = container.controls[controlName];
 
                 if (this.validatorMessage[controlName]) {
-                    console.log(selectedControl);
-
                     errorMessages[controlName] = '';
 
-                    if ((selectedControl.dirty || selectedControl.touched || isFormSubmitted) && selectedControl.errors) {
-                        console.log('oko');
-                        
+                    if ((selectedControl.dirty || selectedControl.touched || isFormSubmitted) && selectedControl.errors) {                        
                         Object.keys(selectedControl.errors).map((errorMessageKey : string) => {
                             if (this.validatorMessage[controlName][errorMessageKey]) {
                                 errorMessages[controlName] += this.validatorMessage[controlName][errorMessageKey] + ''

@@ -11,9 +11,7 @@ export class ReleaseDocService {
 
   constructor(private datePipe : DatePipe) { }
 
-  releaseDoc(loyer : Loyer){
-    console.log(loyer);
-    
+  releaseDoc(loyer : Loyer){    
     var doc = new jsPDF('p', 'mm', 'a4');
   
     doc.setFont("arial", "bold");

@@ -88,7 +88,6 @@ export class ActListComponent implements OnInit {
     this.subs.add(
       this.actService.getPaginatedListOfAct(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -125,7 +124,6 @@ export class ActListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.act = item;
-    console.log(this.act);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 
@@ -155,9 +153,7 @@ export class ActListComponent implements OnInit {
   private findActiveActCategoryNameAndId(){
     this.actCategoryService.findActiveActCategoryNameAndId().subscribe(
       (response : any) => {
-        this.actCategoriesNameAndId = response;
-        console.log("actCategoriesNameAndId",this.actCategoriesNameAndId);
-        
+        this.actCategoriesNameAndId = response;        
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;

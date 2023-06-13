@@ -18,12 +18,10 @@ export class LoyerService {
   }
 
   saveLoyer(local : Loyer):Observable<Loyer>{
-    console.log(local);
     return this.http.post<Loyer>(`${this.host}/loyer/add`, local)
   }
 
   updateLoyer(data : any):Observable<any>{  
-    console.log(data);
     return this.http.put<any>(`${this.host}/loyer/update/${data.id}`, data)
   }
 

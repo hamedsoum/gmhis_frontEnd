@@ -106,7 +106,6 @@ export class SubscriberFormComponent implements OnInit {
     private notificationService: NotificationService
   ) {}
 
-  // Unsubscribe when the component dies
   ngOnDestroy() {
     this.subs.unsubscribe();
   }
@@ -117,40 +116,8 @@ export class SubscriberFormComponent implements OnInit {
     );
     this.initForm();
     if (this.insuranceSubscriber) {
-      console.log(this.insuranceSubscriber);
       this.insuranceSubscriberForm.patchValue(this.insuranceSubscriber);
-      // this.subs.add(
-      //   this.communeService.getCommuneDetails(this.commune).subscribe(
-      //     (response : Commune)=>{
-      //       this.communeForm.patchValue(response);
-      //       if (this.details) {
-      //         this.communeForm.disable();
-      //       }
-      //     }
-      //   )
-      // )
     }
-  }
-
-  ngAfterViewInit(): void {
-    const formControlBlurs: Observable<unknown>[] = this.inputElements.map(
-      (FormControlElementRef: ElementRef) =>
-        fromEvent(FormControlElementRef.nativeElement, 'blur')
-    );
-
-    merge(this.insuranceSubscriberForm.valueChanges, ...formControlBlurs)
-      .pipe(
-        //si on clique sur le boutton sauvegarder ne pas utiliser le debounce time sinon l'utiliser pour les autres
-        // debounce(() => this.isFormSubmitted ? EMPTY : timer(800))
-        debounceTime(500)
-      )
-      .subscribe(() => {
-        this.formsErrors = this.globalGenericValidator.createErrorMessage(
-          this.insuranceSubscriberForm,
-          this.formSubmitted
-        );
-        console.log('error :', this.formsErrors);
-      });
   }
 
   initForm() {
@@ -181,8 +148,6 @@ export class SubscriberFormComponent implements OnInit {
     if (this.insuranceSubscriberForm.valid) {
       this.showloading = true;
       this.insuranceSubscriber = this.insuranceSubscriberForm.value;
-      console.log(this.insuranceSubscriber);
-
       if (this.insuranceSubscriber.id) {
         this.subs.add(
           this.insuranceSubscriberService

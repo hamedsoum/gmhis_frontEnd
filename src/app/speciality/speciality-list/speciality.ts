@@ -3,5 +3,7 @@ export interface Speciality {
 
     active: boolean,
 
+    description : string,
+
     name: string
 }

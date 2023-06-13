@@ -15,10 +15,6 @@ export class PrescriptionDocumentService {
   ) { }
 
   getPrescriptionDocument(prescription : any, prescriptionItems : any){
-  
-    console.log(prescription);
-
-    console.log(prescriptionItems);
 
     let tBody : any = [];
 

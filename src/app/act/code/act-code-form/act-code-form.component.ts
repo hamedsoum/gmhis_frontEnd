@@ -115,18 +115,7 @@ export class ActCodeFormComponent implements OnInit {
     );
     this.initForm();
     if (this.actCode) {
-      console.log(this.actCode);
       this.actCodeForm.patchValue(this.actCode);
-      // this.subs.add(
-      //   this.communeService.getCommuneDetails(this.commune).subscribe(
-      //     (response : Commune)=>{
-      //       this.communeForm.patchValue(response);
-      //       if (this.details) {
-      //         this.communeForm.disable();
-      //       }
-      //     }
-      //   )
-      // )
     }
   }
 
@@ -138,8 +127,6 @@ export class ActCodeFormComponent implements OnInit {
 
     merge(this.actCodeForm.valueChanges, ...formControlBlurs)
       .pipe(
-        //si on clique sur le boutton sauvegarder ne pas utiliser le debounce time sinon l'utiliser pour les autres
-        // debounce(() => this.isFormSubmitted ? EMPTY : timer(800))
         debounceTime(500)
       )
       .subscribe(() => {
@@ -147,7 +134,6 @@ export class ActCodeFormComponent implements OnInit {
           this.actCodeForm,
           this.formSubmitted
         );
-        console.log('error :', this.formsErrors);
       });
   }
 
@@ -170,8 +156,6 @@ export class ActCodeFormComponent implements OnInit {
     if (this.actCodeForm.valid) {
       this.showloading = true;
       this.actCode = this.actCodeForm.value;
-      console.log(this.actCode);
-
       if (this.actCode.id) {
         this.subs.add(
           this.actCodeService.updateActCode(this.actCode).subscribe(

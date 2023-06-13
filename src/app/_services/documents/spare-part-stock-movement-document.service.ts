@@ -27,9 +27,7 @@ export class SparePartStockMovementDocumentService {
     let tBody = [];
 
     for (let index = 0; index < sockMovments.length; index++) {
-      const item = sockMovments[index];
-      console.log(item);
-      
+      const item = sockMovments[index];      
       let article = [
          { content: item.libelle, styles: { valign: 'middle', halign: 'left' } },
         { content: this.datePipe.transform(new Date(item.dateMovement), 'dd/MM/yyyy'), styles: { valign: 'middle', halign: 'center' } },

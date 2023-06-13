@@ -12,9 +12,7 @@ export class AdmissionService {
 
   constructor(private http: HttpClient) {}
 
-  findAll(data): Observable<PageList> {
-    console.log(data);
-    
+  findAll(data): Observable<PageList> {    
     let queryParams = {};
     queryParams = {
       params: new HttpParams()
@@ -79,9 +77,7 @@ export class AdmissionService {
     return this.http.post<any>(`${this.apiUrl}/admission/add`, admission);
   }
 
-  updateAdmission(admission: any): Observable<any> {
-    console.log(admission);
-    
+  updateAdmission(admission: any): Observable<any> {    
     return this.http.put<any>(
       `${this.apiUrl}/admission/update/${admission.id}`,
       admission

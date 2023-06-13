@@ -13,9 +13,7 @@ export class BailService {
   
   constructor(private datePipe : DatePipe) { }
 
-  printBail(location : Location){
-    console.log(location);
-    
+  printBail(location : Location){    
     var doc = new jsPDF('p', 'mm', 'a4');
 
    

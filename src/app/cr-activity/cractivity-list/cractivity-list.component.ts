@@ -83,13 +83,11 @@ export class CractivityListComponent implements OnInit {
     this.subs.add(
       this.crActivityService.getPaginatedListOfCrActivity(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showLoader = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;
-          console.log(this.items);
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -116,9 +114,7 @@ export class CractivityListComponent implements OnInit {
   }
 
   openUpdateForm(updateFormContent, item?) {
-    this.crActivity = item;
-    console.log(this.crActivity);
-    
+    this.crActivity = item;    
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 

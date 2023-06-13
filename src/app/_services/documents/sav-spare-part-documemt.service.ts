@@ -11,9 +11,7 @@ export class SavSparePartDocumemtService {
   constructor(
     private datePipe: DatePipe
   ) { }
-  public getArticleStockDoc(sparePart : SparePart[]){ 
-    console.log(sparePart);
-       
+  public getArticleStockDoc(sparePart : SparePart[]){        
     var doc = new jsPDF('p', 'mm', 'a4');
     doc.setDrawColor(0);
     doc.setFillColor(230, 230, 230);

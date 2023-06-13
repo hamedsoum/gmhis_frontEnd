@@ -116,18 +116,7 @@ export class ConventionFormComponent implements OnInit {
     );
     this.initForm();
     if (this.convention) {
-      console.log(this.convention);
       this.conventionForm.patchValue(this.convention);
-      // this.subs.add(
-      //   this.communeService.getCommuneDetails(this.commune).subscribe(
-      //     (response : Commune)=>{
-      //       this.communeForm.patchValue(response);
-      //       if (this.details) {
-      //         this.communeForm.disable();
-      //       }
-      //     }
-      //   )
-      // )
     }
   }
 
@@ -148,7 +137,6 @@ export class ConventionFormComponent implements OnInit {
           this.conventionForm,
           this.formSubmitted
         );
-        console.log('error :', this.formsErrors);
       });
   }
 
@@ -170,8 +158,6 @@ export class ConventionFormComponent implements OnInit {
     if (this.conventionForm.valid) {
       this.showloading = true;
       this.convention = this.conventionForm.value;
-      console.log(this.convention);
-
       if (this.convention.id) {
         this.subs.add(
           this.conventionService.updateConvention(this.convention).subscribe(

@@ -119,9 +119,7 @@ export class InvoiceListComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;
-            console.log(this.items);
-            
+          this.items = response.items;            
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -147,22 +145,9 @@ export class InvoiceListComponent implements OnInit {
     this.getInvoice();
   }
 
-  // openAddForm(addFormContent) {
-  //   this.modalService.open(addFormContent, { size: 'xl' });
-  // }
-
-  // openUpdateForm(updateFormContent, item?) {
-  //   this.invoice = item;
-  //   console.log(this.invoice);
-  //   this.modalService.open(updateFormContent, { size: 'xl' });
-  // }
-
-  openPaymentForm(paymentFormContent, item?) {
-    console.log(item);
-    
+  openPaymentForm(paymentFormContent, item?) {    
     this.invoice = item;
     this.makeInvoice = false;
-    console.log(this.invoice);
     this.modalService.open(paymentFormContent, { size: 'xl' });
   }
 
@@ -207,16 +192,12 @@ addPayment(){
 
  
 
-  printInvoice(printContent, invoice) {
-    console.log(invoice);
-    
+  printInvoice(printContent, invoice) {    
     this.invoiceService.getInvoiceDetail(invoice.id).subscribe(
       (res : any) => {
-      console.log(res);
            this.actservice.getActsByBillId(res["billId"]).subscribe(
         (response : any) => {
           this.acts = response;
-          console.log(this.acts);
           this.modalService.open(printContent, { size: 'xl' });
           let doc = this.invoiceDocumentService.getInvoiceDocument(res,  this.acts);
           this.docSrc = doc.output('datauristring');  

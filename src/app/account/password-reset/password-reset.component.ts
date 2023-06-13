@@ -42,21 +42,9 @@ export class PasswordResetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    // if (this.authenticationService.isLoggedIn()) {
-    //   this.router.navigateByUrl('/home');
-    // } else {
-    //   this.router.navigateByUrl('login');
-    // }
     this.codeUrl = this.route.snapshot.paramMap.get('code');
-    console.log(this.codeUrl);
-    
     this.initForm();
   }
-
-  /*
-  init form 
-  */
 
   initForm() {
     this.resetPasswordForm = new FormGroup({
@@ -96,7 +84,6 @@ export class PasswordResetComponent implements OnInit {
     if(this.resetPasswordForm.valid){
       this.authenticationService.changePassword(password).subscribe(
         (res) => {
-          console.log(res);
           this.onLoading = false;
           this.resetPasswordForm.reset();
           this.messageService.add({
@@ -106,7 +93,6 @@ export class PasswordResetComponent implements OnInit {
           });
         },
         (err: HttpErrorResponse) => {
-          console.log(err.message);
           this.onLoading = false;
           this.messageService.add({
             severity: 'error',

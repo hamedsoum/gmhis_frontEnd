@@ -83,7 +83,6 @@ export class TherapeuticListComponent implements OnInit {
     this.subs.add(
       this.therapeuticService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -120,7 +119,6 @@ export class TherapeuticListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.therapeuticClass = item;
-    console.log(this.therapeuticClass);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 

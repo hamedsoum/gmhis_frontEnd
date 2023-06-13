@@ -145,9 +145,7 @@ export class ListRoleComponent implements OnInit, OnDestroy {
           this.totalPages = response.totalPages;
           this.showloading = false;
         },
-        (errorResponse: HttpErrorResponse) => {
-          console.log(errorResponse);
-          
+        (errorResponse: HttpErrorResponse) => {          
           this.notificationService.notify(NotificationType.ERROR, errorResponse.error.message);
         }
       ));

@@ -82,7 +82,6 @@ export class DrugListComponent implements OnInit {
     this.subs.add(
       this.drugService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -119,7 +118,6 @@ export class DrugListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.drug = item;
-    console.log(this.drug);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 

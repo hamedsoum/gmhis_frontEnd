@@ -39,9 +39,7 @@ export class AnalysisBulletinComponent implements OnInit {
     private modalService: NgbModal
   ) { }
 
-  ngOnInit(): void {  
-    console.log(this.examen);
-      
+  ngOnInit(): void {        
     this.getAnalysisRequestItemsByAnalysisId(this.examen.id);
     this.getAnalysisRequestResultFile(this.examen.id);
   }
@@ -95,9 +93,7 @@ export class AnalysisBulletinComponent implements OnInit {
   getAnalysisRequestItemsByAnalysisId(analysisId): any {
     this.examenService.getAnalysisRequestItemsByAnalysisId(analysisId).subscribe(
       (response : any) => {
-        this.analysisRequestItems = response;
-        console.log();
-        
+        this.analysisRequestItems = response;        
         this.medicalAnalysisSpeciality = [];
         this.analysisRequestItems.forEach((el,i)=>{
           this.removeDuplicates(this.medicalAnalysisSpeciality,el["medicalAnalysisName"]);    

@@ -116,7 +116,6 @@ export class ConstantDomainFormComponent implements OnInit {
     );
     this.initForm();
     if (this.constantDomain) {
-      console.log(this.constantDomain);
       this.constantDomainForm.patchValue(this.constantDomain);
     }
   }
@@ -136,7 +135,6 @@ export class ConstantDomainFormComponent implements OnInit {
           this.constantDomainForm,
           this.formSubmitted
         );
-        console.log('error :', this.formsErrors);
       });
   }
 
@@ -158,8 +156,6 @@ export class ConstantDomainFormComponent implements OnInit {
     if (this.constantDomainForm.valid) {
       this.showloading = true;
       this.constantDomain = this.constantDomainForm.value;
-      console.log(this.constantDomain);
-
       if (this.constantDomain.id) {
         this.subs.add(
           this.constantService

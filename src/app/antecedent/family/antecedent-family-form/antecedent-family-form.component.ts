@@ -116,18 +116,7 @@ export class AntecedentFamilyFormComponent implements OnInit {
     );
     this.initForm();
     if (this.antecedentFamille) {
-      console.log(this.antecedentFamille);
       this.antecedentFamilleForm.patchValue(this.antecedentFamille);
-      // this.subs.add(
-      //   this.communeService.getCommuneDetails(this.commune).subscribe(
-      //     (response : Commune)=>{
-      //       this.communeForm.patchValue(response);
-      //       if (this.details) {
-      //         this.communeForm.disable();
-      //       }
-      //     }
-      //   )
-      // )
     }
   }
 
@@ -139,8 +128,6 @@ export class AntecedentFamilyFormComponent implements OnInit {
 
     merge(this.antecedentFamilleForm.valueChanges, ...formControlBlurs)
       .pipe(
-        //si on clique sur le boutton sauvegarder ne pas utiliser le debounce time sinon l'utiliser pour les autres
-        // debounce(() => this.isFormSubmitted ? EMPTY : timer(800))
         debounceTime(500)
       )
       .subscribe(() => {
@@ -148,7 +135,6 @@ export class AntecedentFamilyFormComponent implements OnInit {
           this.antecedentFamilleForm,
           this.formSubmitted
         );
-        console.log('error :', this.formsErrors);
       });
   }
 
@@ -173,8 +159,6 @@ export class AntecedentFamilyFormComponent implements OnInit {
     if (this.antecedentFamilleForm.valid) {
       this.showloading = true;
       this.antecedentFamille = this.antecedentFamilleForm.value;
-      console.log(this.antecedentFamille);
-
       if (this.antecedentFamille.id) {
         this.subs.add(
           this.antecedentFamilleService

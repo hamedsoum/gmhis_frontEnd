@@ -87,7 +87,6 @@ export class ConventionListComponent implements OnInit {
     this.subs.add(
       this.conventionService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -124,7 +123,6 @@ export class ConventionListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.convention = item;
-    console.log(this.convention);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 

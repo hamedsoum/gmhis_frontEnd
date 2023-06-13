@@ -67,9 +67,7 @@ export class CashRegisterActivityService {
  * are sending to the server.
  * @returns Observable<ICashRegisterActivity>
  */
-  public updateCrActivity(crActivityDto : ICashRegisterActivity) : Observable<ICashRegisterActivity>{
-    console.log(crActivityDto);
-    
+  public updateCrActivity(crActivityDto : ICashRegisterActivity) : Observable<ICashRegisterActivity>{    
     return this.http.put<ICashRegisterActivity>(`${this.apiUrl}/api/v1/cashRegisterManagement/${crActivityDto.id}`, crActivityDto)
   }
 }

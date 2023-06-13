@@ -47,9 +47,7 @@ export class LocalService {
  * @param local 
  * @returns 
  */
-  updateLocal(local : Local):Observable<Local>{
-    console.log(local);
-    
+  updateLocal(local : Local):Observable<Local>{    
     return this.http.put<Local>(`${this.host}/locaux/update/${local.id}`, local)
   }
 /**

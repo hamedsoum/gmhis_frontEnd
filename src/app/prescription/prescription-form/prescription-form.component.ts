@@ -96,7 +96,7 @@ export class PrescriptionFormComponent implements OnInit {
   private retrieveLastExamination() {
     this.examinationService.retrieveLastExamination(this.admissionId).subscribe(
         (response : any) => {
-           this.examination = response;
+           this.examination = response;           
         },
         (errorResponse : HttpErrorResponse) => {
         }
@@ -105,8 +105,13 @@ export class PrescriptionFormComponent implements OnInit {
 
   private updateExamination(){
     this.examinationService.updateExamination(this.examination).subscribe(
-      (res : any) => {},
+      (res : any) => {        
+      },
       (errorResponse : HttpErrorResponse) => {
+        this.notificationService.notify(
+          NotificationType.ERROR,
+          errorResponse.error.message
+        );
       }
     )
   }
@@ -152,25 +157,27 @@ export class PrescriptionFormComponent implements OnInit {
     if (this.prescriptionForm.valid) {
       this.prescriptionDto = this.prescriptionForm.value;
       this.prescriptionDto.prescriptionItemsDto =  this.prescriptionForm.get("prescriptionItemsDto").value; 
-      this.examination.conclusion  = this.prescriptionForm.get('').value;     
-      this.subs.add(
-        this.prescriptionService
-          .createPrescription(this.prescriptionDto)
-          .subscribe(
-            (response: any) => {
-              this.loading = false;
-              this.updateExamination();
-              this.addPrescription.emit();
-            },
-            (errorResponse: HttpErrorResponse) => {
-              this.loading = false;
-              this.notificationService.notify(
-                NotificationType.ERROR,
-                errorResponse.error.message
-              );
-            }
-          )
-      );
+      this.examination.conclusion  = this.prescriptionForm.get('conclusion').value; 
+      this.updateExamination();
+ 
+      // this.subs.add(
+      //   this.prescriptionService
+      //     .createPrescription(this.prescriptionDto)
+      //     .subscribe(
+      //       (response: any) => {
+      //         this.loading = false;
+      //         this.updateExamination();
+      //         this.addPrescription.emit();
+      //       },
+      //       (errorResponse: HttpErrorResponse) => {
+      //         this.loading = false;
+      //         this.notificationService.notify(
+      //           NotificationType.ERROR,
+      //           errorResponse.error.message
+      //         );
+      //       }
+      //     )
+      // );
     }
   }
 

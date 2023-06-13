@@ -93,7 +93,6 @@ export class ExamenListComponent implements OnInit {
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;
-          console.log(this.items);    
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -129,7 +128,6 @@ export class ExamenListComponent implements OnInit {
   openAnalysisBulletinForm(makAsdoneContent,item){
     this.resultAskByDoctor = true;
     this.examen = item;
-    console.log(this.examen);
     this.modalService.open(makAsdoneContent, { size: 'lg' });
   }
 

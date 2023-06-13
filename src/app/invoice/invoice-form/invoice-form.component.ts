@@ -115,7 +115,6 @@ export class InvoiceFormComponent implements OnInit {
     this.initForm();
     this.addActs();
     if (this.admission) {
-      console.log("admission here",this.admission);
       this.admissionForTemplate = this.admission;
       this.invoiceForm.get('admissionNumber').setValue(this.admission.admissionNumber);
       this.invoiceForm.get('admission').setValue(this.admission.id);
@@ -268,9 +267,7 @@ export class InvoiceFormComponent implements OnInit {
     if (!!this.InvoiceType)  this.invoiceDto.billType = this.InvoiceType;
     this.invoiceDto.acts.forEach((el, index) => {
       el["admission"] = this.admissionForTemplate.id
-    })
-    console.log(this.invoiceDto);
-    
+    })    
     this.invoiceService.createInvoice(this.invoiceDto).subscribe(
       (response: any) => {
         this.addInvoice.emit();
@@ -290,11 +287,7 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   public addActs(): void {
-    console.log(this.admission);
-
     this.acts.push(this.createActsGroups())
-    console.log(this.acts);
-    
   }
   public deleteAct(index: number) {
     this.acts.removeAt(index);
@@ -321,7 +314,6 @@ export class InvoiceFormComponent implements OnInit {
   public addInsured(): void {
     this.insureds.push(this.createInsuredListGroups());
     this.insureds.controls.forEach((element, i) => {
-      console.log(element);
       if (this.user.facility["facilityType"]["name"] === "Centre de sante privé") {
         this.insureds.controls[0].get('insuredPart').enable();
       }
@@ -416,14 +408,10 @@ export class InvoiceFormComponent implements OnInit {
 
   onCalculInvoiceCost() {
     let invoiceCost: InvoiceCost = this.invoiceService.calculInvoiceCost(this.admissionForTemplate.admissionStatus, this.invoiceForm.getRawValue(), this.invoiceForm.getRawValue(), this.totalInvoice, this.partPecByCNAM, this.partPecByOthherInsurance, this.partientPart, this.insureds.controls);
-    console.log(invoiceCost);
     this.totalInvoice = invoiceCost.totalInvoice;
     this.partPecByCNAM = invoiceCost.partPecByCNAM;
     this.partPecByOthherInsurance = invoiceCost.partPecByOthherInsurance;
-    this.partientPart = invoiceCost.partientPart;
-
-    console.log(this.partientPart);
-    
+    this.partientPart = invoiceCost.partientPart;    
   }
 
   collectAmount() {

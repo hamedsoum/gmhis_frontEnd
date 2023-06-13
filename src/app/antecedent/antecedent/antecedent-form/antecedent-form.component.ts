@@ -116,41 +116,10 @@ export class AntecedentFormComponent implements OnInit {
     );
     this.initForm();
     if (this.antecedent) {
-      console.log(this.antecedent);
       this.antecedentForm.patchValue(this.antecedent);
-      // this.subs.add(
-      //   this.communeService.getCommuneDetails(this.commune).subscribe(
-      //     (response : Commune)=>{
-      //       this.communeForm.patchValue(response);
-      //       if (this.details) {
-      //         this.communeForm.disable();
-      //       }
-      //     }
-      //   )
-      // )
     }
   }
 
-  ngAfterViewInit(): void {
-    const formControlBlurs: Observable<unknown>[] = this.inputElements.map(
-      (FormControlElementRef: ElementRef) =>
-        fromEvent(FormControlElementRef.nativeElement, 'blur')
-    );
-
-    merge(this.antecedentForm.valueChanges, ...formControlBlurs)
-      .pipe(
-        //si on clique sur le boutton sauvegarder ne pas utiliser le debounce time sinon l'utiliser pour les autres
-        // debounce(() => this.isFormSubmitted ? EMPTY : timer(800))
-        debounceTime(500)
-      )
-      .subscribe(() => {
-        this.formsErrors = this.globalGenericValidator.createErrorMessage(
-          this.antecedentForm,
-          this.formSubmitted
-        );
-        console.log('error :', this.formsErrors);
-      });
-  }
 
   initForm() {
     this.antecedentForm = new FormGroup({
@@ -173,8 +142,6 @@ export class AntecedentFormComponent implements OnInit {
     if (this.antecedentForm.valid) {
       this.showloading = true;
       this.antecedent = this.antecedentForm.value;
-      console.log(this.antecedent);
-
       if (this.antecedent.id) {
         this.subs.add(
           this.antecedentService.updateAntecedent(this.antecedent).subscribe(

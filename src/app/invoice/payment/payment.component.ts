@@ -65,7 +65,6 @@ export class PaymentComponent implements OnInit {
     if (this.invoice) {
       this.patientInvoice = this.invoice;
       this.examDto.admission = this.patientInvoice.admission.id;
-      console.log(this.examDto);
     }
     this.findPaymentTypesActiveNameAndIds();
   }
@@ -150,7 +149,6 @@ export class PaymentComponent implements OnInit {
   }
 
   onGetamountReceived(index? : any) {
-    // console.log(this.paymentsType.controls[index].get('amount').value);
     let amountReceived = this.paymentForm.get("amountReceived").value;
     let amountReturned = 0;
     if (amountReceived > this.patientInvoice?.patientPart) {

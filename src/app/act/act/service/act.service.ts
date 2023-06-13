@@ -13,12 +13,6 @@ export class ActService {
   private readonly apiUrl = environment.apiUrl;
   constructor(private http : HttpClient) { }
 
-
-/**
- * It takes in a data object, and returns an observable of type PageList
- * @param data - {
- * @returns A list of acts.
- */
   public getPaginatedListOfAct(data) : Observable<PageList>{
     let queryParams = {};
     queryParams = {
@@ -33,10 +27,6 @@ export class ActService {
     return this.http.get<PageList>(`${this.apiUrl}/act/list`, queryParams);
   }
 
-/**
- * It returns an observable of type any
- * @returns The list of active acts
- */
   public getListOfActiveAct() : Observable<any>{
     return this.http.get(`${this.apiUrl}/act/active_acts_name`);
   }
@@ -45,31 +35,14 @@ export class ActService {
     return this.http.get(`${this.apiUrl}/act/find-All-medical-Analysis`);
   }
 
- /**
-  * This function is used to get the details of an act by its id
-  * @param {number} actId - The id of the act you want to get.
-  * @returns An observable of any type.
-  */
   public getActById(actId : number): Observable<any>{
     return this.http.get(`${this.apiUrl}/act/get-detail/${actId}`);
   }
 
-/**
- * This function takes an ActDto object as a parameter and returns an Observable of type ActDto
- * @param {ActDto} actDto - The object that will be sent to the server.
- * @returns An observable of type ActDto
- */
-  public createAct(actDto : ActDto): Observable<ActDto>{
-    console.log(actDto);
-    
+  public createAct(actDto : ActDto): Observable<ActDto>{    
     return this.http.post<ActDto>(`${this.apiUrl}/act/add`, actDto)
   }
 
- /**
-  * This function takes an ActDto object as a parameter and returns an Observable of type ActDto
-  * @param {ActDto} actDto - The object that contains the data that will be updated.
-  * @returns An observable of type ActDto
-  */
   public updateAct(actDto : ActDto) : Observable<ActDto>{
     return this.http.put<ActDto>(`${this.apiUrl}/act/update/${actDto.id}`, actDto)
   }

@@ -85,7 +85,6 @@ export class ConstantDomainListComponent implements OnInit {
     this.subs.add(
       this.constantService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -122,7 +121,6 @@ export class ConstantDomainListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.constantDomain = item;
-    console.log(this.constantDomain);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 

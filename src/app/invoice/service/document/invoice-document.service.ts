@@ -19,19 +19,14 @@ export class InvoiceDocumentService {
     ) { }
 
 getInvoiceDocument(invoice : any, acts : any){
-  
-console.log(invoice);
 
 var doc = new jsPDF('p', 'mm', 'a4');
-  // doc.setDrawColor(0);
-  // doc.setFillColor(230, 230, 230);
   doc.rect(50, 42, 45, 7)
   
   doc.addImage(invoice["facilityLogo"], "JPEG", 14, 10, 30, 30);
 
   doc.setFontSize(16)
   doc.text(invoice["facilityName"].toString().toUpperCase() , 65, 10)
-  // doc.setFont("arial", "bold");
   doc.setFontSize(9)
   doc.text("Date   : " + this.datePipe.transform(invoice["billDate"], 'dd/MM/yyyy')  , 160, 47)
 

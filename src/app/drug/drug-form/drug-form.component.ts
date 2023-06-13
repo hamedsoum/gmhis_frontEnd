@@ -97,7 +97,6 @@ export class DrugFormComponent implements OnInit {
     if (this.drug) {
       this.drugService.getActDrugDetails(this.drug).subscribe(
         (response : any) => {
-          console.log(response);
           this.drugForm.patchValue(response);
         }
       )  
@@ -130,9 +129,7 @@ export class DrugFormComponent implements OnInit {
     this.formSubmitted = true;
     if (this.drugForm.valid) {
       this.showloading = true;
-      this.drugDto = this.drugForm.value;
-      console.log(this.drugDto);
-      
+      this.drugDto = this.drugForm.value;      
       if (this.drugDto.id) {
         this.subs.add(
           this.drugService.updateDrug(this.drugDto).subscribe(
@@ -205,9 +202,7 @@ export class DrugFormComponent implements OnInit {
   private findActivePharmacologicalFormNameAndId(){
     this.pharmacologicalForm.findActivePharmacologicalNameAndId().subscribe(
       (response : any) => {
-        this.pharmacologicalFormsNameAndId = response;
-        console.log(this.pharmacologicalFormsNameAndId);
-        
+        this.pharmacologicalFormsNameAndId = response;        
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;

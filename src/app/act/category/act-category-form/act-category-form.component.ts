@@ -116,18 +116,7 @@ export class ActCategoryFormComponent implements OnInit {
     );
     this.initForm();
     if (this.actCategory) {
-      console.log(this.actCategory);
       this.actCategoryForm.patchValue(this.actCategory);
-      // this.subs.add(
-      //   this.communeService.getCommuneDetails(this.commune).subscribe(
-      //     (response : Commune)=>{
-      //       this.communeForm.patchValue(response);
-      //       if (this.details) {
-      //         this.communeForm.disable();
-      //       }
-      //     }
-      //   )
-      // )
     }
   }
 
@@ -139,8 +128,6 @@ export class ActCategoryFormComponent implements OnInit {
 
     merge(this.actCategoryForm.valueChanges, ...formControlBlurs)
       .pipe(
-        //si on clique sur le boutton sauvegarder ne pas utiliser le debounce time sinon l'utiliser pour les autres
-        // debounce(() => this.isFormSubmitted ? EMPTY : timer(800))
         debounceTime(500)
       )
       .subscribe(() => {
@@ -148,7 +135,6 @@ export class ActCategoryFormComponent implements OnInit {
           this.actCategoryForm,
           this.formSubmitted
         );
-        console.log('error :', this.formsErrors);
       });
   }
 
@@ -169,8 +155,6 @@ export class ActCategoryFormComponent implements OnInit {
     if (this.actCategoryForm.valid) {
       this.showloading = true;
       this.actCategory = this.actCategoryForm.value;
-      console.log(this.actCategory);
-
       if (this.actCategory.id) {
         this.subs.add(
           this.actCategoryService.updateActCategory(this.actCategory).subscribe(

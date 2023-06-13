@@ -39,10 +39,7 @@ export class ConstantListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.initform();
-    console.log(this.PatientconstantDomain);
-    console.log(this.patientId);
-    
+    this.initform();    
     let dateConvert: string;
     dateConvert = this.datePipe.transform(new Date(this.PatientconstantDomain["takenAt"]), "yyyy-MM-dd HH:mm:ss");
     this.searchForm.get("takenAt").setValue(dateConvert);
@@ -64,27 +61,22 @@ export class ConstantListComponent implements OnInit {
           this.showloading = false;
           this.items = response.items;
           
-          console.log(this.items);
           this.items.forEach((el, i) => {
             if (el["constant"] == "Température") {
               if (el["value"] < 36 || el["value"] > 37) {
                 el["badConstant"] = true;
-                console.log(el);
               }
             } else if (el["constant"] == "TA droit" || el["constant"] == "TA gauche") {
               if (el["value"] == "15/10") {
                 el["badConstant"] = true;
-                console.log(el);
               }
             }else if (el["constant"] == "Glycémie") {
               if (el["value"] < 0.7 || el["value"] > 1.26) {
                 el["badConstant"] = true;
-                console.log(el);
               }
             }else if( el["constant"] == "FRÉQUENCE CARDIAQUE (FC)"){
               if (el["value"] < 60 || el["value"] > 80) {
                 el["badConstant"] = true;
-                console.log(el);
               }
             }
 

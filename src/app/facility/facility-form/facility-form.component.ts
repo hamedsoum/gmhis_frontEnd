@@ -93,7 +93,6 @@ export class FacilityFormComponent implements OnInit {
     if (this.facility) {
       this.facilityService.getFacilityDetails(this.facility).subscribe(
         (res : any) => {
-          console.log(res);       
           this.facilityForm.patchValue(res);
           this.facilityForm.get("facilityCategoryId").setValue(res["facilityCategoryId"]);
           if (res["facilityTypeId"]) {
@@ -107,9 +106,7 @@ export class FacilityFormComponent implements OnInit {
 
 
   onSelectFile(event){
-    this.facilityLogo = event.target.files[0];
-    console.log(this.facilityLogo);
-        
+    this.facilityLogo = event.target.files[0];        
   }
 
 
@@ -141,8 +138,6 @@ export class FacilityFormComponent implements OnInit {
     if (this.facilityForm.valid) {
       this.showloading = true;
       this.facilityDto = this.facilityForm.value;
-      console.log(this.facilityDto);
-
       if (this.facilityDto.id) {
         this.subs.add(
           this.facilityService.updateFacility(this.facilityDto,this.facilityLogo).subscribe(
@@ -196,7 +191,6 @@ export class FacilityFormComponent implements OnInit {
   }
   
   onFacilityTypeNameAndIdChange(event){
-    console.log(event);
     if (event == "7a8067ec-8ac1-484b-b827-98e8fa53ea2a") {
       this.findActiveFacilityCategoriesNameAndId();
     }else{
@@ -208,7 +202,6 @@ export class FacilityFormComponent implements OnInit {
     this.facilityService.findActiveFacilityCategoryNameAndId().subscribe(
       (response : any) => {
         this.facilityCategoriesNameAndId = response;
-        console.log("facilityCategoriesNameAndId", this.facilityCategoriesNameAndId);  
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;

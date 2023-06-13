@@ -88,7 +88,6 @@ export class ActCodeListComponent implements OnInit {
     this.subs.add(
       this.actCodeService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -125,7 +124,6 @@ export class ActCodeListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.actCode = item;
-    console.log(this.actCode);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 

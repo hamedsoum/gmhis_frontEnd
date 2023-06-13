@@ -82,7 +82,6 @@ export class DciListComponent implements OnInit {
     this.subs.add(
       this.dciService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          console.log(response);
           this.showloading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
@@ -119,7 +118,6 @@ export class DciListComponent implements OnInit {
 
   openUpdateForm(updateFormContent, item?) {
     this.dci = item;
-    console.log(this.dci);
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 
