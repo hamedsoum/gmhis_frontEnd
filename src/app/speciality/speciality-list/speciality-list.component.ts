@@ -16,8 +16,7 @@ import { Speciality } from './speciality';
   styleUrls: ['./speciality-list.component.scss']
 })
 export class SpecialityListComponent implements OnInit {
-
-  @Output() private subs = new SubSink();
+  private subs = new SubSink();
 
   public searchForm: FormGroup;
 

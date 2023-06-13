@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ItemValue } from 'src/app/shared/domain';
+import { FaciityServiceService } from 'src/app/facility/faciity-service.service';
 import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
@@ -15,16 +15,16 @@ import { Speciality } from '../speciality-list/speciality';
 })
 export class SpecialityFormComponent implements OnInit {
 
-  private subs = new SubSink();
-
   @Input() speciality : any;
-
-  specialityCreateData : any;
 
   @Input() details: boolean;
 
   @Output() addEvent = new EventEmitter();
   @Output() updateEvent = new EventEmitter();
+
+  specialityCreateData : any;
+
+  private subs = new SubSink();
 
   public fieldGroup: FormGroup = new FormGroup({});
 
@@ -36,10 +36,11 @@ export class SpecialityFormComponent implements OnInit {
   
   loading: boolean = false;
 
-  constructor(private notificationService: NotificationService, private specialityService : SepecialityService) {}
+  constructor(private notificationService: NotificationService, private specialityService : SepecialityService, private facilityService : FaciityServiceService) {}
 
   ngOnInit(): void {    
     this.buildField();
+    this.getAllFacility();
    if (this.speciality) this.fieldGroup.patchValue(this.speciality)
   }
 
@@ -104,4 +105,16 @@ export class SpecialityFormComponent implements OnInit {
     }
   }
 
+  private getAllFacility(){
+    this.subs.add(
+      this.facilityService.findActiveFacilityNameAndId().subscribe(
+        (response : any) => {
+          console.log(response);  
+        },
+        (errorResponse: HttpErrorResponse) => {
+          console.log(errorResponse.error.message);      
+        }
+      )
+    )
+  }
 }
