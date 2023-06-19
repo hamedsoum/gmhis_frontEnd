@@ -51,7 +51,7 @@ admissionDto : IAdmissionDto;
   actsNameAndId: any;
   servicesNameAndId: any;
   actCategories: any;
-  practicians: INameAndId[];
+  practicians: any[];
   constructor(private serviceService : ServiceService,
                private actService : ActService,
                private admissionService : AdmissionService,
@@ -63,6 +63,8 @@ admissionDto : IAdmissionDto;
 
   ngOnInit(): void {
     this.initForm();
+
+
     if (this.admission) {      
       this.admissionService.getAdmissionDetail(this.admission).subscribe(
         (response : any) => {
@@ -88,14 +90,21 @@ admissionDto : IAdmissionDto;
     this.findActPracticiainNameAndId();
   }
 
+  onChangePractician(practicianID : any){    
+     let practician = this.practicians.find(practician =>practician.id =practicianID);     
+     this.admissionForm.get('speciality').setValue(practician.actCategoryId);
+     this.findActiveActByActCategoryId(practician.actCategoryId);
+  }
+
   initForm() {
     this.admissionForm = new FormGroup({
       id: new FormControl(null),
       patientExternalId : new FormControl({ value: '', disabled: true }),
       patientName : new FormControl({ value: '', disabled: true }),
-      createdAt: new FormControl('', [Validators.required]),
+      createdAt: new FormControl(new Date(), [Validators.required]),
       patient: new FormControl(true),
       service: new FormControl(null),
+      speciality: new FormControl(null),
       act: new FormControl(null),
       caution: new FormControl(null),
       practician: new FormControl(null),
@@ -107,7 +116,9 @@ admissionDto : IAdmissionDto;
     this.formSubmitted = true;
     if (this.admissionForm.valid) {
       this.showloading = true;
-      this.admissionDto = this.admissionForm.value;      
+      this.admissionDto = this.admissionForm.value;
+      console.log(this.admissionDto);
+      
       if (this.admissionDto.id) {
         this.subs.add(
           this.admissionService.updateAdmission(this.admissionDto).subscribe(
@@ -195,6 +206,8 @@ admissionDto : IAdmissionDto;
     this.practicianService.findPracticianSimpleList().subscribe(
       (response : INameAndId[])=> {
         this.practicians = response;
+        console.log(this.practicians);
+        
       }
     )
   }

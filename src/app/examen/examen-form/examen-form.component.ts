@@ -89,7 +89,9 @@ export class ExamenFormComponent implements OnInit {
   retrieveDayNumberBetweenAdmissionFirstExaminationAndCurrentDate(){
     this.examinationService.retrieveDayNumberBetweenAdmissionFirstExaminationAndCurrentDate(this.admissionId).subscribe(
       (response : number) => {
-        this.dayBetweenLastExaminationAndCurrentDate = response;        
+        this.dayBetweenLastExaminationAndCurrentDate = response;  
+        console.log(this.dayBetweenLastExaminationAndCurrentDate);
+              
       },
       (errorResponse : HttpErrorResponse) => {
       }

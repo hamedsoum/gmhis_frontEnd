@@ -174,6 +174,8 @@ export class PatientFolderComponent implements OnInit {
     this.examinationService.AdmissionNoHaveExamination(this.patient.id).subscribe(
       (response : boolean) =>{
         this.lastAdmissionNoHaveExamination = response;
+        console.log(this.lastAdmissionNoHaveExamination);
+  
       },
       (errorResponse : HttpErrorResponse) => {
       }
@@ -192,7 +194,9 @@ export class PatientFolderComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;          
+          this.items = response.items;    
+          console.log(this.items);
+                
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -234,8 +238,7 @@ export class PatientFolderComponent implements OnInit {
       }
     )
   }
-
-
+  
   updatePatientExamenNumber(patientId?:number){
     this.examService.getAnalysisRequestNumberByPatientId(this.patient.id).subscribe(
       (response : any) => {
@@ -251,7 +254,7 @@ export class PatientFolderComponent implements OnInit {
   }
 
   openAddForm(addFormContent) {
-    this.modalService.open(addFormContent, { size: 'lg' });
+    this.modalService.open(addFormContent, { size: 'xl' });
   }
 
 
@@ -261,9 +264,11 @@ export class PatientFolderComponent implements OnInit {
   }
 
    truncate(str : string, length : number) {
-    return str.length > length
+     if (!!str) {
+      return str.length > length
       ? str.slice(0, length) + '...'
       : str;
+     }
   }
 
 }

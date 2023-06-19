@@ -21,9 +21,6 @@ import { ExaminationService } from '../services/examination.service';
 export class NewExaminationComponent implements OnInit {
   private subs = new SubSink();
 
-   /**
-   * the form
-   */
     examinationForm: FormGroup;
 
     @Input() patientId: number;
@@ -37,39 +34,26 @@ export class NewExaminationComponent implements OnInit {
     @Output() addExamination: EventEmitter<any> = new EventEmitter();
   @Output() updateExamination: EventEmitter<any> = new EventEmitter();
 
-      /**
-   * consultation object
-   */
+
   examinationDto: IExaminationDto;
 
   pathologies : Object;
   symptoms : Object;
 
-  /**
-   * define consultation type option
-   */
   consultationTypes = [
     { id: 'p', value: 'Prémière consultation' },
     { id: 's', value: 'Consultation de surveillance' },
   ];
 
 
-  /** 
-   * invalid from controls
-   */
+
   invalidFormControls: any;
 
-  /**
-   * the form valid state
-   */
    public invalidFom = false;
 
-   /**
-    * check if the form is submitted
-    */
    public formSubmitted = false;
 
-   // => examenType has two values, true for internal examinations and false for external examinations
+   // Note: examenType has two values, true for internal examinations and false for external examinations
    examenType: boolean;
 
   showloading: boolean;
@@ -101,8 +85,8 @@ export class NewExaminationComponent implements OnInit {
       this.examinationForm = new FormGroup({
         date: new FormControl(this.datepipe.transform(new Date(), "MM-dd-yyyy")), 
         admission: new FormControl(this.admissionId),
-        conclusion: new FormControl('', Validators.required),
-        examinationReasons: new FormControl('', Validators.required),
+        // conclusion: new FormControl('', Validators.required),
+        examinationReasons: new FormControl('Mal de tête', Validators.required),
         id: new FormControl(0),
         startDate: new FormControl(this.startDate),
         pratician : new FormControl(1)
@@ -122,15 +106,14 @@ export class NewExaminationComponent implements OnInit {
     get examinationReasons(){return this.examinationForm.get('examinationReasons'); }
     get history(){return this.examinationForm.get('conclusion');}
 
-    save() {
-    
+    save() {        
         this.invalidFom = !this.examinationForm.valid;
-        this.formSubmitted = true;
+        this.formSubmitted = true;        
         if (this.examinationForm.valid) {
           this.showloading = true;
           this.examinationDto = this.examinationForm.value;
-  
           if (this.examinationDto.id) {
+            console.log('Update');
             this.subs.add(
               this.examinationService.updateExamination(this.examinationDto).subscribe(
                 (response: IExaminationDto) => {
@@ -156,10 +139,10 @@ export class NewExaminationComponent implements OnInit {
                 (response: any) => {
                   this.showloading = false;
                   this.addExamination.emit();
+                  console.log("Consultatio Ajouté");
                 },
                 (errorResponse: HttpErrorResponse) => {
                   this.showloading = false;
-                
                   this.notificationService.notify(
                     NotificationType.ERROR,
                     errorResponse.error.message
@@ -221,9 +204,10 @@ export class NewExaminationComponent implements OnInit {
 
 
     addExam() {
-      this.modalService.dismissAll();
+      console.log("examen Ajouté");
       this.save();
       this.addExamination.emit();
+      this.modalService.dismissAll();
         }
     
 }

@@ -12,8 +12,8 @@
                         <span >{{patient?.firstName+' '+patient?.lastName | uppercase}}</span>
                     </div>
                     <div>
-                        <span class="spanDefault">date de naissance : </span>  
-                        <span> {{ ageFromDateOfBirthday(patient?.birthDate) + 1}} ans</span>                   
+                        <span class="spanDefault">age : </span>  
+                        <span> {{ ageFromDateOfBirthday(patient?.birthDate)}} ans</span>                   
                     </div>
                 </div>
                 <div class="col-lg-4"> 
@@ -70,7 +70,7 @@
                     <span [style.font-size]="'13px'" [style.display]="'block'">Centre de Santé : {{examination.facility}}</span>
                 </nb-card-header>
                     <nb-card-body>
-                    {{truncate(examination.conclusion,100)}}
+                    {{truncate(examination?.conclusion,100)}}
                 </nb-card-body>
                 <nb-card-footer>
                     {{examination.date | date: "dd/MM/yyyy"}}

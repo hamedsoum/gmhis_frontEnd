@@ -124,6 +124,8 @@
             <th>N° carte ID</th>
             <th>Correspondant</th>
             <th>N° De Tel. Correspondant</th>
+            <th>Nom de la mère</th>
+            <th>Localité de la mère</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -158,6 +160,8 @@
             <td class="text-nowrap">{{ patient?.idCardNumber }}</td>
             <td class="text-nowrap">{{ patient.correspondant }}</td>
             <td class="text-nowrap">{{ patient.emergencyContact }}</td>
+            <td>{{patient?.motherName}}</td>
+            <td>{{patient?.motherLocality}}</td>
             <td>
               <div ngbDropdown class="d-inline-block">
                 <button

@@ -143,7 +143,7 @@
         <label for="civility" class="form-label text-capitalize"
           >Civilité</label
         >
-        <span *ngIf="!details" class="text-danger">*</span>
+        <span *ngIf="!details && isAnAdult()" class="text-danger">*</span>
         <ng-select
           [ngClass]="{
             'is-invalid':

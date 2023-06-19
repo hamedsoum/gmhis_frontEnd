@@ -115,7 +115,7 @@ export class AdmissionListComponent implements OnInit {
       act: new FormControl(""),
       date: new FormControl(null),
       page: new FormControl(0),
-      size: new FormControl(50),
+      size: new FormControl(25),
       sort: new FormControl('id,desc'),
     });
   }

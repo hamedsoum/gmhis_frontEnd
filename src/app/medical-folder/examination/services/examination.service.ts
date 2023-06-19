@@ -32,10 +32,8 @@ export class ExaminationService {
   }
 
   updateExamination(examinationDto : IExamination):Observable<IExaminationDto>{    
-    let data  = {
-      diagnostic : examinationDto.conclusion
-      }
-    return this.http.put<IExaminationDto>(`${this.apiUrl}/examination/update-diagnostic/${examinationDto.id}`, data)
+   
+    return this.http.put<IExaminationDto>(`${this.apiUrl}/examination/update-diagnostic/${examinationDto.id}`, examinationDto.conclusion)
   }
 
   getPatientExamination(data): Observable<any> {

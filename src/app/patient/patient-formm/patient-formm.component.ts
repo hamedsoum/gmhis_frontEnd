@@ -134,7 +134,7 @@ export class PatientFormmComponent implements OnInit {
 
   public insuranceForm!: FormGroup;
   public insuranceFormGroup: any = new FormArray([]);
-  private readonly FORM_FIELDS_TO_CLEAR_VALIDATOR: string[] = ['idcardType','idCardNumber', 'cellPhone1','profession', 'email'];
+  private readonly FORM_FIELDS_TO_CLEAR_VALIDATOR: string[] = ['idcardType','idCardNumber', 'cellPhone1','profession', 'email','maritalStatus','numberOfChildren', 'civility'];
 
   countryList: any = [];
   cityList: any = [];

@@ -123,7 +123,7 @@ export class PatientInWaitingRoomComponent implements OnInit {
       dpToDate: new FormControl(null),
       waitingRoom: new FormControl(1),
       page: new FormControl(0),
-      size: new FormControl(50),
+      size: new FormControl(25),
       sort: new FormControl('id,desc'),
     });
   }
