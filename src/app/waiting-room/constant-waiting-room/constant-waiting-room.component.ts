@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ActService } from 'src/app/act/act/service/act.service';
-import { IAdmission } from 'src/app/admission/model/admission';
+import { Admission } from 'src/app/admission/model/admission';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
 import { InvoiceDocumentService } from 'src/app/invoice/service/document/invoice-document.service';
 import { PracticianService } from 'src/app/practician/practician.service';
@@ -27,7 +26,7 @@ export class ConstantWaitingRoomComponent implements OnInit {
 
   public searchForm: FormGroup;
 
-  public admission: IAdmission;
+  public admission: Admission;
 
   public makeInvoice : boolean;
 
@@ -186,7 +185,7 @@ addInvoice(){
 }
 
 
-  rowSelected(admission: IAdmission, index: number) {
+  rowSelected(admission: Admission, index: number) {
     this.currentIndex = index;
     this.admission = admission;
   }

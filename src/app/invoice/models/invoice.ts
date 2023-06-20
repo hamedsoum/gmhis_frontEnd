@@ -1,7 +1,3 @@
-export interface IInvoice {
-    
-}
-
 export enum PATIENTTYPE {
     UNINSURED = 'c', // Patient Comptant
     INSURED = 'A' // Patient Assuré

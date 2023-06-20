@@ -10,7 +10,7 @@ import { INameAndId } from 'src/app/shared/models/name-and-id';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
-import { IAdmission } from '../model/admission';
+import { Admission } from '../model/admission';
 import { IAdmissionDto } from '../model/admission-dto';
 import { AdmissionService } from '../service/admission.service';
 
@@ -29,7 +29,7 @@ export class AdmissionFormComponent implements OnInit {
 patient : IPatient
 
 @Input()
-admission : IAdmission;
+admission : Admission;
 
 admissionDto : IAdmissionDto;
 
@@ -122,7 +122,7 @@ admissionDto : IAdmissionDto;
       if (this.admissionDto.id) {
         this.subs.add(
           this.admissionService.updateAdmission(this.admissionDto).subscribe(
-            (response: IAdmission) => {
+            (response: Admission) => {
               this.showloading = false;
               this.updateAdmission.emit();
             },

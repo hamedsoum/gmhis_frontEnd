@@ -4,9 +4,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ActService } from 'src/app/act/act/service/act.service';
-import { IAdmission } from 'src/app/admission/model/admission';
+import { Admission } from 'src/app/admission/model/admission';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
-import { InvoiceDocumentService } from 'src/app/invoice/service/document/invoice-document.service';
 import { PracticianService } from 'src/app/practician/practician.service';
 import { ServiceService } from 'src/app/service/service/service.service';
 import { PageList } from 'src/app/_models/page-list.model';
@@ -27,7 +26,7 @@ export class PatientInWaitingRoomComponent implements OnInit {
 
   public searchForm: FormGroup;
 
-  public admission: IAdmission;
+  public admission: Admission;
 
   public makeInvoice : boolean;
 
@@ -70,19 +69,8 @@ export class PatientInWaitingRoomComponent implements OnInit {
 
   PatientDPIChecknumber : string ;
   admissionId: number;
-  constructor(
-    private admissionService: AdmissionService,
-    private notificationService: NotificationService,
-    config: NgbModalConfig,
-    private modalService: NgbModal,
-    private serviceService : ServiceService,
-    private actService : ActService,
-    private waitingRoomService : WaitingRoomService,
-    private practicianService : PracticianService,
-    private userService : UserService,
-    private route : Router
-
-  ) {}
+  constructor(private admissionService: AdmissionService,private notificationService: NotificationService,private modalService: NgbModal,private serviceService : ServiceService,
+        private actService : ActService,private waitingRoomService : WaitingRoomService,private practicianService : PracticianService,private userService : UserService,private route : Router) {}
 
   ngOnInit(): void {
     this.user = this.userService.getUserFromLocalCache();
@@ -201,7 +189,7 @@ addInvoice(){
 }
 
 
-  rowSelected(admission: IAdmission, index: number) {
+  rowSelected(admission: Admission, index: number) {
     this.currentIndex = index;
     this.admission = admission;
   }

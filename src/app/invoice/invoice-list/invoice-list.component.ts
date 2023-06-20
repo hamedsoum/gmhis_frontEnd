@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ActService } from 'src/app/act/act/service/act.service';
+import { Invoice } from 'src/app/_models/invoice.model';
 import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
-import { IInvoice } from '../models/invoice';
 import { InvoiceDocumentService } from '../service/document/invoice-document.service';
 import { InvoiceService } from '../service/invoice.service';
 
@@ -22,7 +22,7 @@ export class InvoiceListComponent implements OnInit {
 
   public searchForm: FormGroup;
 
-  public invoice: IInvoice;
+  public invoice: Invoice;
 
   docSrc: any;
 
@@ -180,7 +180,7 @@ addPayment(){
 }
 
 
-  rowSelected(invoice: IInvoice, index: number) {
+  rowSelected(invoice: Invoice, index: number) {
     this.currentIndex = index;
     this.invoice = invoice;
   }

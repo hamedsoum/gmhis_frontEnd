@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActService } from 'src/app/act/act/service/act.service';
-import { admissionStatus, IAdmission } from 'src/app/admission/model/admission';
+import { admissionStatus, Admission } from 'src/app/admission/model/admission';
 import { CashRegisterService } from 'src/app/cash-register/cash-register.service';
 import { Insured } from 'src/app/insurance/insured';
 import { InsuredServiceService } from 'src/app/insured/service/insured-service.service';
@@ -29,7 +29,7 @@ export class InvoiceFormComponent implements OnInit {
   @Output() updateInvoice = new EventEmitter();
   @Output() addPayment= new EventEmitter();
 
-  @Input() admission: IAdmission;
+  @Input() admission: Admission;
 
   @Input() InvoiceType : string;
 
@@ -37,7 +37,7 @@ export class InvoiceFormComponent implements OnInit {
 
   @Input() invoice: Invoice;
 
-  admissionForTemplate: IAdmission;
+  admissionForTemplate: Admission;
 
   public invoiceForm!: FormGroup;
 
@@ -68,7 +68,7 @@ export class InvoiceFormComponent implements OnInit {
 
   insured = null;
 
-  actionToDo: string;
+  actionToDo: 'invoice' | 'payment';
 
   public user: User;
 
@@ -93,7 +93,9 @@ export class InvoiceFormComponent implements OnInit {
     this.user = this.userService.getUserFromLocalCache();
     this.initForm();
     this.addActs();
-    if (this.admission) {      
+    if (this.admission) {  
+      console.log(this.admission);
+      
       this.admissionForTemplate = this.admission;      
       this.invoiceForm.get('admissionNumber').setValue(this.admission.admissionNumber);
       this.invoiceForm.get('admission').setValue(this.admission.id);
@@ -113,10 +115,10 @@ export class InvoiceFormComponent implements OnInit {
         }
       )
       if (this.admission.admissionStatus == admissionStatus.UNBILLED) {
-        this.acts.at(0).get('act').setValue(this.admission["actId"]);
+        this.acts.at(0).get('act').setValue(this.admission.actId);
         this.acts.at(0).get('cost').setValue(this.admission.actCost);
         this.acts.at(0).get('admission').setValue(this.admission.id);
-        this.acts.at(0).get('pratician').setValue(this.admission["practicianId"]);
+        this.acts.at(0).get('pratician').setValue(this.admission.practicianId);
       }
     }
     if (this.invoice) {  
@@ -148,11 +150,6 @@ export class InvoiceFormComponent implements OnInit {
     this.findPracticianSimpleList();
     this.findPaymentTypesActiveNameAndIds();
   }
-
-  setFormValue(value: IAdmission | Invoice) {
-    
-  }
-
 
   dateOutputFormat(date: Date): string {
     let newDate = new Date(date);
@@ -208,10 +205,9 @@ export class InvoiceFormComponent implements OnInit {
 
     })
   }
-
-
+  
   onInvoice() {
-    this.actionToDo = "makeInvoice";
+    this.actionToDo = "invoice";
     this.onCalculInvoiceCost();
     this.invoiceForm.get('patientPart').setValue(this.partientPart);
     this.invoiceForm.get('partTakenCareOf').setValue(this.partPecByOthherInsurance + this.partPecByCNAM);
@@ -364,8 +360,7 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   collectAmount() {
-    this.actionToDo = "makePayment";
-
+    this.actionToDo = "payment";
     this.invoiceForm.get("cashRegister").clearValidators();
     this.invoiceForm.get("paymentType").clearValidators();
     this.invoiceForm.get("cashRegister").setValidators([Validators.required]);

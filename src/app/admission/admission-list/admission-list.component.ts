@@ -9,7 +9,7 @@ import { AdmissionReceiptPaymentService } from 'src/app/_services/documents/admi
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
-import { admissionStatus, IAdmission } from '../model/admission';
+import { admissionStatus, Admission } from '../model/admission';
 import { AdmissionService } from '../service/admission.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class AdmissionListComponent implements OnInit {
 
   public searchForm: FormGroup;
 
-  public admission: IAdmission;
+  public admission: Admission;
 
   public admissionId : number;
 
@@ -195,7 +195,7 @@ addInvoice(){
 }
 
 
-  rowSelected(admission: IAdmission, index: number) {
+  rowSelected(admission: Admission, index: number) {
     this.currentIndex = index;
     this.admission = admission;
   }
