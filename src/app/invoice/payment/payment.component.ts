@@ -126,7 +126,7 @@ export class PaymentComponent implements OnInit {
     } else {
       this.invoiceService.collectAmount(data).subscribe(
         (response: any) => {
-          this.saveExamanRequest();
+          // this.saveExamanRequest();
           this.addPayment.emit();
         },
         (errorResponse: HttpErrorResponse) => {

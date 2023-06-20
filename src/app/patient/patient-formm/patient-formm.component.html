@@ -121,6 +121,7 @@
         id="cellPhone1"
         class="form-control w-100"
         formControlName="cellPhone1"
+        placeholder="-- -- -- -- -- --"
         [ngClass]="{
           'is-invalid':
             (!patientForm.get('cellPhone1')?.valid &&
@@ -129,6 +130,8 @@
         }"
         ng2TelInput
         [ng2TelInputOptions]="{initialCountry: 'ci'}"
+        [enablePlaceholder]="false"
+        customPlaceholder="Mobile Number"
         />
      
         <div class="invalid-feedback">
@@ -306,6 +309,7 @@
             id="emergencyContact"
             class="form-control w-100"
             formControlName="emergencyContact"
+            placeholder="-- -- -- -- -- --"
             ng2TelInput
             [ng2TelInputOptions]="{initialCountry: 'ci'}"
             />

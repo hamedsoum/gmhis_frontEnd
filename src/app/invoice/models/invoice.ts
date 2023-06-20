@@ -2,9 +2,13 @@ export interface IInvoice {
     
 }
 
+export enum PATIENTTYPE {
+    UNINSURED = 'c', // Patient Comptant
+    INSURED = 'A' // Patient Assuré
+}
 
 export interface IInvoiceDto {
-    id: number,
+     id: number,
       admission: number,
       billType: string,
       convention:number,

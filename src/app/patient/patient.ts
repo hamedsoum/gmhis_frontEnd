@@ -1,4 +1,5 @@
 export interface IPatient {
+  service: any;
   id: number;
   patientExternalId: string;
   cnamNumber: string;

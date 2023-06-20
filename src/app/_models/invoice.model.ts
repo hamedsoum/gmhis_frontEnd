@@ -1,3 +1,5 @@
+import { IAdmission } from '../admission/model/admission';
+import { IPatient } from '../patient/patient';
 import { Customer } from './customer.model';
 import { User } from './user.model';
 
@@ -23,4 +25,10 @@ export interface Invoice {
   customerOrderNumber: string;
   taxpayerAccount: string;
   billDate: Date;
+  admision : IAdmission;
+  patient : IPatient;
+  patientType :string;
+  patientPart : number;
+  partTakenCareOf : number;
+  total : string;
 }

@@ -21,11 +21,15 @@
                 <div class="value strong"> {{currentDate | date: "dd/MM/yyyy"}} </div>
             </div>
             <div class="d-flex col-md-4 mb-3 ">
-                <div>Motif d'admission : </div>
+                <div>Motif d'admission: </div>
                 <div style="color: #14a2b8;" class="value strong"> {{admissionForTemplate?.act | uppercase}} </div>
             </div>
+            <div class="d-flex col-md-4 mb-3 ">
+                <div>Montant: </div>
+                <div style="color: #14a2b8;" class="value strong"> {{admissionForTemplate?.actCost | currency: "FCFA":"symbol":"1.0-0" }} </div>
+            </div>
             <div class="d-flex col-md-4 mb-3">
-                <div>Médécin : </div>
+                <div>Médécin: </div>
                 <div class="value strong"> {{admissionForTemplate?.practicianFirstName}}
                     {{admissionForTemplate?.practicianLastName}}</div>
             </div>

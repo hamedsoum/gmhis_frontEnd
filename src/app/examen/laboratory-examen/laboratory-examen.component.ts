@@ -89,7 +89,7 @@ export class LaboratoryExamenComponent implements OnInit {
       examenType: new FormControl(false),
       active: new FormControl(null),
       page: new FormControl(0),
-      size: new FormControl(50),
+      size: new FormControl(25),
       sort: new FormControl('id,desc'),
     });
   }
@@ -107,7 +107,7 @@ export class LaboratoryExamenComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;
+          this.items = response.items;          
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
