@@ -12,35 +12,35 @@ import { PatientConstantService } from '../service/patient-constant.service';
 
 @Component({selector: 'app-patient-constant-form',templateUrl: './patient-constant-form.component.html'})
 export class CreateConstantFormComponent implements OnInit {
-  
+  private readonly POUL_MIN = 60;
+  private readonly POUL_MAXI = 80;
+  private readonly POUL_LIMIT_MIN_DANGER = 50; // Si la valeur est < à 50 pls/min, on parle de bradycardie
+  private readonly POUL_LINIT_MAX_DANGER = 100;// Si la valeur est > à 100 pls/min, on parle de tachycardie
+
+  private readonly BLOOD_PRESSURE_NORMAL = '140/90'; //La valeur doit être inférieure à 140/90 mmHg pour un adulte.
+  private readonly BLOOD_PRESSURE_LIMIT_MIN_DANGER = '100/50'; //Au dessus de 140/90 mmHg, on parle d’hypertension artérielle
+  private readonly BLOOD_PRESSURE_LIMIT_MAX_DANGER = '140/90'; //En dessous de 100/50 mmHg, on parle d’hypotension artérielle.
+
+  private readonly TEMPERATURE_NORMAL = 37 ; //La température centrale usuelle du corps humain est de 37°C. Il s’agit d’une valeur au repos.
+  private readonly TEMPERATURE_LIMIT_MIN_DANGER = 36.5;
+  private readonly TEMPERATURE_LIMIT_MAX_DANGER = 37.5;
+
   private subs = new SubSink();
 
   @Input() constantType: IConstantType;
   @Input() details: boolean;
   @Input() patientId: number;
   
-
   @Output() addConstantType = new EventEmitter();
   @Output() updateConstantType = new EventEmitter();
-
 
   public ConstantsCreateForm: FormGroup;
   public createConstantFormIsInvalid:boolean = false;
   public createConstantFormIsSubmitted:boolean = false;
-  public spinnerIsVisibled: boolean = false;
+  public loading: boolean = false;
 
-
-  states = [
-    { id: true, value: 'Actif' },
-    { id: false, value: 'En sommeil' },
-  ];
-  actives = [
-    { id: true, value: 'Actif' },
-    { id: false, value: 'Inactif' },
-  ];
-
-  constantCreateData : constantCreateData;
-  constantData: IConstant[];
+  private constantCreateData : constantCreateData;
+  public constantData: IConstant[];
 
   constructor(private fb: FormBuilder,private constantTypeService: ConstantTypeService,private notificationService: NotificationService,private patientConstantService : PatientConstantService) {}
 
@@ -52,7 +52,7 @@ export class CreateConstantFormComponent implements OnInit {
     }
   }
 
-  buildConstantCreateForm() {
+  private buildConstantCreateForm() {
     this.ConstantsCreateForm = this.fb.group({
       id: new FormControl(null),
       constants: this.fb.array([this.buildcreateConstantForm()]),
@@ -89,11 +89,11 @@ export class CreateConstantFormComponent implements OnInit {
           this.patientConstantService.updatePatientConstant(this.constantCreateData)
             .subscribe(
               (response: constantCreateData) => {
-                this.spinnerIsVisibled = false;
+                this.loading = false;
                 this.updateConstantType.emit();
               },
               (errorResponse: HttpErrorResponse) => {
-                this.spinnerIsVisibled = false;
+                this.loading = false;
                 this.notificationService.notify( NotificationType.ERROR,errorResponse.error.message);
               }
             )
@@ -104,11 +104,11 @@ export class CreateConstantFormComponent implements OnInit {
             .createPatientConstant(this.constantCreateData)
             .subscribe(
               (response: constantCreateData) => {
-                this.spinnerIsVisibled = false;
+                this.loading = false;
                 this.addConstantType.emit();
               },
               (errorResponse: HttpErrorResponse) => {
-                this.spinnerIsVisibled = false;
+                this.loading = false;
                 this.notificationService.notify( NotificationType.ERROR,errorResponse.error.message);
               }
             )
@@ -139,7 +139,7 @@ export class CreateConstantFormComponent implements OnInit {
         
       },
       (errorResponse: HttpErrorResponse) => {
-        this.spinnerIsVisibled = false;
+        this.loading = false;
         this.notificationService.notify( NotificationType.ERROR,errorResponse.error.message);
       }
     );
