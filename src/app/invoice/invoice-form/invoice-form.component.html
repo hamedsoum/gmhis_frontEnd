@@ -1,8 +1,8 @@
-<form [formGroup]="invoiceForm">
-    <div class=" mx-4 d-flex mb-3 mt-2 justify-content-center">
+<form class="mx-4" [formGroup]="invoiceForm">
+    <div class="mb-3 mt-2 ">
+        <span [style.display]="'block'" class="subTitle mb-4">Informations</span>
 
         <div class="patient_infos row">
-            <span class="subTitle">Informations</span>
             <div class="d-flex col-md-4 mb-3">
                 <div>N° Patient </div>
                 <div class="value strong">: {{admissionForTemplate?.patientExternalId}}</div>
@@ -38,12 +38,12 @@
     </div>
 
     <div class="mb-4">
-        <span class="subTitle mx-2">Assurance(s)</span><br>
+        <span class="subTitle ">Assurance(s)</span><br>
         <small class="mb-5">Par défaut l'assurance CNAM est appliquée à tout type de patient (assuré ou
             comptant).</small>
     </div>
 
-    <div >
+    <div class="">
         <div class="mb-3" formArrayName="insuredList">
             <div class="form-group  mb-2" *ngFor="let insured of insureds.controls; let i = index">
                 <div formGroupName="{{i}}" class="row d-flex align-items-end">
