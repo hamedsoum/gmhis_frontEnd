@@ -14,7 +14,7 @@ import { User } from 'src/app/_models/user.model';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { UserService } from 'src/app/_services/user.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
-import { IInvoiceDto as InvoiceCreateData, InvoiceCost, PATIENTTYPE } from '../models/invoice';
+import { IInvoiceDto as InvoiceCreateData, InvoiceCost, patientType } from '../models/invoice';
 import { InvoiceService } from '../service/invoice.service';
 
 @Component({
@@ -23,8 +23,6 @@ import { InvoiceService } from '../service/invoice.service';
   styleUrls: ['./invoice-form.component.scss']
 })
 export class InvoiceFormComponent implements OnInit {
-  private readonly CNAM_INSURANCE_NAME = "CNAM";
-
   @Output() addInvoice = new EventEmitter();
   @Output() updateInvoice = new EventEmitter();
   @Output() addPayment= new EventEmitter();
@@ -33,32 +31,17 @@ export class InvoiceFormComponent implements OnInit {
 
   @Input() InvoiceType : string;
 
-  @Input() makeInvoice: boolean;
-
   @Input() invoice: Invoice;
 
   admissionForTemplate: Admission;
 
-  public invoiceForm!: FormGroup;
+  public invoiceForm: FormGroup;
 
   public cashRegisters: INameAndId[];
 
   public paymentTypes: any;
 
-  public invoiceDto: InvoiceCreateData = {
-    id: null,
-    admission: null,
-    billType: "L",
-    convention: null,
-    discountInCfa: null,
-    discountInPercentage: null,
-    insured: null,
-    patientType: null,
-    acts: [],
-    insuredList: [],
-    patientPart: null,
-    partTakenCareOf: null
-  };
+  public invoiceCreateData: InvoiceCreateData;
 
   public patientInsurances: Insured[] = [];
 
@@ -81,8 +64,7 @@ export class InvoiceFormComponent implements OnInit {
   public partPecByCNAM: number = 0;
   public partPecByOthherInsurance: number = 0;
   public partientPart: number = 0;
-  public totalAmountToPay: number = 0;
-  displayAddInssuranceBtn: boolean = true;
+  private displayAddInssuranceBtn: boolean = true;
 
   constructor(private fb: FormBuilder,private cashRegisterService: CashRegisterService,private actService: ActService, private practicianService: PracticianService,
   private insuredService: InsuredServiceService,private paymentTypeService: PaymentTypeService, private invoiceService: InvoiceService,private notificationService: NotificationService,
@@ -91,11 +73,9 @@ export class InvoiceFormComponent implements OnInit {
   ngOnInit(): void {    
     this.currentDate = new Date();
     this.user = this.userService.getUserFromLocalCache();
-    this.initForm();
+    this.buildFields();
     this.addActs();
-    if (this.admission) {  
-      console.log(this.admission);
-      
+    if (this.admission) {        
       this.admissionForTemplate = this.admission;      
       this.invoiceForm.get('admissionNumber').setValue(this.admission.admissionNumber);
       this.invoiceForm.get('admission').setValue(this.admission.id);
@@ -107,10 +87,15 @@ export class InvoiceFormComponent implements OnInit {
         (response: Insured[]) => {
           this.patientInsurances = response;
           if (this.patientInsurances.length != 0) {
-            this.firstInsuredRow(this.patientInsurances);
-            this.invoiceForm.get('patientType').setValue(PATIENTTYPE.INSURED);
+            this.patientInsurances.forEach((el, i) => {
+              console.log(el);
+              
+              this.addInsured();
+              this.setInsuredRowValue(el,i);
+            })
+            this.invoiceForm.get('patientType').setValue(patientType.INSURED);
           } else {
-            this.invoiceForm.get('patientType').setValue(PATIENTTYPE.UNINSURED);
+            this.invoiceForm.get('patientType').setValue(patientType.UNINSURED);
           }
         }
       )
@@ -151,7 +136,89 @@ export class InvoiceFormComponent implements OnInit {
     this.findPaymentTypesActiveNameAndIds();
   }
 
-  dateOutputFormat(date: Date): string {
+  public onCalculInvoiceCost() {
+    let invoiceCost: InvoiceCost = this.invoiceService.calculInvoiceCost(this.admissionForTemplate.admissionStatus, this.invoiceForm.getRawValue(), this.invoiceForm.getRawValue(), this.totalInvoice, this.partPecByCNAM, this.partPecByOthherInsurance, this.partientPart, this.insureds.controls);
+    this.totalInvoice = invoiceCost.totalInvoice;
+    this.partPecByCNAM = invoiceCost.partPecByCNAM;
+    this.partPecByOthherInsurance = invoiceCost.partPecByOthherInsurance;
+    this.partientPart = invoiceCost.partientPart;    
+  }
+  public onInvoice() {
+    this.actionToDo = "invoice";
+    this.onCalculInvoiceCost();
+    this.invoiceForm.get('patientPart').setValue(this.partientPart);
+    this.invoiceForm.get('partTakenCareOf').setValue(this.partPecByOthherInsurance + this.partPecByCNAM);
+    this.invoiceCreateData = this.invoiceForm.getRawValue();
+    if (!!this.InvoiceType) this.invoiceCreateData.billType = this.InvoiceType;
+    this.invoiceCreateData.acts.forEach((el) => {
+      el.admission = this.admissionForTemplate.id
+    })    
+    this.invoiceService.createInvoice(this.invoiceCreateData).subscribe(
+      (res: any) => {
+        this.addInvoice.emit();
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.notificationService.notify(
+          NotificationType.ERROR,
+          errorResponse.error.message
+        );
+      }
+    )
+  }
+
+  public onAddActs(){this.addActs()}
+
+  public onDeleteAct(formControlID: number){
+    this.deleteAct(formControlID);
+ }
+
+ public onAddInsured(){
+  this.addInsured();
+}
+
+public get showAddInsuredButton(): boolean {
+  this.insureds.controls.length >= 2 ? this.displayAddInssuranceBtn = false: this.displayAddInssuranceBtn = true;
+  return this.displayAddInssuranceBtn;
+}
+
+public onDeleteInsured(controlIndex : number){
+  this.deleteInsured(controlIndex);
+}
+
+public onActSelect(row) {
+  let data:{} = {
+    "act": this.acts.value[row]["act"],
+    "convention": this.invoiceForm.get('convention').value
+  }
+  this.invoiceService.getActCost(data).subscribe(res => {
+    this.acts.controls[row].get('cost').setValue(res);
+  });
+
+}
+
+public onInsuredSelect(index, selectedInsured) {
+  let insured = this.patientInsurances.find(function (el) {
+    return el.insuranceId == selectedInsured;
+  })
+  this.insureds.controls[index].get('insured').setValue(insured.id);
+  this.insureds.controls[index].get('subscriber').setValue(insured.subscriberName);
+  this.insureds.controls[index].get('society').setValue(insured.society);
+  this.insureds.controls[index].get('insuredCoverage').setValue(insured.coverage);
+}
+
+public isCnamCostField(controlIndex: number): boolean {
+  if (controlIndex !== 0) return false;
+  return true;
+}
+
+  private addActs(): void {this.acts.push(this.createActsGroups())}
+ 
+  private deleteAct(formControlID: number) {
+    this.acts.removeAt(formControlID);
+    this.acts.markAsDirty();
+  }
+
+  private dateOutputFormat(date: Date): string {
     let newDate = new Date(date);
     let day = ("0" + newDate.getDate()).slice(-2);
     let month = ("0" + (newDate.getMonth() + 1)).slice(-2);
@@ -159,7 +226,13 @@ export class InvoiceFormComponent implements OnInit {
     return day + '/' + month + '/' + year;
   }
 
-  initForm() {
+  private deleteInsured(controlIndex: number) {
+    this.insureds.removeAt(controlIndex);
+    this.insureds.markAsDirty();
+    this.showAddInsuredButton;
+  }
+
+  private buildFields() {
     this.invoiceForm = this.fb.group({
       id: new FormControl(0),
       admission: new FormControl(0),
@@ -180,6 +253,10 @@ export class InvoiceFormComponent implements OnInit {
       acts: this.fb.array([])
     });
   }
+  public get acts(): FormArray {return this.invoiceForm.get('acts') as FormArray;}
+
+  public get insureds(): FormArray {return this.invoiceForm.get('insuredList') as FormArray;}
+
 
   private createActsGroups(): FormGroup {
     return this.fb.group({
@@ -206,63 +283,16 @@ export class InvoiceFormComponent implements OnInit {
     })
   }
   
-  onInvoice() {
-    this.actionToDo = "invoice";
-    this.onCalculInvoiceCost();
-    this.invoiceForm.get('patientPart').setValue(this.partientPart);
-    this.invoiceForm.get('partTakenCareOf').setValue(this.partPecByOthherInsurance + this.partPecByCNAM);
-    this.invoiceDto = this.invoiceForm.getRawValue();
-    if (!!this.InvoiceType)  this.invoiceDto.billType = this.InvoiceType;
-    this.invoiceDto.acts.forEach((el, index) => {
-      el["admission"] = this.admissionForTemplate.id
-    })    
-    this.invoiceService.createInvoice(this.invoiceDto).subscribe(
-      (response: any) => {
-        this.addInvoice.emit();
-      },
-      (errorResponse: HttpErrorResponse) => {
-        this.notificationService.notify(
-          NotificationType.ERROR,
-          errorResponse.error.message
-        );
-      }
-    )
+  private setInsuredRowValue(insured: Insured,i) {
+    this.insureds.controls[i].get('insurrance').setValue(insured.insuranceId);
+    this.insureds.controls[i].get('insured').setValue(insured.id);
+    this.insureds.controls[i].get('insurrance').disable();
+    this.insureds.controls[i].get('subscriber').setValue(insured.subscriberName);
+    this.insureds.controls[i].get('society').setValue(insured.society);
+    this.insureds.controls[i].get('insuredCoverage').setValue(insured.coverage);
   }
 
-
-  public get acts(): FormArray {return this.invoiceForm.get('acts') as FormArray;}
-
-  public addActs(): void {this.acts.push(this.createActsGroups())}
-  public deleteAct(index: number) {
-    this.acts.removeAt(index);
-    this.acts.markAsDirty();
-  }
-
-  public get insureds(): FormArray {return this.invoiceForm.get('insuredList') as FormArray;}
-
-  firstInsuredRow(insured: any[]) {
-    this.addInsured();
-    let cnamInsured = insured.find(function (el) {return el["insuranceName"].toLowerCase() == "cnam";})
-    this.insureds.controls[0].get('insurrance').setValue(cnamInsured["insuranceId"]);
-    this.insureds.controls[0].get('insured').setValue(cnamInsured["id"]);
-    this.insureds.controls[0].get('insurrance').disable();
-    this.insureds.controls[0].get('subscriber').setValue(cnamInsured["subscriberName"]);
-    this.insureds.controls[0].get('society').setValue(cnamInsured["society"]);
-    this.insureds.controls[0].get('insuredCoverage').setValue(cnamInsured["coverage"]);
-  }
-
-  secondInsuredRow(insured: any[]) {
-    this.addInsured();
-    let cnamInsured = insured.find(function (el) {return el["insuranceName"].toLowerCase() != "cnam";})
-    this.insureds.controls[1].get('insurrance').setValue(cnamInsured["insuranceId"]);
-    this.insureds.controls[1].get('insured').setValue(cnamInsured["id"]);
-    this.insureds.controls[1].get('insurrance').disable();
-    this.insureds.controls[1].get('subscriber').setValue(cnamInsured["subscriberName"]);
-    this.insureds.controls[1].get('society').setValue(cnamInsured["society"]);
-    this.insureds.controls[1].get('insuredCoverage').setValue(cnamInsured["coverage"]);
-  }
-
-  public addInsured(): void {
+  private addInsured(): void {
     this.insureds.push(this.createInsuredListGroups());
     this.insureds.controls.forEach((element, i) => {
       if (this.user.facility["facilityType"]["name"] === "Centre de sante privé") {
@@ -272,94 +302,24 @@ export class InvoiceFormComponent implements OnInit {
     this.showAddInsuredButton;
   }
 
-  public get showAddInsuredButton(): boolean {
-    if (this.insureds.controls.length >= 2) {
-      this.displayAddInssuranceBtn = false;
-    } else {
-      this.displayAddInssuranceBtn = true;
-    }
-    return this.displayAddInssuranceBtn;
+  private findCashRegisternameAndIdList(){
+    this.cashRegisterService.findCashRegisternameAndIdList().subscribe((response: INameAndId[]) => {this.cashRegisters = response;})
   }
-
-  deleteInsured(index: number) {
-    this.insureds.removeAt(index);
-    this.insureds.markAsDirty();
-    this.showAddInsuredButton;
-  }
-
-  private findCashRegisternameAndIdList() {
-    this.cashRegisterService.findCashRegisternameAndIdList().subscribe(
-      (response: INameAndId[]) => {
-        this.cashRegisters = response;
-      }
-    )
-  }
-
-
 
   private findActsNameAndIdList() {
-    this.actService.getListOfActiveAct().subscribe(
-      (response: INameAndId[]) => {
-        this.actsList = response;
-      }
-    )
+    this.actService.getListOfActiveAct().subscribe((response: INameAndId[]) => {this.actsList = response;})
   }
 
   private findPracticianSimpleList() {
-    this.practicianService.findPracticianSimpleList().subscribe(
-      (response: any) => {
-        this.practicians = response;
-      }
-    )
+    this.practicianService.findPracticianSimpleList().subscribe((response: any) => {this.practicians = response;})
   }
 
   private findPaymentTypesActiveNameAndIds() {
-    this.paymentTypeService.findPaymentTypesActiveNameAndIds().subscribe(
-      (response: any) => {
-        this.paymentTypes = response;
-      }
-    )
+    this.paymentTypeService.findPaymentTypesActiveNameAndIds().subscribe((response: any) => {this.paymentTypes = response;})
   }
 
-  onActSelect(row) {
-    let data = {
-      "act": this.acts.value[row]["act"],
-      "convention": this.invoiceForm.get('convention').value
-    }
-    this.invoiceService.getActCost(data).subscribe(res => {
-      this.acts.controls[row].get('cost').setValue(res);
-    });
-
-  }
-
-  onInsurranceSelect(row) {
-    this.insureds.controls[row].get('subscriber').setValue(row["insured"]);
-
-  }
-
-  onInsuredSelect(index, event) {
-    let insured = this.patientInsurances.find(function (el) {
-      return el["insuranceId"] == event
-    })
-    this.insureds.controls[index].get('insured').setValue(insured["id"]);
-    this.insureds.controls[index].get('subscriber').setValue(insured["subscriberName"]);
-    this.insureds.controls[index].get('society').setValue(insured["society"]);
-    this.insureds.controls[index].get('insuredCoverage').setValue(insured["coverage"]);
-  }
-
-  getInsured(insured, row) {
-    return insured["insuranceId"] == row;
-  }
-
-  onCalculInvoiceCost() {
-    let invoiceCost: InvoiceCost = this.invoiceService.calculInvoiceCost(this.admissionForTemplate.admissionStatus, this.invoiceForm.getRawValue(), this.invoiceForm.getRawValue(), this.totalInvoice, this.partPecByCNAM, this.partPecByOthherInsurance, this.partientPart, this.insureds.controls);
-    this.totalInvoice = invoiceCost.totalInvoice;
-    this.partPecByCNAM = invoiceCost.partPecByCNAM;
-    this.partPecByOthherInsurance = invoiceCost.partPecByOthherInsurance;
-    this.partientPart = invoiceCost.partientPart;    
-  }
-
-  collectAmount() {
+  // TODO: this method is for payment process
+  private collectAmount() {
     this.actionToDo = "payment";
     this.invoiceForm.get("cashRegister").clearValidators();
     this.invoiceForm.get("paymentType").clearValidators();
@@ -371,14 +331,14 @@ export class InvoiceFormComponent implements OnInit {
     let cashRegister = this.invoiceForm.get("cashRegister").value
     let paymentType = this.invoiceForm.get("paymentType").value
 
-    let data = {
+    let collectAmountData = {
       "cashRegister": cashRegister,
       "bill": this.invoiceForm.get("id").value,
       "paymentType": paymentType,
-      
     }
-    this.invoiceService.collectAmount(data).subscribe(
-      (response: any) => {
+
+    this.invoiceService.collectAmount(collectAmountData).subscribe(
+      (res: any) => {
         this.addPayment.emit();
       },
       (errorResponse: HttpErrorResponse) => {
@@ -391,10 +351,6 @@ export class InvoiceFormComponent implements OnInit {
 
   }
 
-  fieldForCnamCost(controlIndex: number): boolean {
-    if (controlIndex === 0) return true
-    return false;
-  }
 }
 
 

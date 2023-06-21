@@ -22,85 +22,70 @@ import { AdmissionService } from '../service/admission.service';
 export class AdmissionFormComponent implements OnInit {
   private subs = new SubSink();
 
-  @Output('addAdmission') addAdmission: EventEmitter<any> = new EventEmitter();
-  @Output('updateAdmission') updateAdmission: EventEmitter<any> = new EventEmitter();
+  @Output() addAdmission = new EventEmitter();
+  @Output() updateAdmission = new EventEmitter();
 
-@Input()
-patient : IPatient
+  @Input()
+  patient: IPatient
 
-@Input()
-admission : Admission;
+  @Input()
+  admission: Admission;
 
-admissionDto : IAdmissionDto;
+  admissionDto: IAdmissionDto;
 
-  public admissionForm: FormGroup;
+  public formGroup: FormGroup;
 
   public invalidFom = false;
 
+  public formSubmitted = false;
 
 
-   /**
-    * check if the form is submitted
-    */
-   public formSubmitted = false;
-
-   /**
-   * handle the spinner
-   */
-    showloading: boolean = false;
+  showloading: boolean = false;
   actsNameAndId: any;
   servicesNameAndId: any;
   actCategories: any;
   practicians: any[];
-  constructor(private serviceService : ServiceService,
-               private actService : ActService,
-               private admissionService : AdmissionService,
-               private actCategorieService : ActCategoryService,
-               private notificationService : NotificationService,
-               private practicianService : PracticianService,
-              
-               ) { }
+  constructor(private serviceService: ServiceService, private actService: ActService, private admissionService: AdmissionService,
+    private actCategorieService: ActCategoryService, private notificationService: NotificationService, private practicianService: PracticianService) { }
 
   ngOnInit(): void {
-    this.initForm();
-
-
-    if (this.admission) {      
+    this.buildFields();
+    if (this.admission) {
       this.admissionService.getAdmissionDetail(this.admission).subscribe(
-        (response : any) => {
-          this.admissionForm.get('id').setValue(response.id);
-          this.admissionForm.get('patient').setValue(response.patientId);
-          this.admissionForm.get('patientName').setValue(response.patientName );
-          this.admissionForm.get('patientExternalId').setValue(response.patientExternalId);
-          this.admissionForm.get('createdAt').setValue(new Date(response.admissionDate));
-          this.admissionForm.get('act').setValue(response.act);
-          this.admissionForm.get('service').setValue(response.service);
-          this.admissionForm.get('practician').setValue(response.practician);
+        (response: any) => {
+          this.formGroup.get('id').setValue(response.id);
+          this.formGroup.get('patient').setValue(response.patientId);
+          this.formGroup.get('patientName').setValue(response.patientName);
+          this.formGroup.get('patientExternalId').setValue(response.patientExternalId);
+          this.formGroup.get('createdAt').setValue(new Date(response.admissionDate));
+          this.formGroup.get('act').setValue(response.act);
+          this.formGroup.get('service').setValue(response.service);
+          this.formGroup.get('practician').setValue(response.practician);
         }
       )
     }
     if (this.patient) {
-      this.admissionForm.get('patient').setValue(this.patient.id);
-    this.admissionForm.get('patientName').setValue(this.patient.firstName +" " + this.patient.lastName);
-    this.admissionForm.get('patientExternalId').setValue(this.patient.patientExternalId)
+      this.formGroup.get('patient').setValue(this.patient.id);
+      this.formGroup.get('patientName').setValue(this.patient.firstName + " " + this.patient.lastName);
+      this.formGroup.get('patientExternalId').setValue(this.patient.patientExternalId)
     }
-  
+
     this.findActiveServiceNameAndId();
     this.findActCategorieNameAndId();
     this.findActPracticiainNameAndId();
   }
 
-  onChangePractician(practicianID : any){    
-     let practician = this.practicians.find(practician =>practician.id =practicianID);     
-     this.admissionForm.get('speciality').setValue(practician.actCategoryId);
-     this.findActiveActByActCategoryId(practician.actCategoryId);
+  onChangePractician(practicianID: any) {
+    let practician = this.practicians.find(practician => practician.id = practicianID);
+    this.formGroup.get('speciality').setValue(practician.actCategoryId);
+    this.findActiveActByActCategoryId(practician.actCategoryId);
   }
 
-  initForm() {
-    this.admissionForm = new FormGroup({
+  buildFields() {
+    this.formGroup = new FormGroup({
       id: new FormControl(null),
-      patientExternalId : new FormControl({ value: '', disabled: true }),
-      patientName : new FormControl({ value: '', disabled: true }),
+      patientExternalId: new FormControl({ value: '', disabled: true }),
+      patientName: new FormControl({ value: '', disabled: true }),
       createdAt: new FormControl(new Date(), [Validators.required]),
       patient: new FormControl(true),
       service: new FormControl(null),
@@ -111,14 +96,14 @@ admissionDto : IAdmissionDto;
     });
   }
 
-  save():void {
-    this.invalidFom = !this.admissionForm.valid;
+  save(): void {
+    this.invalidFom = !this.formGroup.valid;
     this.formSubmitted = true;
-    if (this.admissionForm.valid) {
+    if (this.formGroup.valid) {
       this.showloading = true;
-      this.admissionDto = this.admissionForm.value;
+      this.admissionDto = this.formGroup.value;
       console.log(this.admissionDto);
-      
+
       if (this.admissionDto.id) {
         this.subs.add(
           this.admissionService.updateAdmission(this.admissionDto).subscribe(
@@ -155,59 +140,41 @@ admissionDto : IAdmissionDto;
     }
   }
 
-  private findActiveActNameAndId(){
-    this.actService.getListOfActiveAct().subscribe(
-      (response : any) => {
-        this.actsNameAndId = response;        
-      },
-      (errorResponse : HttpErrorResponse) => {
-        this.showloading = false;
-        this.notificationService.notify(
-          NotificationType.ERROR,
-          errorResponse.error.message
-        ); 
-      }
-    )
-  }
-
-  findActiveActByActCategoryId(categoryId : number){
+  findActiveActByActCategoryId(categoryId: number) {
     this.actService.getActsByActCategoryId(categoryId).subscribe(
-      (res : any)=> {
-        this.actsNameAndId = res;       
+      (res: any) => {
+        this.actsNameAndId = res;
       }
     )
   }
 
-  private findActiveServiceNameAndId(){
+  private findActiveServiceNameAndId() {
     this.serviceService.findActiveServiceNameAndId().subscribe(
-      (response : any) => {
-        this.servicesNameAndId = response; 
+      (response: any) => {
+        this.servicesNameAndId = response;
       },
-      (errorResponse : HttpErrorResponse) => {
+      (errorResponse: HttpErrorResponse) => {
         this.showloading = false;
         this.notificationService.notify(
           NotificationType.ERROR,
           errorResponse.error.message
-        ); 
+        );
       }
     )
   }
 
-  private findActCategorieNameAndId(){
+  private findActCategorieNameAndId() {
     this.actCategorieService.findActiveActCategoryNameAndId().subscribe(
-      (response : INameAndId[])=> {
-        this.actCategories = response;        
+      (response: INameAndId[]) => {
+        this.actCategories = response;
       }
     )
   }
 
-
-  private findActPracticiainNameAndId(){
+  private findActPracticiainNameAndId() {
     this.practicianService.findPracticianSimpleList().subscribe(
-      (response : INameAndId[])=> {
+      (response: INameAndId[]) => {
         this.practicians = response;
-        console.log(this.practicians);
-        
       }
     )
   }

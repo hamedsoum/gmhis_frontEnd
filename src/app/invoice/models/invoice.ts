@@ -1,4 +1,4 @@
-export enum PATIENTTYPE {
+export enum patientType {
     UNINSURED = 'c', // Patient Comptant
     INSURED = 'A' // Patient Assuré
 }

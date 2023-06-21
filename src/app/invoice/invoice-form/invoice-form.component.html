@@ -36,15 +36,14 @@
         </div>
     </div>
 
-    <div>
+    <div class="mb-4">
         <span class="subTitle mx-2">Assurance(s) et convention(s)</span><br>
         <small class="mb-5">Par défaut l'assurance CNAM est appliquée à tout type de patient (assuré ou comptant).</small>
-
     </div>
    
      <div class="mb-3" formArrayName="insuredList">
         <div class="form-group  mb-2" *ngFor="let insured of insureds.controls; let i = index">
-            <div formGroupName="{{i}}" class="row d-flex align-items-end justify-content-center">
+            <div formGroupName="{{i}}" class="row d-flex align-items-end">
 
                 <div class="col-lg-2 col-md-12 col-sm-12">
                     <label for="insurance">Assurance / mutuelle</label>
@@ -80,15 +79,7 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="fieldForCnamCost(i) && this.admissionForTemplate.admissionStatus != 'B'" class="col-lg-2  col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label for="{{'costToApplyCNAMInsured' + i}}">Montant Alloué à la CNAM</label>
-                        <div class="input-group input-group-sm">
-                            <input id="{{'costToApplyCNAMInsured' + i}}" name="{{'costToApplyCNAMInsured' + i}}" type="text" formControlName="costToApplyCNAMInsured" class="form-control text-bold " >
-                         
-                        </div>
-                    </div>
-                </div>
+               
                 <div class="col-lg-2  col-md-12 col-sm-12">
                     <div class="form-group">
                         <label for="{{'insuredPart' + i}}">Part prise en charge</label>
@@ -98,10 +89,18 @@
                         </div>
                     </div>
                 </div>
-           
+                <div *ngIf="isCnamCostField(i) && this.admissionForTemplate.admissionStatus != 'B'" class="col-lg-2  col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="{{'costToApplyCNAMInsured' + i}}">Montant Alloué à la CNAM</label>
+                        <div class="input-group input-group-sm">
+                            <input id="{{'costToApplyCNAMInsured' + i}}" name="{{'costToApplyCNAMInsured' + i}}" type="text" formControlName="costToApplyCNAMInsured" class="form-control text-bold " >
+                         
+                        </div>
+                    </div>
+                </div>
                 <div *ngIf="i != 0" class="col-md-1">
                     <label for=""></label>
-                    <span (click)="deleteInsured(i)" style=" color: red; cursor: pointer;"
+                    <span (click)="onDeleteInsured(i)" style=" color: red; cursor: pointer;"
                         class="material-icons px-2 p-1 rounded">
                         delete
                     </span>
@@ -111,7 +110,7 @@
         </div>
     </div>
     <div *ngIf="admissionForTemplate?.facilityType != 'Centre de sante public' && showAddInsuredButton" class="addInsuranceBtn text-center mb-3">
-        <button (click)="addInsured()" class="btn btn-info text-white ">
+        <button (click)="onAddInsured()" class="btn btn-info text-white ">
          ajouter une assurance
         </button>
      </div>
@@ -164,7 +163,7 @@
                 </div>    
                 <div class="col-md-1">
                     <label for=""></label>
-                    <span (click)="deleteAct(i)" style=" color: red; cursor: pointer;"
+                    <span (click)="onDeleteAct(formControlID)" style=" color: red; cursor: pointer;"
                         class="material-icons px-2 p-1 rounded">
                         delete
                     </span>
@@ -173,7 +172,7 @@
 
         </div>
         <div class="addInsuranceBtn  mt-2 mb-3">
-            <button type="button" (click)="addActs()"
+            <button type="button" (click)="onAddActs()"
             class="btn btn-info btn-sm text-white">
             ajouter Act
         </button>
