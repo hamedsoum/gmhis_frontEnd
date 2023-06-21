@@ -97,6 +97,8 @@ export class InvoiceFormComponent implements OnInit {
           } else {
             this.invoiceForm.get('patientType').setValue(patientType.UNINSURED);
           }
+          this.onCalculInvoiceCost();
+
         }
       )
       if (this.admission.admissionStatus == admissionStatus.UNBILLED) {
@@ -136,9 +138,7 @@ export class InvoiceFormComponent implements OnInit {
     this.findPaymentTypesActiveNameAndIds();
   }
 
-  public onCalculInvoiceCost() {
-    console.log(this.insureds);
-    
+  public onCalculInvoiceCost() {    
     let invoiceCost: InvoiceCost = this.invoiceService.calculInvoiceCost(this.admissionForTemplate.admissionStatus, this.invoiceForm.getRawValue(), this.invoiceForm.getRawValue(), this.totalInvoice, this.partPecByCNAM, this.partPecByOthherInsurance, this.partientPart, this.insureds.controls);
     this.totalInvoice = invoiceCost.totalInvoice;
     this.partPecByCNAM = invoiceCost.partPecByCNAM;

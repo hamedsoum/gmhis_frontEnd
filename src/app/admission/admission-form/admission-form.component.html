@@ -69,8 +69,8 @@
         <label for="code" class="form-label text-capitalize">Date d'admission
           <span  class="text-danger">*</span>
         </label>
-        <input nbInput formControlName="createdAt" placeholder="Date et heure d'admission" class="form-control" [nbDatepicker]="dateTimePicker">
-        <nb-date-timepicker withSeconds #dateTimePicker></nb-date-timepicker>
+        <input nbInput formControlName="createdAt" placeholder="Date et heure d'admission" class="form-control"  [nbDatepicker]="dateTimePicker">
+        <nb-date-timepicker format="dd-mm-yyyy" #dateTimePicker ></nb-date-timepicker>
       </div>
       <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill">
         <label for="active" class="form-label text-capitalize">Service</label>

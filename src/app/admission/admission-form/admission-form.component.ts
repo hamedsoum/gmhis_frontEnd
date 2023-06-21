@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -45,7 +46,7 @@ export class AdmissionFormComponent implements OnInit {
   servicesNameAndId: any;
   actCategories: any;
   practicians: any[];
-  constructor(private serviceService: ServiceService, private actService: ActService, private admissionService: AdmissionService,
+  constructor(private serviceService: ServiceService, private actService: ActService, private admissionService: AdmissionService, private datePipe : DatePipe,
     private actCategorieService: ActCategoryService, private notificationService: NotificationService, private practicianService: PracticianService) { }
 
   ngOnInit(): void {

@@ -22,7 +22,7 @@ import { NotificationService } from './_services/notification.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
-import {CurrencyPipe, registerLocaleData} from '@angular/common'
+import { registerLocaleData} from '@angular/common'
 import localFr from '@angular/common/locales/fr';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';

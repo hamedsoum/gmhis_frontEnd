@@ -6,9 +6,7 @@
       </div>
     </div>
   </div>
-  <small *ngIf="!details" class="mb-2 fw-bold">Nb: Tous les champs marqués par <span class="text-danger">*</span> sont
-    obligatoires</small>
-  <div *ngIf="createConstantFormIsInvalid" class="alert alert-danger">Formulaire invalid</div>
+  <small *ngIf="createConstantFormIsInvalid" class="alert alert-danger">Formulaire invalid</small>
 
   <div formArrayName="constants" *ngFor="let constant of constantFormArray.controls; let i = index">
     <div class="row mb-3 mt-4" [formGroupName]="i">
