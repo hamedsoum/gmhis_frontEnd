@@ -137,6 +137,8 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   public onCalculInvoiceCost() {
+    console.log(this.insureds);
+    
     let invoiceCost: InvoiceCost = this.invoiceService.calculInvoiceCost(this.admissionForTemplate.admissionStatus, this.invoiceForm.getRawValue(), this.invoiceForm.getRawValue(), this.totalInvoice, this.partPecByCNAM, this.partPecByOthherInsurance, this.partientPart, this.insureds.controls);
     this.totalInvoice = invoiceCost.totalInvoice;
     this.partPecByCNAM = invoiceCost.partPecByCNAM;
@@ -262,7 +264,7 @@ public isCnamCostField(controlIndex: number): boolean {
     return this.fb.group({
       act: [null],
       pratician: [null],
-      costToApplyCNAMInsured: [0],
+      costToApplyCNAMInsured: [null, Validators.required],
       admission: [this.admission?.id],
       cost: [{ value: null, disabled: true }],
     })
