@@ -5,7 +5,7 @@ import { DrugService } from 'src/app/drug/services/drug.service';
 import { IExamination } from 'src/app/medical-folder/examination/models/examination';
 import { ExaminationService } from 'src/app/medical-folder/examination/services/examination.service';
 import { IPatient } from 'src/app/patient/patient';
-import { ItemValue } from 'src/app/shared/domain';
+import { labelValue } from 'src/app/shared/domain';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
@@ -58,25 +58,25 @@ export class PrescriptionFormComponent implements OnInit {
     { name: 10 , value : 10},
   ];
 
-  traitmentDurations:ItemValue[] = [
-    {item:traitmentDuration.ONE_DAY, value:traitmentDuration.ONE_DAY},
-    {item:traitmentDuration.ONE_YEAR, value:traitmentDuration.ONE_YEAR},
-    {item:traitmentDuration.SIX_DAYS, value :traitmentDuration.SIX_DAYS},
-    {item:traitmentDuration.ONE_WEEK, value :traitmentDuration.ONE_WEEK},
-    {item:traitmentDuration.TWO_DAYS, value :traitmentDuration.TWO_DAYS},
-    {item:traitmentDuration.ONE_MONTH, value:traitmentDuration.ONE_MONTH},
-    {item:traitmentDuration.TWO_WEEK, value :traitmentDuration.FOUR_DAYS},
-    {item:traitmentDuration.FIVE_DAYS, value :traitmentDuration.FIVE_DAYS},
-    {item:traitmentDuration.FOUR_DAYS, value :traitmentDuration.FOUR_DAYS},
-    {item:traitmentDuration.THREE_DAYS, value :traitmentDuration.THREE_DAYS},
-    {item:traitmentDuration.THREE_WEEK, value :traitmentDuration.THREE_WEEK},
+  traitmentDurations:labelValue[] = [
+    {label:traitmentDuration.ONE_DAY, value:traitmentDuration.ONE_DAY},
+    {label:traitmentDuration.ONE_YEAR, value:traitmentDuration.ONE_YEAR},
+    {label:traitmentDuration.SIX_DAYS, value :traitmentDuration.SIX_DAYS},
+    {label:traitmentDuration.ONE_WEEK, value :traitmentDuration.ONE_WEEK},
+    {label:traitmentDuration.TWO_DAYS, value :traitmentDuration.TWO_DAYS},
+    {label:traitmentDuration.ONE_MONTH, value:traitmentDuration.ONE_MONTH},
+    {label:traitmentDuration.TWO_WEEK, value :traitmentDuration.FOUR_DAYS},
+    {label:traitmentDuration.FIVE_DAYS, value :traitmentDuration.FIVE_DAYS},
+    {label:traitmentDuration.FOUR_DAYS, value :traitmentDuration.FOUR_DAYS},
+    {label:traitmentDuration.THREE_DAYS, value :traitmentDuration.THREE_DAYS},
+    {label:traitmentDuration.THREE_WEEK, value :traitmentDuration.THREE_WEEK},
   ]
   
-  posologies:ItemValue[] = [
-    { item: 'Un matin, un à midi', value: 'Un matin, un à midi'},
-    { item: 'Un matin, un le soir', value: 'Un matin,  un le soir'},
-    { item: 'Un à midi , un le soir', value: 'Un à midi , un le soir'},
-    { item: 'Un matin, un à midi , un le soir', value: 'Un matin, un à midi , un le soir'}
+  posologies:labelValue[] = [
+    { label: 'Un matin, un à midi', value: 'Un matin, un à midi'},
+    { label: 'Un matin, un le soir', value: 'Un matin,  un le soir'},
+    { label: 'Un à midi , un le soir', value: 'Un à midi , un le soir'},
+    { label: 'Un matin, un à midi , un le soir', value: 'Un matin, un à midi , un le soir'}
   ]
 
   examination: IExamination;

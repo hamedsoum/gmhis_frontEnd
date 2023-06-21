@@ -235,9 +235,10 @@
 <!-- add modal -->
 <ng-template #addFormContent let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
-      Ajouter un patient
-    </h4>
+    <div>
+      <span class="modalTitle" >Nouveau Patient</span>
+      <span class="modal-subTitle" >Créez un nouveau patient afin que celui-ci soit pris en charge par le centre de santé</span>
+    </div>
     <nb-icon
       style="cursor: pointer"
       (click)="d('Cross click')"

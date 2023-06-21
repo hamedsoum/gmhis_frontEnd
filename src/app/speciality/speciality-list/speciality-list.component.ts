@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ItemValue } from 'src/app/shared/domain';
+import { labelValue } from 'src/app/shared/domain';
 import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
@@ -43,9 +43,9 @@ export class SpecialityListComponent implements OnInit {
     { id: 1000, value: 1000 },
   ];
 
-  actives:ItemValue[] = [
-    { item: true, value: 'Actif' },
-    { item: false, value: 'Inactif' },
+  actives:labelValue[] = [
+    { label: true, value: 'Actif' },
+    { label: false, value: 'Inactif' },
   ];
 
   showloading: boolean = false;

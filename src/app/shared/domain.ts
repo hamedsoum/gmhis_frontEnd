@@ -1,4 +1,4 @@
-export interface ItemValue {
-    item : any;
+export interface labelValue {
+    label : any;
     value : any;
 }

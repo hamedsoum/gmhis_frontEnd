@@ -12,6 +12,18 @@
 @import "~material-icons/iconfont/material-icons.css";
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
 
+
+.modalTitle{
+  display: block;
+  font-size: 24px;
+  font-weight: 600;
+}
+.modal-subTitle{
+  display: block;
+  font-size: 11px;
+}
+
+
 a{
   text-decoration: none;
   cursor: pointer;

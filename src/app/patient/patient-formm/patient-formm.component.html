@@ -1,6 +1,6 @@
-<form [formGroup]="patientForm" (ngSubmit)="save()">
+<form [formGroup]="formGroup" (ngSubmit)="save()">
   <div
-    *ngIf="showloading == true"
+    *ngIf="loading == true"
     class="overlay d-flex justify-content-center align-items-center"
   >
     <div class="d-flex w-100 justify-content-center">
@@ -13,19 +13,10 @@
       </div>
     </div>
   </div>
-  <small *ngIf="!details" class="mb-2"
-    >Nb: Tous les champs marqués par <span class="text-danger">*</span> sont
-    obligatoires</small
-  >
   <div *ngIf="invalidFom" class="alert alert-danger">Formulaire invalid</div>
   <div *ngIf=" invalidInsuranceFom" class="alert alert-danger">Le formulaire de l'assurance est invalid</div>
-
-  <div class="col-md-6">
-    <h3>Informations Patient</h3>
-  </div>
   <div class="row mb-2">
     <div *ngIf="patientInfo" class="patientInfo row">
-      
       <input type="text" [hidden]="true" />
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
         <label for="name" class="form-label text-capitalize">Nom</label>
@@ -37,13 +28,13 @@
           formControlName="lastName"
           [ngClass]="{
             'is-invalid':
-              (!patientForm.get('lastName')?.valid &&
-                patientForm.get('lastName')?.touched) ||
-              (!patientForm.get('lastName')?.valid && formSubmitted)
+              (!formGroup.get('lastName')?.valid &&
+                formGroup.get('lastName')?.touched) ||
+              (!formGroup.get('lastName')?.valid && formSubmitted)
           }"
         />
         <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('lastName')?.errors?.required"
+          <span *ngIf="formGroup.get('lastName')?.errors?.required"
             >Ce champ est requis</span
           >
         </div>
@@ -62,13 +53,13 @@
           formControlName="firstName"
           [ngClass]="{
             'is-invalid':
-              (!patientForm.get('firstName')?.valid &&
-                patientForm.get('firstName')?.touched) ||
-              (!patientForm.get('firstName')?.valid && formSubmitted)
+              (!formGroup.get('firstName')?.valid &&
+                formGroup.get('firstName')?.touched) ||
+              (!formGroup.get('firstName')?.valid && formSubmitted)
           }"
         />
         <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('firstName')?.errors?.required"
+          <span *ngIf="formGroup.get('firstName')?.errors?.required"
             >Ce champ est requis</span
           >
         </div>
@@ -88,13 +79,13 @@
             formControlName="birthDate"
             [ngClass]="{
               'is-invalid':
-                (!patientForm.get('birthDate')?.valid &&
-                  patientForm.get('birthDate')?.touched) ||
-                (!patientForm.get('birthDate')?.valid && formSubmitted)
+                (!formGroup.get('birthDate')?.valid &&
+                  formGroup.get('birthDate')?.touched) ||
+                (!formGroup.get('birthDate')?.valid && formSubmitted)
             }"
           />
           <div class="invalid-feedback">
-            <span *ngIf="patientForm.get('birthDate')?.errors?.required"
+            <span *ngIf="formGroup.get('birthDate')?.errors?.required"
               >Ce champ est requis</span
             >
           </div>
@@ -124,9 +115,9 @@
         placeholder="-- -- -- -- -- --"
         [ngClass]="{
           'is-invalid':
-            (!patientForm.get('cellPhone1')?.valid &&
-              patientForm.get('cellPhone1')?.touched) ||
-            (!patientForm.get('cellPhone1')?.valid && formSubmitted)
+            (!formGroup.get('cellPhone1')?.valid &&
+              formGroup.get('cellPhone1')?.touched) ||
+            (!formGroup.get('cellPhone1')?.valid && formSubmitted)
         }"
         ng2TelInput
         [ng2TelInputOptions]="{initialCountry: 'ci'}"
@@ -135,7 +126,7 @@
         />
      
         <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('cellPhone1')?.errors?.required"
+          <span *ngIf="formGroup.get('cellPhone1')?.errors?.required"
             >Ce champ est requis</span
           >
         </div>
@@ -150,19 +141,19 @@
         <ng-select
           [ngClass]="{
             'is-invalid':
-              (!patientForm.get('civility')?.valid &&
-                patientForm.get('civility')?.touched) ||
-              (!patientForm.get('civility')?.valid && formSubmitted)
+              (!formGroup.get('civility')?.valid &&
+                formGroup.get('civility')?.touched) ||
+              (!formGroup.get('civility')?.valid && formSubmitted)
           }"
           placeholder="Homme/Femme"
           formControlName="civility"
         >
-          <ng-option *ngFor="let civility of civilitys" [value]="civility.id"
-            >{{ civility.value }}
+          <ng-option *ngFor="let civility of civilitys" [value]="civility.value"
+            >{{ civility.label }}
           </ng-option>
         </ng-select>
         <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('civility')?.errors?.required"
+          <span *ngIf="formGroup.get('civility')?.errors?.required"
             >Ce champ est requis</span
           >
         </div>
@@ -200,19 +191,19 @@
         <ng-select
           [ngClass]="{
             'is-invalid':
-              (!patientForm.get('idcardType')?.valid &&
-                patientForm.get('idcardType')?.touched) ||
-              (!patientForm.get('idcardType')?.valid && formSubmitted)
+              (!formGroup.get('idcardType')?.valid &&
+                formGroup.get('idcardType')?.touched) ||
+              (!formGroup.get('idcardType')?.valid && formSubmitted)
           }"
           placeholder="Homme/Femme"
           formControlName="idcardType"
         >
-          <ng-option *ngFor="let typePiece of typePieces" [value]="typePiece.id"
-            >{{ typePiece.value }}
+          <ng-option *ngFor="let typePiece of typePieces" [value]="typePiece.value"
+            >{{ typePiece.label }}
           </ng-option>
         </ng-select>
         <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('idcardType')?.errors?.required"
+          <span *ngIf="formGroup.get('idcardType')?.errors?.required"
             >Ce champ est requis</span
           >
         </div>
@@ -228,9 +219,9 @@
         <input
         [ngClass]="{
           'is-invalid':
-            (!patientForm.get('idCardNumber')?.valid &&
-              patientForm.get('idCardNumber')?.touched) ||
-            (!patientForm.get('idCardNumber')?.valid && formSubmitted)
+            (!formGroup.get('idCardNumber')?.valid &&
+              formGroup.get('idCardNumber')?.touched) ||
+            (!formGroup.get('idCardNumber')?.valid && formSubmitted)
         }"
           type="text"
           id="idCardNumber"
@@ -238,7 +229,7 @@
           formControlName="idCardNumber"
         />
         <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('idCardNumber')?.errors?.required"
+          <span *ngIf="formGroup.get('idCardNumber')?.errors?.required"
             >Ce champ est requis</span
           >
         </div>
@@ -255,9 +246,9 @@
         <input
           [ngClass]="{
             'is-invalid':
-              (!patientForm.get('profession')?.valid &&
-                patientForm.get('profession')?.touched) ||
-              (!patientForm.get('profession')?.valid && formSubmitted)
+              (!formGroup.get('profession')?.valid &&
+                formGroup.get('profession')?.touched) ||
+              (!formGroup.get('profession')?.valid && formSubmitted)
           }"
           type="text"
           id="profession"
@@ -265,7 +256,7 @@
           formControlName="profession"
         />
         <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('profession')?.errors?.required"
+          <span *ngIf="formGroup.get('profession')?.errors?.required"
             >Ce champ est requis</span
           >
         </div>
@@ -280,9 +271,9 @@
         <input
           [ngClass]="{
             'is-invalid':
-              (!patientForm.get('correspondant')?.valid &&
-                patientForm.get('correspondant')?.touched) ||
-              (!patientForm.get('correspondant')?.valid && formSubmitted)
+              (!formGroup.get('correspondant')?.valid &&
+                formGroup.get('correspondant')?.touched) ||
+              (!formGroup.get('correspondant')?.valid && formSubmitted)
           }"
           type="text"
           id="correspondant"
@@ -291,7 +282,7 @@
           placeholder="Personne a contacter en cas d'urgence"
         />
         <div class="invalid-feedback">
-          <span *ngIf="patientForm.get('correspondant')?.errors?.required"
+          <span *ngIf="formGroup.get('correspondant')?.errors?.required"
             >Ce champ est requis</span
           >
         </div>
@@ -348,7 +339,12 @@
           id="numberOfChildren"
           class="form-control"
           formControlName="numberOfChildren"
-          [ngClass]="{ 'is-invalid': formsErrors['numberOfChildren'] }"
+          [ngClass]="{
+            'is-invalid':
+              (!formGroup.get('numberOfChildren')?.valid &&
+                formGroup.get('numberOfChildren')?.touched) ||
+              (!formGroup.get('numberOfChildren')?.valid && formSubmitted)
+          }"
         />
       </div>
 
@@ -436,15 +432,11 @@
     </div>
 
     <div *ngIf="!patientInfo" style="height: max">
-      <div class="col-md-6 mt-4">
-        <h3>Assurance</h3>
-      </div>
       <div
         class="row mb-2"
         *ngFor="let insurance of insuranceFormGroup.controls; let i = index"
       >
         <ng-container [formGroup]="insurance">
-          <!-- insurance -->
           <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
             <label for="insurance-{{ i }}" class="form-label text-capitalize"
               >Assurance</label
@@ -554,7 +546,7 @@
           
           <!-- Remove insurance -->
           <div *ngIf="!disabledAllFormFiled" class="col-md-6">
-            <button (click)="removeInsurance(i)" class="deleteInsurance">
+            <button (click)="onRemoveInsurance(i)" class="deleteInsurance">
               <fa-icon [icon]="AddIcon"></fa-icon>
             </button>
           </div>
@@ -562,7 +554,7 @@
       </div>
       <div *ngIf="!disabledAllFormFiled" class="row d-flex justify-content-center">
         <div class="col-md-6 text-center">
-          <button type="button" (click)="addInsurance()" class="addInsurance">
+          <button type="button" (click)="onAddInsurance()" class="addInsurance">
             Ajouter une assurance
           </button>
         </div>
