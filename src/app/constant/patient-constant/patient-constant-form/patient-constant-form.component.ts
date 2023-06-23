@@ -126,7 +126,7 @@ export class CreateConstantFormComponent implements OnInit {
         let newConstantData2 = [];
 
           defaultConstant.forEach((elD) => {
-            newConstantData = this.constantData.filter(el => el.name === elD);
+            newConstantData = this.constantData.filter(el => el.name.toLowerCase() === elD.toLocaleLowerCase());
             newConstantData2.push(newConstantData[0]);
           })
       

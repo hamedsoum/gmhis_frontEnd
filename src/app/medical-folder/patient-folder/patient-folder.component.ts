@@ -183,6 +183,7 @@ export class PatientFolderComponent implements OnInit {
   }
   public ageFromDateOfBirthday(dateOfBirth: any): number {
     return moment().diff(dateOfBirth, 'years');
+    console.log(moment.months());
   }
 
   public getExamination() {

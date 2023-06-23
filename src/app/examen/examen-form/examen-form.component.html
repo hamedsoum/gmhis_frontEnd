@@ -1,15 +1,23 @@
-
 <div class="row h-100">
+  
     <div class="col-lg-6 row">
+      <div class="mb-3">
+        <input
+        type="text"
+        class="form-control"
+        placeholder="Réchercher un Act"
+        (keyup)="onSearchActs($event.target.value)"
+      />
+      </div>
         <nb-accordion multi>
-            <nb-accordion-item *ngFor="let medicalAnalysiSpeciality of medicalAnalysisSpeciality; let i = index;">
+            <nb-accordion-item *ngFor="let specialityName of specialitiesNameFilter; let i = index;">
                 <nb-accordion-item-header>
-                    {{i + 1}} - {{medicalAnalysiSpeciality?.name | uppercase}}
+                   {{specialityName | uppercase}}
                 </nb-accordion-item-header>
                 <nb-accordion-item-body>
                     <div class="row accordion-item-body">
-                        <div class="col-lg-6" *ngFor="let act of acts"
-                            [hidden]="act?.medicalAnalysisId != medicalAnalysiSpeciality?.id">
+                        <div class="col-lg-6" *ngFor="let act of searchResult"
+                            [hidden]="act?.medicalAnalysisName != specialityName">
                             <div class="accordion_item">
                                 <div>
                                     <nb-checkbox (checkedChange)="getPrescriptionItemsIdToCollected(act)">
@@ -29,13 +37,13 @@
     <div class="col-lg-6 pb-2">
         <div class="actsSelected  mb-3 px-3">
             <div class="mb-4"
-                *ngFor="let medicalAnalysiSpecialityName of medicalAnalysisSpecialitySecondSection; let i = index">
+                *ngFor="let medicalAnalysiSpecialityName of analysisSpecialitySecondSection; let i = index">
                 <span class="actsSelected_title">{{medicalAnalysiSpecialityName}}</span>
-                <div class="act_selectedBox mt-2" *ngFor="let selectectedItem of selectectedItems; let i = index"
-                    [hidden]="selectectedItem?.medicalAnalysisName != medicalAnalysiSpecialityName">
+                <div class="act_selectedBox mt-2" *ngFor="let selectedItem of selectedItems; let i = index"
+                    [hidden]="selectedItem?.medicalAnalysisName != medicalAnalysiSpecialityName">
                     <div class="accordion_item">
                         <div class="act_selectedItem mx-2">
-                            <span class="mx-2">{{selectectedItem?.actCode}} - {{selectectedItem?.name}}</span>
+                            <span class="mx-2">{{selectedItem?.actCode}} - {{selectedItem?.name}}</span>
                             <div class="closeBtn">
                                 <nb-icon (click)="getPrescriptionItemsIdToCollected(selectectedItem)"
                                     class="pointer text-white" style=" cursor: pointer; " icon="close-outline">
@@ -46,27 +54,11 @@
                 </div>
             </div>
         </div>
-        <textarea class="mb-3" [(ngModel)]="examDto.observation" placeholder="COMMENTAIRE" name="" id="" cols="72"
+        <textarea class="mb-3" [(ngModel)]="examenCreateData.observation" placeholder="COMMENTAIRE" name="" id="" cols="72"
             rows="3"></textarea>
-        <button *ngIf="medicalAnalysisSpecialitySecondSection.length != 0" (click)="saveExamanRequest()"
+        <button *ngIf="analysisSpecialitySecondSection.length != 0" (click)="saveExamanRequest()"
             style="background-color: #14a2b8;" class="text-capitalize btn btn-block w-25 text-white rounded">
             <span class="fw-bold"> DEMANDER</span>
         </button>
     </div>
 </div>
-<ng-template #chooseLaboratoryContent let-c="close" let-d="dismiss">
-    <div class="modal-header ">
-      <small>Laboratoire Interne ?</small>
-      <nb-icon
-        style="cursor: pointer"
-        (click)="d('Cross click')"
-        class="h4"
-        icon="close-circle-outline"
-      ></nb-icon>
-    </div>
-    <div class="modal-body d-flex justify-content-center">
-        <button (click)="ChooseLaboratoryType(1)" class="btn btn-danger mx-2">Non</button>
-        <button (click)="ChooseLaboratoryType(0)" class="btn btn-success">Oui</button>
-    </div>
-  
-  </ng-template>

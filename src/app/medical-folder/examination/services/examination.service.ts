@@ -23,7 +23,7 @@ export class ExaminationService {
   AdmissionNoHaveExamination(patientID:number):Observable<boolean>{
     return this.http.get<boolean>(`${this.apiUrl}/examination/findPatientExaminationsOfLastAdmission/${patientID}`);
   }
-  retrieveDayNumberBetweenAdmissionFirstExaminationAndCurrentDate(admissionID: number): Observable<number> {    
+  dayBetweenFirstExaminationAndCurrentDate(admissionID: number): Observable<number> {    
     return this.http.get<number>(`${this.apiUrl}/examination/firstExaminationDayNumber/${admissionID}`);
   }
 
