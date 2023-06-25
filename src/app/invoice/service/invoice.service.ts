@@ -97,6 +97,24 @@ export class InvoiceService {
     );
   }
 
+  facilityInvoicesPractician(data): Observable<PageList> {
+    let queryParams = {};
+    queryParams = {
+      params: new HttpParams()
+        .set('userID', data['userID'] ?? '')
+        .set('billStatus', data['billStatus'] ?? '')
+        .set('date', data['date'])
+        .set('page', data['page'])
+        .set('size', data['size'] ?? '')
+        .set('sort', data['sort']),
+    };
+
+    return this.http.get<PageList>(
+      `${this.apiUrl}/bill/facilityInvoicesPractician`,
+      queryParams
+    );
+  }
+
   getActCost(data: object): Observable<any[]> {
     let queryParams = {};
     queryParams = {

@@ -86,7 +86,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   get canAccessInvoiceAssurance() {
     return this.userService.checkAuthority(SideBar1MenuAuthorityEnum.ACCESS_INSURANCE_INVOICE);
   }
-
+  get canAccessInvoicePractician() {
+    return this.userService.checkAuthority(SideBar1MenuAuthorityEnum.ACCESS_PRACTICIAN_INVOICE);
+  }
   get canAccessConstantTaking() {
     return this.userService.checkAuthority(SideBar1MenuAuthorityEnum.ACCESS_CONSTANT_TAKING);
   }
@@ -135,6 +137,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
         break; 
       case 'insuranceBill':
         this.menuItem = 'insuranceBill';
+        localStorage.setItem('menuItem', menuItem);
+        break;
+        case 'practicianInvoice':
+        this.menuItem = 'practicianInvoice';
         localStorage.setItem('menuItem', menuItem);
         break;
         case 'constantWaitingRoom':

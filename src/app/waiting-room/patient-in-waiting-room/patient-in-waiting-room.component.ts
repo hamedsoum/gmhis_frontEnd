@@ -97,12 +97,10 @@ export class PatientInWaitingRoomComponent implements OnInit {
 
   initform() {
     this.searchForm = new FormGroup({
-      admissionNumber: new FormControl(''),
       firstName: new FormControl(''),
       lastName: new FormControl(''),
       patientExternalId: new FormControl(''),
       cellPhone: new FormControl(''),
-      cnamNumber: new FormControl(''),
       idCardNumber: new FormControl(''),
       practician: new FormControl(null),
       service: new FormControl(null),
@@ -130,6 +128,8 @@ export class PatientInWaitingRoomComponent implements OnInit {
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;
+          console.log(this.items);
+          
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;

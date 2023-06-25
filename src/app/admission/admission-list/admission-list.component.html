@@ -118,7 +118,7 @@
               <th>Motif d'admission</th>
               <th>Médecin</th> 
               <th>Caution</th>
-              <th>Facturé</th>
+              <th>Etat</th>
               <th>Actions</th>   
             </tr>
           </thead>
@@ -148,10 +148,8 @@
               <td>Dr {{admission.practicianFirstName}} {{admission.practicianLastName}}</td>
               <td class="text-center">{{admission.caution != 0 ? ( admission.caution | currency: "FCFA":"symbol":"1.0-0") : '-'}}</td>
               <td class="text-center">
-                <nb-icon *ngIf="admission.admissionStatus == 'B'" style="color: green;" icon="checkmark-circle-2"></nb-icon>
-                <nb-icon *ngIf="admission.admissionStatus == 'R'" style="color: red;" icon="close-circle"></nb-icon>
+                <span class="status" [ngClass]="{'statusSuccess': admission.admissionStatus == 'B', 'statusError': admission.admissionStatus == 'R'}" >{{admission.admissionStatus == 'B' ? 'Facturée' : 'Non Facturé'}}</span>
             </td>
-              <!-- <td>{{admission.createdByFirstName}}</td> -->
               <td>
                 <div ngbDropdown class="d-inline-block">
                   <button type="button" class="btn btn-outline-info" id="dropdownBasic1" ngbDropdownToggle>

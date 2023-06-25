@@ -13,6 +13,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
 
 
+.statusSuccess {
+  border: 0.09px solid #20c997c7;
+  color: #20c997c7;
+}
+.statusError{
+  border: 0.09px solid #dc3545ba;
+  color: #dc3545ba;
+}
+
+.status {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 9px;
+  white-space: nowrap;
+}
+
 .modalTitle{
   display: block;
   font-size: 24px;

@@ -357,7 +357,7 @@
           formControlName="country"
           (change)="onGetCityBycountry($event)"
         >
-          <ng-option *ngFor="let country of countryList" [value]="country.id">{{
+          <ng-option *ngFor="let country of countries" [value]="country.id">{{
             country.name
           }}</ng-option>
         </ng-select>
@@ -367,7 +367,7 @@
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
         <label for="cityId" class="form-label text-capitalize">Ville</label>
         <ng-select id="cityId" placeholder="Ville" formControlName="cityId">
-          <ng-option *ngFor="let city of cityList" [value]="city.id">{{
+          <ng-option *ngFor="let city of cities" [value]="city.id">{{
             city.name
           }}</ng-option>
         </ng-select>

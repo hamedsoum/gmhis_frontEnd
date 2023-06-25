@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PageList } from '../_models/page-list.model';
+import { INameAndId as NameAndId } from 'src/app/shared/models/name-and-id';
+
 
 @Injectable({
   providedIn: 'root',
@@ -53,12 +55,12 @@ export class PatientService {
     return this.http.get<any>(`${this.apiUrl}/patient/detail/${patient}`);
   }
 
-  getCountry(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/country/names`);
+  getCountry(): Observable<NameAndId[]> {
+    return this.http.get<NameAndId[]>(`${this.apiUrl}/country/names`);
   }
 
   getCityByCountry(idCountry: number): Observable<any[]> {
-    return this.http.get<any[]>(
+    return this.http.get<NameAndId[]>(
       `${this.apiUrl}/country/cities_name/${idCountry}`
     );
   }

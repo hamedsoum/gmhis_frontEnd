@@ -70,7 +70,21 @@
     ngbTooltip=""
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
-  ><span class="fw-bold">Facture assurance</span>
+  ><span class="fw-bold">Factures assurance</span>
+</p>
+<p
+  [hidden]="!canAccessInvoicePractician"
+  [ngClass]="{ menuActive: menuItem == 'practicianInvoice' }"
+  (click)="menuItemFunction('practicianInvoice')"
+  routerLink="/invoice/practicianInvoice"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faKey"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Factures Practicien </span>
 </p>
 <p
   [hidden]="!canAccessConstantTaking"

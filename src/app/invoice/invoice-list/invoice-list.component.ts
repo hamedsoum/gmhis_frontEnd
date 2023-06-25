@@ -119,7 +119,8 @@ export class InvoiceListComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;            
+          this.items = response.items; 
+          console.log(this.items);              
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;

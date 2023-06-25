@@ -9,10 +9,11 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { PaymentComponent } from './payment/payment.component';
 import { InsuranceBillComponent } from './insurance-bill/insurance-bill.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { PracticianBillComponent } from './practician-bill/practician-bill.component';
 
 
 @NgModule({
-  declarations: [InvoiceListComponent, InvoiceFormComponent, PaymentComponent, InsuranceBillComponent],
+  declarations: [InvoiceListComponent, InvoiceFormComponent, PaymentComponent, InsuranceBillComponent, PracticianBillComponent],
   imports: [
     CommonModule,
     InvoiceRoutingModule,

@@ -15,6 +15,7 @@ import { IPatient } from '../patient';
 import { PatientService } from '../patient.service';
 import { labelValue } from 'src/app/shared/domain';
 import { civilitys, typeOfPieces } from 'src/app/shared/gmhis.enum';
+import { INameAndId as NameAndId } from 'src/app/shared/models/name-and-id';
 
 @Component({selector: 'app-patient-formm',templateUrl: './patient-formm.component.html',styleUrls: ['./patient-formm.component.scss']})
 export class PatientFormmComponent implements OnInit {
@@ -78,18 +79,15 @@ export class PatientFormmComponent implements OnInit {
     {id: 'C', value: 'Celibataire'},
   ];
 
-  isPrincipalInsuredOptions = [
-    {id: true, value: 'Oui'},
-    {id: false, value: 'Non'},
-  ];
-  
   public insuranceForm!: FormGroup;
   public insuranceFormGroup: any = new FormArray([]);
 
   insurances: any;
-  cityList: any = [];
-  countryList: any = [];
   insurancesSubscribers: any;
+
+  cities: NameAndId[];
+
+  countries:NameAndId[];
 
   patientInfo: boolean = true;
 
@@ -111,9 +109,7 @@ export class PatientFormmComponent implements OnInit {
     
     this.buildFields();
     if (this.patient) {      
-      this.patientService
-        .getPatientDetail(this.patient.id)
-        .subscribe((response: IPatient) => {
+      this.patientService.getPatientDetail(this.patient.id).subscribe((response: IPatient) => {
           this.formGroup.patchValue(response);
           this.onGetCityBycountry(response['country']['id']);
           this.formGroup.get('cityId').setValue(response['city']['id']);
@@ -220,7 +216,6 @@ export class PatientFormmComponent implements OnInit {
       })   
   }
 
-
   public onRemoveInsurance(index : number): void {
     this.removeInsurance(index)
   }
@@ -282,7 +277,6 @@ export class PatientFormmComponent implements OnInit {
   get patientExternalId() {return this.formGroup.get('patientExternalId')}
   get correspondantCellPhone() {return this.formGroup.get('correspondantCellPhone');}
 
-
   private addInsurance(): void {
     this.initInsuranceForm();
     this.insuranceFormGroup.push(this.insuranceForm);
@@ -317,11 +311,11 @@ export class PatientFormmComponent implements OnInit {
   }
 
   private onGetCountry(): void {
-    this.patientService.getCountry().subscribe((res) => {this.countryList = res;});
+    this.patientService.getCountry().subscribe((res) => {this.countries = res;});
 }
 
   private onGetCityBycountry(idCountry: number): void {
-    this.patientService.getCityByCountry(idCountry).subscribe((res) => {this.cityList = res;});
+    this.patientService.getCityByCountry(idCountry).subscribe((res) => {this.cities = res;});
   }
 
   private getInsuranceSimpleList(): void {

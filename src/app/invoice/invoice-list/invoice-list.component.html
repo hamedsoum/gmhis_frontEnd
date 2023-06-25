@@ -157,16 +157,7 @@
               {{ invoice?.patientPart | currency: "FCFA":"symbol":"1.0-0" }}
             </td>
             <td class="text-center">
-              <nb-icon
-                *ngIf="invoice.billStatus == 'C'"
-                style="color: green"
-                icon="checkmark-circle-2"
-              ></nb-icon>
-              <nb-icon
-                *ngIf="invoice.billStatus == 'R'"
-                style="color: red"
-                icon="close-circle"
-              ></nb-icon>
+              <span class="status" [ngClass]="{'statusSuccess': invoice.billStatus == 'C', 'statusError': invoice.billStatus == 'R'}" >{{invoice.billStatus == 'C' ? 'Encaissée' : 'Non Encaissée'}}</span>
             </td>
             <td>
               <div ngbDropdown class="d-inline-block">

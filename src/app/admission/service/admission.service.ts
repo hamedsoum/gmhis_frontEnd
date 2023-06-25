@@ -45,13 +45,11 @@ export class AdmissionService {
 
     let queryParams = {};
     queryParams = {
-      params: new HttpParams().set('admissionNumber', data['admissionNumber'])
+      params: new HttpParams()
         .set('patientExternalId', data['patientExternalId'])
-        .set('admissionNumber', data['admissionNumber'])
         .set('firstName', data['firstName'] ?? '')
         .set('lastName', data['lastName'] ?? '')
         .set('cellPhone', data['cellPhone'] ?? '')
-        .set('cnamNumber', data['cnamNumber'] ?? '')
         .set('idCardNumber', data['idCardNumber'] ?? '')
         .set('practician', data['practician'] ?? '')
         .set('service', data['service'] ?? '')
