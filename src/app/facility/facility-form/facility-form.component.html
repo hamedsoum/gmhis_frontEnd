@@ -19,7 +19,7 @@
     >
     <div *ngIf="invalidFom" class="alert alert-danger">Formulaire invalid</div>
     <div class="row mb-2">
-        <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
             <label for="code" class="form-label ">Type de centre de santé</label>
             <span *ngIf="!details" class="text-danger">*</span>
             <ng-select (change)="onFacilityTypeNameAndIdChange($event)" formControlName="facilityTypeId">
@@ -28,7 +28,7 @@
                 }}</ng-option>
               </ng-select>
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-12">
+          <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
             <label for="code" class="form-label ">Catégorie de centre de santé</label>
             <span *ngIf="!details" class="text-danger">*</span>
             <ng-select  formControlName="facilityCategoryId">
@@ -37,7 +37,7 @@
                 }}</ng-option>
               </ng-select>
           </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="name" class="form-label ">Nom du centre de santé</label>
         <span *ngIf="!details" class="text-danger">*</span>
         <input
@@ -47,7 +47,7 @@
           formControlName="name"
         />
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="shortName" class="form-label text-capitalize">Abreviation</label>
         <span *ngIf="!details" class="text-danger">*</span>
         <input
@@ -57,7 +57,7 @@
           formControlName="shortName"
         />
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="dhisCode" class="form-label text-capitalize">DHIS CODE</label>
         <span *ngIf="!details" class="text-danger">*</span>
         <input
@@ -67,7 +67,7 @@
           formControlName="dhisCode"
         />
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="latitude" class="form-label text-capitalize">latitude</label>
         <span *ngIf="!details" class="text-danger">*</span>
         <input
@@ -77,7 +77,7 @@
           formControlName="latitude"
         />
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="longitude" class="form-label text-capitalize">Longitude</label>
         <span *ngIf="!details" class="text-danger">*</span>
         <input
@@ -87,7 +87,7 @@
           formControlName="longitude"
         />
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="address" class="form-label text-capitalize">Adresse</label>
         <span *ngIf="!details" class="text-danger">*</span>
         <input
@@ -97,7 +97,7 @@
           formControlName="address"
         />
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="contact" class="form-label text-capitalize">téléphone</label>
         <span *ngIf="!details" class="text-danger">*</span>
         <input
@@ -107,7 +107,7 @@
           formControlName="contact"
         />
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="contact" class="form-label text-capitalize">E-mail</label>
         <span *ngIf="!details" class="text-danger">*</span>
         <input
@@ -117,7 +117,7 @@
           formControlName="email"
         />
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12 rounded-pill">
+      <div class="col-lg-4 col-md-4 col-sm-12 mb-4 rounded-pill">
         <label for="active" class="form-label text-capitalize">Etat</label>
         <ng-select placeholder="Etat" formControlName="active">
           <ng-option *ngFor="let actif of actives" [value]="actif.id">{{
@@ -125,7 +125,7 @@
           }}</ng-option>
         </ng-select>
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12 rounded-pill">
+      <div class="col-lg-4 col-md-4 col-sm-12 mb-4 rounded-pill">
         <label for="active" class="form-label text-capitalize">Logo</label>
        <input (change)="onSelectFile($event)" type="file">
       </div>

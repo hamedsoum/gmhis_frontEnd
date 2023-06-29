@@ -175,9 +175,10 @@
   <!-- add modal -->
   <ng-template #addFormContent let-c="close" let-d="dismiss">
     <div class="modal-header">
-      <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
-        Ajouter un centre de santé
-      </h4>
+      <div>
+        <span class="modalTitle" >Nouveau Centre de santé</span>
+        <span class="modal-subTitle" >--</span>
+      </div>
       <nb-icon
         style="cursor: pointer"
         (click)="d('Cross click')"

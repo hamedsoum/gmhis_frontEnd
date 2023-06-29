@@ -40,7 +40,8 @@ export class PrintListService {
     var doc = new jsPDF('p', 'mm', 'a4');
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(19);
-    doc.text(`Factures d'Assurance`, 60, 11);
+    let title = practicianBill? "Factures Practicien" : "Factures d'Assurance";
+    doc.text(title, 60, 11);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7);
     doc.text(`imprimé le ${printDate}`, 15, 11);

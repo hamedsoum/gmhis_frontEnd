@@ -119,12 +119,12 @@ export class FacilityListComponent implements OnInit {
   }
 
   openAddForm(addFormContent) {
-    this.modalService.open(addFormContent, { size: 'lg' });
+    this.modalService.open(addFormContent, { size: 'xl' });
   }
 
   openUpdateForm(updateFormContent, item?) {
     this.facility = item;
-    this.modalService.open(updateFormContent, { size: 'lg' });
+    this.modalService.open(updateFormContent, { size: 'xl' });
   }
 
   addFaciity() {

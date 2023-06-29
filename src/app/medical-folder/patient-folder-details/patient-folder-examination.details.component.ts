@@ -25,7 +25,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
   patientConstantNumber: number = 0;
   patientPrescriptionNumber: number = 0;
   examenType: boolean;
-
+  examinationId : number;
   newExamination : boolean = false;
 
   currentDate : any;
@@ -97,6 +97,8 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
         this.admissionId = id;
         this.admissionService.getAdmissionDetailById(id).subscribe(
           (response : any)=>{
+            console.log(response);
+            
             this.patientId = response["patientId"];
           this.patientService.getPatientDetail(this.patientId).subscribe(
           (response : any) => {
@@ -130,6 +132,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
   }
   
   openExaminationForm(addFormContent, size:string) {
+    
     this.modalService.open(addFormContent, { size: size });
   }
 

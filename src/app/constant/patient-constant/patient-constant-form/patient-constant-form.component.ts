@@ -41,6 +41,10 @@ export class CreateConstantFormComponent implements OnInit {
 
   private constantCreateData : constantCreateData;
   public constantData: IConstant[];
+  temperatureConstantMsgError: string = '';
+  currentRow: number;
+  temperatureConstantValue: any ='';
+  ConstantID: any;
 
   constructor(private fb: FormBuilder,private constantTypeService: ConstantTypeService,private notificationService: NotificationService,private patientConstantService : PatientConstantService) {}
 
@@ -114,6 +118,34 @@ export class CreateConstantFormComponent implements OnInit {
             )
         );
       }
+    }
+  }
+
+  getConstantType(constantType : any, index : number){
+     this.currentRow = index; 
+    this.ConstantID = constantType.controls.constant.value;
+     this.temperatureConstantValue = constantType.controls.value.value;
+    if (this.ConstantID == 7) this.temperatureVerification();  
+    else if(this.ConstantID == 9) this.poulsVerifaction();   
+  }
+
+  private poulsVerifaction(){
+    if (this.temperatureConstantValue < this.POUL_LIMIT_MIN_DANGER){
+      this.temperatureConstantMsgError = "le pouls du patient est en dessous de la normal ";
+    }else if(this.temperatureConstantValue > this.POUL_LINIT_MAX_DANGER){
+      this.temperatureConstantMsgError = "le pouls du patient est plus que la normal ";
+    }else if(this.temperatureConstantValue.length == 0){
+      this.temperatureConstantMsgError = '';
+    }
+  }
+  
+  private temperatureVerification(){
+    if (this.temperatureConstantValue < this.TEMPERATURE_LIMIT_MIN_DANGER){
+      this.temperatureConstantMsgError = "la temperature du patient est en dessous de la normal ";
+    }else if(this.temperatureConstantValue > this.TEMPERATURE_LIMIT_MAX_DANGER){
+      this.temperatureConstantMsgError = "la temperature du patient est plus que la normal ";
+    }else if(this.temperatureConstantValue.length == 0){
+      this.temperatureConstantMsgError = '';
     }
   }
 

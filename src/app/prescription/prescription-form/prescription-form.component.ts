@@ -81,9 +81,11 @@ export class PrescriptionFormComponent implements OnInit {
 
   examination: IExamination;
 
+  public finalPrescription : boolean = false;
+
   constructor(private fb: FormBuilder,private drugService : DrugService,private examinationService : ExaminationService,private notificationService: NotificationService,private prescriptionService : PrescriptionService) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.retrieveLastExamination();
     this.findActiveDrugNameAndId();
     this.initForm(); 
@@ -97,8 +99,6 @@ export class PrescriptionFormComponent implements OnInit {
     this.examinationService.retrieveLastExamination(this.admissionId).subscribe(
         (response : any) => {
            this.examination = response;   
-           console.log(this.examination);
-                   
         },
         (errorResponse : HttpErrorResponse) => {
         }
@@ -116,6 +116,10 @@ export class PrescriptionFormComponent implements OnInit {
         );
       }
     )
+  }
+
+  isFinalPrescription() : boolean {
+    return this.finalPrescription = !this.finalPrescription;
   }
 
   initForm() {
@@ -158,16 +162,16 @@ export class PrescriptionFormComponent implements OnInit {
     this.formSubmitted = true;
     if (this.prescriptionForm.valid) {
       this.prescriptionDto = this.prescriptionForm.value;
-      this.prescriptionDto.prescriptionItemsDto =  this.prescriptionForm.get("prescriptionItemsDto").value; 
+      this.prescriptionDto.prescriptionItemsDto =  this.prescriptionForm.get("prescriptionItemsDto").value;       
       this.examination.conclusion  = this.prescriptionForm.get('conclusion').value; 
-      this.updateExamination();
+      // this.updateExamination();
       this.subs.add(
         this.prescriptionService
           .createPrescription(this.prescriptionDto)
           .subscribe(
             (response: any) => {
               this.loading = false;
-              this.updateExamination();
+            if(this.finalPrescription == true) this.updateExamination();
               this.addPrescription.emit();
             },
             (errorResponse: HttpErrorResponse) => {

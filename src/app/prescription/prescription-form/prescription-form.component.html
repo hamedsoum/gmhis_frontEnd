@@ -15,10 +15,11 @@
     </div>
     <small  class="mb-2 fw-bold"
       >Nb: Tous les champs marqués par <span class="text-danger">*</span> sont
-      obligatoires</small
-    >
-    <div *ngIf="invalidFom" class="alert alert-danger">Formulaire invalid</div>
-    <div class="col-md-12">
+      obligatoires</small>
+      <div class="d-flex justify-content-end">
+        <span [style.color]="'#0dcaf0'" [style.cursor]="'pointer'" (click)="isFinalPrescription()">ordonnance Final ?</span>
+      </div>
+    <div *ngIf="finalPrescription" class="col-md-12">
       <label class="fw-bold mb-2" for="conclusion">
           Diagnonstic de l'Interrogatoire
           <span class="text-danger">*</span>
@@ -82,7 +83,7 @@
             <ng-option
               *ngFor="let duration of traitmentDurations"
               [value]="duration.value"
-              >{{ duration.item  }} </ng-option
+              >{{ duration.label  }} </ng-option
             >
           </ng-select>
         </div>
@@ -100,7 +101,7 @@
           <ng-option
             *ngFor="let posology of posologies"
             [value]="posology.value"
-            >{{ posology.item  }} </ng-option
+            >{{ posology.label  }} </ng-option
           >
         </ng-select>
           </div>

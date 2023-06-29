@@ -98,11 +98,11 @@ export class PracticianBillComponent implements OnInit {
   ngOnInit(): void {
     this.userId = this.getUser().id == 0 ? null : this.getUser().id; 
     this.initform();
+    this.searchForm.get('userID').setValue(this.userId);
     this.getInsuranceBill();
     this.getAllInsuranceActiveIdAndName();
-    this.findPracticians();
-    console.log(this.userId);
-    
+    this.findPracticians();  
+      
   }
 
   private getUser(): User {
@@ -125,7 +125,7 @@ export class PracticianBillComponent implements OnInit {
   initform() {
     this.searchForm = new FormGroup({
       billStatus: new FormControl("R"),
-      userID: new FormControl(this.userId),
+      userID: new FormControl(""),
       date : new FormControl(""),
       page: new FormControl(0),
       size: new FormControl(25),
@@ -145,6 +145,7 @@ export class PracticianBillComponent implements OnInit {
     let start = null;
     let end = null;
     let date = this.searchForm.get("date").value;
+    
     if (typeof (date) == "object") {
       start = date.start.toISOString().split('T')[0];
       end = (!date.end) ? date.start.toISOString().split('T')[0] : date.end.toISOString().split('T')[0]
