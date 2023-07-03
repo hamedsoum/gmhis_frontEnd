@@ -13,6 +13,7 @@ import { PrintListService } from 'src/app/_services/documents/print-list.service
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
+import { PracticianPrintDataFormat } from '../invoice';
 import { InvoiceService } from '../service/invoice.service';
 
 @Component({
@@ -81,10 +82,16 @@ export class PracticianBillComponent implements OnInit {
     {id:PredefinedDate.THIS_YEAR , value:"Année en cours"},
   ]
   defaultSearchPeriode: object;
-  practicians: any;
-
-  totalFacture : number = 0
+  practicians: any[] = [];
+  practician : any;
   userId: number;
+
+   dateStart = null;
+   dateEnd = null;
+
+  totalAmount : number = 0
+  facilityBalance: number = 0;
+  practicianBalance: number = 0;
 
   constructor(
     private invoiceService: InvoiceService,private notificationService: NotificationService,config: NgbModalConfig,private modalService: NgbModal,
@@ -96,16 +103,21 @@ export class PracticianBillComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userId = this.getUser().id == 0 ? null : this.getUser().id; 
+    console.log(this.getUser());
+    this.userId = this.getUser().id == 0 ? null : this.getUser().id;     
     this.initform();
     this.searchForm.get('userID').setValue(this.userId);
-    this.getInsuranceBill();
     this.getAllInsuranceActiveIdAndName();
-    this.findPracticians();  
-      
+    this.findPracticians(); 
   }
 
-  private getUser(): User {
+  public onPracticianChange(practicianID : any){
+    console.log(practicianID);
+    this.practician = this.practicians.find( pr => pr.userId == practicianID);
+    this.getInsuranceBill();
+  }
+
+  private getUser(): User {    
     return this.userService.getUserFromLocalCache();
   }
   getSelectedPeriode(period) {
@@ -117,8 +129,17 @@ export class PracticianBillComponent implements OnInit {
   }
 
   printInsuranceList(printContent) : void {
+    let practicianPrint : PracticianPrintDataFormat = {
+      practicianName: this.practician ? this.practician.userFirstName + " "+this.practician.userLastName : "##",
+      dateStart: this.dateStart ? this.dateStart : "##",
+      dateEnd: this.dateEnd ? this.dateEnd : "##",
+      totalBalance: this.totalAmount,
+      facilityBalance: this.facilityBalance,
+      practicianBalance: this.practicianBalance,
+      data: this.items
+    }
       this.modalService.open(printContent, { size: 'xl' });
-      let doc =this.printListService.buildPrintList(this.items, true)
+      let doc =this.printListService.buildPrintList(practicianPrint,true)
       this.docSrc = doc.output('datauristring'); 
   }
 
@@ -142,14 +163,12 @@ export class PracticianBillComponent implements OnInit {
   
 
   public getInsuranceBill() {
-    let start = null;
-    let end = null;
     let date = this.searchForm.get("date").value;
     
     if (typeof (date) == "object") {
-      start = date.start.toISOString().split('T')[0];
-      end = (!date.end) ? date.start.toISOString().split('T')[0] : date.end.toISOString().split('T')[0]
-      this.searchDateRange = start + "," + end;
+      this.dateStart = date.start.toISOString().split('T')[0];
+      this.dateEnd = (!date.end) ? date.start.toISOString().split('T')[0] : date.end.toISOString().split('T')[0]
+      this.searchDateRange = this.dateStart + "," + this.dateEnd;
       this.searchForm.get("date").setValue(this.searchDateRange);
     }
     this.showloading = true;
@@ -160,10 +179,13 @@ export class PracticianBillComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items; 
-          this.totalFacture = 0; 
+          this.items = response.items;           
+          this.totalAmount = 0; 
+          this.facilityBalance = 0;
+          this.practicianBalance = 0;
           this.items.forEach(element => {
-            this.totalFacture += element.totalAmount;
+            this.totalAmount += element.totalAmount;
+            this.facilityBalance = this.practicianBalance = this.totalAmount/2;
           });                  
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
@@ -251,9 +273,8 @@ private findPracticians(): void {
   this.subs.add(
     this.practitianService.findPracticianSimpleList().subscribe(
       (response : any) => {
-        this.practicians = response;
-        console.log(this.practicians);
-        
+        this.practicians = response;    
+        this.onPracticianChange(this.userId);    
       }
     )
   )

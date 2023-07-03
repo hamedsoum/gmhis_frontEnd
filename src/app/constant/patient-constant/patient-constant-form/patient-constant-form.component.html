@@ -21,8 +21,8 @@
         <label for="valeur-{{ i }}" class="form-label text-capitalize">Valeur 
           <span *ngIf="!details" class="text-danger">*</span>
         </label>
-        <input (keyup)="getConstantType(constant, i)" type="text" id="valeur-{{ i }}" class="form-control" formControlName="value" />
-        <small *ngIf="temperatureConstantValue.length != 0 && currentRow == i" [style.color]="'#dc3545ba'" [style.fontSize]="'12px'">{{temperatureConstantMsgError}}</small>
+        <input type="text" id="valeur-{{ i }}" class="form-control" formControlName="value" />
+        <!-- <small *ngIf="temperatureConstantValue.length != 0 && currentRow == i" [style.color]="'#dc3545ba'" [style.fontSize]="'12px'">{{temperatureConstantMsgError}}</small> -->
       </div>
       <div class="col-lg-1 col-md-1 col-sm-12 d-flex align-items-end">
         <span (click)="removeCreateConstantForm(i)" style="color: red; cursor: pointer" class="material-icons px-2 p-1 rounded">

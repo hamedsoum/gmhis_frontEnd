@@ -17,9 +17,7 @@
       </div>
       <div class="flex-item">
         <div class="">N° Patient</div>
-        <div class="strong">
-          {{ patientInvoice?.patient?.patientExternalId }}
-        </div>
+        <div class="strong">{{ patientInvoice?.patient?.patientExternalId }}</div>
       </div>
       <div class="flex-item">
         <div class="">Nom du patient</div>
@@ -96,14 +94,6 @@
   <div class="payment-section">
     <h5 class="payment-section__title">Montants</h5>
     <div class="card-payment">
-      <!-- <div class="flex-item">
-        <div class="">Remise en %</div>
-        <div class="strong">{{ patientInvoice?.discountInPercentage }}</div>
-      </div>
-      <div class="flex-item">
-        <div class="">Remise en fcfa</div>
-        <div class="strong">{{ patientInvoice?.discountInCfa }}</div>
-      </div> -->
       <div class="flex-item">
         <div class="">Part PEC</div>
         <div class="strong">{{ patientInvoice?.partTakenCareOf }}</div>
@@ -120,7 +110,7 @@
   </div>
 
   <form [formGroup]="paymentForm" class="row mb-3" (ngSubmit)="collectAmount()">
-    <div formArrayName="paymentsType" *ngFor="let payment of paymentsType.controls; let i = index">
+    <!-- <div formArrayName="paymentsType" *ngFor="let payment of paymentsType.controls; let i = index">
       <div [formGroupName]="i" class="row mb-2">
         <div class="col-lg-4 col-md-4 col-sm-12 rounded-pill">
           <ng-select placeholder="Mode de Payement" id="paymentTypeID-{{ i }}" formControlName="paymentTypeID">
@@ -152,7 +142,7 @@
         class="material-icons px-2 p-1 rounded">
         add
       </span>
-    </div>
+    </div> -->
 
     <div class="row mb-2">
       <div class="col-md-4">
@@ -163,10 +153,6 @@
               {{ type.name }}
             </ng-option>
           </ng-select>
-          <!-- <span class="text-danger"
-                *ngIf="invalidFormControls && invalidFormControls.paymentType">
-                ce champ doit renseigné
-            </span> -->
         </div>
       </div>
       <div class="col-md-4">

@@ -1,6 +1,6 @@
 <form [formGroup]="formGroup" (ngSubmit)="save()">
     <div
-      *ngIf="showloading == true"
+      *ngIf="loading == true"
       class="overlay d-flex justify-content-center align-items-center"
     >
       <div class="d-flex w-100 justify-content-center">
@@ -13,13 +13,11 @@
         </div>
       </div>
     </div>
-    <small  class="mb-2 fw-bold"
-      >Nb: Tous les champs marqués par <span class="text-danger">*</span> sont
-      obligatoires</small
-    >
+    <span  class="form-warningMsg">Tous les champs marqués par <span class="text-danger">*</span> sont
+      obligatoires</span>
     <div *ngIf="invalidFom" class="alert alert-danger">Formulaire invalid</div>
     <div class="row mb-2">
-      <div class="col-lg-6 col-md-4 col-sm-12">
+      <div class="col-lg-6 col-md-4 col-sm-12 field">
         <label for="name" class="form-label text-capitalize">Numero Patient</label>
         <input
           type="text"
@@ -30,7 +28,8 @@
         <span style="color: red">
         </span>
       </div>
-      <div class="col-lg-6 col-md-4 col-sm-12">
+
+      <div class="col-lg-6 col-md-4 col-sm-12 field">
         <label for="code" class="form-label text-capitalize">Nom du patient</label>
         <input
           type="text"
@@ -41,46 +40,39 @@
         <span style="color: red">
         </span>
       </div>
-      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill">
-        <label for="active" class="form-label text-capitalize">Medecin</label>
-        <ng-select (change)="onChangePractician($event)" placeholder="Medecin" formControlName="practician">
-          <ng-option *ngFor="let practician of practicians" [value]="practician.id">
-            {{practician.userFirstName}}  {{ practician.userLastName}}</ng-option>
-        </ng-select>
+
+      <div class="col-lg-6 col-md-4 col-sm-12 mb-2 rounded-pill field">
+        <label for="code" class="form-label text-capitalize">Date d'admission <span class="text-danger">*</span> </label>
+        <input nbInput formControlName="createdAt" placeholder="Date et heure d'admission" class="form-control"  [nbDatepicker]="dateTimePicker">
+        <nb-date-timepicker format="dd-mm-yyyy" #dateTimePicker ></nb-date-timepicker>
       </div>
-      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill">
-        <label for="active" class="form-label text-capitalize">Spécialité</label>
-        <ng-select (change)="findActiveActByActCategoryId($event)" placeholder="Specialite d'acte" formControlName="speciality">
+
+      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill field">
+        <label for="active" class="form-label text-capitalize">Spécialité <span class="text-danger">*</span> </label>
+        <ng-select (change)="onRetrieveActsAndPracticians($event)" placeholder="Specialite d'acte" formControlName="speciality">
           <ng-option *ngFor="let actCategory of actCategories" [value]="actCategory.id">{{
             actCategory.name
           }}</ng-option>
         </ng-select>
       </div>
-   
-      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill">
-        <label for="active" class="form-label text-capitalize">Motif d'admission</label>
+
+      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill field">
+        <label for="active" class="form-label text-capitalize">Motif d'admission <span class="text-danger">*</span> </label>
         <ng-select placeholder="Acte d'admission" formControlName="act">
           <ng-option *ngFor="let act of actsNameAndId" [value]="act.id">{{
             act.name
           }}</ng-option>
         </ng-select>
       </div>
-      <div class="col-lg-6 col-md-4 col-sm-12 mb-2 rounded-pill">
-        <label for="code" class="form-label text-capitalize">Date d'admission
-          <span  class="text-danger">*</span>
-        </label>
-        <input nbInput formControlName="createdAt" placeholder="Date et heure d'admission" class="form-control"  [nbDatepicker]="dateTimePicker">
-        <nb-date-timepicker format="dd-mm-yyyy" #dateTimePicker ></nb-date-timepicker>
-      </div>
-      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill">
-        <label for="active" class="form-label text-capitalize">Service</label>
-        <ng-select placeholder="Service" formControlName="service">
-          <ng-option *ngFor="let service of servicesNameAndId" [value]="service.id">{{
-            service.name
-          }}</ng-option>
+
+      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill field">
+        <label for="active" class="form-label text-capitalize">Medecin</label>
+        <ng-select placeholder="Practicien" formControlName="practician">
+          <ng-option *ngFor="let practician of specialityPracticians" [value]="practician.id">
+            {{practician.userFirstName}}  {{ practician.userLastName}}</ng-option>
         </ng-select>
       </div>
-      <div class="col-lg-6 col-md-4 col-sm-12">
+      <div class="col-lg-6 col-md-4 col-sm-12 field">
         <label for="code" class="form-label text-capitalize">Caution</label>
         <input
           type="number"

@@ -28,7 +28,6 @@
             <th>Diagnostic</th>
             <th>Medecin</th>
             <th>Centre médical</th>
-            <th>Actions</th>
           </tr>
           <tr></tr>
         </thead>
@@ -47,10 +46,6 @@
             <td>{{ examination?.conclusion | uppercase }}</td>
             <td>{{ examination?.practicianFirstName }} {{ examination?.practicianLastName}}</td>
             <td>{{ examination?.facility }}</td>
-            <td>
-              <nb-icon (click)="openPrescriptionForm(prescriptionFormContent, examination)" class="mx-2 pointer"
-                style=" cursor: pointer;" ngbTooltip="Délivrer une ordonnance" icon="file-outline"></nb-icon>
-            </td>
           </tr>
         </tbody>
       </table>

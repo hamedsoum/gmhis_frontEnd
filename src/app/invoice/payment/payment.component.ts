@@ -5,9 +5,11 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { IExamDto } from 'src/app/examen/models/exam-dto';
 import { ExamService } from 'src/app/examen/services/exam.service';
 import { PaymentTypeService } from 'src/app/payment-type/service/payment-type.service';
+import { labelValue } from 'src/app/shared/domain';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { InvoiceService } from '../service/invoice.service';
+import { PaymentType } from './payment';
 
 @Component({
   selector: 'app-payment',
@@ -22,10 +24,10 @@ export class PaymentComponent implements OnInit {
   selectedSize: number;
 
 
-  paymentTypeList = [
-    { id: 'E', value: 'Espèce' },
-    { id: 'M', value: 'Mobile Money' },
-    { id: 'B', value: 'Bancaire' },
+  paymentTypeList : labelValue[] = [
+    { label: PaymentType.CASH, value: PaymentType.CASH },
+    { label: PaymentType.CREDITCARD, value: PaymentType.CREDITCARD },
+    { label: PaymentType.MOBILEMONEY, value: PaymentType },
   ];
 
   examDto: IExamDto = {

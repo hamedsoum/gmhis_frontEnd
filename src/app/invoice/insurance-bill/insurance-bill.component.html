@@ -14,7 +14,7 @@
           <div class="col-lg-11 col-md-9 col-sm-12 row">
             <div class="col-lg-10 row">
               <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                <ng-select formControlName="insuranceId" placeholder="Selectionner une assurance">
+                <ng-select (change)="onPracticianChange($event)" formControlName="insuranceId" placeholder="Selectionner une assurance">
                   <ng-option
                     *ngFor="let insurance of insurances"
                     [value]="insurance.id"
@@ -24,7 +24,7 @@
                 </ng-select>
               </div>
               <div class="col-lg-3 col-md-4 col-sm-12 mb-1 rounded-pill">
-                <input [nbDatepicker]="datepicker" class="form-control" formControlName="date">
+                <input [nbDatepicker]="datepicker" placeholder="Selectionner une plage de date" class="form-control" formControlName="date">
                 <nb-rangepicker #datepicker (rangeChange)="onDateChange($event)"></nb-rangepicker>
               </div>
             
@@ -80,6 +80,19 @@
           </div>
         </div>
       </form>
+
+      <div class="d-flex justify-content-between mt-5 mb-5">
+        <div>
+          <span class="mb-2" [style.display]="'block'">Assurance: <span class="info">{{insurance? insurance?.name : "##"}}</span></span>
+          <span class="mb-2" [style.display]="'block'">Date de début: <span class="info">{{dateStart? dateStart : '##'}}</span></span>
+          <span [style.display]="'block'">Date de fin: <span class="info">{{dateStart? dateEnd : '##'}}</span></span>
+
+        </div>
+          <div>
+            <span class="mb-2" [style.display]="'block'">Solde Total: <span class="info">{{(insurance? totalAmount  : totalAmount / 2 ) | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
+            <span [style.display]="'block'"> Solde assurance : <span class="info">{{insuranceBalance | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
+          </div>  
+      </div>
       <div class="tableFixHead">
         <table class="table table-bordered table-hover table-md align-middle">
           <thead class="pb-3 text-capitalize">
@@ -90,7 +103,8 @@
               <th>N° Admission</th>
               <th>Assurance</th>
               <th>Total Facture</th>
-              <th>Part prise en charge </th>
+              <th>Part Assureur </th>
+              <th>Part Patient</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -112,51 +126,33 @@
             >
               <td class="text-nowrap">{{ invoice.billDate | date:  "dd/MM/yyyy HH:mm:ss" }}</td>
               <td>{{ invoice?.billNumber | uppercase }}</td>
-              <td class="text-nowrap">
-                  {{ invoice?.patientNumber }}
-                </td>
-                <td class="text-nowrap">
-                  {{ invoice?.admissionNumber }}
-                </td>
-              <td class="text-nowrap">
-                {{ invoice?.InsuranceName}}
-              </td>
-              <td class="text-nowrap">{{ invoice?.BillTotalAmount | currency: "FCFA":"symbol":"1.0-0" }}</td>
-              <td>
-                {{ invoice?.InsurancePart | currency: "FCFA":"symbol":"1.0-0" }}
-              </td>
-              <td>
-                <div ngbDropdown class="d-inline-block">
+              <td class="text-nowrap">{{ invoice?.patientNumber }}</td>
+              <td class="text-nowrap">{{ invoice?.admissionNumber }}</td>
+              <td class="text-nowrap">{{ invoice?.insurance}} </td>
+              <td class="text-nowrap text-right">{{ invoice?.billTotalAmount | currency: "FCFA":"symbol":"1.0-0" }}</td>
+              <td class="text-right">{{ invoice?.insurancePart | currency: "FCFA":"symbol":"1.0-0" }}</td>
+              <td class="text-right">{{ invoice?.patientPart | currency: "FCFA":"symbol":"1.0-0" }}</td>
+              <td class="text-center"><div ngbDropdown class="d-inline-block">
                   <button
                     type="button"
                     class="btn btn-outline-info"
                     id="dropdownBasic1"
                     ngbDropdownToggle
                   >
-                    ...
+                   ...
                   </button>
                   <div
                     class="text"
                     ngbDropdownMenu
-                    aria-labelledby="dropdownBasic1"
-                  >
+                    aria-labelledby="dropdownBasic1">
                     <button
                       (click)="openUpdateForm(updateFormContent, admission)"
                       class="text-center"
-                      ngbDropdownItem
-                    >
+                      ngbDropdownItem>
                       Modifier
                     </button>
                     <button class="text-center" ngbDropdownItem>Supprimer</button>
-                   
-                    <button
-                      class="text-center"
-                      ngbDropdownItem
-                      
-                     
-                    >
-                      Impression
-                    </button>
+                    <button class="text-center" ngbDropdownItem>Impression</button>
                   </div>
                 </div>
               </td>

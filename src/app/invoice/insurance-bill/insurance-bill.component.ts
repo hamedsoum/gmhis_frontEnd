@@ -66,7 +66,9 @@ export class InsuranceBillComponent implements OnInit {
   ]
   acts: any;
   bill: any;
-  insurances: any;
+
+  insurance : any;
+  insurances: any[]=[];
 
   searchDateRange : string;
 
@@ -77,8 +79,16 @@ export class InsuranceBillComponent implements OnInit {
     {id:PredefinedDate.THIS_MONTH , value:"Mois en cours"},
     {id:PredefinedDate.THIS_YEAR , value:"Année en cours"},
   ]
+
+
   defaultSearchPeriode: object;
 
+  dateStart = null;
+  dateEnd = null;
+
+ totalAmount : number = 0
+ insuranceBalance: number = 0;
+ facilityBalance: number = 0;
 
   constructor(
     private invoiceService: InvoiceService,
@@ -97,6 +107,11 @@ export class InsuranceBillComponent implements OnInit {
     this.initform();
     this.getInsuranceBill();
     this.getAllInsuranceActiveIdAndName();
+  }
+
+  public onPracticianChange(insuranceID : any){
+    this.insurance = this.insurances.find( insurance => insurance.id == insuranceID);
+    this.getInsuranceBill();
   }
 
   getSelectedPeriode(period) {
@@ -130,15 +145,12 @@ export class InsuranceBillComponent implements OnInit {
   onDateChange(range): void {
   }
   
-
   public getInsuranceBill() {
-    let start = null;
-    let end = null;
     let date = this.searchForm.get("date").value;
     if (typeof (date) == "object") {
-      start = date.start.toISOString().split('T')[0];
-      end = (!date.end) ? date.start.toISOString().split('T')[0] : date.end.toISOString().split('T')[0]
-      this.searchDateRange = start + "," + end;
+      this.dateStart = date.start.toISOString().split('T')[0];
+      this.dateEnd = (!date.end) ? date.start.toISOString().split('T')[0] : date.end.toISOString().split('T')[0]
+      this.searchDateRange = this.dateStart + "," + this.dateEnd;
       this.searchForm.get("date").setValue(this.searchDateRange);
     }
     this.showloading = true;
@@ -150,6 +162,14 @@ export class InsuranceBillComponent implements OnInit {
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;
+          console.log(this.items);
+          
+          this.totalAmount = 0; 
+          this.insuranceBalance = 0;
+          this.items.forEach(element => {
+            this.totalAmount += element.billTotalAmount;
+            this.insuranceBalance += element.insurancePart;
+          });  
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;

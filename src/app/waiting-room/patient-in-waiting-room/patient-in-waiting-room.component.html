@@ -1,48 +1,24 @@
 <nb-card class="nbCardList">
-    <nb-card-header class="row d-flex justify-content-between align-items-center">
-      <div class="col-lg-7 col-md-3 col-sm-12">
-        <h4
-          class="text-capitalize d-flex justify-content-start w-100 text-center"
-        >
-        Salle d'Attente
-        </h4>
+    <nb-card-header class="d-flex justify-content-between align-items-center">
+      <h4 class="text-capitalize"> Salle d'Attente</h4>
+      <div >
+        <span class="button-text"> <nb-icon (click)="getPatient()" class="header-icon"  icon="flip-2-outline"></nb-icon> </span>
       </div>
-    </nb-card-header>
+  </nb-card-header>
     <nb-card-body>
           <form [formGroup]="searchForm">
-            <div class="row d-flex justify-content-between align-items-end mb-2">
+            <div class="row d-flex justify-content-between align-items-center mb-5 mt-4">
               <div class="col-lg-11 col-md-9 col-sm-12 row">
-                <div class="col-lg-11 row">
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="lastName"
-                      placeholder="Nom"
-                    />
+                  <div class="col-lg-2 col-md-4 col-sm-12 rounded-pill">
+                    <input type="text" class="form-control" formControlName="lastName" placeholder="Nom"/>
                   </div>
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="idCardNumber"
-                      placeholder="N° CNI"
-                    />
-                  </div>
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="patientExternalId"
-                      placeholder="N° du Patient"
-                    />
-                  </div>
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
+
+                  <div class="col-lg-2 col-md-4 col-sm-12 rounded-pill">
                     <input nbInput placeholder="Date et heure d'admission" class="form-control" [nbDatepicker]="dateTimePicker">
                     <nb-date-timepicker withSeconds #dateTimePicker></nb-date-timepicker>
                   </div>
 
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
+                  <div class="col-lg-2 col-md-4 col-sm-12 rounded-pill">
                     <ng-select formControlName="practician" placeholder="practicien">
                         <ng-option *ngFor="let practician of practicians" [value]="practician.userId">
                           {{practician.userFirstName +" "+ practician.userLastName}}
@@ -50,15 +26,7 @@
                       </ng-select>
                   </div>
 
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                    <ng-select formControlName="waitingRoom" placeholder="Salle d'attentes">
-                        <ng-option *ngFor="let waitingRoom of waitingRooms" [value]="waitingRoom.id">
-                          {{waitingRoom.name}}
-                        </ng-option>
-                      </ng-select>
-                  </div>
-
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
+                  <div class="col-lg-2 col-md-4 col-sm-12 rounded-pill">
                     <ng-select formControlName="service" placeholder="service">
                         <ng-option *ngFor="let actServiceNameAndId of actServicesNameAndId" [value]="actServiceNameAndId.id">
                           {{actServiceNameAndId.name}}
@@ -66,28 +34,26 @@
                       </ng-select>
                   </div>
 
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
+                  <div class="col-lg-2 col-md-4 col-sm-12 rounded-pill">
                     <ng-select formControlName="act" placeholder="acte">
                         <ng-option *ngFor="let act of activeActNameAndId" [value]="act.id">
                           {{act.name}}
                         </ng-option>
                       </ng-select>
                   </div>
-               
-                </div>
-                <div class="col-lg-1">
-                  <span
-                    (click)="onSearchValueChange()"
-                    style="
-                      background-color: #ededed;
-                      color: #14a2b8;
-                      cursor: pointer;
-                    "
-                    class="material-icons px-2 p-1 rounded"
-                  >
-                    search
-                  </span>
-                </div>
+                  <div class="col-lg-1">
+                    <span
+                      (click)="onSearchValueChange()"
+                      style="
+                        background-color: #ededed;
+                        color: #14a2b8;
+                        cursor: pointer;
+                      "
+                      class="material-icons px-2 p-1 rounded"
+                    >
+                      search
+                    </span>
+                  </div>
               </div>
               <div class="col-lg-1 col-md-3 col-sm-12 ">
                 <ng-select
@@ -100,7 +66,8 @@
                   }}</ng-option>
                 </ng-select>
               </div>
-            </div>
+              </div>
+             
           </form>   
       <div class="tableFixHead">
         <table class="table table-bordered table-hover table-md align-middle">
@@ -142,7 +109,7 @@
               <td class="text-nowrap">{{admission.patientFirstName}}</td>
               <td class="text-nowrap">{{admission.act}}</td>
               <td class="text-nowrap">{{admission.service}}</td>
-              <td>Dr {{admission.practicianFirstName}} {{admission.practicianLastName}}</td>
+              <td>{{admission.practician}}</td>
               <td>{{admission.createdByFirstName}}</td>
               <td>
                 <span class="status" [ngClass]="{'statusSuccess': admission.admissionStatus == 'B', 'statusError': admission.admissionStatus == 'R'}" >{{admission.admissionStatus == 'B' ? 'Facturée' : 'Non Facturé'}}</span>

@@ -2,20 +2,64 @@ import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { PracticianPrintDataFormat } from 'src/app/invoice/invoice';
+import { User } from 'src/app/_models';
+import { UserService } from '..';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PrintListService {
-  constructor(
-    private datePipe: DatePipe,
-  ) { }
-  buildPrintList(insurance: any, practicianBill? : boolean) {
-    let billBody = [];
-    let practicianBillHeader = ['Date de Facturation', 'N° Facture','Practicien','N° Patient', 'Total Facture','Part Centre De Santé','Part Practicien'];
-    var printDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy');
+  constructor(private datePipe: DatePipe, private userService : UserService) { }
+  private getUser(): User {    
+    return this.userService.getUserFromLocalCache();
+  }
+   user = this.getUser();
+  buildPrintList(practicianPrint: PracticianPrintDataFormat, practicianBill? : boolean) {
+    let practicianBillHeader = ['Date op.', 'N° Facture','Practicien','N° Patient', 'Total F.','Solde Centre.','Solde Pract.'];
+    
+    var doc = new jsPDF('p', 'mm', 'a4');
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(12);
+    let facilityName: string = this.user.facility.name;
+    doc.text(facilityName.toUpperCase(), 70, 22);
+
+    doc.text('Détails des factures',16, 35);
+
+    doc.setFontSize(9);
+    doc.text('Nom du Practicien',18, 45);
+    doc.text(`${practicianPrint.practicianName} `,55, 45);
+    doc.line(16, 47, 102, 47);
+
+    doc.text('Date de Début',18, 53);
+    let dateStart = practicianPrint.dateStart != "##" ? practicianPrint.dateStart : "##";
+    doc.text(dateStart,55, 53);
+    doc.line(16, 55, 102, 55);
+
+    let dateEnd = practicianPrint.dateEnd != "##" ? practicianPrint.dateEnd : "##";
+    doc.text('Date de Fin',18, 61);
+    doc.text(dateEnd,55, 61);
+    doc.line(16, 63, 102, 63);
+
+
+    doc.setFontSize(9);
+    doc.text('Solde Total',110, 45);
+    doc.text(`${practicianPrint.totalBalance} XOF` ,170, 45);
+    doc.line(110, 47, 195, 47);
+
+    doc.text('Solde Centre de Santé',110, 53);
+    doc.text(`${practicianPrint.facilityBalance} XOF`,170, 53);
+    doc.line(110, 55, 195, 55);
+
+    doc.text('Solde Practicien',110, 61);
+    doc.text(`${practicianPrint.practicianBalance} XOF`,170, 61);
+    doc.line(110, 63, 195, 63);
+
+
     var body: any[] = [];
-    insurance.forEach((insuranceContent: any) => {
+
+    practicianPrint.data.forEach((insuranceContent: any) => {
       var date = this.datePipe.transform(insuranceContent['billDate'], 'dd/MM/yyyy');
       let insuranceContents = [
         {content :date },
@@ -30,27 +74,19 @@ export class PrintListService {
         { content: insuranceContent['billNumber'] },
         { content: insuranceContent['practicianName']},
         { content: insuranceContent['patientNumber']},
-        { content: insuranceContent['totalAmount'] },
-        { content: insuranceContent['totalAmount']/2 },
-        { content: insuranceContent['totalAmount']/2 },
-
+        { content: insuranceContent['totalAmount'], halign: 'left' },
+        { content: insuranceContent['totalAmount']/2, halign: 'right' },
+        { content: insuranceContent['totalAmount']/2, halign: 'right' },
       ]
       practicianBill? body.push(practicianBillContents) : body.push(insuranceContents);
     });
-    var doc = new jsPDF('p', 'mm', 'a4');
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(19);
-    let title = practicianBill? "Factures Practicien" : "Factures d'Assurance";
-    doc.text(title, 60, 11);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7);
-    doc.text(`imprimé le ${printDate}`, 15, 11);
     autoTable(doc, {
-      headStyles: { fillColor: '#16a2b8' },
+      headStyles: { fillColor: null, textColor : '#000', fontSize: 8 },
       footStyles: { fillColor: '#16a2b8' },
-      head: [practicianBill? practicianBillHeader : ['Date de Facturation', 'N° Facture', 'N° Admission', 'Assurance', 'Total Facture', 'Part prise en charge']],
+      bodyStyles:{fontSize: 8},
+      head: [practicianBill? practicianBillHeader : ['Date op.', 'N° Facture', 'N° Admission', 'Assurance', 'Total Facture', 'Part prise en charge']],
       body: body,
-      startY: 20,
+      startY: 70,
     });
 
     return doc;

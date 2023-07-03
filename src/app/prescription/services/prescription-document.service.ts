@@ -19,13 +19,10 @@ export class PrescriptionDocumentService {
     let tBody : any = [];
 
     var doc = new jsPDF('p', 'mm', 'a5');
-    
-      // doc.setFontSize(9)
-      // doc.text("Date   : " + this.datePipe.transform(invoice["billDate"], 'dd/MM/yyyy')  , 160, 47)
-    
+        
       doc.setFontSize(8)
       doc.text(`Dr ${prescription["practicienFirstName"]} ${prescription["practicienFirstName"]}`.toString().toUpperCase(), 15, 13);
-      doc.text(prescription["serviceName"].toString().toLowerCase(), 15, 17);
+      // doc.text(prescription["serviceName"].toString().toLowerCase(), 15, 17);
 
       doc.setFontSize(8)
       doc.text(`${prescription["facilityName"]}`.toString(), 100, 13);

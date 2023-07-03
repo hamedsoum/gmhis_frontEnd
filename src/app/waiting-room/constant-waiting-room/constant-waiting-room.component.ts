@@ -69,11 +69,9 @@ export class ConstantWaitingRoomComponent implements OnInit {
   constructor(
     private admissionService: AdmissionService,
     private notificationService: NotificationService,
-    config: NgbModalConfig,
     private modalService: NgbModal,
     private serviceService : ServiceService,
     private actService : ActService,
-    private invoiceDocumentService : InvoiceDocumentService,
     private waitingRoomService : WaitingRoomService,
     private practicianService : PracticianService,
     private userService : UserService,

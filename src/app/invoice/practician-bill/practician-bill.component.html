@@ -1,30 +1,24 @@
 <nb-card class="nbCardList">
-    <nb-card-header class="row d-flex justify-content-between align-items-center">
-      <div class="col-lg-7 col-md-3 col-sm-12">
-        <h4
-          class="text-capitalize d-flex justify-content-start w-100 text-center"
-        >
-         Factures Practicien
-        </h4>
+    <nb-card-header class="d-flex justify-content-between align-items-center">
+      <h4 class="text-capitalize"> Facture Practicien</h4>
+      <div class="d-flex">
+        <div (click)="printInsuranceList(printContent)"><span class="button-text"> <span  class="material-icons">ios_share</span></span> </div>
+        <span class="button-text"> <nb-icon (click)="getInsuranceBill()" class="header-icon"  icon="flip-2-outline"></nb-icon> </span>
       </div>
-    </nb-card-header>
+  </nb-card-header>
     <nb-card-body>
       <form [formGroup]="searchForm">
         <div class="row d-flex justify-content-between align-items-end mb-2">
           <div class="col-lg-11 col-md-9 col-sm-12 row">
             <div class="col-lg-10 row">
               <div *ngIf="this.userId == null" class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                <ng-select placeholder="Practicien" formControlName="userID">
+                <ng-select (change)="onPracticianChange($event)" placeholder="Practicien" formControlName="userID">
                     <ng-option *ngFor="let practician of practicians" [value]="practician.userId">
                       {{practician.userFirstName}}  {{ practician.userLastName}}</ng-option>
                   </ng-select>
               </div>
-              <div class="col-lg-3 col-md-4 col-sm-12 mb-1 rounded-pill">
-                <input [nbDatepicker]="datepicker" class="form-control" formControlName="date">
-                <nb-rangepicker #datepicker (rangeChange)="onDateChange($event)"></nb-rangepicker>
-              </div>
               <div class="col-lg-2 col-md-4 col-sm-12 mb-2 rounded-pill">
-                <ng-select formControlName="billStatus" placeholder="Statut">
+                <ng-select [clearable]="false" (change)="onSearchValueChange()" formControlName="billStatus" placeholder="Statut">
                   <ng-option
                     *ngFor="let billStatu of billStatus"
                     [value]="billStatu.id"
@@ -33,8 +27,8 @@
                   </ng-option>
                 </ng-select>
               </div>
-              
-              <div class="col-lg-2 col-md-4 col-sm-12 mb-1">
+                          
+             <div class="col-lg-2 col-md-4 col-sm-12 mb-1">
                 <div ngbDropdown class="d-inline-block w-100">
                   <button
                     class="btn text-capitalize fw-bold w-100 btn-secondary d-flex align-items-center justify-content-center text-white rounded "
@@ -47,25 +41,11 @@
                   </div>
                 </div>
               </div>
+              <div class="col-lg-3 col-md-4 col-sm-12 mb-1 rounded-pill">
+                <input [nbDatepicker]="datepicker" placeholder="Selectionner une plage de dates" class="form-control" formControlName="date">
+                <nb-rangepicker #datepicker (rangeChange)="onDateChange($event)"></nb-rangepicker>
+              </div>
              <div class="col-lg-2 col-md-4 col-sm-12 mb-1 d-flex">
-                <span
-                (click)="onSearchValueChange()"
-                style=" color: #14a2b8; cursor: pointer"
-                class="material-icons px-2 p-1 rounded"
-              >
-                search
-              </span>
-              <span
-              (click)="printInsuranceList(printContent)"
-                style="
-                display: block;
-                  color: #14a2b8;
-                  cursor: pointer;
-                "
-                class="material-icons px-2 p-1 rounded"
-              >
-              ios_share
-              </span>
              </div>
             </div>
            
@@ -83,11 +63,17 @@
           </div>
         </div>
       </form>
-      <div class="d-flex justify-content-end mt-4 mb-4">
+      <div class="d-flex justify-content-between mt-5 mb-5">
+        <div>
+          <span class="mb-2" [style.display]="'block'">practicien: <span class="info"> {{practician? practician.userFirstName + ' '+ practician.userLastName : '##'}}</span></span>
+          <span class="mb-2" [style.display]="'block'">Date de début: <span class="info">{{dateStart? dateStart : '##'}}</span></span>
+          <span [style.display]="'block'">Date de fin: <span class="info">{{dateStart? dateEnd : '##'}}</span></span>
+
+        </div>
           <div>
-            <span class="mb-2" [style.display]="'block'">Total Facture : <span class="amount">{{totalFacture | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
-            <span class="mb-2" [style.display]="'block'">Part Centre de santé : <span class="amount">{{totalFacture/2 | currency: "FCFA":"symbol":"1.0-0"}}</span></span>
-            <span [style.display]="'block'"> Part Practicien : <span class="amount">{{totalFacture/2 | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
+            <span class="mb-2" [style.display]="'block'">Solde Total: <span class="info">{{totalAmount | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
+            <span class="mb-2" [style.display]="'block'">Solde Centre de Santé : <span class="info">{{facilityBalance | currency: "FCFA":"symbol":"1.0-0"}}</span></span>
+            <span [style.display]="'block'"> Solde Practicien : <span class="info">{{practicianBalance | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
           </div>  
       </div>
       <div class="tableFixHead">
@@ -98,9 +84,10 @@
               <th>N° Facture</th>
               <th>Practicien</th>
               <th>N° patient</th>
-              <th>Total Facture</th>
+              <th>Montant Patient</th>
               <th>Part Centre de Santé</th>
               <th>Part Practicien</th>
+              <th>Total Facture</th>
               <th>Etat</th>
             </tr>
           </thead>
@@ -118,24 +105,15 @@
                 let i = index
               "
               [class.active]="i == currentIndex"
-              (click)="rowSelected(commune, i)"
-            >
+              (click)="rowSelected(commune, i)">
               <td class="text-nowrap">{{ invoice.billDate | date:  "dd/MM/yyyy HH:mm:ss" }}</td>
               <td>{{ invoice?.billNumber | uppercase }}</td>
-              <td class="text-nowrap">
-                {{ invoice?.practicianName }}
-              </td>
-              <td class="text-nowrap">
-                  {{ invoice?.patientNumber }}
-                </td>
-              
-              <td class="text-nowrap text-center">{{ invoice?.totalAmount | currency: "FCFA":"symbol":"1.0-0" }}</td>
-              <td class="text-center">
-                {{ invoice?.totalAmount/2 | currency: "FCFA":"symbol":"1.0-0" }}
-              </td>
-              <td class="text-center">
-                {{ invoice?.totalAmount/2 | currency: "FCFA":"symbol":"1.0-0" }}
-              </td>
+              <td class="text-nowrap">{{ invoice?.practicianName }}</td>
+              <td class="text-nowrap">{{ invoice?.patientNumber }}</td>
+              <td class="text-right">{{ invoice?.patientPart| currency: "FCFA":"symbol":"1.0-0" }} </td>
+                <td class="text-right">{{ invoice?.totalAmount/2 | currency: "FCFA":"symbol":"1.0-0" }} </td>
+                <td class="text-right">{{ invoice?.totalAmount/2 | currency: "FCFA":"symbol":"1.0-0" }}</td>
+                <td class="text-nowrap text-right">{{ invoice?.totalAmount | currency: "FCFA":"symbol":"1.0-0" }}</td>
               <td class="text-center">
                 <span class="status" [ngClass]="{'statusSuccess': invoice.billStatus == 'C', 'statusError': invoice.billStatus == 'R'}" >{{invoice.billStatus == 'C' ? 'Encaissée' : 'Non Encaissée'}}</span>
               </td>

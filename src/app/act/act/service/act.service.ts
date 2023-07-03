@@ -51,8 +51,8 @@ export class ActService {
     return this.http.get(`${this.apiUrl}/act/find-by-bill/${BillId}`);
   }
 
-  public getActsByActCategoryId(categoryId : number): Observable<any>{
-    return this.http.get(`${this.apiUrl}/act/active_acts_name_by_Category/${categoryId}`);
+  public retrieveSpecialityActs(specialityId : number): Observable<any>{
+    return this.http.get(`${this.apiUrl}/act/active_acts_name_by_Category/${specialityId}`);
   }
 
 }

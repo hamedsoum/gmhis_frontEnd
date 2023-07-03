@@ -32,7 +32,7 @@ export class AdmissionFormComponent implements OnInit {
   @Input()
   admission: Admission;
 
-  admissionDto: IAdmissionDto;
+  admissionCreateData: IAdmissionDto;
 
   public formGroup: FormGroup;
 
@@ -40,14 +40,21 @@ export class AdmissionFormComponent implements OnInit {
 
   public formSubmitted = false;
 
-
-  showloading: boolean = false;
+  loading: boolean = false;
   actsNameAndId: any;
   servicesNameAndId: any;
   actCategories: any;
-  practicians: any[];
-  constructor(private serviceService: ServiceService, private actService: ActService, private admissionService: AdmissionService, private datePipe : DatePipe,
-    private actCategorieService: ActCategoryService, private notificationService: NotificationService, private practicianService: PracticianService) { }
+
+  practicians: any[] = [];
+  specialityPracticians : any[] = [];
+
+  constructor(
+    private actService: ActService,
+    private serviceService: ServiceService,
+    private admissionService: AdmissionService, 
+    private practicianService: PracticianService,
+    private actCategorieService: ActCategoryService,
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.buildFields();
@@ -79,7 +86,7 @@ export class AdmissionFormComponent implements OnInit {
   onChangePractician(practicianID: any) {
     let practician = this.practicians.find(practician => practician.id = practicianID);
     this.formGroup.get('speciality').setValue(practician.actCategoryId);
-    this.findActiveActByActCategoryId(practician.actCategoryId);
+    this.onRetrieveActsAndPracticians(practician.actCategoryId);
   }
 
   buildFields() {
@@ -89,7 +96,6 @@ export class AdmissionFormComponent implements OnInit {
       patientName: new FormControl({ value: '', disabled: true }),
       createdAt: new FormControl(new Date(), [Validators.required]),
       patient: new FormControl(true),
-      service: new FormControl(null),
       speciality: new FormControl(null),
       act: new FormControl(null),
       caution: new FormControl(null),
@@ -101,19 +107,19 @@ export class AdmissionFormComponent implements OnInit {
     this.invalidFom = !this.formGroup.valid;
     this.formSubmitted = true;
     if (this.formGroup.valid) {
-      this.showloading = true;
-      this.admissionDto = this.formGroup.value;
-      console.log(this.admissionDto);
+      this.loading = true;
+      this.admissionCreateData = this.formGroup.value;
+      console.log("admissionCreateData ==> ",this.admissionCreateData);
 
-      if (this.admissionDto.id) {
+      if (this.admissionCreateData.id) {
         this.subs.add(
-          this.admissionService.updateAdmission(this.admissionDto).subscribe(
+          this.admissionService.updateAdmission(this.admissionCreateData).subscribe(
             (response: Admission) => {
-              this.showloading = false;
+              this.loading = false;
               this.updateAdmission.emit();
             },
             (errorResponse: HttpErrorResponse) => {
-              this.showloading = false;
+              this.loading = false;
               this.notificationService.notify(
                 NotificationType.ERROR,
                 errorResponse.error
@@ -123,17 +129,14 @@ export class AdmissionFormComponent implements OnInit {
         );
       } else {
         this.subs.add(
-          this.admissionService.createAdmission(this.admissionDto).subscribe(
+          this.admissionService.createAdmission(this.admissionCreateData).subscribe(
             (response: IPatient) => {
-              this.showloading = false;
+              this.loading = false;
               this.addAdmission.emit();
             },
             (errorResponse: HttpErrorResponse) => {
-              this.showloading = false;
-              this.notificationService.notify(
-                NotificationType.ERROR,
-                errorResponse.error.message
-              );
+              this.loading = false;
+              this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message);
             }
           )
         );
@@ -141,42 +144,28 @@ export class AdmissionFormComponent implements OnInit {
     }
   }
 
-  findActiveActByActCategoryId(categoryId: number) {
-    this.actService.getActsByActCategoryId(categoryId).subscribe(
-      (res: any) => {
-        this.actsNameAndId = res;
-      }
-    )
+  onRetrieveActsAndPracticians(specialityId: number) {
+    this.specialityPracticians = this.practicians.filter(practician => practician.specialityId === specialityId);
+
+    this.actService.retrieveSpecialityActs(specialityId).subscribe((res: any) => {this.actsNameAndId = res})
   }
 
   private findActiveServiceNameAndId() {
     this.serviceService.findActiveServiceNameAndId().subscribe(
-      (response: any) => {
-        this.servicesNameAndId = response;
-      },
+      (response: any) => {this.servicesNameAndId = response;},
       (errorResponse: HttpErrorResponse) => {
-        this.showloading = false;
-        this.notificationService.notify(
-          NotificationType.ERROR,
-          errorResponse.error.message
-        );
+        this.loading = false;
+        this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message);
       }
-    )
-  }
+    )}
 
   private findActCategorieNameAndId() {
     this.actCategorieService.findActiveActCategoryNameAndId().subscribe(
-      (response: INameAndId[]) => {
-        this.actCategories = response;
-      }
-    )
-  }
+      (response: INameAndId[]) => {this.actCategories = response;}
+    )}
 
   private findActPracticiainNameAndId() {
     this.practicianService.findPracticianSimpleList().subscribe(
-      (response: INameAndId[]) => {
-        this.practicians = response;
-      }
-    )
-  }
+      (response: INameAndId[]) => {this.practicians = response}
+    )}
 }

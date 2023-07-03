@@ -12,7 +12,38 @@
 @import "~material-icons/iconfont/material-icons.css";
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
 
+.header-icon {
+  font-size: 25px;
+  color: #14a2b8;
+  cursor: pointer;
+}
 
+.text-small{
+  font-size: 11px;
+}
+
+.info{
+  font-size:20px;
+  font-weight:bold;  
+  color:#14a2b8;
+}
+
+.text-intermediate{
+   font-size: 18px;
+}
+
+.text-medium{
+  font-size: 24px;
+}
+
+.form-warningMsg{
+  font-size: 12px;
+  padding: 15px 0;
+  display: block;
+}
+.field{
+  margin-bottom: 15px;
+}
 .statusSuccess {
   border: 0.09px solid #20c997c7;
   color: #20c997c7;
@@ -265,17 +296,17 @@ p.notifier__notification-message.ng-star-inserted
   color: white !important;
 }
 
-//table
-table {
-  font-size: 1rem;
+th{
+  font-size: 11px !important;
 }
-
 tbody > tr {
   padding: 0.25rem;
+  font-size: 11px !important;
 }
 
 tr > td {
 padding: 0px;
+font-size: 11px !important;
 }
 
 .checkBox {

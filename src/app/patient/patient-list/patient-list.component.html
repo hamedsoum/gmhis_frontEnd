@@ -8,13 +8,6 @@
       </h4>
     </div>
     <div class="col-lg-1 col-md-3 col-sm-12 justify-content-end">
-      <!-- <button
-        (click)="openAddForm(addFormContent)"
-        class="text-capitalize btn btn-block btn-success w-100 d-flex align-items-center justify-content-center text-white rounded"
-      >
-        <nb-icon icon="plus-outline"></nb-icon>
-        <span class="fw-bold"> NOUVEAU</span>
-      </button> -->
       <button
       (click)="onOpenModal(addFormContent,'xl', null)"
       class="text-capitalize btn mb-2 btn-block  w-100 d-flex align-items-center justify-content-center text-white rounded"
@@ -254,9 +247,10 @@
 <!-- update modal -->
 <ng-template #admissionFormContent let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
-      Nouvelle Admission
-    </h4>
+    <div>
+      <span class="modalTitle" >Nouvelle Admission</span>
+      <span class="modal-subTitle" >--</span>
+    </div>
     <nb-icon
       style="cursor: pointer"
       (click)="d('Cross click')"
