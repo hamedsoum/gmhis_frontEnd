@@ -1,20 +1,18 @@
 <nb-card class="nbCardList">
-    <nb-card-header class="row d-flex justify-content-between align-items-center">
-      <div class="col-lg-7 col-md-3 col-sm-12">
-        <h4
-          class="text-capitalize d-flex justify-content-start w-100 text-center"
-        >
-         Factures d'Assurances
-        </h4>
+    <nb-card-header class="d-flex justify-content-between align-items-center">
+      <h4 class="text-capitalize"> Facture d'Assurances</h4>
+      <div class="d-flex">
+        <div (click)="printInsuranceList(printContent)"><span class="button-text"> <span  class="material-icons">ios_share</span></span> </div>
+        <span class="button-text"> <nb-icon (click)="getInsuranceBill()" class="header-icon"  icon="flip-2-outline"></nb-icon> </span>
       </div>
-    </nb-card-header>
+  </nb-card-header>
     <nb-card-body>
       <form [formGroup]="searchForm">
         <div class="row d-flex justify-content-between align-items-end mb-2">
           <div class="col-lg-11 col-md-9 col-sm-12 row">
             <div class="col-lg-10 row">
               <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                <ng-select (change)="onPracticianChange($event)" formControlName="insuranceId" placeholder="Selectionner une assurance">
+                <ng-select (change)="onInsuranceChange($event)" formControlName="insuranceId" placeholder="Selectionner une assurance">
                   <ng-option
                     *ngFor="let insurance of insurances"
                     [value]="insurance.id"
@@ -50,20 +48,7 @@
                 >
                   search
                 </span>
-              </div>
-              <div class="col-lg-1">
-                <span
-                (click)="printInsuranceList(printContent)"
-                  style="
-                    background-color: #ededed;
-                    color: #14a2b8;
-                    cursor: pointer;
-                  "
-                  class="material-icons px-2 p-1 rounded"
-                >
-                ios_share
-                </span>
-              </div>
+              </div>         
             </div>
            
           </div>
@@ -89,8 +74,8 @@
 
         </div>
           <div>
-            <span class="mb-2" [style.display]="'block'">Solde Total: <span class="info">{{(insurance? totalAmount  : totalAmount / 2 ) | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
-            <span [style.display]="'block'"> Solde assurance : <span class="info">{{insuranceBalance | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
+            <span class="mb-2" [style.display]="'block'">Total Facture: <span class="info">{{(insurance? totalAmount  : 0 ) | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
+            <span [style.display]="'block'"> Solde Assurance : <span class="info">{{insuranceBalance | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
           </div>  
       </div>
       <div class="tableFixHead">

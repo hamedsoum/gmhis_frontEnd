@@ -92,6 +92,7 @@ export class PracticianBillComponent implements OnInit {
   totalAmount : number = 0
   facilityBalance: number = 0;
   practicianBalance: number = 0;
+  patientBalance: number = 0;
 
   constructor(
     private invoiceService: InvoiceService,private notificationService: NotificationService,config: NgbModalConfig,private modalService: NgbModal,
@@ -145,7 +146,7 @@ export class PracticianBillComponent implements OnInit {
 
   initform() {
     this.searchForm = new FormGroup({
-      billStatus: new FormControl("R"),
+      billStatus: new FormControl("C"),
       userID: new FormControl(""),
       date : new FormControl(""),
       page: new FormControl(0),
@@ -183,7 +184,9 @@ export class PracticianBillComponent implements OnInit {
           this.totalAmount = 0; 
           this.facilityBalance = 0;
           this.practicianBalance = 0;
+          this.patientBalance = 0;
           this.items.forEach(element => {
+            this.patientBalance += element.patientPart;
             this.totalAmount += element.totalAmount;
             this.facilityBalance = this.practicianBalance = this.totalAmount/2;
           });                  

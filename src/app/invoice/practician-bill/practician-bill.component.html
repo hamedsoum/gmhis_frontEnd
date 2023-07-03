@@ -73,7 +73,8 @@
           <div>
             <span class="mb-2" [style.display]="'block'">Solde Total: <span class="info">{{totalAmount | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
             <span class="mb-2" [style.display]="'block'">Solde Centre de Santé : <span class="info">{{facilityBalance | currency: "FCFA":"symbol":"1.0-0"}}</span></span>
-            <span [style.display]="'block'"> Solde Practicien : <span class="info">{{practicianBalance | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
+            <span class="mb-2" [style.display]="'block'"> Solde Practicien : <span class="info">{{practicianBalance | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
+            <span [style.display]="'block'"> Montant Patient : <span class="info">{{patientBalance | currency: "FCFA":"symbol":"1.0-0"}}</span> </span>
           </div>  
       </div>
       <div class="tableFixHead">

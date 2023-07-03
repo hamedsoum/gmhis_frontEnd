@@ -6,10 +6,12 @@ import { InsuranceService } from 'src/app/insurance/insurance.service';
 import { PredefinedDate } from 'src/app/_common/domain/predefinedDate';
 import { PredefinedPeriodService } from 'src/app/_common/services/predefined-period.service';
 import { PageList } from 'src/app/_models/page-list.model';
+import { PrintInsuranceInvoiceService } from 'src/app/_services/documents/print-insurance-invoice.service';
 import { PrintListService } from 'src/app/_services/documents/print-list.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
+import { InsurancePrintDataFormat } from '../invoice';
 import { InvoiceService } from '../service/invoice.service';
 
 @Component({
@@ -96,8 +98,8 @@ export class InsuranceBillComponent implements OnInit {
     config: NgbModalConfig,
     private modalService: NgbModal,
     private insuranceService : InsuranceService,
-    private printListService : PrintListService,
-    private predefinedPeriodService: PredefinedPeriodService
+    private predefinedPeriodService: PredefinedPeriodService,
+    private printInsuranceInvoiceService: PrintInsuranceInvoiceService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -109,7 +111,7 @@ export class InsuranceBillComponent implements OnInit {
     this.getAllInsuranceActiveIdAndName();
   }
 
-  public onPracticianChange(insuranceID : any){
+  public onInsuranceChange(insuranceID : any){
     this.insurance = this.insurances.find( insurance => insurance.id == insuranceID);
     this.getInsuranceBill();
   }
@@ -123,14 +125,22 @@ export class InsuranceBillComponent implements OnInit {
   }
 
   printInsuranceList(printContent) : void {
+    let practicianPrint : InsurancePrintDataFormat = {
+      insuranceName: this.insurance ? this.insurance.name : "##",
+      dateStart: this.dateStart ? this.dateStart : "##",
+      dateEnd: this.dateEnd ? this.dateEnd : "##",
+      totalBalance: this.totalAmount,
+      InsuranceBalance: this.insuranceBalance,
+      data: this.items
+    }
       this.modalService.open(printContent, { size: 'xl' });
-      let doc =this.printListService.buildPrintList(this.items)
+      let doc =this.printInsuranceInvoiceService.buildPrintList(practicianPrint,true)
       this.docSrc = doc.output('datauristring'); 
   }
 
   initform() {
     this.searchForm = new FormGroup({
-      insuranceId: new FormControl(""),
+      insuranceId: new FormControl(null),
       date : new FormControl(""),
       page: new FormControl(0),
       size: new FormControl(50),
@@ -161,13 +171,11 @@ export class InsuranceBillComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;
-          console.log(this.items);
-          
+          this.items = response.items;    
           this.totalAmount = 0; 
           this.insuranceBalance = 0;
           this.items.forEach(element => {
-            this.totalAmount += element.billTotalAmount;
+            this.totalAmount += element.billTotalAmount;            
             this.insuranceBalance += element.insurancePart;
           });  
           this.lastPage = response.lastPage;

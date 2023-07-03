@@ -84,7 +84,7 @@ export class InvoiceService {
     let queryParams = {};
     queryParams = {
       params: new HttpParams()
-        .set('insuranceId', data['insuranceId'])
+        .set('insuranceId', data['insuranceId'] ?? '')
         .set('date', data['date'])
         .set('page', data['page'])
         .set('size', data['size'] ?? '')

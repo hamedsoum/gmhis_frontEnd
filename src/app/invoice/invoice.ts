@@ -8,3 +8,12 @@ export class PracticianPrintDataFormat {
     data : any[]
 }
 
+export class InsurancePrintDataFormat {
+    insuranceName: string;
+    dateStart: string;
+    dateEnd: string;
+    totalBalance: number;
+    InsuranceBalance: number;
+    data : any[]
+}
+
