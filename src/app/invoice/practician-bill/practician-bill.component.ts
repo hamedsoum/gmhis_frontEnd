@@ -16,11 +16,15 @@ import { SubSink } from 'subsink';
 import { PracticianPrintDataFormat } from '../invoice';
 import { InvoiceService } from '../service/invoice.service';
 
+type billStatus = 'C' | 'R';
+
 @Component({
   selector: 'app-practician-bill',
   templateUrl: './practician-bill.component.html',
   styleUrls: ['./practician-bill.component.scss']
 })
+
+
 export class PracticianBillComponent implements OnInit {
 
   private subs = new SubSink();
@@ -95,6 +99,7 @@ export class PracticianBillComponent implements OnInit {
   practicianBalance: number = 0;
   patientBalance: number = 0;
 
+
   constructor(
     private invoiceService: InvoiceService,private notificationService: NotificationService,config: NgbModalConfig,private modalService: NgbModal,
     private insuranceService : InsuranceService,private printListService : PrintListService,private predefinedPeriodService: PredefinedPeriodService,
@@ -106,29 +111,22 @@ export class PracticianBillComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.getUser().id == 0 ? null : this.getUser().id;     
-    this.initform();
+    this.buildField();
     this.searchForm.get('userID').setValue(this.userId);
     this.getAllInsuranceActiveIdAndName();
     this.getInsuranceBill();
     this.findPracticians(); 
   }
 
-  private practicianChange(practicianID : any){
-    this.practician = this.practicians.find( pr => pr.userId == practicianID);
-  }
-
-  private getUser(): User {    
-    return this.userService.getUserFromLocalCache();
-  }
-  getSelectedPeriode(period) {
+  public onGetSelectedPeriode(period) {
     const resultat = this.dateOptions.find(dateOption => dateOption.id === period);
     this.predefined = resultat.value;
-    this.defaultSearchPeriode = this.predefinedPeriodService.getSelectedPeriode(period);
+    this.defaultSearchPeriode = this.predefinedPeriodService.getSelectedPeriode(period);    
     this.searchForm.get("date").setValue(this.defaultSearchPeriode);
-    this.getInsuranceBill();
+    this.onFilter(this.defaultSearchPeriode);
   }
 
-  printInsuranceList(printContent) : void {
+  onPrintInsuranceList(printContent) : void {
     let practicianPrint : PracticianPrintDataFormat = {
       practicianName: this.practician ? this.practician.userFirstName + " "+this.practician.userLastName : "##",
       dateStart: this.dateStart ? this.dateStart : "##",
@@ -136,90 +134,41 @@ export class PracticianBillComponent implements OnInit {
       totalBalance: this.totalAmount,
       facilityBalance: this.facilityBalance,
       practicianBalance: this.practicianBalance,
-      data: this.items
+      data: this.itemsFiltered
     }
       this.modalService.open(printContent, { size: 'xl' });
       let doc =this.printListService.buildPrintList(practicianPrint,true)
       this.docSrc = doc.output('datauristring'); 
   }
 
-  initform() {
-    this.searchForm = new FormGroup({
-      billStatus: new FormControl(null),
-      userID: new FormControl(null),
-      date : new FormControl(""),
-      page: new FormControl(0),
-      size: new FormControl(100),
-      sort: new FormControl('id,desc'),
-    });
-  }
-
-  onSearchValueChange(): void {
+  public onSearchValueChange(): void {
     this.getInsuranceBill();
   }
 
-  onDateChange(range): void {
-    console.log(range);
-    
+  public onPageChange(event) {
+    this.searchForm.get('page').setValue(event - 1);
+    this.getInsuranceBill();
   }
 
-  public onFilter(): void {
+
+  public rowSelected(bill: any, index: number) {
+    this.currentIndex = index;
+    this.bill = bill;
+  }
+
+  public onFilter(dateFilter? :any): void {
     let userID = this.searchForm.get('userID').value;
-    let billStatus = this.searchForm.get('billStatus').value;
+    let billStatus : billStatus = this.searchForm.get('billStatus').value;
     let date = this.searchForm.get('date').value as Object;
-    if (userID !== null && billStatus === null) this.filterItemsByPractician(userID);
-    else if(userID === null && billStatus !== null) this.filterItemsByStatus(billStatus);
-    else if(userID !== null && billStatus !== null) this.filterItemsByPracticianAndStatus(userID,billStatus );
-    else if (date) console.log(date);
-     
-  }
-  
-  filterItemsByStatus(query : string): void {
-   this.itemsFiltered = this.items.filter(item => item.billStatus === query);
-   this.calculTotalAmount(); 
-  }
-
-  filterItemsByPractician(query : string): void {
-    this.practicianChange(query)
-    this.itemsFiltered = this.items.filter(item => item.userID === query);
-    this.calculTotalAmount();
-   }
-
-   filterItemsByPracticianAndStatus(userID : number, status ): void {
-    this.itemsFiltered = this.items.filter(item => item.userID === userID && item.billStatus === status);
-    this.calculTotalAmount();
-   }
-
-   filterByDate(): void {
-     let date = this.searchForm.get('date').value;  
-    this.dateStart = date.start.toISOString().split('T')[0];
-    this.dateEnd = date.end.toISOString().split('T')[0];
-    this.itemsFiltered = this.items.filter(item => new Date(item.date) >= new Date(this.dateStart) && new Date(item.date) <= new Date(this.dateEnd)); 
-    this.calculTotalAmount(); 
-   }
-
-   onFilterByDate(dateFilter : any): void {
-    if (typeof (dateFilter) == "object") {
-      if (dateFilter.end) {
-        this.searchForm.get('date').setValue(dateFilter); 
-        let userID = this.searchForm.get('userID').value;
-        let billStatus = this.searchForm.get('billStatus').value;
-        let date = this.searchForm.get('date').value;
-        if(date !== null && billStatus === null && userID === null) this.filterByDate();
-      }
-   }
-  }
-
-  calculTotalAmount() {
-    this.totalAmount = 0; 
-    this.facilityBalance = 0;
-    this.practicianBalance = 0;
-    this.patientBalance = 0;
-    this.itemsFiltered.forEach(element => {
-      this.patientBalance += element.patientAmount;
-      this.totalAmount += element.totalAmount;
-      this.facilityBalance = this.practicianBalance = this.totalAmount/2;
-    });
+    console.log("userID: " + userID + " billStatus: " + billStatus + " date: " + date);
+    
+    if (userID !== null && billStatus === null && date === null) this.filterItemsByPractician(userID);
+    else if (userID === null && billStatus !== null && date === null) this.filterItemsByStatus(billStatus);
+    else if (userID === null && billStatus === null && date !== null) this.filterByDate(dateFilter); 
+    else if (userID !== null && billStatus !== null && date === null) this.filterItemsByPracticianAndStatus(userID,billStatus );
+    else if (userID !== null && billStatus === null && date !== null) this.filterByPracticianAndDate(userID,dateFilter);
+    else if (userID === null && billStatus !== null && date !== null) this.filterByStatusAndDate(billStatus, dateFilter)
+    else if (userID !== null && billStatus !== null && date !== null) this.filterByPracticianAndStatusAndDate(userID,billStatus,dateFilter)
   }
 
   public getInsuranceBill() {    
@@ -228,7 +177,7 @@ export class PracticianBillComponent implements OnInit {
     this.searchForm.get("date").setValue(null);
     this.dateEnd = null;
     this.dateStart = null;
- 
+    this.practician = null;
     this.showloading = true;
     this.subs.add(
       this.invoiceService.facilityInvoicesPractician(this.searchForm.value).subscribe(
@@ -255,64 +204,90 @@ export class PracticianBillComponent implements OnInit {
       )
     );
   }
-
-  onIsActiveChange() {
-    this.getInsuranceBill();
+  
+  private practicianChange(practicianID : number){
+    this.practician = this.practicians.find( pr => pr.userId == practicianID);
   }
 
-  onPageChange(event) {
-    this.searchForm.get('page').setValue(event - 1);
-    this.getInsuranceBill();
+  private getUser(): User {    
+    return this.userService.getUserFromLocalCache();
   }
 
-  updateAdmission() {
-    this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      'admission modifié avec succès'
-    );
-    this.getInsuranceBill();
+  private filterItemsByPractician(userID : number): void {
+    this.practicianChange(userID)
+    this.itemsFiltered = this.items.filter(item => item.userID === userID);
+    this.calculTotalAmount();
+   }
+
+  private filterItemsByStatus(status : billStatus): void {
+   this.itemsFiltered = this.items.filter(item => item.billStatus === status);
+   this.calculTotalAmount(); 
   }
 
-addInvoice(){
-  this.modalService.dismissAll();
-  this.notificationService.notify(
-    NotificationType.SUCCESS,
-    'facture crée avec succès'
-  );
-  this.getInsuranceBill();
-}
+   private filterItemsByPracticianAndStatus(userID : number, status : billStatus ): void {
+    this.itemsFiltered = this.items.filter(item => item.userID === userID && item.billStatus === status);
+    this.calculTotalAmount();
+   }
 
+   private filterByDate(date: any): void {
+      this.formatDate(date);
+      this.itemsFiltered = this.items.filter(item => new Date(item.date) >= new Date(this.dateStart) && new Date(item.date) <= new Date(this.dateEnd)); 
+      this.calculTotalAmount(); 
+   }
 
-addPayment(){
-  this.modalService.dismissAll();
-  this.notificationService.notify(
-    NotificationType.SUCCESS,
-    'facture encaissée avec succès'
-  );
-  this.getInsuranceBill();
-}
+   private filterByPracticianAndDate(userID: number, date: any): void {     
+    this.formatDate(date);
+    this.itemsFiltered = this.items.filter(item => (item.userID === userID) && new Date(item.date) >= new Date(this.dateStart) && new Date(item.date) <= new Date(this.dateEnd));
+    this.calculTotalAmount(); 
+   }
 
+   private filterByStatusAndDate(status: billStatus, date: any): void {     
+    this.formatDate(date);
+    this.itemsFiltered = this.items.filter(item => (item.billStatus === status) && new Date(item.date) >= new Date(this.dateStart) && new Date(item.date) <= new Date(this.dateEnd));
+    this.calculTotalAmount(); 
+   }
 
-  rowSelected(bill: any, index: number) {
-    this.currentIndex = index;
-    this.bill = bill;
+   private filterByPracticianAndStatusAndDate(userID: number , status: billStatus, date: any): void {     
+    this.formatDate(date);
+    this.itemsFiltered = this.items.filter(item => item.userID === userID && item.billStatus === status && new Date(item.date) >= new Date(this.dateStart) && new Date(item.date) <= new Date(this.dateEnd));
+    this.calculTotalAmount(); 
+   }
+
+   private formatDate(dateFilter: any): void {
+    if (typeof (dateFilter) == "object") if (dateFilter.end) this.searchForm.get('date').setValue(dateFilter); 
+    let date = this.searchForm.get('date').value;  
+    this.dateStart = date.start.toISOString().split('T')[0];
+    this.dateEnd = date.end.toISOString().split('T')[0];
+ }
+
+   private buildField() {
+    this.searchForm = new FormGroup({
+      billStatus: new FormControl(null),
+      userID: new FormControl(null),
+      date : new FormControl(""),
+      page: new FormControl(0),
+      size: new FormControl(100),
+      sort: new FormControl('id,desc'),
+    });
+  }
+ 
+  private calculTotalAmount() {
+    this.totalAmount = 0; 
+    this.facilityBalance = 0;
+    this.practicianBalance = 0;
+    this.patientBalance = 0;
+    this.itemsFiltered.forEach(element => {
+      this.patientBalance += element.patientAmount;
+      this.totalAmount += element.totalAmount;
+      this.facilityBalance = this.practicianBalance = this.totalAmount/2;
+    });
   }
 
-  showActionsList(){
-    this.acctionsList = !this.acctionsList;
-  }
-
-
-  getAllInsuranceActiveIdAndName():void {
+  private getAllInsuranceActiveIdAndName():void {
     this.subs.add(
       this.insuranceService.getAllInsuranceActive().subscribe(
-        (response : any) => {
-          this.insurances = response;          
-        },
-        (errorResponse : HttpErrorResponse) =>{
-          this.notificationService.notify(NotificationType.ERROR, errorResponse.message);
-        }
+        (response : any) => { this.insurances = response; },
+        (errorResponse : HttpErrorResponse) =>{ this.notificationService.notify(NotificationType.ERROR, errorResponse.message); }
       )
     )
   }

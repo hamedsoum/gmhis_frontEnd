@@ -12,7 +12,7 @@
           <div class="col-lg-11 col-md-9 col-sm-12 row">
             <div class="col-lg-10 row">
               <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                <ng-select (change)="onInsuranceChange($event)" formControlName="insuranceId" placeholder="Selectionner une assurance">
+                <ng-select (change)="onFilter()" formControlName="insuranceID" placeholder="Selectionner une assurance">
                   <ng-option
                     *ngFor="let insurance of insurances"
                     [value]="insurance.id"
@@ -23,7 +23,7 @@
               </div>
               <div class="col-lg-3 col-md-4 col-sm-12 mb-1 rounded-pill">
                 <input [nbDatepicker]="datepicker" placeholder="Selectionner une plage de date" class="form-control" formControlName="date">
-                <nb-rangepicker #datepicker (rangeChange)="onDateChange($event)"></nb-rangepicker>
+                <nb-rangepicker (rangeChange)="onFilter($event)" #datepicker ></nb-rangepicker>
               </div>
             
               
@@ -36,7 +36,7 @@
                   <div ngbDropdownMenu aria-labelledby="periode">
                     
                     <button ngbDropdownItem *ngFor="let periode of dateOptions"
-                      (click)="getSelectedPeriode(periode.id)">{{periode.value}}</button>
+                      (click)="onGetetSelectedPeriode(periode.id)">{{periode.value}}</button>
                   </div>
                 </div>
               </div>
@@ -97,7 +97,7 @@
           <tbody>
             <tr
               *ngFor="
-                let invoice of items
+                let invoice of itemsFiltered
                   | paginate
                     : {
                         itemsPerPage: selectedSize,

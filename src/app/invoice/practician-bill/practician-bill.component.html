@@ -2,7 +2,7 @@
     <nb-card-header class="d-flex justify-content-between align-items-center">
       <h4 class="text-capitalize"> Facture Practicien</h4>
       <div class="d-flex">
-        <div (click)="printInsuranceList(printContent)"><span class="button-text"> <span  class="material-icons">ios_share</span></span> </div>
+        <div (click)="onPrintInsuranceList(printContent)"><span class="button-text"> <span  class="material-icons">ios_share</span></span> </div>
         <span class="button-text"> <nb-icon (click)="getInsuranceBill()" class="header-icon"  icon="flip-2-outline"></nb-icon> </span>
       </div>
   </nb-card-header>
@@ -18,7 +18,7 @@
                   </ng-select>
               </div>
               <div class="col-lg-2 col-md-4 col-sm-12 mb-2 rounded-pill">
-                <ng-select [clearable]="false" (change)="filterItemsByStatus($event)" formControlName="billStatus" placeholder="Statut">
+                <ng-select [clearable]="false" (change)="onFilter()" formControlName="billStatus" placeholder="Statut">
                   <ng-option
                     *ngFor="let billStatu of billStatus"
                     [value]="billStatu.id"
@@ -37,13 +37,13 @@
                   <div ngbDropdownMenu aria-labelledby="periode">
                     
                     <button ngbDropdownItem *ngFor="let periode of dateOptions"
-                      (click)="getSelectedPeriode(periode.id)">{{periode.value}}</button>
+                      (click)="onGetSelectedPeriode(periode.id)">{{periode.value}}</button>
                   </div>
                 </div>
               </div>
               <div class="col-lg-3 col-md-4 col-sm-12 mb-1 rounded-pill">
                 <input [nbDatepicker]="datepicker" placeholder="Selectionner une plage de dates" class="form-control" formControlName="date">
-                <nb-rangepicker #datepicker (rangeChange)="onFilterByDate($event)"></nb-rangepicker>
+                <nb-rangepicker #datepicker (rangeChange)="onFilter($event)"></nb-rangepicker>
               </div>
              <div class="col-lg-2 col-md-4 col-sm-12 mb-1 d-flex">
              </div>
@@ -151,7 +151,7 @@
   
   <!-- ngx-extended-pdf-viewer -->
   <ng-template #printContent let-c="close" let-d="dismiss">
-    <div class="modal-header bg-gray">
+    <div class="modal-header ">
       <h4 class="text-capitalize modal-title" id="update-form-modal">IMPRIMER</h4>
       <nb-icon
         style="cursor: pointer"
@@ -160,7 +160,7 @@
         icon="close-circle-outline"
       ></nb-icon>
     </div>
-    <div class="modal-body bg-gray">
+    <div class="modal-body ">
       <ngx-extended-pdf-viewer
         *ngIf="docSrc"
         [src]="docSrc"

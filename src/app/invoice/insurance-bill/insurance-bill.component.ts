@@ -70,6 +70,7 @@ export class InsuranceBillComponent implements OnInit {
   bill: any;
 
   insurance : any;
+  public itemsFiltered = [];
   insurances: any[]=[];
 
   searchDateRange : string;
@@ -113,15 +114,14 @@ export class InsuranceBillComponent implements OnInit {
 
   public onInsuranceChange(insuranceID : any){
     this.insurance = this.insurances.find( insurance => insurance.id == insuranceID);
-    this.getInsuranceBill();
   }
 
-  getSelectedPeriode(period) {
+  onGetetSelectedPeriode(period) {
     const resultat = this.dateOptions.find(dateOption => dateOption.id === period);
     this.predefined = resultat.value;
     this.defaultSearchPeriode = this.predefinedPeriodService.getSelectedPeriode(period);
     this.searchForm.get("date").setValue(this.defaultSearchPeriode);
-    this.getInsuranceBill();
+    this.onFilter(this.defaultSearchPeriode);
   }
 
   printInsuranceList(printContent) : void {
@@ -131,16 +131,38 @@ export class InsuranceBillComponent implements OnInit {
       dateEnd: this.dateEnd ? this.dateEnd : "##",
       totalBalance: this.totalAmount,
       InsuranceBalance: this.insuranceBalance,
-      data: this.items
+      data: this.itemsFiltered
     }
       this.modalService.open(printContent, { size: 'xl' });
       let doc =this.printInsuranceInvoiceService.buildPrintList(practicianPrint,true)
       this.docSrc = doc.output('datauristring'); 
   }
 
+  public onFilter(dateFilter? :any): void {
+    let insuranceID = this.searchForm.get('insuranceID').value;
+    let date = this.searchForm.get('date').value as Object;
+    console.log("insuranceID: " + insuranceID + " date: " + date);
+    
+    if (insuranceID !== null && date === null) this.filterItemsByInsurance(insuranceID);
+    else if (insuranceID === null && date !== null) this.filterByDate(dateFilter); 
+    else if (insuranceID !== null && date !== null) this.filterByInsuranceAndDate(insuranceID, dateFilter);
+  }
+
+  private filterItemsByInsurance(insuranceID : number): void {
+    this.onInsuranceChange(insuranceID)
+    this.itemsFiltered = this.items.filter(item => item.insuranceID === insuranceID);
+    this.calculTotalAmount();
+   }
+
+   private filterByInsuranceAndDate(insuranceID: number, date: any): void {     
+    this.formatDate(date);
+    this.itemsFiltered = this.items.filter(item => (item.insuranceID === insuranceID) && new Date(item.billDate) >= new Date(this.dateStart) && new Date(item.billDate) <= new Date(this.dateEnd));
+    this.calculTotalAmount(); 
+   }
+
   initform() {
     this.searchForm = new FormGroup({
-      insuranceId: new FormControl(null),
+      insuranceID: new FormControl(null),
       date : new FormControl(""),
       page: new FormControl(0),
       size: new FormControl(50),
@@ -152,17 +174,12 @@ export class InsuranceBillComponent implements OnInit {
     this.getInsuranceBill();
   }
 
-  onDateChange(range): void {
-  }
-  
   public getInsuranceBill() {
-    let date = this.searchForm.get("date").value;
-    if (typeof (date) == "object") {
-      this.dateStart = date.start.toISOString().split('T')[0];
-      this.dateEnd = (!date.end) ? date.start.toISOString().split('T')[0] : date.end.toISOString().split('T')[0]
-      this.searchDateRange = this.dateStart + "," + this.dateEnd;
-      this.searchForm.get("date").setValue(this.searchDateRange);
-    }
+    this.searchForm.get('insuranceID').setValue(null);
+    this.searchForm.get("date").setValue(null);
+    this.dateEnd = null;
+    this.dateStart = null;
+    this.insurance = null;
     this.showloading = true;
     this.subs.add(
       this.invoiceService.findAllInsuranceBil(this.searchForm.value).subscribe(
@@ -171,20 +188,13 @@ export class InsuranceBillComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;    
-          this.totalAmount = 0; 
-          this.insuranceBalance = 0;
-          this.items.forEach(element => {
-            this.totalAmount += element.billTotalAmount;            
-            this.insuranceBalance += element.insurancePart;
-          });  
+          this.items = response.items;  
+          this.itemsFiltered = this.items;                                
+          this.calculTotalAmount();
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
           this.totalPages = response.totalPages;
-          if (typeof (date) == "object") {
-            this.searchForm.get("date").setValue(date);
-          }
         },
         (errorResponse: HttpErrorResponse) => {
           this.showloading = false;
@@ -205,36 +215,6 @@ export class InsuranceBillComponent implements OnInit {
     this.searchForm.get('page').setValue(event - 1);
     this.getInsuranceBill();
   }
-
-  
-
-  updateAdmission() {
-    this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      'admission modifié avec succès'
-    );
-    this.getInsuranceBill();
-  }
-
-addInvoice(){
-  this.modalService.dismissAll();
-  this.notificationService.notify(
-    NotificationType.SUCCESS,
-    'facture crée avec succès'
-  );
-  this.getInsuranceBill();
-}
-
-
-addPayment(){
-  this.modalService.dismissAll();
-  this.notificationService.notify(
-    NotificationType.SUCCESS,
-    'facture encaissée avec succès'
-  );
-  this.getInsuranceBill();
-}
 
 
   rowSelected(bill: any, index: number) {
@@ -260,4 +240,27 @@ addPayment(){
     )
   }
 
+  private calculTotalAmount() {
+    this.totalAmount = 0; 
+    this.insuranceBalance = 0;
+    this.itemsFiltered.forEach(element => {
+      this.totalAmount += element.billTotalAmount;            
+      this.insuranceBalance += element.insurancePart;
+    }); 
+    
+    console.log(this.insuranceBalance);
+    
+  }
+  private filterByDate(date: any): void {
+    this.formatDate(date);
+    this.itemsFiltered = this.items.filter(item => new Date(item.billDate) >= new Date(this.dateStart) && new Date(item.billDate) <= new Date(this.dateEnd)); 
+    this.calculTotalAmount(); 
+ }
+
+  private formatDate(dateFilter: any): void {
+    if (typeof (dateFilter) == "object") if (dateFilter.end) this.searchForm.get('date').setValue(dateFilter); 
+    let date = this.searchForm.get('date').value;  
+    this.dateStart = date.start.toISOString().split('T')[0];
+    this.dateEnd = date.end.toISOString().split('T')[0];
+ }
 }
