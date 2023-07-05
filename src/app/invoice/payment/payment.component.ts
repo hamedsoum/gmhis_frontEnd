@@ -111,14 +111,6 @@ export class PaymentComponent implements OnInit {
       cashRegister: cashRegister,
       bill: this.patientInvoice.id,
       paymentType: paymentType,
-      // paymentHasPaymentTypeDTO : [{
-      //   amount : 20000,
-      //   paymentTypeID : 1
-      // },
-      // {
-      //   amount : 30000,
-      //   paymentTypeID : 2
-      // }],
       amountReceived: this.paymentForm.get('amountReceived').value,
       amountReturned: this.paymentForm.get('amountReturned').value
     };
@@ -175,10 +167,7 @@ export class PaymentComponent implements OnInit {
         this.modalService.dismissAll();
       },
       (errorResponse: HttpErrorResponse) => {
-        this.notificationService.notify(
-          NotificationType.ERROR,
-          errorResponse.error.message
-        );
+        this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message);
       }
     )
 

@@ -9,7 +9,6 @@ import { SymptomService } from 'src/app/symptom/services/symptom.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
-import { IExamination } from '../models/examination';
 import { IExaminationDto } from '../models/examination-dto';
 import { ExaminationService } from '../services/examination.service';
 
@@ -19,11 +18,9 @@ import { ExaminationService } from '../services/examination.service';
   styleUrls: ['./new-examination.component.scss']
 })
 export class NewExaminationComponent implements OnInit {
-  private subs = new SubSink();
+   private subs = new SubSink();
 
     examinationForm: FormGroup;
-
-    @Input() patientId: number;
 
     @Input() patient: IPatient;
    
@@ -32,10 +29,9 @@ export class NewExaminationComponent implements OnInit {
     @Input() startDate: Date;
 
     @Output() addExamination: EventEmitter<any> = new EventEmitter();
-  @Output() updateExamination: EventEmitter<any> = new EventEmitter();
+    @Output() updateExamination: EventEmitter<any> = new EventEmitter();
 
-
-  examinationDto: IExaminationDto;
+   examinationDto: IExaminationDto;
 
   pathologies : Object;
   symptoms : Object;
@@ -45,13 +41,11 @@ export class NewExaminationComponent implements OnInit {
     { id: 's', value: 'Consultation de surveillance' },
   ];
 
-
-
   invalidFormControls: any;
 
-   public invalidFom = false;
+  public invalidFom = false;
 
-   public formSubmitted = false;
+  public formSubmitted = false;
 
    // Note: examenType has two values, true for internal examinations and false for external examinations
    examenType: boolean;
@@ -60,24 +54,29 @@ export class NewExaminationComponent implements OnInit {
 
   dayBetweenLastExaminationAndCurrentDate: number;
 
+  public makePrescription: boolean = false;
+
   constructor(
     private examinationService: ExaminationService,
     private pathologyService : PathologyService,
     private symptomService : SymptomService,
     private notificationService: NotificationService,
     private datepipe : DatePipe,
-    private modalService: NgbModal,
-
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
+    console.log(this.patient);
+    
     this.findActivePathologiesNameAndId();
     this.findActiveSymptomssNameAndId();
     this.initForm();
   }
 
+  public onMakePrescription(): void {
+    this.makePrescription = true;
+  }
 
- 
     /**
    * init form
    */
@@ -85,17 +84,11 @@ export class NewExaminationComponent implements OnInit {
       this.examinationForm = new FormGroup({
         date: new FormControl(this.datepipe.transform(new Date(), "MM-dd-yyyy")), 
         admission: new FormControl(this.admissionId),
-        // conclusion: new FormControl('', Validators.required),
-        examinationReasons: new FormControl('Mal de tête', Validators.required),
+        examinationReasons: new FormControl('', Validators.required),
+        conclusion : new FormControl(''),
         id: new FormControl(0),
         startDate: new FormControl(this.startDate),
         pratician : new FormControl(1)
-        // conclusionExamResult: new FormControl(''),
-        // examinationType: new FormControl('', Validators.required),
-        // history: new FormControl('', Validators.required),
-        // pathologies: new FormControl(null, Validators.required ),
-        // symptoms: new FormControl(null, Validators.required),
-       
       })
     }
 
@@ -113,23 +106,16 @@ export class NewExaminationComponent implements OnInit {
           this.showloading = true;
           this.examinationDto = this.examinationForm.value;
           if (this.examinationDto.id) {
-            console.log('Update');
             this.subs.add(
               this.examinationService.updateExamination(this.examinationDto).subscribe(
                 (response: IExaminationDto) => {
                   this.showloading = false;
-                  this.notificationService.notify(
-                    NotificationType.SUCCESS,
-                    "Consultation modifiée avec succès"
-                  );
-                  this.updateExamination.emit();
+                  this.notificationService.notify(NotificationType.SUCCESS,"Consultation modifiée avec succès");
+                    this.updateExamination.emit();
                 },
                 (errorResponse: HttpErrorResponse) => {
                   this.showloading = false;
-                  this.notificationService.notify(
-                    NotificationType.ERROR,
-                    errorResponse.error.message
-                  );
+                  this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message);
                 }
               )
             );
@@ -139,21 +125,15 @@ export class NewExaminationComponent implements OnInit {
                 (response: any) => {
                   this.showloading = false;
                   this.addExamination.emit();
-                  console.log("Consultatio Ajouté");
                 },
                 (errorResponse: HttpErrorResponse) => {
                   this.showloading = false;
-                  this.notificationService.notify(
-                    NotificationType.ERROR,
-                    errorResponse.error.message
-                  );
+                  this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message);
                 }
               )
             );
           }
         }
-      
-     
     }
 
     private findActivePathologiesNameAndId(){
@@ -163,10 +143,7 @@ export class NewExaminationComponent implements OnInit {
         },
         (errorResponse : HttpErrorResponse) => {
           this.showloading = false;
-          this.notificationService.notify(
-            NotificationType.ERROR,
-            errorResponse.error.message
-          ); 
+          this.notificationService.notify( NotificationType.ERROR,errorResponse.error.message); 
         }
       )
     }
@@ -178,23 +155,20 @@ export class NewExaminationComponent implements OnInit {
         },
         (errorResponse : HttpErrorResponse) => {
           this.showloading = false;
-          this.notificationService.notify(
-            NotificationType.ERROR,
-            errorResponse.error.message
-          ); 
+          this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message); 
         }
       )
     }
 
     onChooseLaboratory(addFormContent, size:string) {    
-      if(this.examinationForm.get('examinationReasons').value == ''){
-        this.notificationService.notify(
-          NotificationType.ERROR,
-         'veuillez préciser le motif de la consultation avant de demander un examen'
-        ); 
-      }else{
-        this.modalService.open(addFormContent, { size: size, centered : true });
-      }
+      if(this.examinationForm.get('examinationReasons').value == '') this.notificationService.notify(NotificationType.WARNING,'veuillez préciser le motif de la consultation avant de demander un examen !'); 
+      else this.modalService.open(addFormContent, { size: size, centered : true });
+    }
+
+    onOpenPrescriptionCreateComponent(prescriptionCreateComponent): void {
+      if(this.examinationForm.get('conclusion').value == '') this.notificationService.notify(NotificationType.WARNING,'veuillez renseigner le diagnostic de la consultation avant de prescrire une ordonnance !');
+      else if(this.examinationForm.get('examinationReasons').value == '') this.notificationService.notify(NotificationType.WARNING,'veuillez préciser le motif de la consultation avant de demander un examen !'); 
+      else this.modalService.open(prescriptionCreateComponent, { size: 'xl' });
     }
 
     ChooseLaboratoryType(exameFormContent,laboratoryType : boolean) : void {
@@ -202,12 +176,15 @@ export class NewExaminationComponent implements OnInit {
       this.modalService.open(exameFormContent, { size: 'xl' });
     }
 
-
     addExam() {
-      console.log("examen Ajouté");
       this.save();
-      this.addExamination.emit();
       this.modalService.dismissAll();
-        }
+    }
+
+    addPrescription(){
+      this.modalService.dismissAll();
+      this.notificationService.notify( NotificationType.SUCCESS,"Ordonnance prescrite avec succès");
+      this.save();
+    }
     
 }

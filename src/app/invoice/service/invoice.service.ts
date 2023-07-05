@@ -102,7 +102,7 @@ export class InvoiceService {
     queryParams = {
       params: new HttpParams()
         .set('userID', data['userID'] ?? '')
-        .set('billStatus', data['billStatus'] ?? '')
+        .set('billStatus', data['billStatus'])
         .set('date', data['date'])
         .set('page', data['page'])
         .set('size', data['size'] ?? '')

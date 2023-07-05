@@ -54,8 +54,8 @@
               
                 <td>{{ prescription?.practicienFirstName }} {{ prescription?.practicienLastName }}</td>
                 <td>{{ prescription?.faciityName }}</td>
-                <td>
-                  {{ prescription?.prescriptionStatus }}
+                <td class="text-center">
+                  <span class="status" [ngClass]="{'statusSuccess': prescription?.prescriptionStatus == 'collectée', 'statusError': prescription?.prescriptionStatus == 'Non collectée'}" >{{prescription?.prescriptionStatus}}</span>
                 </td>
                 <td>
                     <nb-icon (click)="printPrescription(printContent,prescription)" class="mx-2 pointer" style=" cursor: pointer;" ngbTooltip="Imprimer l'ordonnance" icon="file-outline"></nb-icon>

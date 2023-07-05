@@ -52,21 +52,14 @@
         <tbody>
           <ng-container
           *ngFor="
-          let constant of items
-            | paginate
-              : {
-                  itemsPerPage: selectedSize,
-                  currentPage: currentPage,
-                  totalItems: totalItems
-                };
-          let i = index
+          let constant of items let i = index
         "[class.active]="i == currentIndex"
         (click)="rowSelected(commune, i)"
           >
            <tr>
             <ng-container *ngFor="let uniqueTableHeader of uniqueTableHeaders">
-             <td style="text-align: center;">
-              <span >{{constant[uniqueTableHeader] ? constant[uniqueTableHeader] : "-"}}</span>
+             <td controlConstant [constantName]="uniqueTableHeader" [constanValue]="constant[uniqueTableHeader]" style="text-align: center;">
+              <span  >{{constant[uniqueTableHeader] ? constant[uniqueTableHeader] : "-"}}</span>
              </td>
           </ng-container>
            </tr>
@@ -85,15 +78,7 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <div class="d-flex justify-content-center">
-      <pagination-controls
-        responsive="true"
-        previousLabel="Prev"
-        nextLabel="Next"
-        (pageChange)="onPageChange($event)"
-      >
-      </pagination-controls>
-    </div>
+ 
   </nb-card-body>
 </nb-card>
 

@@ -71,11 +71,7 @@ export class ExamenFormComponent implements OnInit {
 
   public saveExamanRequest() {
     if (this.dayBetweenLastExaminationAndCurrentDate > this.DAY_BETWEEN_LAST_EXAMINATION_AND_CURRENTDATE) {
-      this.notificationService.notify(
-        NotificationType.ERROR,
-        `Vous ne pouvez pas effectuer de nouvelle consultation, car cette admission date de plus de ${this.dayBetweenLastExaminationAndCurrentDate}.
-         Veuillez effectuer une autre admission pour ce patient`
-      );
+      this.notificationService.notify( NotificationType.WARNING,`Vous ne pouvez pas effectuer de nouvelle consultation, car cette admission date de plus de ${this.dayBetweenLastExaminationAndCurrentDate}. Veuillez effectuer une autre admission pour ce patient`);
     } else {
       this.examenCreateData.examenTytpe = this.examenType;
       this.selectedItems.forEach((el) => { this.examenCreateData.acts.push(el["id"]) })

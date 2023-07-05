@@ -82,7 +82,6 @@
               <th>Service</th>
               <th>Médecin</th> 
               <th>Admis par</th>     
-              <th>Status</th>
               <th>Actions</th>   
             </tr>
           </thead>
@@ -111,9 +110,6 @@
               <td class="text-nowrap">{{admission.service}}</td>
               <td>{{admission.practician}}</td>
               <td>{{admission.createdByFirstName}}</td>
-              <td>
-                <span class="status" [ngClass]="{'statusSuccess': admission.admissionStatus == 'B', 'statusError': admission.admissionStatus == 'R'}" >{{admission.admissionStatus == 'B' ? 'Facturée' : 'Non Facturé'}}</span>
-              </td>
               <td>
                 <div ngbDropdown class="d-inline-block">
                   <button type="button" class="btn btn-outline-info" id="dropdownBasic1" ngbDropdownToggle>

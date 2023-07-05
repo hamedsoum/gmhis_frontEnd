@@ -99,18 +99,6 @@
               <td>{{ practicien?.telephone  }}</td>
               <td>{{ practicien?.email  }}</td>
               <td></td>
-              <!-- <td>
-                <nb-icon
-                  *ngIf="practicien.active == true"
-                  style="color: green"
-                  icon="checkmark-circle-2"
-                ></nb-icon>
-                <nb-icon
-                  *ngIf="practicien.active == false"
-                  style="color: red"
-                  icon="close-circle"
-                ></nb-icon>
-              </td> -->
               <td style="font-size: 30px">
                 <nb-icon
                   (click)="openUpdateForm(updateFormContent, practicien)"
@@ -163,23 +151,3 @@
     </div>
   </ng-template>
   
-  <!-- update modal -->
-  <!-- <ng-template #updateFormContent let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
-        Modifer un Practicen
-      </h4>
-      <nb-icon
-        style="cursor: pointer"
-        (click)="d('Cross click')"
-        class="h4"
-        icon="close-circle-outline"
-      ></nb-icon>
-    </div>
-    <div class="modal-body">
-      <app-drug-form
-        [drug]="drug"
-        (updateDrug)="updateDrug()"
-      ></app-drug-form>
-    </div>
-  </ng-template> -->

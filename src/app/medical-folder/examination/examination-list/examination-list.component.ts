@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
+import { Pagination } from 'src/app/shared/domain';
 import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
@@ -34,8 +35,7 @@ export class ExaminationListComponent implements OnInit, OnChanges {
   @Input() newExamination : boolean;
   @Output() newExaminationChange = new EventEmitter();
 
-
-  @Output() updateExaminationNuber: EventEmitter<any> = new EventEmitter();
+  @Output() updateExaminationNumber: EventEmitter<any> = new EventEmitter();
 
   @Output() updatePatientPrescriptionNumber: EventEmitter<any> =new EventEmitter();
 
@@ -43,6 +43,7 @@ export class ExaminationListComponent implements OnInit, OnChanges {
 
   @Output() updatePatientExamenNumber: EventEmitter<any> = new EventEmitter();
 
+  pagination : Pagination;
   currentPage: number;
   empty: boolean;
   firstPage: boolean;
@@ -74,21 +75,12 @@ export class ExaminationListComponent implements OnInit, OnChanges {
   examenType: boolean;
   admission: any;
 
-
   constructor(
     private examinationService: ExaminationService,
     private notificationService: NotificationService,
     private modalService: NgbModal,
     private admissionService : AdmissionService
   ) {}
-  ngOnChanges(changes: SimpleChanges): void {    
-      if(changes.newExamination){
-        this.findAdmission({id : this.admissionId});
-        this.initform();
-        this.getExamination();
-        this.newExamination = false;
-      }
-  }
 
   ngOnInit(): void {
     this.findAdmission({id : this.admissionId});
@@ -96,12 +88,20 @@ export class ExaminationListComponent implements OnInit, OnChanges {
     this.getExamination();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {    
+    if(changes.newExamination){
+      this.findAdmission({id : this.admissionId});
+      this.initform();
+      this.getExamination();
+      this.newExamination = false;
+    }
+  }
+
   changeNewExaminationValue(){
     this.newExamination = !this.newExamination;
   }
 
-  initform() {
-        
+  initform() {    
     this.searchForm = new FormGroup({
       admissionID: new FormControl(this.admissionId),
       patient: new FormControl(this.patientId),
@@ -114,8 +114,6 @@ export class ExaminationListComponent implements OnInit, OnChanges {
   onSearchValueChange(): void {
     this.getExamination();
   }
-
-  
 
   public getExamination() {
     this.showloading = true;
@@ -134,10 +132,7 @@ export class ExaminationListComponent implements OnInit, OnChanges {
         },
         (errorResponse: HttpErrorResponse) => {
           this.showloading = false;
-          this.notificationService.notify(
-            NotificationType.ERROR,
-            errorResponse.error.message
-          );
+          this.notificationService.notify( NotificationType.ERROR,errorResponse.error.message);
         }
       )
     );
@@ -174,8 +169,7 @@ export class ExaminationListComponent implements OnInit, OnChanges {
 
   addExamination() {
     this.modalService.dismissAll();
-  
-    this.updateExaminationNuber.emit();
+    this.updateExaminationNumber.emit();
     this.getExamination();
   }
 
@@ -186,37 +180,25 @@ export class ExaminationListComponent implements OnInit, OnChanges {
 
   addPrescription() {
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      "Ordonnance crée avec succès"
-    );
+    this.notificationService.notify(NotificationType.SUCCESS,"Ordonnance crée avec succès");
     this.updatePatientPrescriptionNumber.emit();
   }
 
   addConstantType() {
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      'Constante ajoutée avec succès'
-    )
+    this.notificationService.notify( NotificationType.SUCCESS,'Constante ajoutée avec succès');
     this.updatePattientConstantNumber.emit();
   }
 
    addExam() {
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      "analyse démandé avec succès"
-    );
+    this.notificationService.notify(NotificationType.SUCCESS,"analyse démandé avec succès");
     this.updatePatientExamenNumber.emit();
   }
 
   addInvoice(){
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      'facture crée avec succès'
-    );
+    this.notificationService.notify(NotificationType.SUCCESS,'facture crée avec succès');
   }
 
   ChooseLaboratoryType(exameFormContent,laboratoryType : boolean) : void {
@@ -228,12 +210,8 @@ export class ExaminationListComponent implements OnInit, OnChanges {
   findAdmission(admission : any) {
     this.subs.add(
       this.admissionService.getAdmissionDetail(admission).subscribe(
-        (res : any) => {
-          this.admission = res;          
-        },
-        
+        (res : any) => {this.admission = res;}
       )
     )
   }
-
 }

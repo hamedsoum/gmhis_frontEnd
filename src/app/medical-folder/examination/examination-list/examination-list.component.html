@@ -123,7 +123,7 @@
     ></nb-icon>
   </div>
   <div class="modal-body">
-    <app-examen-form *ngIf="examenType == false" [admissionId]="admissionId"  (addExam)="addExamination()"></app-examen-form>
+    <app-examen-form *ngIf="examenType == false" [admissionId]="admissionId"></app-examen-form>
     <app-invoice-form *ngIf="examenType == true" InvoiceType="L" [admission]="admission" (addInvoice)="addInvoice()"></app-invoice-form>
   </div>
 </ng-template>

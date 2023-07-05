@@ -60,25 +60,18 @@ export class PrintListService {
     var body: any[] = [];
 
     practicianPrint.data.forEach((insuranceContent: any) => {
-      var date = this.datePipe.transform(insuranceContent['billDate'], 'dd/MM/yyyy');
-      let insuranceContents = [
-        {content :date },
-        { content: insuranceContent['billNumber'] },
-        { content: insuranceContent['admissionNumber'] },
-        { content: insuranceContent['InsuranceName'] },
-        { content: insuranceContent['BillTotalAmount'] },
-        { content: insuranceContent['InsurancePart'] },
-      ];
+      var date = this.datePipe.transform(insuranceContent['date'], 'dd/MM/yyyy');
+    
       let practicianBillContents = [
         {content :date },
-        { content: insuranceContent['billNumber'] },
+        { content: insuranceContent['invoiceNumber'] },
         { content: insuranceContent['practicianName']},
         { content: insuranceContent['patientNumber']},
         { content: insuranceContent['totalAmount'], halign: 'left' },
         { content: insuranceContent['totalAmount']/2, halign: 'right' },
         { content: insuranceContent['totalAmount']/2, halign: 'right' },
       ]
-      practicianBill? body.push(practicianBillContents) : body.push(insuranceContents);
+     body.push(practicianBillContents);
     });
     autoTable(doc, {
       headStyles: { fillColor: null, textColor : '#000', fontSize: 8 },

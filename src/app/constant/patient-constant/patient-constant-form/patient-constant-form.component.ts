@@ -12,18 +12,7 @@ import { PatientConstantService } from '../service/patient-constant.service';
 
 @Component({selector: 'app-patient-constant-form',templateUrl: './patient-constant-form.component.html'})
 export class CreateConstantFormComponent implements OnInit {
-  private readonly POUL_MIN = 60;
-  private readonly POUL_MAXI = 80;
-  private readonly POUL_LIMIT_MIN_DANGER = 50; // Si la valeur est < à 50 pls/min, on parle de bradycardie
-  private readonly POUL_LINIT_MAX_DANGER = 100;// Si la valeur est > à 100 pls/min, on parle de tachycardie
 
-  private readonly BLOOD_PRESSURE_NORMAL = '140/90'; //La valeur doit être inférieure à 140/90 mmHg pour un adulte.
-  private readonly BLOOD_PRESSURE_LIMIT_MIN_DANGER = '100/50'; //Au dessus de 140/90 mmHg, on parle d’hypertension artérielle
-  private readonly BLOOD_PRESSURE_LIMIT_MAX_DANGER = '140/90'; //En dessous de 100/50 mmHg, on parle d’hypotension artérielle.
-
-  private readonly TEMPERATURE_NORMAL = 37 ; //La température centrale usuelle du corps humain est de 37°C. Il s’agit d’une valeur au repos.
-  private readonly TEMPERATURE_LIMIT_MIN_DANGER = 36.5;
-  private readonly TEMPERATURE_LIMIT_MAX_DANGER = 37.5;
 
   private subs = new SubSink();
 
@@ -118,34 +107,6 @@ export class CreateConstantFormComponent implements OnInit {
             )
         );
       }
-    }
-  }
-
-  getConstantType(constantType : any, index : number){
-     this.currentRow = index; 
-    this.ConstantID = constantType.controls.constant.value;
-     this.temperatureConstantValue = constantType.controls.value.value;
-    if (this.ConstantID == 7) this.temperatureVerification();  
-    else if(this.ConstantID == 9) this.poulsVerifaction();   
-  }
-
-  private poulsVerifaction(){
-    if (this.temperatureConstantValue < this.POUL_LIMIT_MIN_DANGER){
-      this.temperatureConstantMsgError = "le pouls du patient est en dessous de la normal ";
-    }else if(this.temperatureConstantValue > this.POUL_LINIT_MAX_DANGER){
-      this.temperatureConstantMsgError = "le pouls du patient est plus que la normal ";
-    }else if(this.temperatureConstantValue.length == 0){
-      this.temperatureConstantMsgError = '';
-    }
-  }
-  
-  private temperatureVerification(){
-    if (this.temperatureConstantValue < this.TEMPERATURE_LIMIT_MIN_DANGER){
-      this.temperatureConstantMsgError = "la temperature du patient est en dessous de la normal ";
-    }else if(this.temperatureConstantValue > this.TEMPERATURE_LIMIT_MAX_DANGER){
-      this.temperatureConstantMsgError = "la temperature du patient est plus que la normal ";
-    }else if(this.temperatureConstantValue.length == 0){
-      this.temperatureConstantMsgError = '';
     }
   }
 

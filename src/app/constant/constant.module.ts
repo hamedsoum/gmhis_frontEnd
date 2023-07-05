@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { PatientConstantComponent } from './patient-constant/patient-constant.component';
 import { CreateConstantFormComponent } from './patient-constant/patient-constant-form/patient-constant-form.component';
 import { ConstantListComponent } from './patient-constant/constant-list/constant-list.component';
+import { ControlConstantDirective } from './directives/control-constant.directive';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ConstantListComponent } from './patient-constant/constant-list/constant
     PatientConstantComponent,
     CreateConstantFormComponent,
     ConstantListComponent,
+    ControlConstantDirective,
   ],
   imports: [CommonModule, ConstantRoutingModule, SharedModule],
   exports: [PatientConstantComponent,CreateConstantFormComponent]

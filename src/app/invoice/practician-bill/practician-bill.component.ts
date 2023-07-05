@@ -39,6 +39,7 @@ export class PracticianBillComponent implements OnInit {
   totalPages: number;
 
   public items: any;
+  public itemsFiltered = [];
 
   selectedSize: number;
 
@@ -104,18 +105,16 @@ export class PracticianBillComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.getUser());
     this.userId = this.getUser().id == 0 ? null : this.getUser().id;     
     this.initform();
     this.searchForm.get('userID').setValue(this.userId);
     this.getAllInsuranceActiveIdAndName();
+    this.getInsuranceBill();
     this.findPracticians(); 
   }
 
-  public onPracticianChange(practicianID : any){
-    console.log(practicianID);
+  private practicianChange(practicianID : any){
     this.practician = this.practicians.find( pr => pr.userId == practicianID);
-    this.getInsuranceBill();
   }
 
   private getUser(): User {    
@@ -146,11 +145,11 @@ export class PracticianBillComponent implements OnInit {
 
   initform() {
     this.searchForm = new FormGroup({
-      billStatus: new FormControl("C"),
-      userID: new FormControl(""),
+      billStatus: new FormControl(null),
+      userID: new FormControl(null),
       date : new FormControl(""),
       page: new FormControl(0),
-      size: new FormControl(25),
+      size: new FormControl(100),
       sort: new FormControl('id,desc'),
     });
   }
@@ -160,18 +159,76 @@ export class PracticianBillComponent implements OnInit {
   }
 
   onDateChange(range): void {
+    console.log(range);
+    
+  }
+
+  public onFilter(): void {
+    let userID = this.searchForm.get('userID').value;
+    let billStatus = this.searchForm.get('billStatus').value;
+    let date = this.searchForm.get('date').value as Object;
+    if (userID !== null && billStatus === null) this.filterItemsByPractician(userID);
+    else if(userID === null && billStatus !== null) this.filterItemsByStatus(billStatus);
+    else if(userID !== null && billStatus !== null) this.filterItemsByPracticianAndStatus(userID,billStatus );
+    else if (date) console.log(date);
+     
   }
   
+  filterItemsByStatus(query : string): void {
+   this.itemsFiltered = this.items.filter(item => item.billStatus === query);
+   this.calculTotalAmount(); 
+  }
 
-  public getInsuranceBill() {
-    let date = this.searchForm.get("date").value;
-    
-    if (typeof (date) == "object") {
-      this.dateStart = date.start.toISOString().split('T')[0];
-      this.dateEnd = (!date.end) ? date.start.toISOString().split('T')[0] : date.end.toISOString().split('T')[0]
-      this.searchDateRange = this.dateStart + "," + this.dateEnd;
-      this.searchForm.get("date").setValue(this.searchDateRange);
-    }
+  filterItemsByPractician(query : string): void {
+    this.practicianChange(query)
+    this.itemsFiltered = this.items.filter(item => item.userID === query);
+    this.calculTotalAmount();
+   }
+
+   filterItemsByPracticianAndStatus(userID : number, status ): void {
+    this.itemsFiltered = this.items.filter(item => item.userID === userID && item.billStatus === status);
+    this.calculTotalAmount();
+   }
+
+   filterByDate(): void {
+     let date = this.searchForm.get('date').value;  
+    this.dateStart = date.start.toISOString().split('T')[0];
+    this.dateEnd = date.end.toISOString().split('T')[0];
+    this.itemsFiltered = this.items.filter(item => new Date(item.date) >= new Date(this.dateStart) && new Date(item.date) <= new Date(this.dateEnd)); 
+    this.calculTotalAmount(); 
+   }
+
+   onFilterByDate(dateFilter : any): void {
+    if (typeof (dateFilter) == "object") {
+      if (dateFilter.end) {
+        this.searchForm.get('date').setValue(dateFilter); 
+        let userID = this.searchForm.get('userID').value;
+        let billStatus = this.searchForm.get('billStatus').value;
+        let date = this.searchForm.get('date').value;
+        if(date !== null && billStatus === null && userID === null) this.filterByDate();
+      }
+   }
+  }
+
+  calculTotalAmount() {
+    this.totalAmount = 0; 
+    this.facilityBalance = 0;
+    this.practicianBalance = 0;
+    this.patientBalance = 0;
+    this.itemsFiltered.forEach(element => {
+      this.patientBalance += element.patientAmount;
+      this.totalAmount += element.totalAmount;
+      this.facilityBalance = this.practicianBalance = this.totalAmount/2;
+    });
+  }
+
+  public getInsuranceBill() {    
+    this.searchForm.get('userID').setValue(null);
+    this.searchForm.get('billStatus').setValue(null);
+    this.searchForm.get("date").setValue(null);
+    this.dateEnd = null;
+    this.dateStart = null;
+ 
     this.showloading = true;
     this.subs.add(
       this.invoiceService.facilityInvoicesPractician(this.searchForm.value).subscribe(
@@ -180,23 +237,13 @@ export class PracticianBillComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;           
-          this.totalAmount = 0; 
-          this.facilityBalance = 0;
-          this.practicianBalance = 0;
-          this.patientBalance = 0;
-          this.items.forEach(element => {
-            this.patientBalance += element.patientPart;
-            this.totalAmount += element.totalAmount;
-            this.facilityBalance = this.practicianBalance = this.totalAmount/2;
-          });                  
+          this.items = response.items;                               
+          this.itemsFiltered = this.items;          
+          this.calculTotalAmount();                  
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
           this.totalPages = response.totalPages;
-          if (typeof (date) == "object") {
-            this.searchForm.get("date").setValue(date);
-          }
         },
         (errorResponse: HttpErrorResponse) => {
           this.showloading = false;
@@ -217,8 +264,6 @@ export class PracticianBillComponent implements OnInit {
     this.searchForm.get('page').setValue(event - 1);
     this.getInsuranceBill();
   }
-
-  
 
   updateAdmission() {
     this.modalService.dismissAll();
@@ -277,7 +322,7 @@ private findPracticians(): void {
     this.practitianService.findPracticianSimpleList().subscribe(
       (response : any) => {
         this.practicians = response;    
-        this.onPracticianChange(this.userId);    
+        this.practicianChange(this.userId);    
       }
     )
   )

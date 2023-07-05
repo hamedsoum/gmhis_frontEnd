@@ -23,18 +23,14 @@ export class ConstantListComponent implements OnInit {
 
   showloading: boolean = false;
 
-  @Input()
-  PatientconstantDomain: any;
+  @Input() PatientconstantDomain: any;
 
-  @Input()
-  patientId : number;
+  @Input() patientId : number;
 
 
   constructor(
     private patientConstantService: PatientConstantService,
     private notificationService: NotificationService,
-    config: NgbModalConfig,
-    private modalService: NgbModal,
     private datePipe: DatePipe
   ) { }
 
@@ -60,6 +56,7 @@ export class ConstantListComponent implements OnInit {
         (response: any) => {
           this.showloading = false;
           this.items = response.items;
+          console.log(this.items);
           
           this.items.forEach((el, i) => {
             if (el["constant"] == "Température") {

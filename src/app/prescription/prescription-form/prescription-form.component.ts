@@ -81,11 +81,13 @@ export class PrescriptionFormComponent implements OnInit {
 
   examination: IExamination;
 
-  public finalPrescription : boolean = false;
+  @Input() finalPrescription : boolean;
 
   constructor(private fb: FormBuilder,private drugService : DrugService,private examinationService : ExaminationService,private notificationService: NotificationService,private prescriptionService : PrescriptionService) {}
 
-  ngOnInit(): void {    
+  ngOnInit(): void { 
+    console.log(this.patient);
+       
     this.retrieveLastExamination();
     this.findActiveDrugNameAndId();
     this.initForm(); 
@@ -163,7 +165,7 @@ export class PrescriptionFormComponent implements OnInit {
     if (this.prescriptionForm.valid) {
       this.prescriptionDto = this.prescriptionForm.value;
       this.prescriptionDto.prescriptionItemsDto =  this.prescriptionForm.get("prescriptionItemsDto").value;       
-      this.examination.conclusion  = this.prescriptionForm.get('conclusion').value; 
+      // this.examination.conclusion  = this.prescriptionForm.get('conclusion').value; 
       // this.updateExamination();
       this.subs.add(
         this.prescriptionService

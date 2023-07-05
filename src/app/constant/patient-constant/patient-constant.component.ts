@@ -16,14 +16,23 @@ import { PatientConstantService } from './service/patient-constant.service';
 
 @Component({selector: 'app-patient-constant',templateUrl: './patient-constant.component.html'})
 export class PatientConstantComponent implements OnInit {
+  private readonly POUL_MIN = 60;
+  private readonly POUL_MAXI = 80;
+  private readonly POUL_LIMIT_MIN_DANGER = 50; // Si la valeur est < à 50 pls/min, on parle de bradycardie
+  private readonly POUL_LINIT_MAX_DANGER = 100;// Si la valeur est > à 100 pls/min, on parle de tachycardie
+
+  private readonly BLOOD_PRESSURE_NORMAL = '140/90'; //La valeur doit être inférieure à 140/90 mmHg pour un adulte.
+  private readonly BLOOD_PRESSURE_LIMIT_MIN_DANGER = '100/50'; //Au dessus de 140/90 mmHg, on parle d’hypertension artérielle
+  private readonly BLOOD_PRESSURE_LIMIT_MAX_DANGER = '140/90'; //En dessous de 100/50 mmHg, on parle d’hypotension artérielle.
+
+  private readonly TEMPERATURE_NORMAL = 37 ; //La température centrale usuelle du corps humain est de 37°C. Il s’agit d’une valeur au repos.
+  private readonly TEMPERATURE_LIMIT_MIN_DANGER = 36.5;
+  private readonly TEMPERATURE_LIMIT_MAX_DANGER = 37.5;
 
   private subs = new SubSink();
 
   public searchForm: FormGroup;
 
-  // public constantDomain: IConstant;
-
-  
   currentPage: number;
   empty: boolean;
   firstPage: boolean;
@@ -63,7 +72,6 @@ export class PatientConstantComponent implements OnInit {
     private route : ActivatedRoute,
     private patientConstantService : PatientConstantService,
     private notificationService: NotificationService,
-    config: NgbModalConfig,
     private modalService: NgbModal,
     private patientService : PatientService,
     private datePipe : DatePipe
@@ -72,8 +80,7 @@ export class PatientConstantComponent implements OnInit {
   ngOnInit(): void {    
     this.initform();
     if (this.patientId) {
-      this.getPatientDetailsByPatientId(this.patientId);
-
+      this.getPatientDetailsByPatientId(this.patientId)
     }
     this.route.paramMap.subscribe(
       params => {
@@ -83,6 +90,10 @@ export class PatientConstantComponent implements OnInit {
       ) 
   }
 
+  public controlConstants(constant: string):void{
+    console.log(constant); 
+  }
+ 
   initform() {
     this.searchForm = new FormGroup({
       patientId: new FormControl(null),
@@ -96,8 +107,6 @@ export class PatientConstantComponent implements OnInit {
   onSearchValueChange(): void {
     this.getPatientConstant();
   }
-
-
   
   public getPatientConstant() {
     this.showloading = true;
@@ -108,7 +117,8 @@ export class PatientConstantComponent implements OnInit {
       this.patientConstantService.findAll(this.searchForm.value).
       pipe(
         map((response: PageList) => {          
-            let data = response.items;            
+            let data = response.items;  
+            console.log(data);       
             const constantgroupedByDate : any[] = data.reduce((constantGroup: {[key: string]: any[]}, item) => {
               if (!constantGroup[item.takenAt]) {
                constantGroup[item.takenAt] = [];
@@ -124,7 +134,6 @@ export class PatientConstantComponent implements OnInit {
                el.forEach((item) => {                 
                 newObject[`${item['constant']}`] = item['value'];
                })
-               
                constantTab.push(newObject);
              } )             
              constantTab.forEach((item) => {
@@ -146,7 +155,7 @@ export class PatientConstantComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;
+          this.items = response.items;          
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;

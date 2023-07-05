@@ -174,12 +174,10 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
   }
 
 
-   addExamination() {
+  createExaminationEvent() {
+     console.log('Consultation ok ok ');
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      "Consultation ajoutée avec succès"
-    );
+    this.notificationService.notify(NotificationType.SUCCESS,"Consultation ajoutée avec succès");
     this.updateExaminationNuberEvent.emit();
     this.updateExaminationNuber();
     this.updatePatientExamenNumber();
@@ -188,10 +186,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
 
   addConstantType() {
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      "Constante ajoutée avec succès"
-    );
+    this.notificationService.notify( NotificationType.SUCCESS,"Constante ajoutée avec succès");
     this.updatePattientConstantNumber();
   }
 
