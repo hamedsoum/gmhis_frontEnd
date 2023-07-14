@@ -77,9 +77,9 @@ export class PatientConstantComponent implements OnInit {
     private datePipe : DatePipe
     ) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {  
     this.initform();
-    if (this.patientId) {
+    if (this.patientId) {      
       this.getPatientDetailsByPatientId(this.patientId)
     }
     this.route.paramMap.subscribe(

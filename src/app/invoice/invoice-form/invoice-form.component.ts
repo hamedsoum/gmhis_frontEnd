@@ -76,7 +76,8 @@ export class InvoiceFormComponent implements OnInit {
     this.buildFields();
     this.addActs();
     if (this.admission) {        
-      this.admissionForTemplate = this.admission;      
+      this.admissionForTemplate = this.admission;  
+                
       this.invoiceForm.get('admissionNumber').setValue(this.admission.admissionNumber);
       this.invoiceForm.get('admission').setValue(this.admission.id);
       this.invoiceForm.get('patientExternalId').setValue(this.admission.patientExternalId);
@@ -89,7 +90,6 @@ export class InvoiceFormComponent implements OnInit {
           if (this.patientInsurances.length != 0) {
             this.patientInsurances.forEach((el, i) => {
               console.log(el);
-              
               this.addInsured();
               this.setInsuredRowValue(el,i);
             })

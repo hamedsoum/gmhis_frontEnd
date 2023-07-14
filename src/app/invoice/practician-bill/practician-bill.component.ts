@@ -167,8 +167,10 @@ export class PracticianBillComponent implements OnInit {
     else if (userID === null && billStatus === null && date !== null) this.filterByDate(dateFilter); 
     else if (userID !== null && billStatus !== null && date === null) this.filterItemsByPracticianAndStatus(userID,billStatus );
     else if (userID !== null && billStatus === null && date !== null) this.filterByPracticianAndDate(userID,dateFilter);
-    else if (userID === null && billStatus !== null && date !== null) this.filterByStatusAndDate(billStatus, dateFilter)
-    else if (userID !== null && billStatus !== null && date !== null) this.filterByPracticianAndStatusAndDate(userID,billStatus,dateFilter)
+    else if (userID === null && billStatus !== null && date !== null) this.filterByStatusAndDate(billStatus, dateFilter);
+    else if (userID !== null && billStatus !== null && date !== null) this.filterByPracticianAndStatusAndDate(userID,billStatus,dateFilter);
+
+    this.calculTotalAmount(); 
   }
 
   public getInsuranceBill() {    
@@ -216,43 +218,36 @@ export class PracticianBillComponent implements OnInit {
   private filterItemsByPractician(userID : number): void {
     this.practicianChange(userID)
     this.itemsFiltered = this.items.filter(item => item.userID === userID);
-    this.calculTotalAmount();
    }
 
   private filterItemsByStatus(status : billStatus): void {
    this.itemsFiltered = this.items.filter(item => item.billStatus === status);
-   this.calculTotalAmount(); 
   }
 
    private filterItemsByPracticianAndStatus(userID : number, status : billStatus ): void {
     this.itemsFiltered = this.items.filter(item => item.userID === userID && item.billStatus === status);
-    this.calculTotalAmount();
    }
 
    private filterByDate(date: any): void {
       this.formatDate(date);
       this.itemsFiltered = this.items.filter(item => new Date(item.date) >= new Date(this.dateStart) && new Date(item.date) <= new Date(this.dateEnd)); 
-      this.calculTotalAmount(); 
    }
 
    private filterByPracticianAndDate(userID: number, date: any): void {     
     this.formatDate(date);
     this.itemsFiltered = this.items.filter(item => (item.userID === userID) && new Date(item.date) >= new Date(this.dateStart) && new Date(item.date) <= new Date(this.dateEnd));
-    this.calculTotalAmount(); 
    }
 
    private filterByStatusAndDate(status: billStatus, date: any): void {     
     this.formatDate(date);
     this.itemsFiltered = this.items.filter(item => (item.billStatus === status) && new Date(item.date) >= new Date(this.dateStart) && new Date(item.date) <= new Date(this.dateEnd));
-    this.calculTotalAmount(); 
    }
 
    private filterByPracticianAndStatusAndDate(userID: number , status: billStatus, date: any): void {     
     this.formatDate(date);
     this.itemsFiltered = this.items.filter(item => item.userID === userID && item.billStatus === status && new Date(item.date) >= new Date(this.dateStart) && new Date(item.date) <= new Date(this.dateEnd));
-    this.calculTotalAmount(); 
    }
-
+o
    private formatDate(dateFilter: any): void {
     if (typeof (dateFilter) == "object") if (dateFilter.end) this.searchForm.get('date').setValue(dateFilter); 
     let date = this.searchForm.get('date').value;  

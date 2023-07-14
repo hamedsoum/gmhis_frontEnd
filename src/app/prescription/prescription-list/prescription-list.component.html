@@ -24,7 +24,8 @@
             <tr class="pb-3">
                 <th>Date</th>
               <th>N° Oronnance</th>
-              <th>Médecin</th>
+              <th>Practicien</th>
+              <th>N° du Practicien</th>
               <th>Centre de santé</th>
               <th>Statut</th>
               <th>Actions</th>
@@ -45,17 +46,15 @@
               "
               [class.active]="i == currentIndex"
             >
-              <td>
-                {{ prescription?.prescritionDate | date : 'medium' }}
-              </td>
-              <td>
-                {{ prescription?.prescriptionNumber | uppercase }}
-                </td>
+
+                <td>{{ prescription?.prescritionDate | date : 'medium' }}</td>
+                 <td>{{ prescription?.prescriptionNumber | uppercase }}</td>
               
                 <td>{{ prescription?.practicienFirstName }} {{ prescription?.practicienLastName }}</td>
+                <td>{{prescription?.practicienTel}}</td>
                 <td>{{ prescription?.faciityName }}</td>
                 <td class="text-center">
-                  <span class="status" [ngClass]="{'statusSuccess': prescription?.prescriptionStatus == 'collectée', 'statusError': prescription?.prescriptionStatus == 'Non collectée'}" >{{prescription?.prescriptionStatus}}</span>
+                  <span class="status" [ngClass]="{'statusSuccess': prescription?.prescriptionStatus == 'Servi', 'statusError': prescription?.prescriptionStatus == 'Non Servi'}" >{{prescription?.prescriptionStatus}}</span>
                 </td>
                 <td>
                     <nb-icon (click)="printPrescription(printContent,prescription)" class="mx-2 pointer" style=" cursor: pointer;" ngbTooltip="Imprimer l'ordonnance" icon="file-outline"></nb-icon>

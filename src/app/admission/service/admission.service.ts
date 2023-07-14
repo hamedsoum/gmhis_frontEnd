@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PageList } from 'src/app/_models/page-list.model';
 import { environment } from 'src/environments/environment';
+import { Admission } from '../model/admission';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,7 @@ export class AdmissionService {
     let queryParams = {};
     queryParams = {
       params: new HttpParams()
+      .set('takeCare', data['takeCare'] ?? false)
         .set('patientExternalId', data['patientExternalId'])
         .set('firstName', data['firstName'] ?? '')
         .set('lastName', data['lastName'] ?? '')
@@ -70,12 +72,17 @@ export class AdmissionService {
   }
 
   createAdmission(admission: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/admission/add`, admission);
+    return this.http.post<any>(`${this.apiUrl}/admission`, admission);
+  }
+
+  updateExaminationTakeCare(examinationID : number, takeCare : boolean):Observable<Admission>{   
+   
+    return this.http.put<Admission>(`${this.apiUrl}/admission/update-takeCare/${examinationID}`,  {takeCare : true} )
   }
 
   updateAdmission(admission: any): Observable<any> {    
-    return this.http.put<any>(
-      `${this.apiUrl}/admission/update/${admission.id}`,
+    return this.http.patch<any>(
+      `${this.apiUrl}/admission/${admission.id}`,
       admission
     );
   }
@@ -87,7 +94,7 @@ export class AdmissionService {
     return this.http.get<any>(`${this.apiUrl}/admission/get-detail/${admission.id}`);
   }
 
-  getAdmissionDetailById(id: any): Observable<any> {
+  retrieveAdmission(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/admission/get-detail/${id}`);
   }
 

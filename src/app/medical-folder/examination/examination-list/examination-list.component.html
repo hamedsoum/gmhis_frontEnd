@@ -26,7 +26,8 @@
           <tr class="pb-3">
             <th>Date</th>
             <th>Diagnostic</th>
-            <th>Medecin</th>
+            <th>Practicien</th>
+            <th>N° de Téléphone du Practicien</th>
             <th>Centre médical</th>
           </tr>
           <tr></tr>
@@ -45,6 +46,7 @@
             <td>{{ examination?.date | date: "dd/MM/yyyy hh:mm:ss" }}</td>
             <td>{{ examination?.conclusion | uppercase }}</td>
             <td>{{ examination?.practicianFirstName }} {{ examination?.practicianLastName}}</td>
+            <td>{{examination?.practicianTel}}</td>
             <td>{{ examination?.facility }}</td>
           </tr>
         </tbody>

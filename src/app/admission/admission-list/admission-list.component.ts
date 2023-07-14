@@ -116,7 +116,7 @@ export class AdmissionListComponent implements OnInit {
       idCardNumber: new FormControl(''),
       practician: new FormControl(null),
       service: new FormControl(null),
-      faciliTyId : new FormControl("2bd56b2f-80ed-4a8c-a496-cd7f8b676f42"),
+      faciliTyId : new FormControl(""),
       act: new FormControl(""),
       date: new FormControl(null),
       page: new FormControl(0),
@@ -140,9 +140,7 @@ export class AdmissionListComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items; 
-          console.log(this.items);
-                   
+          this.items = response.items;                    
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;

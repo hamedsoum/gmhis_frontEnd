@@ -87,6 +87,7 @@
               <th>N° patient</th>
               <th>N° Admission</th>
               <th>Assurance</th>
+              <th>N° Assuré</th>
               <th>Total Facture</th>
               <th>Part Assureur </th>
               <th>Part Patient</th>
@@ -114,6 +115,7 @@
               <td class="text-nowrap">{{ invoice?.patientNumber }}</td>
               <td class="text-nowrap">{{ invoice?.admissionNumber }}</td>
               <td class="text-nowrap">{{ invoice?.insurance}} </td>
+              <td>{{invoice?.patientInsuranceNumber}}</td>
               <td class="text-nowrap text-right">{{ invoice?.billTotalAmount | currency: "FCFA":"symbol":"1.0-0" }}</td>
               <td class="text-right">{{ invoice?.insurancePart | currency: "FCFA":"symbol":"1.0-0" }}</td>
               <td class="text-right">{{ invoice?.patientPart | currency: "FCFA":"symbol":"1.0-0" }}</td>

@@ -134,15 +134,16 @@ export class ExamenFormComponent implements OnInit {
     this.actService.getListOfAllMedicalAnalysis().subscribe(
       (response: any) => {
         this.acts = response;
+        this.buildDefault();
       }
     )
   }
 
-  private searchActs(search: string): void {
-    if (search == '') {
+  private searchActs(actSearch: string): void {
+    if (actSearch == '') {
       this.specialitiesNameFilter = this.specialitiesName;
     } else {
-      this.searchResult = this.acts.filter((act) => act.name.toLowerCase().includes(search.toLocaleLowerCase()));
+      this.searchResult = this.acts.filter((act) => act.name.toLowerCase().includes(actSearch.toLocaleLowerCase()));
       let specialitiesNameFilterPartial = [];
       this.searchResult.forEach(el => {
         if (!specialitiesNameFilterPartial.includes(el.medicalAnalysisName)) specialitiesNameFilterPartial.push(el.medicalAnalysisName);

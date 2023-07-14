@@ -51,9 +51,9 @@ export class PatientInWaitingRoomComponent implements OnInit {
     { id: 1000, value: 1000 },
   ];
 
-  actives = [
-    { id: true, value: 'Actif' },
-    { id: false, value: 'Inactif' },
+  takeCares = [
+    {label: 'Pris en Charge', value: true },
+      {label: 'Non Pris en Charge', value: false },
   ];
 
   showloading: boolean = false;
@@ -97,6 +97,7 @@ export class PatientInWaitingRoomComponent implements OnInit {
 
   initform() {
     this.searchForm = new FormGroup({
+      takeCare: new FormControl(null),
       firstName: new FormControl(''),
       lastName: new FormControl(''),
       patientExternalId: new FormControl(''),

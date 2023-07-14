@@ -146,18 +146,18 @@ export class InsuranceBillComponent implements OnInit {
     if (insuranceID !== null && date === null) this.filterItemsByInsurance(insuranceID);
     else if (insuranceID === null && date !== null) this.filterByDate(dateFilter); 
     else if (insuranceID !== null && date !== null) this.filterByInsuranceAndDate(insuranceID, dateFilter);
+
+    this.calculTotalAmount();
   }
 
   private filterItemsByInsurance(insuranceID : number): void {
     this.onInsuranceChange(insuranceID)
     this.itemsFiltered = this.items.filter(item => item.insuranceID === insuranceID);
-    this.calculTotalAmount();
    }
 
    private filterByInsuranceAndDate(insuranceID: number, date: any): void {     
     this.formatDate(date);
     this.itemsFiltered = this.items.filter(item => (item.insuranceID === insuranceID) && new Date(item.billDate) >= new Date(this.dateStart) && new Date(item.billDate) <= new Date(this.dateEnd));
-    this.calculTotalAmount(); 
    }
 
   initform() {

@@ -32,7 +32,6 @@ export class ExaminationService {
   }
 
   updateExamination(examinationDto : IExamination):Observable<IExaminationDto>{    
-   
     return this.http.put<IExaminationDto>(`${this.apiUrl}/examination/update-diagnostic/${examinationDto.id}`, examinationDto.conclusion)
   }
 

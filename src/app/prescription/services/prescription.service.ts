@@ -29,9 +29,6 @@ export class PrescriptionService {
   }
 
 
-
- 
-
   findActiveFacilityCategoryNameAndId(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/facility_category/active_facilitiesCategory_name`);
   }
@@ -63,9 +60,9 @@ export class PrescriptionService {
     );
   }
 
-  getPrescriptionDetailsByPrescriptionNumber(prescriptionNumber: string): Observable<any> {
+  retrievePrescription(searchPrescription: string): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/prescription/prescriptionByPrescriptionNumber/${prescriptionNumber}`
+      `${this.apiUrl}/prescription/${searchPrescription}`
     );
   }
 

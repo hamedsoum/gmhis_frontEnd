@@ -66,7 +66,8 @@
          [class.active]="i == currentIndex" class="col-lg-4">
             <nb-card accent="info">
                 <nb-card-header>
-                    <span [style.margin-botton]="'25px'" [style.font-size]="'13px'" [style.display]="'block'"><span>Médecin : Dr</span> {{examination.practicianFirstName}} {{examination.practicianLastName}}</span>
+                    <span [style.margin-botton]="'25px'" [style.font-size]="'13px'" [style.display]="'block'"><span>Practicien : Dr</span> {{examination.practicianFirstName}} {{examination.practicianLastName}}</span>
+                    <span [style.margin-botton]="'25px'" [style.font-size]="'13px'" [style.display]="'block'"><span>N° du practicien :</span> {{examination.practicianTel}}</span>
                     <span [style.font-size]="'13px'" [style.display]="'block'">Centre de Santé : {{examination.facility}}</span>
                 </nb-card-header>
                     <nb-card-body>

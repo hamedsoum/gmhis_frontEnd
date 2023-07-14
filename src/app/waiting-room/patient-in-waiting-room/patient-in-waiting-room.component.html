@@ -17,6 +17,13 @@
                     <input nbInput placeholder="Date et heure d'admission" class="form-control" [nbDatepicker]="dateTimePicker">
                     <nb-date-timepicker withSeconds #dateTimePicker></nb-date-timepicker>
                   </div>
+                  <div class="col-lg-2 col-md-4 col-sm-12 rounded-pill">
+                    <ng-select (change)="onSearchValueChange()" formControlName="takeCare" placeholder="pris en charge">
+                        <ng-option *ngFor="let takeCare of takeCares" [value]="takeCare.value">
+                          {{takeCare.label}}
+                        </ng-option>
+                      </ng-select>
+                  </div>
 
                   <div class="col-lg-2 col-md-4 col-sm-12 rounded-pill">
                     <ng-select formControlName="practician" placeholder="practicien">

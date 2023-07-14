@@ -99,26 +99,17 @@ export class PrescriptionFormComponent implements OnInit {
 
   private retrieveLastExamination() {
     this.examinationService.retrieveLastExamination(this.admissionId).subscribe(
-        (response : any) => {
-           this.examination = response;   
-        },
-        (errorResponse : HttpErrorResponse) => {
-        }
+        (response : any) => {this.examination = response},
+        (errorResponse : HttpErrorResponse) => {}
     )
   }
 
   private updateExamination(){
+    this.examination.conclusion  = this.prescriptionForm.get('conclusion').value; 
     this.examinationService.updateExamination(this.examination).subscribe(
-      (res : any) => {        
-      },
-      (errorResponse : HttpErrorResponse) => {
-        this.notificationService.notify(
-          NotificationType.ERROR,
-          errorResponse.error.message
-        );
-      }
-    )
-  }
+      (res : any) => {},
+      (errorResponse : HttpErrorResponse) => {this.notificationService.notify( NotificationType.ERROR,errorResponse.error.message);}
+    )}
 
   isFinalPrescription() : boolean {
     return this.finalPrescription = !this.finalPrescription;
@@ -165,8 +156,6 @@ export class PrescriptionFormComponent implements OnInit {
     if (this.prescriptionForm.valid) {
       this.prescriptionDto = this.prescriptionForm.value;
       this.prescriptionDto.prescriptionItemsDto =  this.prescriptionForm.get("prescriptionItemsDto").value;       
-      // this.examination.conclusion  = this.prescriptionForm.get('conclusion').value; 
-      // this.updateExamination();
       this.subs.add(
         this.prescriptionService
           .createPrescription(this.prescriptionDto)

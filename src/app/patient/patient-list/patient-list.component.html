@@ -119,6 +119,8 @@
             <th>N° De Tel. Correspondant</th>
             <th>Nom de la mère</th>
             <th>Localité de la mère</th>
+            <th>Date de Création</th>
+            <th>Date de modification</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -155,6 +157,8 @@
             <td class="text-nowrap">{{ patient.emergencyContact }}</td>
             <td>{{patient?.motherName}}</td>
             <td>{{patient?.motherLocality}}</td>
+            <td class="text-nowrap">{{ patient.createdAt | date:  "dd/MM/yyyy HH:mm:ss" }}</td>
+            <td></td>
             <td>
               <div ngbDropdown class="d-inline-block">
                 <button
@@ -194,6 +198,7 @@
                 </div>
               </div>
             </td>
+           
           </tr>
         </tbody>
       </table>

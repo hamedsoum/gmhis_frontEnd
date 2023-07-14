@@ -8,7 +8,7 @@ export class ControlConstantDirective implements OnInit{
   private readonly POUL_MIN = 60;
   private readonly POUL_MAXI = 80;
   private readonly POUL_LIMIT_MIN_DANGER = 50; 
-  private readonly POUL_LINIT_MAX_DANGER = 100;
+  private readonly POUL_LINIT_MAX_DANGER = 90;
 
   private readonly BLOOD_PRESSURE_NORMAL = '140/90'; 
   private readonly BLOOD_PRESSURE_LIMIT_MIN_DANGER = '100/50'; 

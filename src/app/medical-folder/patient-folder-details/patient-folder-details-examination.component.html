@@ -39,7 +39,7 @@
           </div>
         <div class="row">
             <div class="col-lg-2">
-                <nb-menu [items]="items2"  autoCollapse="true">
+                <nb-menu [items]="items2" autoCollapse="true">
                 </nb-menu>
             </div>      
             <div *ngIf="showConsultationList == true && menuClick=='Consultations'" class="col-lg-10">
@@ -52,7 +52,7 @@
                 <app-examen-list (updatePatientExamenNumber)="updatePatientExamenNumber()" [admissionId]="admissionId" [patientId]="patientId"></app-examen-list>
             </div>
             <div *ngIf="menuClick=='Ordonances'" class="col-lg-10">
-                <app-prescription-list  (updatePatientPrescriptionNumber)="updatePatientPrescriptionNumber()" [admissionId]="admissionId" [patientId]="patientId"></app-prescription-list>
+                <app-prescription-list (updatePatientPrescriptionNumber)="updatePatientPrescriptionNumber()" [admissionId]="admissionId" [patientId]="patientId"></app-prescription-list>
             </div>
             <div *ngIf="menuClick=='Certificats médicaux'" class="col-lg-10">
                 <app-medical-certificates-list></app-medical-certificates-list>
@@ -69,7 +69,7 @@
     <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
   </div>
   <div class="modal-body">
-    <app-new-examination [admissionId]="admissionId" [patient]="patient"  (addExamination)="addExamination()"></app-new-examination>
+    <app-new-examination [admissionId]="admissionId" [patient]="patient" [admission]="admission" (addExamination)="addExamination()"></app-new-examination>
   </div>
 </ng-template>
 

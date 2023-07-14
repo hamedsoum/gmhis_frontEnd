@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbMenuItem, NbMenuService } from '@nebular/theme';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Admission } from 'src/app/admission/model/admission';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
 import { PatientConstantService } from 'src/app/constant/patient-constant/service/patient-constant.service';
 import { ExamService } from 'src/app/examen/services/exam.service';
@@ -17,19 +18,27 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
 
   patient: IPatient;
   patientId: number;
+
   admissionId: number;
+  admission?: Admission;
+
   showConsultationList : boolean;
+
   examinationNumber: number = 0;
-  showConstantList: boolean;
-  menuClick:string = 'Consultations';
   patientConstantNumber: number = 0;
   patientPrescriptionNumber: number = 0;
+  patientExamNumber: number = 0;
+
+  showConstantList: boolean;
+
+  menuClick:string = 'Consultations';
+
+
   examenType: boolean;
   examinationId : number;
   newExamination : boolean = false;
 
   currentDate : any;
-  patientExamNumber: number = 0;
 
   @Output() updateExaminationNuberEvent: EventEmitter<any> = new EventEmitter();
   constructor(
@@ -95,11 +104,10 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
       params => {
         const id = Number(params.get('id'));
         this.admissionId = id;
-        this.admissionService.getAdmissionDetailById(id).subscribe(
-          (response : any)=>{
-            console.log(response);
-            
-            this.patientId = response["patientId"];
+        this.admissionService.retrieveAdmission(id).subscribe(
+          (response : any)=>{   
+            this.admission = response;                     
+            this.patientId = this.admission.patientId;
           this.patientService.getPatientDetail(this.patientId).subscribe(
           (response : any) => {
             this.patient = response;
@@ -175,7 +183,6 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
 
 
   createExaminationEvent() {
-     console.log('Consultation ok ok ');
     this.modalService.dismissAll();
     this.notificationService.notify(NotificationType.SUCCESS,"Consultation ajoutée avec succès");
     this.updateExaminationNuberEvent.emit();

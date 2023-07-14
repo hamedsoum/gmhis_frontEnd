@@ -24,7 +24,7 @@
     <button class="btn-submit mx-4" (click)="onChooseLaboratory(chooseLaboratoryContent, 'md')">Examen</button>
   </div>
 
-    <button *ngIf="makePrescription" (click)="onOpenPrescriptionCreateComponent(prescriptionCreateComponent)" class="btn-submit">Ordonnnance</button>
+    <button *ngIf="makePrescription" (click)="onPrescriptionCreate(prescriptionCreateComponent)" class="btn-submit">Ordonnnance</button>
 </div>
 
 
@@ -36,14 +36,27 @@
     <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
   </div>
   <div class="modal-body">
-    <app-prescription-form [patient]="patient"  (addPrescription)="addPrescription()"></app-prescription-form>
-
-    <!-- <app-prescription-form [examinationId]="examinationId" [patient]="patient" [admissionId]="admissionId" >
-    </app-prescription-form> -->
+    <app-prescription-form [patient]="patient" (addPrescription)="addPrescription()"></app-prescription-form>
   </div>
 </ng-template>
 
-<ng-template #exameFormContent let-c="close" let-d="dismiss">
+<ng-template #chooseLaboratoryContent let-c="close" let-d="dismiss">
+    <div class="modal-header ">
+      <small>Selectionner le Type de Laboratoire ?</small>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+    <div class="modal-body d-flex justify-content-center">
+        <button (click)="onExamType(exame)" class="btn btn-danger mx-2">Externe</button>
+        <button (click)="onExamType(invoice)" class="btn btn-success">Interne</button>
+    </div>
+  </ng-template>
+
+  <ng-template #exame let-c="close" let-d="dismiss">
     <div class="modal-header">
       <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
         Demande d'analayse(s)
@@ -58,21 +71,17 @@
     <div class="modal-body">
       <app-examen-form [examenType]="examenType" [admissionId]="admissionId" (addExam)="addExam()"></app-examen-form>
     </div>
-  </ng-template>
+</ng-template>
 
-<ng-template #chooseLaboratoryContent let-c="close" let-d="dismiss">
-    <div class="modal-header ">
-      <small>Selectionner le Type de Laboratoire ?</small>
-      <nb-icon
-        style="cursor: pointer"
-        (click)="d('Cross click')"
-        class="h4"
-        icon="close-circle-outline"
-      ></nb-icon>
+<ng-template #invoice let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div>
+      <span class="modalTitle" >Nouvelle Facture</span>
+      <span class="modal-subTitle">---</span>
     </div>
-    <div class="modal-body d-flex justify-content-center">
-        <button (click)="ChooseLaboratoryType(exameFormContent,false)" class="btn btn-danger mx-2">Externe</button>
-        <button (click)="ChooseLaboratoryType(exameFormContent,true)" class="btn btn-success">Interne</button>
-    </div>
-  
-  </ng-template>
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"  ></nb-icon>
+  </div>
+  <div class="modal-body">
+    <app-invoice-form [admission]="admission" (addInvoice)="addInvoice()"> </app-invoice-form>
+  </div>
+</ng-template>

@@ -4,35 +4,34 @@
 
         <div class="patient_infos row">
             <div class="d-flex col-md-4 mb-3">
-                <div>N° Patient </div>
-                <div class="value strong">: {{admissionForTemplate?.patientExternalId}}</div>
+                <span class="sh-display-block sh-text-medium">N° Patient </span>
+                <span class="fw-bold sh-display-block">: {{admissionForTemplate?.patientExternalId}}</span>
             </div>
             <div class="d-flex col-md-4 mb-3">
-                <div>Nom du Patient </div>
-                <div class="value strong">: {{admissionForTemplate?.patientFirstName}}
-                    {{admissionForTemplate?.patientLastName}}</div>
+                <span class="sh-display-block">Nom du Patient </span>
+                <span class="fw-bold">: {{admissionForTemplate?.patientFirstName}}
+                    {{admissionForTemplate?.patientLastName}}</span>
             </div>
             <div class="d-flex col-md-4 mb-3">
-                <div>Service </div>
-                <div class="value strong">: {{admissionForTemplate?.service}}</div>
+                <span class="sh-display-block">Service </span>
+                <span class="fw-bold">: {{admissionForTemplate?.service}}</span>
             </div>
             <div class="d-flex col-md-4 mb-3 ">
-                <div>Date Facture : </div>
-                <div class="value strong"> {{currentDate | date: "dd/MM/yyyy"}} </div>
+                <span class="sh-display-block">Date Facture: </span >
+                <span class="fw-bold sh-display-block"> {{currentDate | date: "dd/MM/yyyy"}} </span >
             </div>
             <div class="d-flex col-md-4 mb-3 ">
-                <div>Motif d'admission: </div>
-                <div style="color: #14a2b8;" class="value strong"> {{admissionForTemplate?.act | uppercase}} </div>
-            </div>
-            <div class="d-flex col-md-4 mb-3 ">
-                <div>Montant: </div>
-                <div style="color: #14a2b8;" class="value strong"> {{admissionForTemplate?.actCost | currency:
-                    "FCFA":"symbol":"1.0-0" }} </div>
+                <span class="sh-display-block sh-nowrap">Motif d'admission: </span>
+                <span class="fw-bold sh-color-primary"> {{admissionForTemplate?.act | uppercase}} </span>
             </div>
             <div class="d-flex col-md-4 mb-3">
-                <div>Médécin: </div>
-                <div class="value strong"> {{admissionForTemplate?.practicianFirstName}}
-                    {{admissionForTemplate?.practicianLastName}}</div>
+                <span class="sh-display-block">Montant: </span>
+                <span class="fw-bold sh-color-primary"> {{admissionForTemplate?.actCost | currency:
+                    "FCFA":"symbol":"1.0-0" }} </span>
+            </div>
+            <div class="d-flex col-md-4 mb-3">
+                <span class="sh-display-block ">Médécin: </span>
+                <span class="sh-display-block sh-color-primary fw-bold"> {{ admissionForTemplate?.practician}}</span>
             </div>
         </div>
     </div>

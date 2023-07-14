@@ -1,17 +1,17 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
-
 @import 'themes';
-
 @import '~@nebular/theme/styles/globals';
-
 @include nb-install() {
   @include nb-theme-global();
 };
 @import "~bootstrap/scss/bootstrap";
-
 @import "~material-icons/iconfont/material-icons.css";
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
 
+@import "../src/app/shared/sh-style/sh-style.scss";
+@import "../src/app/shared/sh-style/sh-default-variable.scss";
+@import "../src/app/shared/sh-style/sh-color.scss";
+@import "../src/app/shared/sh-style/sh-typography.scss";
 
 .button-text{
   font-size: 12px;

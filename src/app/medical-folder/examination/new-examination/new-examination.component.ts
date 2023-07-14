@@ -3,6 +3,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Admission, admissionCreateUpdate } from 'src/app/admission/model/admission';
+import { AdmissionService } from 'src/app/admission/service/admission.service';
 import { PathologyService } from 'src/app/pathalogy/services/pathology.service';
 import { IPatient } from 'src/app/patient/patient';
 import { SymptomService } from 'src/app/symptom/services/symptom.service';
@@ -11,6 +13,13 @@ import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
 import { IExaminationDto } from '../models/examination-dto';
 import { ExaminationService } from '../services/examination.service';
+
+enum ExamenType {
+  INTERNAL = 'internal',
+  EXTERNAL = 'external'
+}
+
+type ExamenTypeStr = 'internal' | 'external';
 
 @Component({
   selector: 'app-new-examination',
@@ -25,6 +34,7 @@ export class NewExaminationComponent implements OnInit {
     @Input() patient: IPatient;
    
     @Input() admissionId: number;
+    @Input() admission: Admission;
   
     @Input() startDate: Date;
 
@@ -47,8 +57,6 @@ export class NewExaminationComponent implements OnInit {
 
   public formSubmitted = false;
 
-   // Note: examenType has two values, true for internal examinations and false for external examinations
-   examenType: boolean;
 
   showloading: boolean;
 
@@ -56,21 +64,22 @@ export class NewExaminationComponent implements OnInit {
 
   public makePrescription: boolean = false;
 
+  public examenType : boolean;
   constructor(
     private examinationService: ExaminationService,
     private pathologyService : PathologyService,
     private symptomService : SymptomService,
     private notificationService: NotificationService,
     private datepipe : DatePipe,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private admissionService: AdmissionService
   ) { }
 
   ngOnInit(): void {
-    console.log(this.patient);
-    
     this.findActivePathologiesNameAndId();
     this.findActiveSymptomssNameAndId();
     this.initForm();
+    console.log(this.admission)
   }
 
   public onMakePrescription(): void {
@@ -123,6 +132,7 @@ export class NewExaminationComponent implements OnInit {
             this.subs.add(
               this.examinationService.createExamination(this.examinationDto).subscribe(
                 (response: any) => {
+                  this.updateAdmissionTakeCareStatus();
                   this.showloading = false;
                   this.addExamination.emit();
                 },
@@ -165,26 +175,45 @@ export class NewExaminationComponent implements OnInit {
       else this.modalService.open(addFormContent, { size: size, centered : true });
     }
 
-    onOpenPrescriptionCreateComponent(prescriptionCreateComponent): void {
+    onPrescriptionCreate(prescriptionCreateComponent): void {
       if(this.examinationForm.get('conclusion').value == '') this.notificationService.notify(NotificationType.WARNING,'veuillez renseigner le diagnostic de la consultation avant de prescrire une ordonnance !');
       else if(this.examinationForm.get('examinationReasons').value == '') this.notificationService.notify(NotificationType.WARNING,'veuillez préciser le motif de la consultation avant de demander un examen !'); 
       else this.modalService.open(prescriptionCreateComponent, { size: 'xl' });
     }
 
     ChooseLaboratoryType(exameFormContent,laboratoryType : boolean) : void {
-      this.examenType = laboratoryType;      
       this.modalService.open(exameFormContent, { size: 'xl' });
+    }
+
+    public onExamType(content,examenType : ExamenType | ExamenTypeStr) : void {
+      this.examenType = false;      
+      this.modalService.open(content, { size: 'xl' });
+    }
+
+    private updateAdmissionTakeCareStatus(): void {
+        if (this.admission.takeCare === false) {
+          this.admissionService.updateExaminationTakeCare(this.admission.id, true).subscribe(
+            (response : any) => {
+            },
+            (errorResponse : HttpErrorResponse) => {
+              this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message); 
+            }
+          )
+        }  
     }
 
     addExam() {
       this.save();
       this.modalService.dismissAll();
+      this.notificationService.notify( NotificationType.SUCCESS,"Examen demandé avec succès");
     }
 
     addPrescription(){
+      this.save();
       this.modalService.dismissAll();
       this.notificationService.notify( NotificationType.SUCCESS,"Ordonnance prescrite avec succès");
-      this.save();
     }
+
+
     
 }

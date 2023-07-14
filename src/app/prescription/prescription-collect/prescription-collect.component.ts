@@ -37,7 +37,7 @@ export class PrescriptionCollectComponent implements OnInit {
 
   initForm() {
     this.searchForm = new FormGroup({
-      prescriptionNumber: new FormControl('', [Validators.required]),
+      searchPrescription: new FormControl('', [Validators.required]),
     });
   }
 
@@ -47,8 +47,8 @@ export class PrescriptionCollectComponent implements OnInit {
 
   findPrescription(addFormContent){
     this.showloading = true;
-    let prescriptionNumber = this.searchForm.get('prescriptionNumber').value;
-    this.prescriptionService.getPrescriptionDetailsByPrescriptionNumber(prescriptionNumber).subscribe(
+    let searchPrescription = this.searchForm.get('searchPrescription').value;
+    this.prescriptionService.retrievePrescription(searchPrescription).subscribe(
       (res : any) => {
         this.prescriptionInfos = res;        
         this.prescriptionService.getPrescriptionItemByPrescriptionId(this.prescriptionInfos['id']).subscribe(
@@ -56,17 +56,14 @@ export class PrescriptionCollectComponent implements OnInit {
             this.perscriptionItems = res;
             this.allPrescriptionWasCollected;
             this.showloading = false;
-            this.searchForm.get('prescriptionNumber').setValue("");
+            this.searchForm.get('searchPrescription').setValue("");
           }
         )
         this.modalService.open(addFormContent, { size: 'xl' });  
       },
       (errorResponse : HttpErrorResponse) => {
         this.showloading = false;
-        this.notificationService.notify(
-          NotificationType.ERROR,
-          "Numéro d'ordonnance incorrect "
-        );
+        this.notificationService.notify(NotificationType.ERROR,"Veuillez saisir un numero correct ");
       }
     )
   }
