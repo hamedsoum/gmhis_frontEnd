@@ -16,6 +16,7 @@ import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
 import { ExaminationService } from '../examination/services/examination.service';
 import * as moment from 'moment';
+import { Admission } from 'src/app/admission/model/admission';
 
 @Component({
   selector: 'app-patient-folder',
@@ -29,6 +30,7 @@ export class PatientFolderComponent implements OnInit {
   patient: IPatient;
   patientId: number;
   admissionId: number;
+  admission : Admission;
   showConsultationList : boolean;
   examinationNumber: number = 0;
   showConstantList: boolean;
@@ -143,6 +145,7 @@ export class PatientFolderComponent implements OnInit {
         this.admissionId = id;
         this.admissionService.retrieveAdmission(id).subscribe(
           (response : any)=>{
+            this.admission = response;
             this.patientId = response["patientId"];
           this.patientService.getPatientDetail(this.patientId).subscribe(
           (response : any) => {
