@@ -142,12 +142,8 @@
           >
             <td>{{ patient?.patientExternalId | uppercase }}</td>
             <td>{{ patient?.civility }}</td>
-            <td>
-              {{ patient?.lastName | uppercase }}
-            </td>
-            <td>
-              {{ patient?.firstName | uppercase }}
-            </td>
+            <td>{{ patient?.lastName | uppercase }}</td>
+            <td>{{ patient?.firstName | uppercase }}</td>
             <td>{{ patient?.birthDate | date }}</td>
             <td>{{ patient?.profession }}</td>
             <td>{{ patient?.cellPhone1 }}</td>
@@ -256,19 +252,9 @@
       <span class="modalTitle" >Nouvelle Admission</span>
       <span class="modal-subTitle" >--</span>
     </div>
-    <nb-icon
-      style="cursor: pointer"
-      (click)="d('Cross click')"
-      class="h4"
-      icon="close-circle-outline"
-    ></nb-icon>
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
   </div>
-  <div class="modal-body">
-    <app-admission-form
-      [patient]="patient"
-      (addAdmission)="addAdmission()"
-    ></app-admission-form>
-  </div>
+  <div class="modal-body"> <app-admission-form [patient]="patient" (addAdmission)="addAdmission()"></app-admission-form> </div>
 </ng-template>
 
 <!-- update modal -->
