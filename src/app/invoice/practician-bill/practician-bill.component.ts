@@ -111,8 +111,8 @@ export class PracticianBillComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.getUser().id == 0 ? null : this.getUser().id;     
-    this.buildField();
-    this.searchForm.get('userID').setValue(this.userId);
+    this.buildField(); 
+    console.log(this.userId);    
     this.getAllInsuranceActiveIdAndName();
     this.getInsuranceBill();
     this.findPracticians(); 
@@ -174,13 +174,14 @@ export class PracticianBillComponent implements OnInit {
   }
 
   public getInsuranceBill() {    
-    this.searchForm.get('userID').setValue(null);
     this.searchForm.get('billStatus').setValue(null);
     this.searchForm.get("date").setValue(null);
     this.dateEnd = null;
     this.dateStart = null;
     this.practician = null;
-    this.showloading = true;
+    this.showloading = true;    
+    console.log(this.searchForm.value);
+
     this.subs.add(
       this.invoiceService.facilityInvoicesPractician(this.searchForm.value).subscribe(
         (response: PageList) => {
@@ -189,7 +190,10 @@ export class PracticianBillComponent implements OnInit {
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;                               
-          this.itemsFiltered = this.items;          
+          this.itemsFiltered = this.items;  
+          if (this.userId !=null) {
+            this.filterItemsByPractician(this.userId);                 
+          }
           this.calculTotalAmount();                  
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
@@ -207,8 +211,10 @@ export class PracticianBillComponent implements OnInit {
     );
   }
   
-  private practicianChange(practicianID : number){
-    this.practician = this.practicians.find( pr => pr.userId == practicianID);
+  private practicianChange(userId : number){
+    this.practician = this.practicians.find( pr => pr.userId == userId);
+    console.log(this.practician);
+    
   }
 
   private getUser(): User {    
@@ -216,7 +222,7 @@ export class PracticianBillComponent implements OnInit {
   }
 
   private filterItemsByPractician(userID : number): void {
-    this.practicianChange(userID)
+    this.practicianChange(userID)    
     this.itemsFiltered = this.items.filter(item => item.userID === userID);
    }
 
@@ -291,7 +297,10 @@ private findPracticians(): void {
   this.subs.add(
     this.practitianService.findPracticianSimpleList().subscribe(
       (response : any) => {
-        this.practicians = response;    
+        this.practicians = response;  
+        console.log(this.practicians);  
+        console.log(this.userId);
+        
         this.practicianChange(this.userId);    
       }
     )

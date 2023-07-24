@@ -31,7 +31,7 @@
                 />
               </div>
               <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                <ng-select placeholder="Spécialité" formControlName="speciality">
+                <ng-select placeholder="Etat" formControlName="speciality">
                   <ng-option *ngFor="let actif of actives" [value]="actif.id">{{
                     actif.value
                   }}</ng-option>
@@ -147,7 +147,7 @@
       ></nb-icon>
     </div>
     <div class="modal-body">
-      <app-practician-form (addEvent)="addPracticient()"></app-practician-form>
+      <app-practician-form (addEvent)="addPracticien()"></app-practician-form>
     </div>
   </ng-template>
   

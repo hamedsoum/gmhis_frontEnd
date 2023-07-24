@@ -57,13 +57,20 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12 rounded-pill">
         <label for="active" class="form-label text-capitalize">Spécialité</label>
-        <ng-select placeholder="Spécialité" formControlName="speciliaty_id">
-          <ng-option *ngFor="let specialityof specialities" [value]="speciality.id">{{
+        <ng-select formControlName="actCategoryID">
+          <ng-option *ngFor="let speciality of specialities" [value]="speciality.id">{{
             speciality.name
           }}</ng-option>
         </ng-select>
       </div>
- 
+      <div class="col-lg-6 col-md-6 col-sm-12 rounded-pill">
+        <label for="active" class="form-label text-capitalize">Utilisateur</label>
+        <ng-select formControlName="user">
+          <ng-option *ngFor="let user of users" [value]="user.id">{{
+            user.name
+          }}</ng-option>
+        </ng-select>
+      </div>
       <div class="col-lg-6 col-md-6 col-sm-12">
         <label for="telephone" class="form-label text-capitalize">Téléphone</label>
         <span *ngIf="!details" class="text-danger">*</span>

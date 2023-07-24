@@ -96,8 +96,7 @@ export class NewExaminationComponent implements OnInit {
         examinationReasons: new FormControl('', Validators.required),
         conclusion : new FormControl(''),
         id: new FormControl(0),
-        startDate: new FormControl(this.startDate),
-        pratician : new FormControl(1)
+        startDate: new FormControl(this.startDate)
       })
     }
 

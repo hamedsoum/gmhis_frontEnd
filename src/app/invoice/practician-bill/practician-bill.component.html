@@ -14,7 +14,7 @@
               <div *ngIf="this.userId == null" class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
                 <ng-select (change)="onFilter()" placeholder="Practicien"  formControlName="userID">
                     <ng-option *ngFor="let practician of practicians" [value]="practician.userId">
-                      {{practician.userFirstName}}  {{ practician.userLastName}}</ng-option>
+                      {{practician.practicianName}}</ng-option>
                   </ng-select>
               </div>
               <div class="col-lg-2 col-md-4 col-sm-12 mb-2 rounded-pill">
@@ -65,7 +65,7 @@
       </form>
       <div class="d-flex justify-content-between mt-5 mb-5">
         <div>
-          <span class="mb-2" [style.display]="'block'">practicien: <span class="info"> {{practician? practician.userFirstName + ' '+ practician.userLastName : '##'}}</span></span>
+          <span class="mb-2" [style.display]="'block'">practicien: <span class="info"> {{practician? practician.practicianName  : '##'}}</span></span>
           <span class="mb-2" [style.display]="'block'">Date de début: <span class="info">{{dateStart? dateStart : '##'}}</span></span>
           <span [style.display]="'block'">Date de fin: <span class="info">{{dateStart? dateEnd : '##'}}</span></span>
 

@@ -117,7 +117,7 @@ export class UserFormComponent implements OnInit ,  OnDestroy{ private subs = ne
       email: new FormControl('', [Validators.required, Validators.email]),
       tel: new FormControl('', [Validators.required]),
       roles: new FormControl('', [Validators.required]),
-      facilityId : new FormControl('2bd56b2f-80ed-4a8c-a496-cd7f8b676f42'),
+      facilityId : new FormControl(null),
       active: new FormControl({ value: true, disabled: true }, [Validators.required]),
       notLocked: new FormControl({ value: false, disabled: true }, [Validators.required]),
       passwordMustBeChange: new FormControl({ value: true, disabled: true }, [Validators.required]),

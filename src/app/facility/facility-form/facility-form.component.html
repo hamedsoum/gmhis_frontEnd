@@ -27,6 +27,9 @@
                     facilityType.name
                 }}</ng-option>
               </ng-select>
+              <div *ngIf="formSubmitted && !facilityForm.controls.facilityTypeId.valid">
+                <small *ngIf="facilityType.errors.required" class="text-danger sh-text-small">Veuillez Selectionner un Type (Public ou Privé )</small>
+              </div>
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
             <label for="code" class="form-label ">Catégorie de centre de santé</label>
@@ -46,6 +49,9 @@
           class="form-control"
           formControlName="name"
         />
+        <div *ngIf="formSubmitted && !facilityForm.controls.name.valid">
+          <small *ngIf="name.errors.required" class="text-danger sh-text-small">Le Nom du Centre de Santé est requis</small>
+        </div>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="shortName" class="form-label text-capitalize">Abreviation</label>
@@ -56,10 +62,12 @@
           class="form-control"
           formControlName="shortName"
         />
+        <div *ngIf="formSubmitted && !facilityForm.controls.shortName.valid">
+          <small *ngIf="shortName.errors.required" class="text-danger sh-text-small">L'Abréviation est requis</small>
+        </div>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="dhisCode" class="form-label text-capitalize">DHIS CODE</label>
-        <span *ngIf="!details" class="text-danger">*</span>
         <input
           type="text"
           id="dhisCode"
@@ -69,7 +77,6 @@
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="latitude" class="form-label text-capitalize">latitude</label>
-        <span *ngIf="!details" class="text-danger">*</span>
         <input
           type="number"
           id="latitude"
@@ -79,7 +86,6 @@
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="longitude" class="form-label text-capitalize">Longitude</label>
-        <span *ngIf="!details" class="text-danger">*</span>
         <input
           type="number"
           id="longitude"
@@ -96,6 +102,9 @@
           class="form-control"
           formControlName="address"
         />
+        <div *ngIf="formSubmitted && !facilityForm.controls.address.valid">
+          <small *ngIf="address.errors.required" class="text-danger sh-text-small">L'Adresse est requise</small>
+        </div>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="contact" class="form-label text-capitalize">téléphone</label>
@@ -106,10 +115,12 @@
           class="form-control"
           formControlName="contact"
         />
+        <div *ngIf="formSubmitted && !facilityForm.controls.contact.valid">
+          <small *ngIf="contact.errors.required" class="text-danger sh-text-small">Le Numero de Téléphone est requise</small>
+        </div>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
         <label for="contact" class="form-label text-capitalize">E-mail</label>
-        <span *ngIf="!details" class="text-danger">*</span>
         <input
           type="text"
           id="contact"

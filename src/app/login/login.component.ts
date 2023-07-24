@@ -11,7 +11,6 @@ import { NotificationType } from '../_utilities/notification-type-enum';
 import { faEye, faEyeSlash, faLock } from '@fortawesome/free-solid-svg-icons';
 
 import { SubSink } from 'subsink';
-import { ArticleService } from '../_services/article.service';
 
 @Component({
   selector: 'app-login',
@@ -43,8 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private notificationService: NotificationService,
-    private articleService: ArticleService
+    private notificationService: NotificationService
   ) {}
 
   // Unsubscribe when the component dies

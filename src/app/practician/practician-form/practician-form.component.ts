@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SepecialityService } from 'src/app/speciality/sepeciality.service';
 import { Speciality } from 'src/app/speciality/speciality-list/speciality';
-import { NotificationService } from 'src/app/_services';
+import { NotificationService, UserService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
 import { PracticianService } from '../practician.service';
@@ -39,12 +39,16 @@ export class PracticianFormComponent implements OnInit {
     { id: true, value: 'Practicien Actif' },
     { id: false, value: 'Practicien Inactif' },
   ];
+  users: any;
 
-  constructor(private practicienService: PracticianService,private notificationService: NotificationService, private sepecialityService : SepecialityService) {}
+  constructor(
+    private userService : UserService,
+    private practicienService: PracticianService,
+    private notificationService: NotificationService,
+     private sepecialityService : SepecialityService) {}
 
   ngOnInit(): void {
-    this.retrieveSpecilaityNameAndId();
-    this.buildField();
+    this.initialize();
   }
 
   showPreview(event: any) {
@@ -63,9 +67,11 @@ export class PracticianFormComponent implements OnInit {
       nom: new FormControl('', Validators.required),
       prenoms: new FormControl('', Validators.required),
       email: new FormControl(''),
-      signature: new FormControl('', Validators.required),
-      speciliaty_id: new FormControl(2),
+      signature: new FormControl(''),
+      speciliaty_id: new FormControl(),
+      actCategoryID: new FormControl(null, Validators.required),
       telephone: new FormControl('', Validators.required),
+      user: new FormControl(null, Validators.required)
     });
   }
   get nom() {return this.fieldGroup.get('nom')}
@@ -120,7 +126,9 @@ export class PracticianFormComponent implements OnInit {
   private retrieveSpecilaityNameAndId(){
     this.sepecialityService.retrieveSpecialityNameAndId().subscribe(
       (response : any) => {
-        this.specialities = response;        
+        this.specialities = response;   
+        console.log(this.specialities);
+             
       },
       (errorResponse : HttpErrorResponse) => {
         this.loading = false;
@@ -132,4 +140,19 @@ export class PracticianFormComponent implements OnInit {
     )
   }
 
+  private retrieveUsersActive(): void {
+    this.userService.findAllActive()
+    .subscribe( 
+      (response : any) => {
+        this.users = response;
+        console.log(this.users); 
+      },
+      (error : HttpErrorResponse) => {throw new Error(error.message);
+      } )}
+
+private initialize (): void {
+  this.retrieveUsersActive();
+  this.retrieveSpecilaityNameAndId();
+  this.buildField();
+}
 }

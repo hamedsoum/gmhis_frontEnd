@@ -1,21 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NbMenuItem } from '@nebular/theme';
-import { CarrierAuthorityEnum } from 'src/app/_enum/carrierAuthority.enum';
-import { CityAuthorityEnum } from 'src/app/_enum/cityAuthority.enum';
-import { CommuneAuthorityEnum } from 'src/app/_enum/communeAuthority.enum';
-import { containerCostAuthorityEnum } from 'src/app/_enum/containerCost.enum';
-import { CountryAuthorityEnum } from 'src/app/_enum/countryAuthority.enum';
-import { DriverAuthorityEnum } from 'src/app/_enum/driverAutorith.enum';
-import { EditorAuthorityEnum } from 'src/app/_enum/editorAuthority.enum';
-import { FreightForwarderAuthorityEnum } from 'src/app/_enum/freightForwarderAuthority.enum';
-import { PortAuthorityEnum } from 'src/app/_enum/portAuthority.enum';
-import { RoleAuthorityEnum } from 'src/app/_enum/roleAuthorityEnum';
-import { ShipperAuthorityEnum } from 'src/app/_enum/shipperAuthority.enum';
-import { SideBar2MenuAuthorityEnum } from 'src/app/_enum/sideBar2MenuAuthority.enum';
-import { StockOutReasonAuthorityEnum } from 'src/app/_enum/stockOutReason.enum';
+import { RoleAuthorityEnum } from 'src/app/_enum/role-authority';
+import { SecondSideBarAuthority } from 'src/app/_enum/second-sidebar-authority';
 import { UserAuthority } from 'src/app/_enum/userAuthority.enum';
-import { VehiculeAuthorityEnum } from 'src/app/_enum/vehicule.Authority.enum';
-import { PortService } from 'src/app/_services/port.service';
 import { UserService } from 'src/app/_services/user.service';
 
 import { SubSink } from 'subsink';
@@ -32,16 +19,14 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: 'ACTES',
       icon: 'folder-outline',
-      hidden: !this.canAccessBasicFiles(),
+      hidden: !this.canAccessActs(),
       children: [
         {
           title: 'Liste des actes',
           link: '/act/list',
           icon: 'minus-outline',
-          // hidden : !this.canAccessEditor()
         },
         {
-          // title: 'Categories des actes',
           title: 'Spécialités des actes',
           link: '/act/category',
           icon: 'minus-outline',
@@ -61,7 +46,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: 'ANTECEDENT',
       icon: 'folder-outline',
-      hidden: !this.canAccessBasicFiles(),
+      hidden: !this.canAccessAntecedent(),
       children: [
         {
           title: 'Liste des antecedents',
@@ -78,7 +63,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: 'ASSURANCES',
       icon: 'folder-outline',
-      hidden: !this.canAccessBasicFiles(),
+      hidden: !this.canAccessInssurance(),
       children: [
         {
           title: 'Assurances/Mutuelles',
@@ -96,18 +81,13 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: 'CAISSES',
       icon: 'folder-outline',
-      // hidden: !this.canAccessBasicFiles(),
+      hidden: !this.canAccessCashiers(),
       children: [
         {
           title: 'Liste des caisses',
           link: '/cash-register/list',
           icon: 'minus-outline',
         },
-        // {
-        //   title: 'Liste des caissiers',
-        //   link: '/cashier/list',
-        //   icon: 'minus-outline',
-        // },
         {
           title: 'Gestion des caisses',
           link: '/cr-activity/list',
@@ -123,7 +103,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: 'CONSTANTES MEDICALES',
       icon: 'folder-outline',
-      hidden: !this.canAccessBasicFiles(),
+      hidden: !this.canAccessConstants(),
       children: [
         {
           title: 'Groupe de constante',
@@ -140,7 +120,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: 'NOS CONVENTIONS',
       icon: 'folder-outline',
-      hidden: !this.canAccessBasicFiles(),
+      hidden: !this.canAccessConvention(),
       children: [
         {
           title: 'Liste convention',
@@ -152,6 +132,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: 'DOCUMENTS TYPES',
       icon: 'folder-outline',
+      hidden: !this.canAccessDocumentType(),
       children: [
         {
           title: 'Bilan type',
@@ -188,6 +169,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: 'NOS CENTRES DE SANTÉ',
       icon: 'folder-outline',
+      hidden: !this.canAccessFacility(),
       children: [
         {
           title: 'Liste des centres de santé',
@@ -199,6 +181,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: 'PATHOLOGIES',
       icon: 'folder-outline',
+      hidden: !this.canAccessPathology(),
       children: [
         {
           title: 'Liste des pathologies',
@@ -210,6 +193,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: 'PHARMACIE',
       icon: 'folder-outline',
+      hidden: !this.canAccessPharmacy(),
       children: [
         {
           title: 'Medicaments',
@@ -246,6 +230,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: 'PRACTICIENS',
       icon: 'folder-outline',
+      hidden: !this.canAccessPracticians(),
       children: [
         {
           title: 'Liste des practiciens',
@@ -257,6 +242,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: "SALLES D'ATTENTE",
       icon: 'folder-outline',
+      hidden: !this.canAccessWaitingRoom(),
       children: [
         {
           title: 'Salles d\'attente',
@@ -266,48 +252,32 @@ export class Sidebar2Component implements OnInit, OnDestroy {
       ],
     },
     {
-      title: "SERVICES",
-      icon: 'folder-outline',
-      children: [
-        {
-          title: 'Liste des service',
-          link: '/service/list',
-          icon: 'minus-outline',
-        }       
-      ],
-    },
-    {
       title: "STOCK",
       icon: 'folder-outline',
+      hidden: !this.canAccessStock(),
       children: [
         {
           title: 'Gestion de de kits',
-          // link: '/constant/domain',
           icon: 'minus-outline',
         },
         {
           title: 'Articles',
-          // link: '/constant/type',
           icon: 'minus-outline',
         },
         {
           title: 'Détails des entrées en stocks',
-          // link: '/constant/type',
           icon: 'minus-outline',
         },
         {
           title: 'Emplacement d\'article',
-          // link: '/constant/type',
           icon: 'minus-outline',
         },
         {
           title: 'Famille d\'article',
-          // link: '/constant/type',
           icon: 'minus-outline',
         },
         {
           title: 'Fournisseur',
-          // link: '/constant/type',
           icon: 'minus-outline',
         }  
       ],
@@ -315,6 +285,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: "SPECIALITES",
       icon: 'folder-outline',
+      hidden: !this.canAccessSpeciality(),
       children: [
         {
           title: 'Liste des spécialités',
@@ -326,6 +297,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: "SUBDIVISION TERRITORIALE",
       icon: 'folder-outline',
+      hidden: !this.canAccessTeritorialSubdivision(),
       children: [
         {
           title: 'Pays',
@@ -352,6 +324,7 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: "SYMPTÔMES",
       icon: 'folder-outline',
+      hidden: !this.canAccesSymptom(),
       children: [
         {
           title: 'Liste des symptômes',
@@ -362,22 +335,12 @@ export class Sidebar2Component implements OnInit, OnDestroy {
     {
       title: "TYPES DE PAYEMENT",
       icon: 'folder-outline',
+      hidden: !this.canAccesPaymentType(),
       children: [
         {
           title: 'Liste des types de payements',
           icon: 'minus-outline',
         }
-      ],
-    },
-    {
-      title: "UNITE DE MESURES",
-      icon: 'folder-outline',
-      children: [
-        {
-          title: 'Liste des unités de mesures',
-          // link: '/constant/domain',
-          icon: 'minus-outline',
-        }      
       ],
     },
     {
@@ -420,32 +383,49 @@ export class Sidebar2Component implements OnInit, OnDestroy {
 
   ngOnInit(): void {}
 
-  private canAccessBasicFiles() {
-    return this.userService.checkAuthority(
-      SideBar2MenuAuthorityEnum.ACCESS_BASIC_FILES
-    );
-  }
-  //user managenement menu
-  private canAccessUserManagenent() {
-    return this.userService.checkAuthority(
-      SideBar2MenuAuthorityEnum.ACCESS_USER_MANAGEMENT
-    );
-  }
-  private canAccesUser() {
-    return this.userService.checkAuthority(UserAuthority.USER_LIST);
-  }
-  private canAccesUserRole() {
-    return this.userService.checkAuthority(RoleAuthorityEnum.ROLE_LIST);
-  }
-  private canAccessEventLog() {
-    return this.userService.checkAuthority(
-      SideBar2MenuAuthorityEnum.ACCESS_EVENT_LOG
-    );
-  }
 
-  private canAccessApllicationSetting() {
-    return this.userService.checkAuthority(
-      SideBar2MenuAuthorityEnum.ACCESS_APPLICATION_SETTINGS
-    );
-  }
+  private canAccessActs(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_ACTS) };
+
+  private canAccessInssurance(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_INSURANCE) };
+
+  private canAccessAntecedent(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_ANTECEDENT) };
+
+  private canAccessCashiers(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_CASHIERS) };
+
+  private canAccessConstants(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_CONSTANTS) };
+
+  private canAccessConvention(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_CONVENTION) };
+
+  private canAccessDocumentType(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_DOCUMENT_TYPE) };
+
+  private canAccessFacility(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_FACILITY) };
+
+  private canAccessPathology(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_PATHOLOGY) };
+
+  private canAccessPharmacy(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_PHARMACY) };
+
+  private canAccessPracticians(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_PRACTICIAN) };
+
+  private canAccessStock(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_STOCK) };
+
+  private canAccessWaitingRoom(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_WAITING_ROOM) };
+
+  private canAccessSpeciality(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_SPECIALITY) };
+
+  private canAccessTeritorialSubdivision(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_TERRITORIAL_SUBDIVISION) };
+
+  private canAccesSymptom(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_SYMPTOMS) };
+
+  private canAccesPaymentType(): boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_PAYMENT_TYPE) };
+
+  private canAccessUserManagenent():boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_USER_MANAGEMENT) };
+
+  private canAccesUser():boolean { return this.userService.checkAuthority(UserAuthority.USER_LIST) };
+
+  private canAccesUserRole():boolean { return this.userService.checkAuthority(RoleAuthorityEnum.ROLE_LIST) };
+
+  private canAccessEventLog():boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_EVENT_LOG) };
+
+  private canAccessApllicationSetting():boolean { return this.userService.checkAuthority(SecondSideBarAuthority.ACCESS_APPLICATION_SETTINGS) };
+
 }

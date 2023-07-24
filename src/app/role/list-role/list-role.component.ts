@@ -9,7 +9,7 @@ import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from 'src/app/_services/user.service';
-import { RoleAuthorityEnum } from 'src/app/_enum/roleAuthorityEnum';
+import { RoleAuthorityEnum } from 'src/app/_enum/role-authority';
 
 import { SubSink } from 'subsink';
 

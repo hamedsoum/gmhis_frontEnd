@@ -4,21 +4,8 @@ import { AuthenticationService } from '../_services/authentication.service';
 
 import { SubSink } from 'subsink';
 import { faBirthdayCake, faCartArrowDown, faCartPlus, faClipboardList, faCubes, faDollarSign, faDollyFlatbed, faFileInvoice, faFileInvoiceDollar, faFunnelDollar, faMoneyBill, faMoneyBillAlt, faMoneyBillWaveAlt, faMoneyCheck, faSearchDollar, faShip, faShippingFast, faSignInAlt, faStopCircle, faTasks, faUndoAlt } from '@fortawesome/free-solid-svg-icons';
-import { UserService } from '../_services/user.service';
-import { DashBoardAuthorityEnum } from '../_enum/dashBoardAuthority.enum';
 import { NotifService } from '../_services/notif.service';
-import { TransfertService } from '../_services/transfert.service';
-import { StockEntryService } from '../_services/stock-entry.service';
-import { CustomerOrderService } from '../_services/customer-order.service';
-import { InventoryService } from '../_services/inventory.service';
-import { PromotionService } from '../_services/promotion.service';
-import { RelaunchService } from '../_services/relaunch.service';
-import { SupplierOrderingService } from '../_services/supplier-ordering.service';
-import { AssetsService } from '../_services/assets.service';
 import { faWindowClose } from '@fortawesome/free-regular-svg-icons';
-import { StockService } from '../_services/stock.service';
-import { StockAuthorityEnum } from '../_enum/stockAuthority.enum';
-import { CustomersService } from '../_services/customers.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -51,19 +38,8 @@ export class DashboardComponent implements OnInit ,  OnDestroy{ private subs = n
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private notificationService: NotifService,
-    private transferService: TransfertService,
-    private stockEntryService: StockEntryService,
-    private customerOrderService : CustomerOrderService,
-    private inventoryService : InventoryService,
-    private promotionService : PromotionService,
     private sideBarNotif : NotifService,
-    private relaunchService : RelaunchService,
-    private supplierOrderService : SupplierOrderingService,
-    private assetService : AssetsService,
-    private stockService : StockService,
-    private userService:UserService,
-    private customerService: CustomersService )
+   )
  {
  
 

@@ -14,7 +14,7 @@ export class SepecialityService {
 
   constructor(private http : HttpClient) {}
 
-  retrieveSpecialityNameAndId(): Observable<any[]> {return this.http.get<any[]>(`${this.apiUrl}/practician/active_practicians_name`);}
+  retrieveSpecialityNameAndId(): Observable<any[]> {return this.http.get<any[]>(`${this.apiUrl}/actCategory/list-simple`);}
 
     findAll(data): Observable<PageList> {
       let queryParams = {};

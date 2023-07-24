@@ -41,10 +41,12 @@
         <thead >
              <th class="text-nowrap">Nom <fa-icon [icon]="faSort" class ="mx-1" (click)="sortBy('firstName')" ></fa-icon></th>
             <th class="text-nowrap">Prénom <fa-icon [icon]="faSort" class ="mx-1" (click)="sortBy('lastName')" ></fa-icon></th>
+            <th class="text-nowrap">userName <fa-icon [icon]="faSort" class ="mx-1" (click)="sortBy('userName')" ></fa-icon></th>
             <th class="text-nowrap">Roles <fa-icon [icon]="faSort" class ="mx-1" (click)="sortBy('lastName')" ></fa-icon></th>
             <th class="text-nowrap">Statut <fa-icon [icon]="faSort" class ="mx-1" (click)="sortBy('isActive')" ></fa-icon></th>
             <th class="text-nowrap">Email</th>
             <th class="text-nowrap">Téléphone</th>
+            <th class="text-nowrap">Centre de santé</th>
            <th class="text-nowrap">vérou <fa-icon [icon]="faSort" class ="mx-1" (click)="sortBy('isNotLocked')" ></fa-icon></th>
            <th class="text-nowrap" >actions</th>
         </thead>
@@ -59,6 +61,7 @@
                 </td> -->
                 <td class="text-nowrap">{{user?.lastName }}</td>
                 <td class="text-nowrap">{{user?.firstName }}</td>
+                <td class="text-nowrap">{{user?.username }}</td>
                 <td class="text-nowrap">{{user?.role | uppercase }}</td>
                 <td class="text-center">
                   <nb-icon *ngIf="user.active == true" style="color: green;" icon="checkmark-circle-2"></nb-icon>
@@ -66,8 +69,7 @@
               </td>
                 <td class="text-lowercase">{{user?.email}}</td>
                 <td>{{user?.tel}}</td>
-                <!-- <td class="text-nowrap">{{user?.depot.name }}</td> -->
-                <!-- <td>{{user?.role}}</td> -->
+               <td class="text-nowrap">{{user?.facility?.name }}</td>
                 <td class="text-center">
                     <nb-icon *ngIf="user.notLocked == false" style="color: red;" icon="unlock"></nb-icon>
                     <nb-icon *ngIf="user.notLocked == true" style="color: green;" icon="lock"></nb-icon>

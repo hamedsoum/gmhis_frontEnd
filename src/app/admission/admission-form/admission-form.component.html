@@ -69,7 +69,7 @@
         <label for="active" class="form-label text-capitalize">Medecin</label>
         <ng-select placeholder="Practicien" formControlName="practician">
           <ng-option *ngFor="let practician of specialityPracticians" [value]="practician.id">
-            {{practician.userFirstName}}  {{ practician.userLastName}}</ng-option>
+            {{practician.practicianName}}</ng-option>
         </ng-select>
       </div>
       <div class="col-lg-6 col-md-4 col-sm-12 field">

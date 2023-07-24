@@ -145,6 +145,7 @@ export class AdmissionFormComponent implements OnInit {
   }
 
   onRetrieveActsAndPracticians(specialityId: number) {
+    console.log(this.practicians);
     this.specialityPracticians = this.practicians.filter(practician => practician.specialityId === specialityId);
 
     this.actService.retrieveSpecialityActs(specialityId).subscribe((res: any) => {this.actsNameAndId = res})
@@ -166,6 +167,10 @@ export class AdmissionFormComponent implements OnInit {
 
   private findActPracticiainNameAndId() {
     this.practicianService.findPracticianSimpleList().subscribe(
-      (response: INameAndId[]) => {this.practicians = response}
+      (response: INameAndId[]) => {
+        this.practicians = response;
+        console.log(this.practicians);
+        
+      }
     )}
 }

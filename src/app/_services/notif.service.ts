@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { TransfertService } from './transfert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,7 @@ public stockEntryNotificationSubject = new Subject<number>();
 public PromotionNotificationSubject = new Subject<number>();
 public sideBarNotificationSubject = new Subject<string>();
 
-  constructor(private transferService : TransfertService) { }
+  constructor() { }
 /**
  * function pour envoyer dans le système la donnée transfertNotification qui pourra etre récuperé n'import ou dans 
  * le système

@@ -116,21 +116,24 @@ export class FacilityFormComponent implements OnInit {
       name: new FormControl('', [Validators.required]),
       active: new FormControl(true),
       dhisCode: new FormControl(""),
-      facilityCategoryId: new FormControl(""),
-      facilityTypeId: new FormControl(""),
-      latitude: new FormControl(null),
+      facilityCategoryId: new FormControl(null),
+      facilityTypeId: new FormControl(undefined, [Validators.required]),
+      latitude: new FormControl(-1.3222443),
       localCode: new FormControl("string"),
       localityId: new FormControl(1),
-      longitude: new FormControl(null),
-      shortName: new FormControl(null),
-      address: new FormControl(null),
-      contact: new FormControl(null),
+      longitude: new FormControl(-1.3222443),
+      shortName: new FormControl(null, [Validators.required]),
+      address: new FormControl(null, [Validators.required]),
+      contact: new FormControl(null, [Validators.required]),
       email: new FormControl(null),
     });
   }
-  get name() {
-    return this.facilityForm.get('name');
-  }
+  get name() {return this.facilityForm.get('name')}
+  get facilityType() {return this.facilityForm.get('facilityTypeId')}
+  get shortName() {return this.facilityForm.get('shortName');}
+  get address() {return this.facilityForm.get('contact')}
+  get contact() {return this.facilityForm.get('contact')}
+
 
   save() {
     this.invalidFom = !this.facilityForm.valid;

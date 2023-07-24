@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {  faTachometerAlt, faUser, faHome, faUsers,faKey, faDollarSign,  faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { SideBar1MenuAuthorityEnum } from 'src/app/_enum/sideBar1MenuAuthority.enum';
+import { SideBar1MenuAuthorityEnum } from 'src/app/_enum/first-sidebar-authority';
 
 import { NotifService } from 'src/app/_services/notif.service';
 import { UserService } from 'src/app/_services/user.service';
