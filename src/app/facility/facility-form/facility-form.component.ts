@@ -24,36 +24,15 @@ export class FacilityFormComponent implements OnInit {
   @Input()
   details: boolean;
 
-  @Output('addFaciity') addFaciity: EventEmitter<any> = new EventEmitter();
-  @Output('updateFacility') updateFacility: EventEmitter<any> =
-    new EventEmitter();
+  @Output() addFaciity = new EventEmitter();
+  @Output() updateFacility = new EventEmitter();
 
-  /**
-   * form
-   */
   public facilityForm: FormGroup;
 
-  /**
-   * the form valid state
-   */
   public invalidFom = false;
 
-  /**
-   * check if the form is submitted
-   */
   public formSubmitted = false;
 
-  /**
-   * define isActive options
-   */
-  states = [
-    { id: true, value: 'Actif' },
-    { id: false, value: 'En sommeil' },
-  ];
-
-  /**
-   * handle the spinner
-   */
   showloading: boolean = false;
 
   actives = [
@@ -61,18 +40,8 @@ export class FacilityFormComponent implements OnInit {
     { id: false, value: 'Inactif' },
   ];
 
-  private validatiomMessage: { [key: string]: { [key: string]: string } } = {
-    hotelName: {
-      required: "Le nom du centre de sante est obligatoire",
-    }
-  };
+  public errorMessage: string;
 
-
-
-  public errorMessage!: string;
-
-
-  private isFormSubmitted: boolean = false;
   facilityTypesNameAndId: any;
   facilityCategoriesNameAndId: any;
   image : any = "";
@@ -150,10 +119,7 @@ export class FacilityFormComponent implements OnInit {
             },
             (errorResponse: HttpErrorResponse) => {
               this.showloading = false;
-              this.notificationService.notify(
-                NotificationType.ERROR,
-                errorResponse.error.message
-              );
+              this.notificationService.notify( NotificationType.ERROR, errorResponse.error.message);
             }
           )
         );

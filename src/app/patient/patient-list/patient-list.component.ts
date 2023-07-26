@@ -66,11 +66,6 @@ export class PatientListComponent implements OnInit {
   ngOnInit(): void {
     this.initform();
     this.getPatient();
-   const actGroup = {
-      active: false,
-      id: 0,
-      name: 'PATIENT',
-    };
   }
 
 
@@ -90,8 +85,7 @@ export class PatientListComponent implements OnInit {
   }
 
   onSearchValueChange(): void {
-    this.getPatient();
-    
+    this.getPatient(); 
   }
 
   public getPatient() {

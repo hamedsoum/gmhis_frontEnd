@@ -89,6 +89,11 @@ export class Sidebar2Component implements OnInit, OnDestroy {
           icon: 'minus-outline',
         },
         {
+          title: 'Gestion des caissiers',
+          link: '/cashier/list',
+          icon: 'minus-outline',
+        },
+        {
           title: 'Gestion des caisses',
           link: '/cr-activity/list',
           icon: 'minus-outline',

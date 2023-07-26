@@ -20,6 +20,7 @@ import { SafePipe } from './safe.pipe';
     CommonModule
   ],
   exports: [
+    CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,

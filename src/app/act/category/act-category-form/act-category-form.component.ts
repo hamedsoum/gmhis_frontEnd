@@ -98,8 +98,6 @@ export class ActCategoryFormComponent implements OnInit {
 
   public formsErrors: { [key: string]: string } = {};
 
-  private isFormSubmitted: boolean = false;
-
   constructor(
     private actCategoryService: ActCategoryService,
     private notificationService: NotificationService

@@ -1,16 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { CashierRoutingModule } from './cashier-routing.module';
 import { CashierListComponent } from './cashier-list/cashier-list.component';
-import { CashierFormComponent } from './cashier-form/cashier-form.component';
+import { SharedModule } from '../shared/shared.module';
+import { CashierCreateComponent } from './cashier-create/cashier-create.component';
 
 
 @NgModule({
-  declarations: [CashierListComponent, CashierFormComponent],
-  imports: [
-    CommonModule,
-    CashierRoutingModule
-  ]
+  declarations: [CashierListComponent,CashierCreateComponent],
+  imports: [SharedModule,CashierRoutingModule]
 })
 export class CashierModule { }
