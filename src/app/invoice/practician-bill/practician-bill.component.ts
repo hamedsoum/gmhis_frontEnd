@@ -24,7 +24,6 @@ type billStatus = 'C' | 'R';
   styleUrls: ['./practician-bill.component.scss']
 })
 
-
 export class PracticianBillComponent implements OnInit {
 
   private subs = new SubSink();
@@ -91,19 +90,24 @@ export class PracticianBillComponent implements OnInit {
   practician : any;
   userId: number;
 
-   dateStart = null;
-   dateEnd = null;
+  dateStart = null;
+  dateEnd = null;
 
   totalAmount : number = 0
   facilityBalance: number = 0;
   practicianBalance: number = 0;
   patientBalance: number = 0;
 
-
   constructor(
-    private invoiceService: InvoiceService,private notificationService: NotificationService,config: NgbModalConfig,private modalService: NgbModal,
-    private insuranceService : InsuranceService,private printListService : PrintListService,private predefinedPeriodService: PredefinedPeriodService,
-    private practitianService : PracticianService, private userService : UserService
+    private invoiceService: InvoiceService,
+    private notificationService: NotificationService,
+    config: NgbModalConfig,
+    private modalService: NgbModal,
+    private insuranceService : InsuranceService,
+    private printListService : PrintListService,
+    private predefinedPeriodService: PredefinedPeriodService,
+    private practitianService : PracticianService,
+    private userService : UserService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -112,7 +116,6 @@ export class PracticianBillComponent implements OnInit {
   ngOnInit(): void {
     this.userId = this.getUser().id == 0 ? null : this.getUser().id;     
     this.buildField(); 
-    console.log(this.userId);    
     this.getAllInsuranceActiveIdAndName();
     this.getInsuranceBill();
     this.findPracticians(); 
@@ -180,7 +183,6 @@ export class PracticianBillComponent implements OnInit {
     this.dateStart = null;
     this.practician = null;
     this.showloading = true;    
-    console.log(this.searchForm.value);
 
     this.subs.add(
       this.invoiceService.facilityInvoicesPractician(this.searchForm.value).subscribe(
@@ -212,9 +214,7 @@ export class PracticianBillComponent implements OnInit {
   }
   
   private practicianChange(userId : number){
-    this.practician = this.practicians.find( pr => pr.userId == userId);
-    console.log(this.practician);
-    
+    this.practician = this.practicians.find( pr => pr.userId == userId);    
   }
 
   private getUser(): User {    
@@ -222,8 +222,12 @@ export class PracticianBillComponent implements OnInit {
   }
 
   private filterItemsByPractician(userID : number): void {
+    console.log(this.items);
+    
     this.practicianChange(userID)    
     this.itemsFiltered = this.items.filter(item => item.userID === userID);
+    console.log(this.itemsFiltered);
+    
    }
 
   private filterItemsByStatus(status : billStatus): void {
@@ -297,10 +301,7 @@ private findPracticians(): void {
   this.subs.add(
     this.practitianService.findPracticianSimpleList().subscribe(
       (response : any) => {
-        this.practicians = response;  
-        console.log(this.practicians);  
-        console.log(this.userId);
-        
+        this.practicians = response;          
         this.practicianChange(this.userId);    
       }
     )
