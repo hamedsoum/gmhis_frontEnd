@@ -13,6 +13,14 @@ export class AdmissionService {
 
   constructor(private http: HttpClient) {}
 
+  supervisory(examinationID: number):Observable<Admission>{   
+    return this.http.put<Admission>(`${this.apiUrl}/admission/supervisory/${examinationID}`, null )
+  }
+
+  updateExaminationTakeCare(examinationID : number, takeCare : boolean):Observable<Admission>{   
+    return this.http.put<Admission>(`${this.apiUrl}/admission/update-takeCare/${examinationID}`,  {takeCare : true} )
+  }
+
   findAll(data): Observable<PageList> {    
     let queryParams = {};
     queryParams = {
@@ -75,18 +83,12 @@ export class AdmissionService {
     return this.http.post<any>(`${this.apiUrl}/admission`, admission);
   }
 
-  updateExaminationTakeCare(examinationID : number, takeCare : boolean):Observable<Admission>{   
-   
-    return this.http.put<Admission>(`${this.apiUrl}/admission/update-takeCare/${examinationID}`,  {takeCare : true} )
-  }
-
   updateAdmission(admission: any): Observable<any> {    
     return this.http.patch<any>(
       `${this.apiUrl}/admission/${admission.id}`,
       admission
     );
   }
-
 
   revokeAdmission(admissionId: number): Observable<any> {return this.http.delete<any>(`${this.apiUrl}/admission/delete/${admissionId}`);}
 
@@ -97,6 +99,4 @@ export class AdmissionService {
   retrieveAdmission(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/admission/get-detail/${id}`);
   }
-
-
 }

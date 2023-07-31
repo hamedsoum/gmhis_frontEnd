@@ -158,30 +158,6 @@
           >
         </div>
       </div>
-      <!-- height -->
-      <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="height" class="form-label text-capitalize"
-          >Taille(m)</label
-        >
-        <input
-          type="text"
-          id="height"
-          class="form-control"
-          formControlName="height"
-        />
-      </div>
-       <!-- weight -->
-       <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-        <label for="weight" class="form-label text-capitalize"
-          >Poids(kg)</label
-        >
-        <input
-          type="text"
-          id="weight"
-          class="form-control"
-          formControlName="weight"
-        />
-      </div>
       <!-- Type de pièce -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
         <label for="idcardType" class="form-label text-capitalize"
@@ -350,7 +326,7 @@
 
       <!-- Pays -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
-        <label for="country" class="form-label text-capitalize">Pays</label>
+        <label for="country" class="form-label text-capitalize">Pays de Naissance</label>
         <ng-select
           id="country"
           placeholder="Pays"
@@ -365,7 +341,7 @@
 
       <!-- Ville -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
-        <label for="cityId" class="form-label text-capitalize">Ville</label>
+        <label for="cityId" class="form-label text-capitalize">Ville de Naissance</label>
         <ng-select id="cityId" placeholder="Ville" formControlName="cityId">
           <ng-option *ngFor="let city of cities" [value]="city.id">{{
             city.name

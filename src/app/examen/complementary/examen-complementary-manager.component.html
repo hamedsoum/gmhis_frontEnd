@@ -1,0 +1,65 @@
+<div class="">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <input
+                type="text"
+                class="form-control"
+                placeholder="Réchercher Un Examen"
+                (keyup)="onSearchExamen($event.target.value)"
+              />
+              </div>
+            <nb-accordion multi>
+                <nb-accordion-item *ngFor="let type of filteredExamenComplementaryTypes; let i = index;">
+                    <nb-accordion-item-header>
+                        {{type.label | uppercase}}
+                     </nb-accordion-item-header>
+                     <nb-accordion-item-body>
+                        <div class="row accordion-item-body">
+                            <div class="col-lg-6" *ngFor="let exam of filteredExamenComplementaries"
+                                [hidden]="exam?.examenComplementaryType.toLowerCase() != type.value.toLowerCase()">
+                                <div class="accordion_item">
+                                    <div>
+                                        <nb-checkbox (checkedChange)="onSelectedExamenComplementary(exam)" >
+                                        </nb-checkbox>
+                                        <span class="mx-1">{{exam?.act.name}}</span>
+                                    </div>
+                                    <div>
+                                        {{exam?.act?.actCode}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                 </nb-accordion-item-body>
+                </nb-accordion-item>
+            </nb-accordion>
+        </div>
+        <div class="col-lg-6 pb-2">
+            <div class="actsSelected mb-3 px-3">
+                <div class="mb-4" *ngFor="let examenComplementaryType of examenComplementriesTypeLeftSection; let i = index">
+                    <span class="actsSelected_title">{{examenComplementaryType}}</span>
+                    <div class="act_selectedBox mt-2" *ngFor="let exam of selectedExamens; let i = index"
+                    [hidden]="exam?.examenComplementaryType != examenComplementaryType">
+                    <div class="accordion_item">
+                        <div class="act_selectedItem mx-2">
+                            <span class="mx-2">{{exam?.act.actCode}} - {{exam?.act.name}}</span>
+                            <div class="closeBtn">
+                                <nb-icon 
+                                    class="pointer text-white" style=" cursor: pointer; " icon="close-outline">
+                                </nb-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <textarea class="mb-3" [(ngModel)]="examenCreateData.observation" placeholder="COMMENTAIRE" name="" id="" cols="72"
+            rows="3"></textarea>
+        <button *ngIf="examenComplementriesTypeLeftSection.length != 0" (click)="create()"
+            style="background-color: #14a2b8;" class="text-capitalize btn btn-block w-25 text-white rounded">
+            <span class="fw-bold"> DEMANDER</span>
+        </button>
+    </div>
+  
+</div>
+</div>

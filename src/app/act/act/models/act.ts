@@ -1,5 +1,6 @@
 
 export interface Act {
+    id: number,
     amount: number,
     createdByFirstName: string,
     actGroup: string,
@@ -13,7 +14,6 @@ export interface Act {
     UpdatedByFirstName: string,
     name: string,
     coefficient: string,
-    id: number,
     createdByLogin: string,
     actCategory: string,
     updatedAt: Date 

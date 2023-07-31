@@ -8,7 +8,7 @@ import { ExaminationService } from 'src/app/medical-folder/examination/services/
 import { INameAndId as NameAndId } from 'src/app/shared/models/name-and-id';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
-import { IExamDto as ExamenCreateData } from '../models/exam-dto';
+import { ExamenCreateData } from '../models/exam-dto';
 import { ExamService } from '../services/exam.service';
 
 @Component({
@@ -44,7 +44,7 @@ export class ExamenFormComponent implements OnInit {
   specialitiesNameFilter: string[] = [];
 
   constructor(private actService: ActService, private examenService: ExamService,private modalService: NgbModal, private examinationService: ExaminationService,
-              private analysisSpecialityService: analysisSpecialityService, private notificationService: NotificationService,) { }
+              private analysisSpecialityService: analysisSpecialityService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.dayBetweenFirstExaminationAndCurrentDate();
@@ -75,6 +75,8 @@ export class ExamenFormComponent implements OnInit {
     } else {
       this.examenCreateData.examenTytpe = this.examenType;
       this.selectedItems.forEach((el) => { this.examenCreateData.acts.push(el["id"]) })
+      console.log(this.selectedItems);
+      
       if (this.examenCreateData.acts.length != 0) {
         this.examenService.createExam(this.examenCreateData).subscribe(
           (response: any) => {
@@ -133,13 +135,14 @@ export class ExamenFormComponent implements OnInit {
   private retrieveActs() {
     this.actService.getListOfAllMedicalAnalysis().subscribe(
       (response: any) => {
-        this.acts = response;
+        this.acts = response;        
         this.buildDefault();
       }
     )
   }
 
   private searchActs(actSearch: string): void {
+    
     if (actSearch == '') {
       this.specialitiesNameFilter = this.specialitiesName;
     } else {
@@ -153,9 +156,9 @@ export class ExamenFormComponent implements OnInit {
   }
 
   private removeDuplicates(arr, item) {
-    if (!arr.includes(item)) {
-      arr.push(item);
-    }
+    console.log(item);
+    
+    if (!arr.includes(item)) arr.push(item);
   }
 
 }

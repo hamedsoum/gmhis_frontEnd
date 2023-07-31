@@ -93,6 +93,8 @@ export class AnalysisBulletinComponent implements OnInit {
   getAnalysisRequestItemsByAnalysisId(analysisId): any {
     this.examenService.getAnalysisRequestItemsByAnalysisId(analysisId).subscribe(
       (response : any) => {
+        console.log(response);
+        
         this.analysisRequestItems = response;        
         this.medicalAnalysisSpeciality = [];
         this.analysisRequestItems.forEach((el,i)=>{

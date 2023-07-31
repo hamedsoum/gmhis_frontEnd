@@ -234,8 +234,6 @@ export class PatientFormmComponent implements OnInit {
       solde : new FormControl(0),
       email: new FormControl(null),
       cityId: new FormControl(null),
-      height: new FormControl(null),
-      weight: new FormControl(null),
       country: new FormControl(null),
       insurances: new FormControl([]),
       idcardType: new FormControl(''),

@@ -79,7 +79,6 @@ export class NewExaminationComponent implements OnInit {
     this.findActivePathologiesNameAndId();
     this.findActiveSymptomssNameAndId();
     this.initForm();
-    console.log(this.admission)
   }
 
   public onMakePrescription(): void {
@@ -174,19 +173,28 @@ export class NewExaminationComponent implements OnInit {
       else this.modalService.open(addFormContent, { size: size, centered : true });
     }
 
+    onpenExamComplementary(examenComplementaryManager) {
+      this.modalService.open(examenComplementaryManager, { size:'xl'});
+    }
+
     onPrescriptionCreate(prescriptionCreateComponent): void {
       if(this.examinationForm.get('conclusion').value == '') this.notificationService.notify(NotificationType.WARNING,'veuillez renseigner le diagnostic de la consultation avant de prescrire une ordonnance !');
       else if(this.examinationForm.get('examinationReasons').value == '') this.notificationService.notify(NotificationType.WARNING,'veuillez préciser le motif de la consultation avant de demander un examen !'); 
       else this.modalService.open(prescriptionCreateComponent, { size: 'xl' });
     }
 
-    ChooseLaboratoryType(exameFormContent,laboratoryType : boolean) : void {
+    ChooseLaboratoryType(exameFormContent : boolean) : void {
       this.modalService.open(exameFormContent, { size: 'xl' });
     }
 
-    public onExamType(content,examenType : ExamenType | ExamenTypeStr) : void {
+    public onExamType(content : ExamenType | ExamenTypeStr) : void {
       this.examenType = false;      
       this.modalService.open(content, { size: 'xl' });
+    }
+
+    public onChooseExamen(examenForm) : void {
+      this.examenType = false;      
+      this.modalService.open(examenForm);
     }
 
     private updateAdmissionTakeCareStatus(): void {

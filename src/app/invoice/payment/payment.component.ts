@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { IExamDto } from 'src/app/examen/models/exam-dto';
+import { ExamenCreateData } from 'src/app/examen/models/exam-dto';
 import { ExamService } from 'src/app/examen/services/exam.service';
 import { PaymentTypeService } from 'src/app/payment-type/service/payment-type.service';
 import { labelValue } from 'src/app/shared/domain';
@@ -30,7 +30,7 @@ export class PaymentComponent implements OnInit {
     { label: PaymentType.MOBILEMONEY, value: PaymentType },
   ];
 
-  examDto: IExamDto = {
+  examDto: ExamenCreateData = {
     acts: [],
     admission: 0,
     diagnostic: 'ok ok ',

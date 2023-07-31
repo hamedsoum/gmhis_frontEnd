@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PageList } from 'src/app/_models/page-list.model';
 import { environment } from 'src/environments/environment';
-import { IExamDto } from '../models/exam-dto';
+import { ExamenCreateData } from '../models/exam-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +47,7 @@ export class ExamService {
 
 
 
-  createExam(examDto: IExamDto): Observable<any> {
+  createExam(examDto: ExamenCreateData): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/analysis-request/add`, examDto);
   }
 

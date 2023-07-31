@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActService } from 'src/app/act/act/service/act.service';
@@ -17,7 +17,7 @@ import { AdmissionService } from '../service/admission.service';
   templateUrl: './admission-list.component.html',
   styleUrls: ['./admission-list.component.scss']
 })
-export class AdmissionListComponent implements OnInit {
+export class AdmissionListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
 
@@ -86,6 +86,28 @@ export class AdmissionListComponent implements OnInit {
     this.getAdmissions();
   }
 
+  ngOnDestroy(): void {
+      this.subs.unsubscribe();
+  }
+
+  public onAdmissionSupervisory(admissionID: number):void {
+    this.subs.add(
+      this.admissionService.supervisory(admissionID)
+        .subscribe(
+          (response : Admission) => {
+            console.log(response); 
+            this.notificationService.notify(
+              NotificationType.SUCCESS,
+              'Admission de surveillance crée avec succès'
+            );
+          },
+          (error : HttpErrorResponse) => {
+            throw new Error(error.message);
+          }
+        )
+    )
+  }
+
   public isDeposit(deposit : number): boolean {
     if (deposit == null) return false;
     return true
@@ -140,7 +162,9 @@ export class AdmissionListComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;                    
+          this.items = response.items; 
+          console.log(this.items);
+                                       
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;

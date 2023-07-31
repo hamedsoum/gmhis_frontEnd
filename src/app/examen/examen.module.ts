@@ -8,20 +8,28 @@ import { SharedModule } from '../shared/shared.module';
 import { NbAccordionModule, NbCheckboxModule } from '@nebular/theme';
 import { LaboratoryExamenComponent } from './laboratory-examen/laboratory-examen.component';
 import { AnalysisBulletinComponent } from './analysis-bulletin/analysis-bulletin.component';
+import { examenComplementaryManagerComponent } from './complementary/examen-complementary-manager.component';
 
 
 @NgModule({
-  declarations: [ExamenListComponent, ExamenFormComponent, LaboratoryExamenComponent, AnalysisBulletinComponent],
+  declarations: [
+    ExamenListComponent, 
+    ExamenFormComponent, 
+    LaboratoryExamenComponent, 
+    AnalysisBulletinComponent, 
+    examenComplementaryManagerComponent
+  ],
   imports: [
     CommonModule,
     ExamenRoutingModule,
     SharedModule,
     NbCheckboxModule,
     NbAccordionModule
-
   ],
   exports: [
-    ExamenListComponent, ExamenFormComponent
+    ExamenListComponent,
+     ExamenFormComponent,
+     examenComplementaryManagerComponent
   ]
 })
 export class ExamenModule { }

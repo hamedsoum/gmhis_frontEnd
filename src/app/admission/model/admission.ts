@@ -47,6 +47,9 @@ export interface Admission {
     takeCare: boolean;
     takeCareByName?: string;
     takeCareAt?: string;
+
+    supervisoryNumber : number;
+    supervisoryLastDate: number;
 }
 
 export interface admissionCreateUpdate {

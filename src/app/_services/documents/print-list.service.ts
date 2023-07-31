@@ -16,6 +16,8 @@ export class PrintListService {
   }
    user = this.getUser();
   buildPrintList(practicianPrint: PracticianPrintDataFormat, practicianBill? : boolean) {
+    console.log(practicianPrint);
+    
     let practicianBillHeader = ['Date op.', 'N° Facture','Practicien','N° Patient', 'Total F.','Solde Centre.','Solde Pract.'];
     
     var doc = new jsPDF('p', 'mm', 'a4');

@@ -128,7 +128,7 @@ export class PracticianBillComponent implements OnInit {
 
   onPrintInsuranceList(printContent) : void {
     let practicianPrint : PracticianPrintDataFormat = {
-      practicianName: this.practician ? this.practician.userFirstName + " "+this.practician.userLastName : "##",
+      practicianName: this.practician ? this.practician.practicianName: "##",
       dateStart: this.dateStart ? this.dateStart : "##",
       dateEnd: this.dateEnd ? this.dateEnd : "##",
       totalBalance: this.totalAmount,

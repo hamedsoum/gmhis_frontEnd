@@ -1,4 +1,4 @@
-export interface IExamDto { 
+export interface ExamenCreateData { 
         acts?: number [],
         admission?: number,
         diagnostic?: string,
