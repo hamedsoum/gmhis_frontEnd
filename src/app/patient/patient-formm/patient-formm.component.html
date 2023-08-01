@@ -329,7 +329,6 @@
         <label for="country" class="form-label text-capitalize">Pays de Naissance</label>
         <ng-select
           id="country"
-          placeholder="Pays"
           formControlName="country"
           (change)="onGetCityBycountry($event)"
         >
@@ -342,12 +341,47 @@
       <!-- Ville -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
         <label for="cityId" class="form-label text-capitalize">Ville de Naissance</label>
-        <ng-select id="cityId" placeholder="Ville" formControlName="cityId">
+        <ng-select id="cityId" formControlName="cityId">
           <ng-option *ngFor="let city of cities" [value]="city.id">{{
             city.name
           }}</ng-option>
         </ng-select>
       </div>
+        <!-- Pays -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
+          <label for="countryOfResidence" class="form-label text-capitalize">Pays de Residence</label>
+          <ng-select
+            id="country"
+            formControlName="countryOfResidence"
+            (change)="onGetCityBycountry($event)"
+          >
+            <ng-option *ngFor="let country of countries" [value]="country.id">{{
+              country.name
+            }}</ng-option>
+          </ng-select>
+        </div>
+  
+        <!-- Ville -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-2 rounded-pill">
+          <label for="cityId" class="form-label text-capitalize">Ville de Residence</label>
+          <ng-select id="cityId" formControlName="cityOfResidence">
+            <ng-option *ngFor="let city of cities" [value]="city.id">{{
+              city.name
+            }}</ng-option>
+          </ng-select>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
+          <label for="solde" class="form-label text-capitalize"
+            >Localité</label
+          >
+          <input
+            type="text"
+            id="solde"
+            class="form-control"
+            formControlName="municipality"
+          />
+        </div>
 
       <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
         <label for="solde" class="form-label text-capitalize"

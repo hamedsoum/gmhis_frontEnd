@@ -110,10 +110,15 @@ export class PatientFormmComponent implements OnInit {
     this.buildFields();
     if (this.patient) {      
       this.patientService.getPatientDetail(this.patient.id).subscribe((response: IPatient) => {
+        console.log(response);
           this.formGroup.patchValue(response);
           this.onGetCityBycountry(response['country']['id']);
-          this.formGroup.get('cityId').setValue(response['city']['id']);
           this.formGroup.get('country').setValue(response['country']['id']);
+          this.formGroup.get('cityId').setValue(response['city']['id']);
+
+          this.onGetCityBycountry(response['countryOfResidence']['id']);
+          this.formGroup.get('countryOfResidence').setValue(response['countryOfResidence']['id']);
+          this.formGroup.get('cityOfResidence').setValue(response['cityOfResidence']['id']);
 
           let date = this.datePipe.transform(response.birthDate, "yyyy-MM-dd")          
           this.formGroup.get('birthDate').setValue(date);
@@ -235,6 +240,9 @@ export class PatientFormmComponent implements OnInit {
       email: new FormControl(null),
       cityId: new FormControl(null),
       country: new FormControl(null),
+      cityOfResidence: new FormControl(null),
+      countryOfResidence: new FormControl(null),
+      municipality: new FormControl(''),
       insurances: new FormControl([]),
       idcardType: new FormControl(''),
       idCardNumber: new FormControl(''),
