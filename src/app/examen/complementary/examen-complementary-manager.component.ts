@@ -2,13 +2,13 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
-import { Act } from "src/app/act/act/models/act";
+import { ExaminationService } from "src/app/medical-folder/examination/services/examination.service";
 import { labelValue } from "src/app/shared/domain";
 import { NotificationService } from "src/app/_services";
 import { NotificationType } from "src/app/_utilities/notification-type-enum";
 import { ExamenCreateData } from "../models/exam-dto";
 import { ExamService } from "../services/exam.service";
-import { examenComplementary as ExamenComplementary, EXAMEN_COMPLEMENTARY_TYPES } from "./api/domain/examenComplementary";
+import { DAY_BETWEEN_LAST_EXAMINATION_AND_CURRENTDATE, ExamenComplementary, EXAMEN_COMPLEMENTARY_TYPES } from "./api/domain/examenComplementary";
 import { ExamenComplementaryService } from "./api/service/examen-complementary.service";
 
 @Component({ selector: 'examen-complementary-manager', templateUrl: './examen-complementary-manager.component.html'})
@@ -39,11 +39,18 @@ export class examenComplementaryManagerComponent implements OnInit {
 
     actsID: number [] = [];
 
-    constructor(private examenComplementaryService: ExamenComplementaryService, private examenService: ExamService, private notificationService: NotificationService, private modalService: NgbModal){
+    dayBetweenLastExaminationAndCurrentDate: number;
 
-    }
+    constructor(
+      private modalService: NgbModal,
+      private examenService: ExamService, 
+      private notificationService: NotificationService,
+      private examinationService: ExaminationService,
+      private examenComplementaryService: ExamenComplementaryService,
+      ){}
 
     ngOnInit(): void {
+      this.dayBetweenFirstExaminationAndCurrentDate();
         this.examenCreateData.admission = this.admissionId;
         this.findExamensComplementaries();
         this.filteredExamenComplementaryTypes = EXAMEN_COMPLEMENTARY_TYPES;        
@@ -54,22 +61,34 @@ export class examenComplementaryManagerComponent implements OnInit {
     }  
     
     public create(): void {
-        this.examenCreateData.examenTytpe = false;
-        this.examenCreateData.acts = this.actsID;
-        console.log(this.examenCreateData);
+        console.log(this.dayBetweenLastExaminationAndCurrentDate);
         
-        this.examenService.createExam(this.examenCreateData).subscribe(
-            (response: any) => {
-              this.modalService.dismissAll();
-              this.addExam.emit();
-            },
-            (errorResponse: HttpErrorResponse) => {
-              this.notificationService.notify(
-                NotificationType.ERROR,
-                errorResponse.error.message
-              );
-            }
-          )
+        if (this.dayBetweenLastExaminationAndCurrentDate > DAY_BETWEEN_LAST_EXAMINATION_AND_CURRENTDATE) {
+          this.notificationService.notify( NotificationType.WARNING,`Vous ne pouvez pas effectuer de nouvelle consultation, car cette admission date de plus de ${this.dayBetweenLastExaminationAndCurrentDate}. Veuillez effectuer une autre admission pour ce patient`);
+        }else{
+          this.examenCreateData.examenTytpe = false;
+          this.examenCreateData.acts = this.actsID;
+          if (this.examenCreateData.acts.length != 0) {
+            this.examenService.createExam(this.examenCreateData).subscribe(
+              (response: any) => {
+                this.modalService.dismissAll();
+                this.addExam.emit();
+              },
+              (errorResponse: HttpErrorResponse) => {
+                this.notificationService.notify(
+                  NotificationType.ERROR,
+                  errorResponse.error.message
+                );
+              }
+            )
+          }else{
+            this.notificationService.notify(
+              NotificationType.ERROR,
+              "Veuillez selectionner au moins une analyse médicale"
+            );
+          }
+        }
+      
     }
 
 public onSelectedExamenComplementary(examen: ExamenComplementary){
@@ -80,7 +99,7 @@ public onSelectedExamenComplementary(examen: ExamenComplementary){
         this.actsID.splice(index, 1)
       } else {
         this.selectedExamens.push(examen);
-        this.actsID.push(examen.act.id)
+        this.actsID.push(examen.actID)
       }     
       console.log(this.selectedExamens);
       console.log(this.actsID);
@@ -125,6 +144,7 @@ public onSelectedExamenComplementary(examen: ExamenComplementary){
                 this.filteredExamenComplementaryTypes = partial;
             }) 
         }
+            console.log(this.filteredExamenComplementaries);
              
       }
 
@@ -133,5 +153,17 @@ public onSelectedExamenComplementary(examen: ExamenComplementary){
           
         console.log(item);
         if (!arr.includes(item)) arr.push(item);
+      }
+
+      public analysisSelect(examenID: any){
+        console.log(examenID);
+      }
+
+      private dayBetweenFirstExaminationAndCurrentDate() {
+        this.examinationService.dayBetweenFirstExaminationAndCurrentDate(this.admissionId).subscribe(
+          (response: number) => {
+            this.dayBetweenLastExaminationAndCurrentDate = response;
+          }
+        )
       }
 }

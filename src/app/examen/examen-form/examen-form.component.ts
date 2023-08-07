@@ -43,6 +43,8 @@ export class ExamenFormComponent implements OnInit {
   specialitiesName: string[] = [];
   specialitiesNameFilter: string[] = [];
 
+
+
   constructor(private actService: ActService, private examenService: ExamService,private modalService: NgbModal, private examinationService: ExaminationService,
               private analysisSpecialityService: analysisSpecialityService, private notificationService: NotificationService) { }
 
@@ -157,7 +159,6 @@ export class ExamenFormComponent implements OnInit {
 
   private removeDuplicates(arr, item) {
     console.log(item);
-    
     if (!arr.includes(item)) arr.push(item);
   }
 

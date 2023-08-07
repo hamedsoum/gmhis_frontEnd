@@ -56,12 +56,19 @@ export class LaboratoryExamenComponent implements OnInit {
   ];
 
   showloading: boolean = false;
+
   currentIndex: number;
+
   examenId: string;
+
   analysisRequestItems: IExamItemDto[];
+
   medicalAnalysisSpeciality: any = [];
+
   selectectedExamIds: string[] = [];
+
   medicalAnalysisResultFiles: any = [];
+
   pdfFile: File;
 
 
@@ -137,9 +144,11 @@ export class LaboratoryExamenComponent implements OnInit {
     this.modalService.open(addFormContent, { size: 'lg' });
   }
 
-  public openUpdateForm(updateFormContent, item : IExam) {
+  public openMakAsDone(MakAsDoneContent, item : IExam) {
     this.examen = item;
-    this.modalService.open(updateFormContent, { size: 'lg' });
+    console.log(this.examen);
+    
+    this.modalService.open(MakAsDoneContent, { size: 'lg' });
   }
 
 

@@ -212,6 +212,8 @@ export class NewExaminationComponent implements OnInit {
     addExam() {
       this.save();
       this.modalService.dismissAll();
+      console.log("here");
+      
       this.notificationService.notify( NotificationType.SUCCESS,"Examen demandé avec succès");
     }
 

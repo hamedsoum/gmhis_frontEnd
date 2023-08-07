@@ -2,12 +2,15 @@ import { Act } from "src/app/act/act/models/act";
 import { labelValue } from "src/app/shared/domain";
 import { AuditPKDTO } from "src/app/shared/models/Audit";
 
-export enum examenComplementaryType {
-    BIOLOGYCAL_ANALYSIS = 'biologicalAnalysis',
+export enum ExamenComplementaryType {
+    BIOLOGICAL_ANALYSIS = 'biological_Analysis',
     IMAGERY = 'imagery',
     ISOTOPIC = 'isotopic',
     MEDICAL_EXPLORATION = 'medical_exploration'
 }
+
+export const DAY_BETWEEN_LAST_EXAMINATION_AND_CURRENTDATE = 7;
+
 
 export const EXAMEN_COMPLEMENTARY_TYPES: labelValue[] = [
     {
@@ -29,28 +32,35 @@ export const EXAMEN_COMPLEMENTARY_TYPES: labelValue[] = [
 ]
 export const EXAMEN_COMPLEMENTARY_TYPES_FR = ['Analyses Biologiques', "Imageries", 'Isotopique', "'exploration médicale"];
 
-export type examenComplementaryTypeStr = 'biologicalAnalysis' | 'imagery' | 'isotopic' | 'medical_exploration';
+export type ExamenComplementaryTypeStr = 'biological_Analysis' | 'imagery' | 'isotopic' | 'medical_exploration';
 
-export interface examenComplementary extends AuditPKDTO {
+export interface ExamenComplementary extends AuditPKDTO {
     id: string;
 
-    act:  Act;
+    act: Act;
+    actName: string;
 
-    examenComplementaryType: examenComplementaryType;
+    actID: number;
+
+    examenComplementaryType: ExamenComplementaryType | ExamenComplementaryTypeStr;
 
     active: boolean;
 
     facilityID: string;
+
+    medicalAnalysisName: string;
+
+    medicalAnalysisID: string;
 }
 
-export interface examenComplementaryPartial {
+export interface ExamenComplementaryPartial {
     id: string;
 
     name: string;
 
     actID:  string;
 
-    examenComplementaryType: examenComplementaryType;
+    examenComplementaryType: ExamenComplementaryType;
 
     active: boolean;
 
@@ -59,7 +69,7 @@ export interface examenComplementaryPartial {
 export class ExamenComplementaryCreate {
     actID: number;
 
-    examenComplementaryType: examenComplementaryType;
+    examenComplementaryType: ExamenComplementaryType;
 
     active: boolean;
 }

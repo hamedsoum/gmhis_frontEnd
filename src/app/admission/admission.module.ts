@@ -8,6 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { InvoiceModule } from '../invoice/invoice.module';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { NbDateFnsDateModule } from '@nebular/date-fns';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     AdmissionRoutingModule,
     SharedModule,
     InvoiceModule,
-    NgxExtendedPdfViewerModule
+    NgxExtendedPdfViewerModule,
+    NbDateFnsDateModule
 
   ],
   exports: [

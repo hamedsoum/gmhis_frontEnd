@@ -132,7 +132,7 @@ export class PatientListComponent implements OnInit {
   }
 
   openUpdateForm(updateFormContent, item?) {
-    this.disabledAllFormFiled = true;
+    this.disabledAllFormFiled = false;
     this.patient = item;
     this.modalService.open(updateFormContent, { size: 'xl' });
   }

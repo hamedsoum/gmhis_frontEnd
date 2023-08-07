@@ -21,7 +21,6 @@
 <div [style.margin-top]="'20px'" class=" d-flex justify-content-center">
   <div  *ngIf="!makePrescription">
     <button class="btn-submit" (click)="onMakePrescription()">Ordonnance</button>
-    <button class="btn-submit mx-4" (click)="onChooseLaboratory(chooseLaboratoryContent, 'md')">Examens</button>
     <button class="btn-submit mx-4" (click)="onpenExamComplementary(examenComplementary)">Examens Complementaires</button>
   </div>
 
@@ -69,36 +68,6 @@
         <button (click)="onExamType(invoice)" class="btn btn-success">Interne</button>
     </div>
   </ng-template>
-
-  <ng-template #exame let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
-        Demande d'analayse(s)
-      </h4>
-      <nb-icon
-        style="cursor: pointer"
-        (click)="d('Cross click')"
-        class="h4"
-        icon="close-circle-outline"
-      ></nb-icon>
-    </div>
-    <div class="modal-body">
-      <app-examen-form [examenType]="examenType" [admissionId]="admissionId" (addExam)="addExam()"></app-examen-form>
-    </div>
-</ng-template>
-
-<ng-template #invoice let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <div>
-      <span class="modalTitle" >Nouvelle Facture</span>
-      <span class="modal-subTitle">---</span>
-    </div>
-    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"  ></nb-icon>
-  </div>
-  <div class="modal-body">
-    <app-invoice-form [admission]="admission" (addInvoice)="addInvoice()"> </app-invoice-form>
-  </div>
-</ng-template>
 
 <ng-template #invoice let-c="close" let-d="dismiss">
   <div class="modal-header">

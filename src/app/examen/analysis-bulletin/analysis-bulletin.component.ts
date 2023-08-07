@@ -21,16 +21,24 @@ export class AnalysisBulletinComponent implements OnInit {
 
   
   showloading: boolean = false;
+
   currentIndex: number;
+
   examenId: number;
+
   analysisRequestItems: IExamItemDto[];
+
   medicalAnalysisSpeciality: any = [];
+
   selectectedExamIds: string[] = [];
+
   medicalAnalysisResultFiles: any = [];
+
   pdfFile: File;
+
   file: File;
-  @Input()
-  resultAskByDoctor : boolean = false; 
+
+  @Input()resultAskByDoctor : boolean = false; 
   imageURL: string;
 
   constructor(

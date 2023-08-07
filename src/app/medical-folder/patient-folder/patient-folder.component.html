@@ -29,7 +29,7 @@
                 <div class="col-lg-4"> 
                     <div>
                         <span class="spanDefault">correspondant :</span>                     
-                        <span> {{patient?.correspondant | uppercase}}  <span class="spanDefault"> :</span> {{patient?.correspondantCellPhone}}</span>
+                        <span> {{patient?.correspondant | uppercase}}  <span class="spanDefault"> :</span> {{patient?.emergencyContact}}</span>
                      </div>
                     <div>
                         <span class="spanDefault">Nombre d'enfant :</span>                       
@@ -71,7 +71,7 @@
                     <span [style.font-size]="'13px'" [style.display]="'block'">Centre de Santé : {{examination.facility}}</span>
                 </nb-card-header>
                     <nb-card-body>
-                    {{truncate(examination?.conclusion,100)}}
+                    <span>Diagnostic du Medecin:</span> {{examination?.conclusion ? truncate(examination?.conclusion,100) : 'En Attente' }}
                 </nb-card-body>
                 <nb-card-footer>
                     {{examination.date | date: "dd/MM/yyyy"}}

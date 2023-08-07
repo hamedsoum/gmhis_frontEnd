@@ -86,6 +86,7 @@ export class ExaminationListComponent implements OnInit, OnChanges {
     this.findAdmission({id : this.admissionId});
     this.initform();
     this.getExamination();
+    this.newExaminationChange.subscribe(() => this.getExamination())
   }
 
   ngOnChanges(changes: SimpleChanges): void {    

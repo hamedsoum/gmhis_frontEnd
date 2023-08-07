@@ -135,7 +135,7 @@ export class PatientFormmComponent implements OnInit {
                 this.insuranceFormGroup.controls[index].get('insuranceSuscriber').setValue(el.subscriberId);
               });
             });
-            if (this.disabledAllFormFiled) this.formGroup.disable()
+            if (this.disabledAllFormFiled == true) this.formGroup.disable()
         });
     }else{
       this.addInsurance();

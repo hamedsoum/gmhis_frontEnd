@@ -25,14 +25,6 @@
                       </ng-select>
                   </div>
 
-                  <!-- <div class="col-lg-2 col-md-4 col-sm-12 rounded-pill">
-                    <ng-select formControlName="practician" placeholder="practicien">
-                        <ng-option *ngFor="let practician of practicians" [value]="practician.userId">
-                          {{practician.userFirstName +" "+ practician.userLastName}}
-                        </ng-option>
-                      </ng-select>
-                  </div> -->
-
                   <div class="col-lg-2 col-md-4 col-sm-12 rounded-pill">
                     <ng-select formControlName="service" placeholder="service">
                         <ng-option *ngFor="let actServiceNameAndId of actServicesNameAndId" [value]="actServiceNameAndId.id">
@@ -125,7 +117,7 @@
                   <div class="text" ngbDropdownMenu aria-labelledby="dropdownBasic1">
 
                     <button class="text-center" 
-                    (click)=" onOpenCheckPatientNumberModal(checkPatientNumberModal, admission)"               
+                    (click)="onVerifyCheckPatientNumber(admission)"               
                     ngbDropdownItem>Dossier</button>
                   </div>
                 </div>

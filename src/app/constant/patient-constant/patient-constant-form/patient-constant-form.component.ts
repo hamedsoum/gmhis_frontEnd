@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import {Component,EventEmitter,Input, OnInit,Output } from '@angular/core';
 import {FormArray,FormBuilder,FormControl,FormGroup,} from '@angular/forms';
+import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
@@ -10,7 +11,7 @@ import { ConstantTypeService } from '../../constantType/constant-type.service';
 import { IPatientConstantDto as constantCreateData } from '../models/patient-constant-dto';
 import { PatientConstantService } from '../service/patient-constant.service';
 
-@Component({selector: 'app-patient-constant-form',templateUrl: './patient-constant-form.component.html'})
+@Component({selector: 'app-patient-constant-form',templateUrl: './patient-constant-form.component.html', providers: [NgbActiveModal]})
 export class CreateConstantFormComponent implements OnInit {
 
 
@@ -35,7 +36,13 @@ export class CreateConstantFormComponent implements OnInit {
   temperatureConstantValue: any ='';
   ConstantID: any;
 
-  constructor(private fb: FormBuilder,private constantTypeService: ConstantTypeService,private notificationService: NotificationService,private patientConstantService : PatientConstantService) {}
+  constructor(
+    private fb: FormBuilder,
+    private constantTypeService: ConstantTypeService,
+    private notificationService: NotificationService,
+    private patientConstantService : PatientConstantService,
+    private activeModal: NgbActiveModal,
+    ) {}
 
   ngOnInit(): void {    
     this.buildConstantCreateForm();

@@ -9,14 +9,18 @@ import { NbAccordionModule, NbCheckboxModule } from '@nebular/theme';
 import { LaboratoryExamenComponent } from './laboratory-examen/laboratory-examen.component';
 import { AnalysisBulletinComponent } from './analysis-bulletin/analysis-bulletin.component';
 import { examenComplementaryManagerComponent } from './complementary/examen-complementary-manager.component';
+import { BiologicalAnalysisComponent } from './complementary/analysis-biological/biological-analysis.component';
+import { ImageryComponent } from './complementary/imagery/imagery.component';
 
 
 @NgModule({
   declarations: [
+    ImageryComponent,
     ExamenListComponent, 
     ExamenFormComponent, 
     LaboratoryExamenComponent, 
     AnalysisBulletinComponent, 
+    BiologicalAnalysisComponent,
     examenComplementaryManagerComponent
   ],
   imports: [
@@ -27,8 +31,10 @@ import { examenComplementaryManagerComponent } from './complementary/examen-comp
     NbAccordionModule
   ],
   exports: [
+    ImageryComponent,
     ExamenListComponent,
      ExamenFormComponent,
+     BiologicalAnalysisComponent,
      examenComplementaryManagerComponent
   ]
 })

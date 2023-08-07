@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { GMHIS_ENDPOINT } from "src/app/_constants/endpoint.constant";
 import { PageList } from "src/app/_models/page-list.model";
 import { environment } from "src/environments/environment";
-import { examenComplementary as ExamenComplementary, ExamenComplementaryCreate, examenComplementaryPartial as ExamenComplementaryPartial } from "../domain/examenComplementary";
+import { ExamenComplementary as ExamenComplementary, ExamenComplementaryCreate, ExamenComplementaryPartial } from "../domain/examenComplementary";
 
 @Injectable({
     providedIn: 'root'

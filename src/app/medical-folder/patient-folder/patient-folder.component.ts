@@ -176,9 +176,7 @@ export class PatientFolderComponent implements OnInit {
   AdmissionNoHaveExamination(){
     this.examinationService.AdmissionNoHaveExamination(this.patient.id).subscribe(
       (response : boolean) =>{
-        this.lastAdmissionNoHaveExamination = response;
-        console.log(this.lastAdmissionNoHaveExamination);
-  
+        this.lastAdmissionNoHaveExamination = response;  
       },
       (errorResponse : HttpErrorResponse) => {
       }
@@ -186,7 +184,6 @@ export class PatientFolderComponent implements OnInit {
   }
   public ageFromDateOfBirthday(dateOfBirth: any): number {
     return moment().diff(dateOfBirth, 'years');
-    console.log(moment.months());
   }
 
   public getExamination() {
@@ -265,6 +262,7 @@ export class PatientFolderComponent implements OnInit {
   addExamination() {
     this.modalService.dismissAll();
     this.getExamination();
+    this.lastAdmissionNoHaveExamination = false;
   }
 
    truncate(str : string, length : number) {

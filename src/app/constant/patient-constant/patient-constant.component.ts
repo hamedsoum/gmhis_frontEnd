@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
 import { IPatient } from 'src/app/patient/patient';
 import { PatientService } from 'src/app/patient/patient.service';
@@ -14,7 +14,7 @@ import { SubSink } from 'subsink';
 import { IPatientConstant } from './models/patient-constant';
 import { PatientConstantService } from './service/patient-constant.service';
 
-@Component({selector: 'app-patient-constant',templateUrl: './patient-constant.component.html'})
+@Component({selector: 'app-patient-constant',templateUrl: './patient-constant.component.html',providers: [NgbActiveModal] })
 export class PatientConstantComponent implements OnInit {
   private readonly POUL_MIN = 60;
   private readonly POUL_MAXI = 80;
@@ -68,11 +68,15 @@ export class PatientConstantComponent implements OnInit {
   new EventEmitter();
   uniquefieldHeader: string[];
   uniqueTableHeaders: any[];
+
+  private openConstantModalRef: NgbModalRef;
+
   constructor(
     private route : ActivatedRoute,
     private patientConstantService : PatientConstantService,
     private notificationService: NotificationService,
     private modalService: NgbModal,
+    private activeModal: NgbActiveModal,
     private patientService : PatientService,
     private datePipe : DatePipe
     ) { }
@@ -182,7 +186,7 @@ export class PatientConstantComponent implements OnInit {
   }
 
   openAddForm(addFormContent) {
-    this.modalService.open(addFormContent, { size: 'lg' });
+    this.openConstantModalRef = this.modalService.open(addFormContent, { size: 'lg' });
   }
 
   openUpdateForm(updateFormContent, item?) {
@@ -199,7 +203,7 @@ export class PatientConstantComponent implements OnInit {
   }
 
   addConstantType() {
-    this.modalService.dismissAll();
+    this.openConstantModalRef.close();
     this.notificationService.notify(
       NotificationType.SUCCESS,
       'Constante ajoutée avec succès'

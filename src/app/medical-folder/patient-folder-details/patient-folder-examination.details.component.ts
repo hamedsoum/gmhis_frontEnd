@@ -149,6 +149,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
       (response : number) => {
         this.examinationNumber = response;
         this.items2[0]["badge"]["text"] = this.examinationNumber.toString();
+        this.newExamination = !this.newExamination;
       }
     )
   }
@@ -167,6 +168,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
       (response : any) => {
         this.patientPrescriptionNumber = response;
         this.items2[2]["badge"]["text"] = this.patientPrescriptionNumber.toString();
+        this.newExamination = !this.newExamination;
       }
     )
   }

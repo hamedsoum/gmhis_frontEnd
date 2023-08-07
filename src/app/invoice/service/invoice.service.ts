@@ -101,7 +101,6 @@ export class InvoiceService {
     let queryParams = {};
     queryParams = {
       params: new HttpParams()
-        .set('userID', data['userID'] ?? '')
         .set('billStatus', data['billStatus'])
         .set('date', data['date'])
         .set('page', data['page'])

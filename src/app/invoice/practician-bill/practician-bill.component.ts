@@ -177,7 +177,6 @@ export class PracticianBillComponent implements OnInit {
   }
 
   public getInsuranceBill() {    
-    this.searchForm.get('billStatus').setValue(null);
     this.searchForm.get("date").setValue(null);
     this.dateEnd = null;
     this.dateStart = null;
@@ -191,7 +190,9 @@ export class PracticianBillComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;                               
+          this.items = response.items;
+          console.log(this.items);
+                                         
           this.itemsFiltered = this.items;  
           if (this.userId !=null) {
             this.filterItemsByPractician(this.userId);                 
@@ -267,7 +268,7 @@ o
 
    private buildField() {
     this.searchForm = new FormGroup({
-      billStatus: new FormControl(null),
+      billStatus: new FormControl('C'),
       userID: new FormControl(null),
       date : new FormControl(""),
       page: new FormControl(0),
