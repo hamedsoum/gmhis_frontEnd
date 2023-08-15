@@ -52,7 +52,7 @@
                 <app-examen-list (updatePatientExamenNumber)="updatePatientExamenNumber()" [admissionId]="admissionId" [patientId]="patientId"></app-examen-list>
             </div>
             <div *ngIf="menuClick=='Ordonances'" class="col-lg-10">
-                <app-prescription-list (updatePatientPrescriptionNumber)="updatePatientPrescriptionNumber()" [admissionId]="admissionId" [patientId]="patientId"></app-prescription-list>
+                <app-prescription-list (prescriptionNumberChangeEvent)="onChangePrescriptionNumber()" [admissionId]="admissionId" [patientId]="patientId"></app-prescription-list>
             </div>
             <div *ngIf="menuClick=='Certificats médicaux'" class="col-lg-10">
                 <app-medical-certificates-list></app-medical-certificates-list>

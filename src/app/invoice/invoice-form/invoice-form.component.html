@@ -144,7 +144,7 @@
                             <div class="col-lg-4 col-md-12 col-sm-12">
                                 <label for="insurance">acte</label>
                                 <ng-select formControlName="act" placeholder="Selectionner un acte"
-                                    (change)="onActSelect(i)">
+                                    (change)="onActSelect(act)">
                                     <ng-option *ngFor="let act of actsList" [value]="act.id">
                                         {{act.name}}</ng-option>
                                 </ng-select>
@@ -155,7 +155,7 @@
                                         <label for="{{'pratician' + i}}">Practician</label>
                                         <ng-select formControlName="pratician" placeholder="Selectionner un practicien">
                                             <ng-option *ngFor="let practician of practicians " [value]="practician.userId">
-                                                {{practician.userFirstName+" "+ practician.userLastName}}
+                                                {{practician.practicianName}}
                                             </ng-option>
                                         </ng-select>
                                     </div>
@@ -172,7 +172,7 @@
                             </div>
                             <div class="col-lg-2 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    <label for="{{'cost' + i}}">Montant pris en charge par la CNAM</label>
+                                    <label class="sh-text-medium" for="{{'cost' + i}}">PEC la CNAM</label>
                                     <div class="input-group-sm">
                                         <input formControlName="costToApplyCNAMInsured" type="number" name="{{'cost' + i}}"
                                             id="{{'cost' + i}}">

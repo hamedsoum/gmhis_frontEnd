@@ -3,7 +3,7 @@ export enum patientType {
     INSURED = 'A' // Patient Assuré
 }
 
-export interface IInvoiceDto {
+export interface InvoiceCreateData {
      id: number,
       admission: number,
       billType: string,

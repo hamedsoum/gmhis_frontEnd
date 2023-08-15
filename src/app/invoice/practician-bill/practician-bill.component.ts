@@ -42,6 +42,7 @@ export class PracticianBillComponent implements OnInit {
   totalPages: number;
 
   public items: any;
+
   public itemsFiltered = [];
 
   selectedSize: number;
@@ -56,12 +57,7 @@ export class PracticianBillComponent implements OnInit {
     { id: 1000, value: 1000 },
   ];
 
-  actives = [
-    { id: true, value: 'Actif' },
-    { id: false, value: 'Inactif' },
-  ];
-
-  showloading: boolean = false;
+  loading: boolean = false;
   currentIndex: number;
 
   acctionsList : boolean = false;
@@ -79,6 +75,7 @@ export class PracticianBillComponent implements OnInit {
   searchDateRange : string;
 
   predefined =  "PERIODE";
+
   dateOptions = [
     {id:PredefinedDate.TODAY, value:"Aujourd'hui"},
     {id:PredefinedDate.THIS_WEEK , value:"Semaine en cours"},
@@ -86,8 +83,11 @@ export class PracticianBillComponent implements OnInit {
     {id:PredefinedDate.THIS_YEAR , value:"Année en cours"},
   ]
   defaultSearchPeriode: object;
+
   practicians: any[] = [];
+
   practician : any;
+
   userId: number;
 
   dateStart = null;
@@ -181,12 +181,12 @@ export class PracticianBillComponent implements OnInit {
     this.dateEnd = null;
     this.dateStart = null;
     this.practician = null;
-    this.showloading = true;    
+    this.loading = true;    
 
     this.subs.add(
       this.invoiceService.facilityInvoicesPractician(this.searchForm.value).subscribe(
         (response: PageList) => {
-          this.showloading = false;
+          this.loading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
@@ -204,7 +204,7 @@ export class PracticianBillComponent implements OnInit {
           this.totalPages = response.totalPages;
         },
         (errorResponse: HttpErrorResponse) => {
-          this.showloading = false;
+          this.loading = false;
           this.notificationService.notify(
             NotificationType.ERROR,
             errorResponse.error.message

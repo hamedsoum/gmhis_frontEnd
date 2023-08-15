@@ -18,7 +18,21 @@
                         <imagery (analysisSelectEvent)="onSelectedExamenComplementary($event)" ></imagery>
                      </nb-accordion-item-body>
                 </nb-accordion-item>
-
+                <nb-accordion-item>
+                    <nb-accordion-item-header>
+                        {{examenComplementaryTypes[2].label | uppercase}}
+                     </nb-accordion-item-header>
+                     <nb-accordion-item-body>
+                     </nb-accordion-item-body>
+                </nb-accordion-item>
+                <nb-accordion-item>
+                    <nb-accordion-item-header>
+                        {{examenComplementaryTypes[3].label | uppercase}}
+                     </nb-accordion-item-header>
+                     <nb-accordion-item-body>
+                     </nb-accordion-item-body>
+                </nb-accordion-item>
+        
                 <!-- <nb-accordion-item *ngFor="let type of filteredExamenComplementaryTypes; let i = index;">
                     <nb-accordion-item-header>
                         {{type.label | uppercase}}

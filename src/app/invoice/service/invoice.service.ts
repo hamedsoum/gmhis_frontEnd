@@ -4,7 +4,7 @@ import { AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { PageList } from 'src/app/_models/page-list.model';
 import { environment } from 'src/environments/environment';
-import { InvoiceCost } from '../models/invoice';
+import { InvoiceCost, InvoiceCreateData } from '../models/invoice';
 
 @Injectable({
   providedIn: 'root'
@@ -47,8 +47,9 @@ export class InvoiceService {
     return {totalInvoice, partPecByCNAM, partPecByOthherInsurance,partientPart }
   }
 
-  createInvoice(invoice: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/bill/add`, invoice);
+  createInvoice(invoiceCreateData: InvoiceCreateData): Observable<any> {
+    console.log(invoiceCreateData.acts)
+    return this.http.post<any>(`${this.apiUrl}/bill/add`, invoiceCreateData);
   }
 
   findAll(data): Observable<PageList> {
@@ -56,9 +57,9 @@ export class InvoiceService {
     queryParams = {
       params: new HttpParams()
         .set('billNumber', data['billNumber'])
-        .set('admissionNumber', data['admissionNumber'])
-        .set('firstName', data['firstName'] ?? '')
         .set('lastName', data['lastName'] ?? '')
+        .set('firstName', data['firstName'] ?? '')
+        .set('admissionNumber', data['admissionNumber'])
         .set('patientExternalId', data['patientExternalId'] ?? '')
         .set('cellPhone', data['cellPhone'] ?? '')
         .set('cnamNumber', data['cnamNumber'] ?? '')

@@ -96,7 +96,7 @@
           <tbody>
             <tr
               *ngFor="
-                let invoice of itemsFiltered
+                let invoice of items
                   | paginate
                     : {
                         itemsPerPage: selectedSize,
@@ -125,7 +125,7 @@
       <div class="d-flex w-100 justify-content-center">
         <div
           style="color: #623508"
-          *ngIf="showloading"
+          *ngIf="loading"
           class="spinner-border"
           style="width: 3rem; height: 3rem"
           role="status"

@@ -14,7 +14,7 @@ import { User } from 'src/app/_models/user.model';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { UserService } from 'src/app/_services/user.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
-import { IInvoiceDto as InvoiceCreateData, InvoiceCost, patientType } from '../models/invoice';
+import { InvoiceCreateData, InvoiceCost, patientType } from '../models/invoice';
 import { InvoiceService } from '../service/invoice.service';
 
 @Component({
@@ -89,7 +89,6 @@ export class InvoiceFormComponent implements OnInit {
           this.patientInsurances = response;
           if (this.patientInsurances.length != 0) {
             this.patientInsurances.forEach((el, i) => {
-              console.log(el);
               this.addInsured();
               this.setInsuredRowValue(el,i);
             })
@@ -102,6 +101,8 @@ export class InvoiceFormComponent implements OnInit {
         }
       )
       if (this.admission.admissionStatus == admissionStatus.UNBILLED) {
+        console.log(this.admission.practicianId);
+        
         this.acts.at(0).get('act').setValue(this.admission.actId);
         this.acts.at(0).get('cost').setValue(this.admission.actCost);
         this.acts.at(0).get('admission').setValue(this.admission.id);
@@ -188,6 +189,8 @@ public onDeleteInsured(controlIndex : number){
 }
 
 public onActSelect(row) {
+  console.log(row);
+  
   let data:{} = {
     "act": this.acts.value[row]["act"],
     "convention": this.invoiceForm.get('convention').value
@@ -313,7 +316,11 @@ public isCnamCostField(controlIndex: number): boolean {
   }
 
   private findPracticianSimpleList() {
-    this.practicianService.findPracticianSimpleList().subscribe((response: any) => {this.practicians = response;})
+    this.practicianService.findPracticianSimpleList().subscribe((response: any) => {
+      this.practicians = response;
+      console.log(this.practicians);
+      
+    })
   }
 
   private findPaymentTypesActiveNameAndIds() {

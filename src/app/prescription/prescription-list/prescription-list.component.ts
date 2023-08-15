@@ -31,7 +31,7 @@ export class PrescriptionListComponent implements OnInit {
   @Input()
   admissionId : number;
 
-  @Output('updatePatientPrescriptionNumber') updatePatientPrescriptionNumber: EventEmitter<any> =
+  @Output() prescriptionNumberChangeEvent: EventEmitter<any> =
   new EventEmitter();
 
   prescription : any;
@@ -133,7 +133,7 @@ export class PrescriptionListComponent implements OnInit {
       NotificationType.SUCCESS,
       "Ordonnance crée avec succès"
     );
-    this.updatePatientPrescriptionNumber.emit();
+    this.prescriptionNumberChangeEvent.emit();
     this.getPrescription();
   }
 

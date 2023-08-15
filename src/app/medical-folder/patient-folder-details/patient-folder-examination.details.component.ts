@@ -26,7 +26,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
 
   examinationNumber: number = 0;
   patientConstantNumber: number = 0;
-  patientPrescriptionNumber: number = 0;
+  prescriptionNumber: number = 0;
   patientExamNumber: number = 0;
 
   showConstantList: boolean;
@@ -115,7 +115,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
             this.showConstantList = true;
             this.updateExaminationNuber(this.admissionId);
             this.updatePattientConstantNumber(this.patient.id);
-            this.updatePatientPrescriptionNumber(this.admissionId)
+            this.onChangePrescriptionNumber(this.admissionId)
             this.updatePatientExamenNumber(this.admissionId)
           }
         )
@@ -163,11 +163,11 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
     )
   }
 
-  updatePatientPrescriptionNumber(admissionID?:number){
+  onChangePrescriptionNumber(admissionID?:number){
     this.prescriptionService.getPrescriptionNumberByPatientId(this.admissionId).subscribe(
       (response : any) => {
-        this.patientPrescriptionNumber = response;
-        this.items2[2]["badge"]["text"] = this.patientPrescriptionNumber.toString();
+        this.prescriptionNumber = response;
+        this.items2[2]["badge"]["text"] = this.prescriptionNumber.toString();
         this.newExamination = !this.newExamination;
       }
     )
@@ -205,7 +205,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
       NotificationType.SUCCESS,
       "Ordonnance prescrite avec succès"
     );
-    this.updatePatientPrescriptionNumber();
+    this.onChangePrescriptionNumber();
   }
 
   ChooseLaboratoryType(exameFormContent,laboratoryType : boolean) : void {
