@@ -100,9 +100,7 @@ export class InvoiceFormComponent implements OnInit {
 
         }
       )
-      if (this.admission.admissionStatus == admissionStatus.UNBILLED) {
-        console.log(this.admission.practicianId);
-        
+      if (this.admission.admissionStatus == admissionStatus.UNBILLED) {        
         this.acts.at(0).get('act').setValue(this.admission.actId);
         this.acts.at(0).get('cost').setValue(this.admission.actCost);
         this.acts.at(0).get('admission').setValue(this.admission.id);
@@ -155,7 +153,9 @@ export class InvoiceFormComponent implements OnInit {
     if (!!this.InvoiceType) this.invoiceCreateData.billType = this.InvoiceType;
     this.invoiceCreateData.acts.forEach((el) => {
       el.admission = this.admissionForTemplate.id
-    })    
+    })  
+    console.log(this.invoiceCreateData);
+      
     this.invoiceService.createInvoice(this.invoiceCreateData).subscribe(
       (res: any) => {
         this.addInvoice.emit();
@@ -188,17 +188,10 @@ public onDeleteInsured(controlIndex : number){
   this.deleteInsured(controlIndex);
 }
 
-public onActSelect(row) {
-  console.log(row);
-  
-  let data:{} = {
-    "act": this.acts.value[row]["act"],
-    "convention": this.invoiceForm.get('convention').value
-  }
-  this.invoiceService.getActCost(data).subscribe(res => {
-    this.acts.controls[row].get('cost').setValue(res);
-  });
-
+public onActSelect(ActID,i) {
+  this.acts.at(i).get('act').setValue(ActID);
+  const act = this.actsList.find(act => act.id == ActID);
+  this.acts.at(i).get('cost').setValue(act["amount"]);  
 }
 
 public onInsuredSelect(index, selectedInsured) {
@@ -261,7 +254,6 @@ public isCnamCostField(controlIndex: number): boolean {
   public get acts(): FormArray {return this.invoiceForm.get('acts') as FormArray;}
 
   public get insureds(): FormArray {return this.invoiceForm.get('insuredList') as FormArray;}
-
 
   private createActsGroups(): FormGroup {
     return this.fb.group({

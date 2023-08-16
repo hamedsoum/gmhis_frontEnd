@@ -65,6 +65,8 @@ export class PaymentComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     if (this.invoice) {
+      console.log(this.invoice);
+      
       this.patientInvoice = this.invoice;
       this.examDto.admission = this.patientInvoice.admission.id;
     }

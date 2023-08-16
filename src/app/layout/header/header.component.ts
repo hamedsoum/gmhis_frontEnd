@@ -10,6 +10,7 @@ import { Sharedatafromheadertosidebar2Service } from 'src/app/_services/sharedat
 import { UserService } from 'src/app/_services/user.service';
 import { ViewChild } from '@angular/core';
 import { SubSink } from 'subsink';
+import { userRoles } from 'src/app/shared/constant';
 
 @Component({
   selector: 'app-header',
@@ -54,6 +55,9 @@ x
   deliveryModalRef : NgbModalRef;
 
   showModal = false;
+
+  userRole = userRoles;
+
   constructor(private router: Router,
     private readonly sidebarService: NbSidebarService,
     private authService: AuthenticationService,
@@ -65,17 +69,16 @@ x
       config.backdrop = 'static';
       config.keyboard = false;}
 
-  // Unsubscribe when the component dies
-  ngOnDestroy() {
-    this.subs.unsubscribe();
-  }
-
   ngOnInit(): void {
     this.user = this.authService.getUserFromLocalStorage();                
     this.shareDataFromHeaderToSidebar2.currentSource.subscribe(data => this.showsideBar = data)
     this.searchForm = new FormGroup({ 
       searchText : new FormControl(""),
       action : new FormControl("sale")});
+  }
+
+   ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 
   toggleSidebar() {

@@ -120,7 +120,6 @@ export class InvoiceListComponent implements OnInit {
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items; 
-          console.log(this.items);              
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -190,10 +189,7 @@ addPayment(){
     this.acctionsList = !this.acctionsList;
   }
 
-
- 
-
-  printInvoice(printContent, invoice) {    
+  printInvoice(printContent, invoice) {        
     this.invoiceService.getInvoiceDetail(invoice.id).subscribe(
       (res : any) => {
            this.actservice.getActsByBillId(res["billId"]).subscribe(

@@ -10,7 +10,7 @@
         <button class="" size="tiny" shape="round" (click)="logOut()" nbButton>Se deconnecter</button>
       </nb-action>
     </nb-actions>
-    <nb-user (click)="showRightSideBarF()" class="pointer" name="{{user?.role == 'Super admin' ? 'Admin' : user?.lastName + user?.firstName }} ({{user?.role}})" title="{{user?.facility?.name | uppercase}}"></nb-user>
+    <nb-user (click)="showRightSideBarF()" class="pointer" name="{{user?.role == userRole.SUPER_ADMIN ? 'Admin' : user?.lastName + ' '  + user?.firstName }}  ({{ user?.role }})" title="{{user?.facility?.name | uppercase}}"></nb-user>
 
   </div>
  

@@ -144,9 +144,9 @@
                             <div class="col-lg-4 col-md-12 col-sm-12">
                                 <label for="insurance">acte</label>
                                 <ng-select formControlName="act" placeholder="Selectionner un acte"
-                                    (change)="onActSelect(act)">
-                                    <ng-option *ngFor="let act of actsList" [value]="act.id">
-                                        {{act.name}}</ng-option>
+                                    (change)="onActSelect($event,i)">
+                                    <ng-option *ngFor="let ac of actsList" [value]="ac.id">
+                                        {{ac.name}}</ng-option>
                                 </ng-select>
                             </div>
                             <div class="col-lg-3 col-md-12 col-sm-12">
@@ -154,7 +154,7 @@
                                     <div class="input-group-sm">
                                         <label for="{{'pratician' + i}}">Practician</label>
                                         <ng-select formControlName="pratician" placeholder="Selectionner un practicien">
-                                            <ng-option *ngFor="let practician of practicians " [value]="practician.userId">
+                                            <ng-option *ngFor="let practician of practicians " [value]="practician.id">
                                                 {{practician.practicianName}}
                                             </ng-option>
                                         </ng-select>
@@ -172,9 +172,9 @@
                             </div>
                             <div class="col-lg-2 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    <label class="sh-text-medium" for="{{'cost' + i}}">PEC la CNAM</label>
+                                    <label for="{{'cost' + i}}">PEC la CNAM</label>
                                     <div class="input-group-sm">
-                                        <input formControlName="costToApplyCNAMInsured" type="number" name="{{'cost' + i}}"
+                                        <input class="form-control" formControlName="costToApplyCNAMInsured" type="number" name="{{'cost' + i}}"
                                             id="{{'cost' + i}}">
                                     </div>
                                 </div>
