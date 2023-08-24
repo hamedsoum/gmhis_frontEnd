@@ -96,6 +96,28 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
             text: '0',
             status: 'warning',
           },
+        },
+        {
+          title: 'Bilan de Santé',
+          icon: 'minus-outline',
+         
+          badge: {
+            text: "0",
+            status: 'warning',
+          }
+        },
+        {
+          title: 'Suivi',
+          icon: 'minus-outline',
+          badge: {
+            text: "0",
+            status: 'warning',
+          }
+        },
+        {
+          title: 'Carnet virtuel',
+          icon: 'minus-outline',
+          link:'https://www.calameo.com/read/00744797887c2253a0c92'
         }
   ];
   ngOnInit(): void {

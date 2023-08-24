@@ -17,7 +17,7 @@
       >Nb: Tous les champs marqués par <span class="text-danger">*</span> sont
       obligatoires</small>
       <div class="d-flex justify-content-end">
-        <span [style.color]="'#0dcaf0'" [style.cursor]="'pointer'" (click)="isFinalPrescription()">Resultat Final Final ?</span>
+        <span class="sh-text-small" [style.color]="'#0dcaf0'" [style.cursor]="'pointer'" (click)="isFinalPrescription()">{{!finalPrescription? 'Resultat Final ?': 'Ordonnace Simple'}}</span>
       </div>
     <div *ngIf="finalPrescription" class="col-md-12">
       <label class="fw-bold mb-2" for="conclusion">

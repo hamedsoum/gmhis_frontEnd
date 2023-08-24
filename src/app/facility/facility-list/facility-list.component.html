@@ -121,21 +121,6 @@
                   icon="close-circle"
                 ></nb-icon>
               </td>
-              <!-- <td>{{ facility?.createdAt | date: "dd/MM/yyyy hh:mm:ss" }}</td>
-              <td>
-                {{
-                  facility.createdByFirstName + " " + facility.createdByLastName
-                    | uppercase
-                }}
-              </td>
-              <td>{{ facility?.updatedAt | date: "dd/MM/yyyy hh:mm:ss" }}</td>
-              <td>
-                {{
-                  facility.UpdatedByFirstName
-                    ? facility.UpdatedByFirstName + " " + facility.UpdatedByLastName
-                    : ("" | uppercase)
-                }}
-              </td> -->
               <td style="font-size: 30px">
                 <nb-icon
                   (click)="openUpdateForm(updateFormContent, facility)"
@@ -143,7 +128,6 @@
                   style="cursor: pointer"
                   icon="edit-outline"
                 ></nb-icon>
-                <!-- <nb-icon (click)="openDetailsForm(detailFormContent, commune)" class="mx-2 pointer" style=" cursor: pointer;" icon="eye-outline"></nb-icon> -->
               </td>
             </tr>
           </tbody>
@@ -172,7 +156,6 @@
     </nb-card-body>
   </nb-card>
   
-  <!-- add modal -->
   <ng-template #addFormContent let-c="close" let-d="dismiss">
     <div class="modal-header">
       <div>

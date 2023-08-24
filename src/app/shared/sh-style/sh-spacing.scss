@@ -1,0 +1,66 @@
+$ASIZES : 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30;
+
+@each $size in $ASIZES {
+
+    // --- Margin ---
+    .sh-mt-#{size} {
+       margin-top: $size + px;
+    }
+
+    .sh-mb-#{size} {
+        margin-bottom: $size + px;
+     } 
+
+     .sh-ml-#{size} {
+        margin-left: $size + px;
+     } 
+
+     .sh-mr-#{size} {
+        margin-right: $size + px;
+     }
+
+     .sh-m-#{size} {
+        margin: $size + px;
+     }
+
+     .sh-mtb-#{size} {
+        margin-top: $size + px;
+        margin-bottom: $size + px;
+     }
+
+     .sh-mlr-#{size} {
+        margin-left: $size + px;
+        margin-right: $size + px;
+     }
+
+      // --- Padding ---
+    .sh-mt-#{size} {
+        padding-top: $size + px;
+     }
+ 
+     .sh-mb-#{size} {
+         padding-bottom: $size + px;
+      } 
+ 
+      .sh-ml-#{size} {
+         padding-left: $size + px;
+      } 
+ 
+      .sh-mr-#{size} {
+         padding-right: $size + px;
+      }
+ 
+      .sh-m-#{size} {
+         padding: $size + px;
+      }
+ 
+      .sh-mtb-#{size} {
+         padding-top: $size + px;
+         padding-bottom: $size + px;
+      }
+ 
+      .sh-mlr-#{size} {
+         padding-left: $size + px;
+         padding-right: $size + px;
+      }
+}

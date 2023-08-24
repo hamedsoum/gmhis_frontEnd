@@ -12,6 +12,8 @@
 @import "../src/app/shared/sh-style/sh-default-variable.scss";
 @import "../src/app/shared/sh-style/sh-color.scss";
 @import "../src/app/shared/sh-style/sh-typography.scss";
+@import "../src/app/shared/sh-style/sh-spacing.scss";
+
 
 .actsSelected {
   padding: 2rem 2rem;
@@ -128,6 +130,7 @@
   display: block;
   font-size: 24px;
   font-weight: 600;
+  display: block;
 }
 .modal-subTitle{
   display: block;

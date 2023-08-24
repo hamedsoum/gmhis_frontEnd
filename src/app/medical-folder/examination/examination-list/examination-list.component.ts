@@ -8,6 +8,7 @@ import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
+import { IExamination } from '../models/examination';
 import { ExaminationService } from '../services/examination.service';
 
 @Component({
@@ -21,7 +22,7 @@ export class ExaminationListComponent implements OnInit, OnChanges {
 
   public searchForm: FormGroup;
 
-  public examination: Object;
+  public examination: IExamination;
 
   public examinationId: number;
 
@@ -75,6 +76,8 @@ export class ExaminationListComponent implements OnInit, OnChanges {
   examenType: boolean;
   admission: any;
 
+  diagnostic: string;
+
   constructor(
     private examinationService: ExaminationService,
     private notificationService: NotificationService,
@@ -98,11 +101,22 @@ export class ExaminationListComponent implements OnInit, OnChanges {
     }
   }
 
-  changeNewExaminationValue(){
+  public onAddDiagnostic(examination:IExamination,diagnosticDialog: any):void {
+    this.examination = examination;    
+    this.modalService.open(diagnosticDialog, {size: 'md', centered: true})    
+  }
+
+  public onOpenExaminationRecord(examination:IExamination, examinationRecordModal):void{
+    this.examination = examination;    
+    this.modalService.open(examinationRecordModal, {size: 'lg'})    
+
+  }
+
+  public changeNewExaminationValue():void{
     this.newExamination = !this.newExamination;
   }
 
-  initform() {    
+  private initform():void {    
     this.searchForm = new FormGroup({
       admissionID: new FormControl(this.admissionId),
       patient: new FormControl(this.patientId),
@@ -112,7 +126,7 @@ export class ExaminationListComponent implements OnInit, OnChanges {
     });
   }
 
-  onSearchValueChange(): void {
+  public onSearchValueChange(): void {
     this.getExamination();
   }
 
@@ -148,27 +162,27 @@ export class ExaminationListComponent implements OnInit, OnChanges {
     this.getExamination();
   }
 
-  openAddForm(addFormContent, size:string) {
+  public openAddForm(addFormContent, size:string):void {
     this.modalService.open(addFormContent, { size: size });
   }
 
 
-  onChooseLaboratory(addFormContent, size:string) {    
+  public onChooseLaboratory(addFormContent, size:string):void {    
     this.modalService.open(addFormContent, { size: size, centered : true });
   }
 
 
-  openUpdateForm(updateFormContent, item?) {
+  public openUpdateForm(updateFormContent, item?):void {
     this.examination = item;
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 
-  openPrescriptionForm(prescriptionFormContent, item?) {
+  public openPrescriptionForm(prescriptionFormContent, item?):void {
     this.examinationId = item.id;
     this.modalService.open(prescriptionFormContent, { size: 'xl' });
   }
 
-  addExamination() {
+  public addExamination():void {
     this.modalService.dismissAll();
     this.updateExaminationNumber.emit();
     this.getExamination();
@@ -215,4 +229,18 @@ export class ExaminationListComponent implements OnInit, OnChanges {
       )
     )
   }
+
+  public onCreateDiagnostic():void {
+    this.updateExamination();
+  }
+  private updateExamination():void{
+    this.examination.conclusion  = this.diagnostic; 
+    this.examinationService.updateExamination(this.examination).subscribe(
+      (res : any) => {
+        this.notificationService.notify(NotificationType.SUCCESS, 'Diagnostic Ajouté avec succès')
+        this.getExamination();
+        this.modalService.dismissAll();
+      },
+      (errorResponse : HttpErrorResponse) => {this.notificationService.notify( NotificationType.ERROR,errorResponse.error.message);}
+    )}
 }

@@ -13,10 +13,16 @@ import { PrescriptionModule } from '../prescription/prescription.module';
 import { MedicalCertificatesModule } from '../medical-certificates/medical-certificates.module';
 import { PatientFolderExaminationDetailsComponent } from './patient-folder-details/patient-folder-examination.details.component';
 import { InvoiceModule } from '../invoice/invoice.module';
+import { examinationRecord } from './examination/record/examination-record.component';
 
 
 @NgModule({
-  declarations: [NewExaminationComponent, PatientFolderComponent,ExaminationListComponent,PatientFolderExaminationDetailsComponent],
+  declarations: [
+    NewExaminationComponent,
+    PatientFolderComponent,
+    ExaminationListComponent,
+    PatientFolderExaminationDetailsComponent,
+    examinationRecord],
   imports: [
     CommonModule,
     MedicalFolderRoutingModule,

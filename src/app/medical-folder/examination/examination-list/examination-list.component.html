@@ -29,6 +29,7 @@
             <th>Practicien</th>
             <th>N° de Téléphone du Practicien</th>
             <th>Centre médical</th>
+            <th>Actions</th>
           </tr>
           <tr></tr>
         </thead>
@@ -43,11 +44,15 @@
                       };
                 let i = index
               " [class.active]="i == currentIndex">
-            <td>{{ examination?.date | date: "dd/MM/yyyy hh:mm:ss" }}</td>
-            <td>{{ examination?.conclusion | uppercase }}</td>
-            <td>{{ examination?.practicianFirstName }} {{ examination?.practicianLastName}}</td>
-            <td>{{examination?.practicianTel}}</td>
-            <td>{{ examination?.facility }}</td>
+            <td>{{ examination.date | date: "dd/MM/yyyy hh:mm:ss" }}</td>
+            <td>{{ examination.conclusion | uppercase }}</td>
+            <td>{{ examination.practicianFirstName }} {{ examination?.practicianLastName}}</td>
+            <td>{{examination.practicianTel}}</td>
+            <td>{{ examination.facility }}</td>
+            <td class="d-flex">
+              <sh-button *ngIf="!examination.conclusion" (clickEvent)="onAddDiagnostic(examination,diagnosticDialog)" type="text" size="small" label="Diagnostic" labelStyleClass="sh-color-primary"></sh-button>
+              <sh-button (clickEvent)="onOpenExaminationRecord(examination,examinationRecordModal)" type="text" size="small" label="Fiche Médicale" labelStyleClass="sh-color-primary"></sh-button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -65,7 +70,34 @@
   </nb-card-body>
 </nb-card>
 
-<!-- add modal -->
+<ng-template #diagnosticDialog let-c="close" let-d="dismiss">
+  <div class="modal-header">
+   <div>
+    <span class="modalTitle" >Diagnostic</span>
+    <span class="modal-subTitle" >Finalisez la consultation en y ajoutant un diagnostic</span>
+   </div>
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+  </div>
+  <div class="modal-body">
+    <textarea name="" id="" rows="6" style="width: 100%;" [(ngModel)]="diagnostic" ></textarea>
+    <sh-button type="button" size="intermediate" label="Ajouter le diagnostic" (clickEvent)="onCreateDiagnostic()"></sh-button>
+  </div>
+</ng-template>
+
+<ng-template #examinationRecordModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+   <div>
+    <span class="modalTitle" >Details de la consultation</span>
+    <span class="modal-subTitle" >---</span>
+   </div>
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+  </div>
+  <div class="modal-body">
+    <examination-record [examination]="examination"></examination-record>
+  </div>
+</ng-template>
+
+
 <ng-template #addFormContent let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">
@@ -78,7 +110,7 @@
   </div>
 </ng-template>
 
-<!-- add modal -->
+
 <ng-template #prescriptionFormContent let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="text-capitalize modal-title color-biblos" id="add-form-modal">

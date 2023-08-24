@@ -5,7 +5,7 @@
 export const environment = {
   logo: 'assets/img/medical-logo-design.jpeg',
   production: false,
-  apiUrl: 'http://localhost:8080',
+  apiUrl: 'http://192.168.1.99:8080',
   tvaRate: 18,
   airsiRate: 7.5,
   predefinedPeriode: 'PERIODE',

@@ -1,0 +1,6 @@
+<div class=" {{ styleClass }}">
+    <span (click)="clickEvent.emit()" class="sh-display-block pointer sh-m-3 sh-text-{{size}} {{labelStyleClass}}" *ngIf="type == 'text'" class="">{{label}}</span>
+
+    <button  class="text-capitalize btn m-3 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+    style="background-color: #14a2b8;" (click)="clickEvent.emit()" *ngIf="type == 'button'" class="{{labelStyleClass}}" >{{label}}</button>
+</div>

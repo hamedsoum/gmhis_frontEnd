@@ -1,0 +1,12 @@
+<div class="{{styleClass}}">
+        
+            <data-field-textarea label="Motif de Consultation" [value]="examination.examinationReasons"></data-field-textarea>
+            <data-field-textarea *ngIf="examination.history" label="Histoire de la maladie" [value]="examination.history"></data-field-textarea>
+            <data-field-textarea *ngIf="examination.oldTreatment" label="Antécédent" [value]="examination.oldTreatment"></data-field-textarea>
+            <data-field-textarea label="Examen Clinique" [value]="examination.clinicalExamination"></data-field-textarea>
+            <data-field-textarea *ngIf="examination.conclusion" label="Diagnostic" labelStyleClass="sh-color-primary" [value]="examination.conclusion"></data-field-textarea>
+
+      
+    <div>
+    </div>
+</div>

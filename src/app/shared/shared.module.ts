@@ -11,11 +11,13 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterModule } from '@angular/router';
 import { SafePipe } from './safe.pipe';
+import { SHButtonComponent } from './components/button/sh-button.component';
+import { SHDatafieldTextaeraComponent } from './components/data-field/textarea/data-field-textarea.component';
 
 
 
 @NgModule({
-  declarations: [SafePipe],
+  declarations: [SafePipe, SHButtonComponent, SHDatafieldTextaeraComponent],
   imports: [
     CommonModule
   ],
@@ -41,7 +43,9 @@ import { SafePipe } from './safe.pipe';
     NgxCurrencyModule,
     NbDatepickerModule,
     NgbCarouselModule,
-    SafePipe
+    SafePipe,
+    SHButtonComponent,
+    SHDatafieldTextaeraComponent
   ]
 })
 export class SharedModule { }

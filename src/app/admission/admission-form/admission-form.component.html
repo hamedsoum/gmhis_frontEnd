@@ -48,8 +48,8 @@
       </div>
 
       <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill field">
-        <label for="active" class="form-label text-capitalize">Spécialité <span class="text-danger">*</span> </label>
-        <ng-select (change)="onRetrieveActsAndPracticians($event)" placeholder="Specialite d'acte" formControlName="speciality">
+        <label for="active" class="form-label text-capitalize">Service <span class="text-danger">*</span> </label>
+        <ng-select (change)="onRetrieveActsAndPracticians($event)" formControlName="speciality">
           <ng-option *ngFor="let actCategory of actCategories" [value]="actCategory.id">{{
             actCategory.name
           }}</ng-option>

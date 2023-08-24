@@ -4,14 +4,25 @@
           <app-patient-constant [patientId]="patient.id" [PaginationSize]="3" [newConstantsButtonVisibled]="false"></app-patient-constant>
         </div>
         <div class="col-md-12">
-            <label class="fw-bold mb-2" for="reason">Motif de la consultation<span class="text-danger">*</span></label>
+            <label class="fw-bold mb-2" for="reason">Motif de consultation<span class="text-danger">*</span></label>
             <textarea class="form-control" formControlName="examinationReasons" rows="4"></textarea>
             <span class="text-danger" *ngIf="formSubmitted && !examinationForm.controls.examinationReasons.valid">
                 <div *ngIf="examinationReasons.errors.required" class="text-danger">Veuillez renseigner le motif de la
                     consultation </div>
             </span>
         </div>
-
+        <div>
+          <label class="fw-bold mb-2" for="reason">Histoire de la maladie</label>
+          <textarea class="form-control" formControlName="history" rows="4"></textarea>
+        </div>
+        <div>
+          <label class="fw-bold mb-2" for="reason">Antécedent</label>
+          <textarea class="form-control" formControlName="oldTreatment" rows="4"></textarea>
+        </div>
+        <div>
+          <label class="fw-bold mb-2" for="reason">Examens Cliniques<span class="text-danger">*</span></label>
+          <textarea class="form-control" formControlName="clinicalExamination" rows="4"></textarea>
+        </div>
         <div *ngIf="makePrescription" class="col-md-12">
           <label class="fw-bold mb-2" for="reason">Diagnostic</label>
           <textarea class="form-control" formControlName="conclusion" rows="4"></textarea>
@@ -21,7 +32,7 @@
 <div [style.margin-top]="'20px'" class=" d-flex justify-content-center">
   <div  *ngIf="!makePrescription">
     <button class="btn-submit" (click)="onMakePrescription()">Ordonnance</button>
-    <button class="btn-submit mx-4" (click)="onpenExamComplementary(examenComplementary)">Examens Complementaires</button>
+    <button class="btn-submit mx-4" (click)="onpenExamComplementary(examenComplementary)">Examens Paramedicaux</button>
   </div>
 
     <button *ngIf="makePrescription" (click)="onPrescriptionCreate(prescriptionCreateComponent)" class="btn-submit">Ordonnnance</button>
