@@ -95,6 +95,9 @@
           id="signature"
           class="form-control"
         />
+        <div *ngIf="formSubmitted && !fieldGroup.controls.signature.valid">
+          <small *ngIf="signature.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+        </div>
       </div>
     </div>
     <div *ngIf="!details" class="mt-3 col">

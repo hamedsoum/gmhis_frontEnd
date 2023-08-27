@@ -41,6 +41,7 @@ export class PracticianFormComponent implements OnInit {
     { id: false, value: 'Practicien Inactif' },
   ];
   users: any;
+  signatureFile: any;
 
   constructor(
     private userService : UserService,
@@ -63,6 +64,18 @@ export class PracticianFormComponent implements OnInit {
 
   }
 
+  onSelectFile(event){
+    this.signatureFile = event.target.files[0];            
+    const reader = new FileReader();
+    reader.onload = () => {
+      let imageURL;
+      imageURL = reader.result as string;
+      console.log(imageURL);
+      this.fieldGroup.get('signature').setValue(imageURL);
+    };
+    reader.readAsDataURL(this.signatureFile);
+  }
+
   public showPreview(event: any) {
     let file = event.target.files[0];
     const reader = new FileReader();
@@ -81,7 +94,7 @@ export class PracticianFormComponent implements OnInit {
       nom: new FormControl('', Validators.required),
       prenoms: new FormControl('', Validators.required),
       email: new FormControl(''),
-      signature: new FormControl(''),
+      signature: new FormControl(null, Validators.required),
       speciliaty_id: new FormControl(),
       actCategoryID: new FormControl(null, Validators.required),
       telephone: new FormControl('', Validators.required),
