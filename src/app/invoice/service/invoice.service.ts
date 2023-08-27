@@ -48,7 +48,6 @@ export class InvoiceService {
   }
 
   createInvoice(invoiceCreateData: InvoiceCreateData): Observable<any> {
-    console.log(invoiceCreateData.acts)
     return this.http.post<any>(`${this.apiUrl}/bill/add`, invoiceCreateData);
   }
 
@@ -135,8 +134,8 @@ export class InvoiceService {
     return this.http.post<any>(environment.apiUrl + '/bill/collect/', payment);
   }
 
-    getInvoiceDetail(invoiceId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/bill/detail/${invoiceId}`);
+    getInvoiceDetail(invoiceID: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/bill/detail/${invoiceID}`);
   }
 
 }

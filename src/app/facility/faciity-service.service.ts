@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PageList } from '../_models/page-list.model';
 import { IFacility } from './models/facility';
-import { IFacilityDto } from './models/facility-dto';
+import { IFacilityDto as IFacilityCreateUpdate } from './models/facility-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -48,19 +48,12 @@ export class FaciityServiceService {
     return this.http.get<any[]>(`${this.apiUrl}/facility_category/active_facilitiesCategory_name`);
   }
 
-  createFaciity(facilityDto: IFacilityDto, facilityLogo : File): Observable<IFacility> {
-    let formData = new FormData();
-    formData = this.createFormData(facilityDto,facilityLogo);
-    return this.http.post<IFacility>(`${this.apiUrl}/facility/add`, formData);
+  createFaciity(facilityDto: IFacilityCreateUpdate): Observable<IFacility> {
+    return this.http.post<IFacility>(`${this.apiUrl}/facility/add`, facilityDto);
   }
 
-  updateFacility(facilityDto: IFacilityDto, facilityLogo : File): Observable<any> {
-    let formData = new FormData();
-    formData = this.createFormData(facilityDto,facilityLogo);
-    return this.http.put<any>(
-      `${this.apiUrl}/facility/update`,
-      formData
-    );
+  updateFacility(facilityDto: IFacilityCreateUpdate): Observable<IFacilityCreateUpdate> {
+    return this.http.put<IFacilityCreateUpdate>(`${this.apiUrl}/facility/update/${facilityDto.id}`, facilityDto)
   }
 
   getFacilityDetails(faciity: any): Observable<any> {
@@ -69,7 +62,7 @@ export class FaciityServiceService {
     );
   }
 
-  createFormData(facilityDto: IFacilityDto, facilityLogo : File) : FormData{
+  createFormData(facilityDto: IFacilityCreateUpdate, facilityLogo : File) : FormData{
     let formData = new FormData();
     formData.append("id", facilityDto.id);
     formData.append("name", facilityDto.name);

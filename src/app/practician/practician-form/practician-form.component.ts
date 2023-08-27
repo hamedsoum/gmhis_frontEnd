@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SepecialityService } from 'src/app/speciality/sepeciality.service';
 import { Speciality } from 'src/app/speciality/speciality-list/speciality';
+import { User } from 'src/app/_models';
 import { NotificationService, UserService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
@@ -51,7 +52,18 @@ export class PracticianFormComponent implements OnInit {
     this.initialize();
   }
 
-  showPreview(event: any) {
+  public onUserChange (userSlected : User): void {
+    console.log(userSlected);
+    
+    this.fieldGroup.get('user').setValue(userSlected.id);
+    this.fieldGroup.get('nom').setValue(userSlected.lastName);
+    this.fieldGroup.get('prenoms').setValue(userSlected.firstName);
+    this.fieldGroup.get('telephone').setValue(userSlected.phoneNumber);
+    this.fieldGroup.get('email').setValue(userSlected.email);
+
+  }
+
+  public showPreview(event: any) {
     let file = event.target.files[0];
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -61,7 +73,9 @@ export class PracticianFormComponent implements OnInit {
     reader.readAsDataURL(file);    
   }
 
-  private buildField() {
+
+
+  private buildFields() {
     this.fieldGroup = new FormGroup({
       id: new FormControl(null),
       nom: new FormControl('', Validators.required),
@@ -153,6 +167,6 @@ export class PracticianFormComponent implements OnInit {
 private initialize (): void {
   this.retrieveUsersActive();
   this.retrieveSpecilaityNameAndId();
-  this.buildField();
+  this.buildFields();
 }
 }

@@ -19,7 +19,7 @@ export class FacilityFormComponent implements OnInit {
   @Input()
   facility: IFacility;
 
-  facilityDto : IFacilityDto
+  facilityCreateUpdate : IFacilityDto
 
   @Input()
   details: boolean;
@@ -75,7 +75,15 @@ export class FacilityFormComponent implements OnInit {
 
 
   onSelectFile(event){
-    this.facilityLogo = event.target.files[0];        
+    this.facilityLogo = event.target.files[0];            
+    const reader = new FileReader();
+    reader.onload = () => {
+      let imageURL;
+      imageURL = reader.result as string;
+      console.log(imageURL);
+      this.facilityForm.get('logo').setValue(imageURL);
+    };
+    reader.readAsDataURL(this.facilityLogo);
   }
 
 
@@ -95,6 +103,7 @@ export class FacilityFormComponent implements OnInit {
       address: new FormControl(null, [Validators.required]),
       contact: new FormControl(null, [Validators.required]),
       email: new FormControl(null),
+      logo: new FormControl(null)
     });
   }
   get name() {return this.facilityForm.get('name')}
@@ -109,10 +118,12 @@ export class FacilityFormComponent implements OnInit {
     this.formSubmitted = true;
     if (this.facilityForm.valid) {
       this.showloading = true;
-      this.facilityDto = this.facilityForm.value;
-      if (this.facilityDto.id) {
+      this.facilityCreateUpdate = this.facilityForm.value;
+      console.log(this.facilityCreateUpdate);
+      
+      if (this.facilityCreateUpdate.id) {
         this.subs.add(
-          this.facilityService.updateFacility(this.facilityDto,this.facilityLogo).subscribe(
+          this.facilityService.updateFacility(this.facilityCreateUpdate).subscribe(
             (response: any) => {
               this.showloading = false;
               this.updateFacility.emit();
@@ -125,7 +136,7 @@ export class FacilityFormComponent implements OnInit {
         );
       } else {
         this.subs.add(
-          this.facilityService.createFaciity(this.facilityDto, this.facilityLogo).subscribe(
+          this.facilityService.createFaciity(this.facilityCreateUpdate).subscribe(
             (response: IFacility) => {
               this.showloading = false;
               this.addFaciity.emit();

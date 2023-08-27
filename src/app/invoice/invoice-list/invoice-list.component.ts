@@ -189,12 +189,16 @@ addPayment(){
     this.acctionsList = !this.acctionsList;
   }
 
-  printInvoice(printContent, invoice) {        
+  public onPrint(printContent, invoice):void {        
     this.invoiceService.getInvoiceDetail(invoice.id).subscribe(
       (res : any) => {
-           this.actservice.getActsByBillId(res["billId"]).subscribe(
+        console.log(res);
+        
+           this.actservice.getActsByBillId(res["billID"]).subscribe(
         (response : any) => {
           this.acts = response;
+          console.log(this.acts);
+          
           this.modalService.open(printContent, { size: 'xl' });
           let doc = this.invoiceDocumentService.getInvoiceDocument(res,  this.acts);
           this.docSrc = doc.output('datauristring');  

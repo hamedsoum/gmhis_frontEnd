@@ -143,7 +143,7 @@ export class UserService {
     formData.append('firstName', user.firstName);
     formData.append('lastName', user.lastName);
     formData.append('email', user.email);
-    formData.append('tel', user.tel);
+    formData.append('phoneNumber', user.phoneNumber);
     formData.append('roles', user.role);
     formData.append('profileImage', profileImage);
     formData.append('isActive', JSON.stringify(user.isActive));

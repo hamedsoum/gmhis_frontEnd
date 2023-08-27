@@ -101,7 +101,7 @@ var doc = new jsPDF('p', 'mm', 'a4');
     totalAmount = totalAmount + element.actCost; 
     let article = [
       { content: element.actName, styles: { valign: 'middle' } },
-      { content: element.practicianLastName + " " + element.practicianFirstName, styles: { valign: 'middle' } },
+      { content: element.practicianName, styles: { valign: 'middle' } },
       { content: 1, styles: { valign: 'middle' } },
       { content: element.actCost +" FCFA", styles: { valign: 'middle' } },
       { content: element.actCost +" FCFA", styles: { valign: 'middle' } },
@@ -109,8 +109,7 @@ var doc = new jsPDF('p', 'mm', 'a4');
     tBody.push(article);
   });
 
-  // doc.setFont("times", "bold");
-  // doc.rect(25, 590, 100, 20);
+
   doc.setTextColor(0, 0, 0)
   doc.text("Total facture", 130, 170);
   doc.setTextColor(255, 0, 0)
@@ -119,19 +118,14 @@ var doc = new jsPDF('p', 'mm', 'a4');
   doc.setTextColor(0, 0, 0)
       doc.text("Taux de couverture", 130, 180);
       doc.setTextColor(255, 0, 0)
-      doc.text(invoice["coverage"].toString()+ "%", 176, 180);
+      // doc.text(invoice["coverage"].toString()+ "%", 176, 180);
 
       doc.rect(25, 630, 330, 20);
       doc.setTextColor(0, 0, 0)
-      doc.text("Part prise en charge (PEC", 130, 190);
+      doc.text("Part prise en charge (PEC)", 130, 190);
       doc.setTextColor(255, 0, 0)
       doc.text(invoice["partTakenCareOf"].toString(), 176, 190);
 
-      // doc.rect(25, 650, 330, 20);
-      // doc.setTextColor(0, 0, 0)
-      // doc.text("Remise", 130, 200);
-      // doc.setTextColor(255, 0, 0)
-      // doc.text(invoice["discountInCfa"].toString(), 176, 200);
 
       doc.rect(25, 670, 330, 20);
       doc.setTextColor(0, 0, 0)
