@@ -1,3 +1,5 @@
+import { User } from "../_models";
+
 export interface Practician {
    id : number,
    email: string,
@@ -5,5 +7,7 @@ export interface Practician {
    prenoms: string,
    signature: string,
    speciliaty_id: number,
-   telephone: string
+   telephone: string,
+   actCategory: any,
+   user: User
 }

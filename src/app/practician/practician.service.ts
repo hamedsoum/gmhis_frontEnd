@@ -36,7 +36,8 @@ export class PracticianService {
   
    
     update(practician: Practician): Observable<Practician> {
-      return this.http.put<Practician>(`${this.apiUrl}/practician/update/` + practician.id, practician)
+      
+      return this.http.put<Practician>(`${this.apiUrl}/practician/` + practician.id, practician)
     }
   
      getPracticianDetails(practician : number) : Observable<any>{
