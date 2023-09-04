@@ -193,8 +193,9 @@ export class PracticianBillComponent implements OnInit, OnDestroy {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;
-          console.log(this.items);                 
+          this.items = response.items;          
+          this.itemsFiltered = this.items;
+          this.calculTotalAmount();
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -287,8 +288,8 @@ o
     this.practicianBalance = 0;
     this.patientBalance = 0;
     this.itemsFiltered.forEach(element => {
-      this.patientBalance += element.patientAmount;
-      this.totalAmount += element.totalAmount;
+      this.patientBalance += element.amount;
+      this.totalAmount += element.amount;
       this.facilityBalance = this.practicianBalance = this.totalAmount/2;
     });
   }
