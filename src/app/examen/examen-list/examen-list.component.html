@@ -66,8 +66,7 @@
                   <span style="width: 20px" [ngClass]="{'statusColected' : examen?.state  == 'E','statusDontColected' : examen?.state  == 'N','partiallyColected' : examen?.state  == 'P'  }" class=" px-2">{{examen?.state == 'E' ? 'effectué' : examen?.state == 'N' ? 'non-effectué' : 'effectué-partiellement'}}</span>
                 </td>
                 <td>
-                    <nb-icon (click)="openAnalysisBulletinForm(makAsdoneContent, examen)" class="mx-2 pointer" style=" cursor: pointer;" ngbTooltip="Bulletin d'analyse" icon="file-outline"></nb-icon>
-                    <nb-icon (click)="printExamenBulletinDoc(printContent,examen)" class="mx-2 pointer" style=" cursor: pointer;" ngbTooltip="Bulletin d'analyse" icon="file-outline"></nb-icon>
+                    <nb-icon (click)="openAnalysisBulletinForm(makAsdoneContent, examen)" class="mx-2 pointer" style=" cursor: pointer;" ngbTooltip="Résultat d'Analyse" icon="file-outline"></nb-icon>
                 </td>
             </tr>
           </tbody>

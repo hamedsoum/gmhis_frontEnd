@@ -1,8 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
+
 import { InsuranceService } from 'src/app/insurance/insurance.service';
+import { ExaminationService } from 'src/app/medical-folder/examination/services/examination.service';
 import { PracticianService } from 'src/app/practician/practician.service';
 import { PredefinedDate } from 'src/app/_common/domain/predefinedDate';
 import { PredefinedPeriodService } from 'src/app/_common/services/predefined-period.service';
@@ -12,21 +15,14 @@ import { UserService } from 'src/app/_services';
 import { PrintListService } from 'src/app/_services/documents/print-list.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
-import { SubSink } from 'subsink';
 import { PracticianPrintDataFormat } from '../invoice';
 import { InvoiceService } from '../service/invoice.service';
 
 type billStatus = 'C' | 'R';
 
-@Component({
-  selector: 'app-practician-bill',
-  templateUrl: './practician-bill.component.html',
-  styleUrls: ['./practician-bill.component.scss']
-})
+@Component({selector: 'app-practician-bill',templateUrl: './practician-bill.component.html'})
 
-export class PracticianBillComponent implements OnInit {
-
-  private subs = new SubSink();
+export class PracticianBillComponent implements OnInit, OnDestroy {
 
   public searchForm: FormGroup;
 
@@ -97,6 +93,9 @@ export class PracticianBillComponent implements OnInit {
   facilityBalance: number = 0;
   practicianBalance: number = 0;
   patientBalance: number = 0;
+  practicianSearchFields: FormGroup;
+
+  private subscription :Subscription = new Subscription();
 
   constructor(
     private invoiceService: InvoiceService,
@@ -107,7 +106,8 @@ export class PracticianBillComponent implements OnInit {
     private printListService : PrintListService,
     private predefinedPeriodService: PredefinedPeriodService,
     private practitianService : PracticianService,
-    private userService : UserService
+    private userService : UserService,
+    private examinationService : ExaminationService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -115,13 +115,16 @@ export class PracticianBillComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.getUser().id == 0 ? null : this.getUser().id;     
-    this.buildField(); 
+    this.buildFields(); 
+    this.buildPracticianSearchFields();
     this.getAllInsuranceActiveIdAndName();
     this.getInsuranceBill();
     this.findPracticians(); 
   }
 
-  public onGetSelectedPeriode(period) {
+  ngOnDestroy(): void {this.subscription.unsubscribe()};
+
+  public onGetSelectedPeriode(period):void {
     const resultat = this.dateOptions.find(dateOption => dateOption.id === period);
     this.predefined = resultat.value;
     this.defaultSearchPeriode = this.predefinedPeriodService.getSelectedPeriode(period);    
@@ -129,7 +132,7 @@ export class PracticianBillComponent implements OnInit {
     this.onFilter(this.defaultSearchPeriode);
   }
 
-  onPrintInsuranceList(printContent) : void {
+  public onPrintInsuranceList(printContent):void {
     let practicianPrint : PracticianPrintDataFormat = {
       practicianName: this.practician ? this.practician.practicianName: "##",
       dateStart: this.dateStart ? this.dateStart : "##",
@@ -183,21 +186,15 @@ export class PracticianBillComponent implements OnInit {
     this.practician = null;
     this.loading = true;    
 
-    this.subs.add(
-      this.invoiceService.facilityInvoicesPractician(this.searchForm.value).subscribe(
+    this.subscription.add(
+      this.examinationService.searchPracticianExamination(this.practicianSearchFields.value).subscribe(
         (response: PageList) => {
           this.loading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items;
-          console.log(this.items);
-                                         
-          this.itemsFiltered = this.items;  
-          if (this.userId !=null) {
-            this.filterItemsByPractician(this.userId);                 
-          }
-          this.calculTotalAmount();                  
+          console.log(this.items);                 
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -214,6 +211,8 @@ export class PracticianBillComponent implements OnInit {
     );
   }
   
+ 
+
   private practicianChange(userId : number){
     this.practician = this.practicians.find( pr => pr.userId == userId);    
   }
@@ -222,13 +221,10 @@ export class PracticianBillComponent implements OnInit {
     return this.userService.getUserFromLocalCache();
   }
 
-  private filterItemsByPractician(userID : number): void {
-    console.log(this.items);
-    
+  private filterItemsByPractician(userID : number): void {    
     this.practicianChange(userID)    
     this.itemsFiltered = this.items.filter(item => item.userID === userID);
     console.log(this.itemsFiltered);
-    
    }
 
   private filterItemsByStatus(status : billStatus): void {
@@ -266,7 +262,7 @@ o
     this.dateEnd = date.end.toISOString().split('T')[0];
  }
 
-   private buildField() {
+   private buildFields() {
     this.searchForm = new FormGroup({
       billStatus: new FormControl('C'),
       userID: new FormControl(null),
@@ -275,6 +271,14 @@ o
       size: new FormControl(100),
       sort: new FormControl('id,desc'),
     });
+  }
+
+  private buildPracticianSearchFields(): void {
+      this.practicianSearchFields = new FormGroup({
+        page: new FormControl(0),
+        size: new FormControl(100),
+        sort: new FormControl('id,desc'),
+      })
   }
  
   private calculTotalAmount() {
@@ -290,7 +294,7 @@ o
   }
 
   private getAllInsuranceActiveIdAndName():void {
-    this.subs.add(
+    this.subscription.add(
       this.insuranceService.getAllInsuranceActive().subscribe(
         (response : any) => { this.insurances = response; },
         (errorResponse : HttpErrorResponse) =>{ this.notificationService.notify(NotificationType.ERROR, errorResponse.message); }
@@ -299,7 +303,7 @@ o
   }
 
 private findPracticians(): void {
-  this.subs.add(
+  this.subscription.add(
     this.practitianService.findPracticianSimpleList().subscribe(
       (response : any) => {
         this.practicians = response;          

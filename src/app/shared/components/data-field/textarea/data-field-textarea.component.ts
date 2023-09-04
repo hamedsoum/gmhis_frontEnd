@@ -7,13 +7,17 @@ export class SHDatafieldTextaeraComponent implements OnInit {
     @Input() labelStyleClass?: string;
     @Input() label?: string;
 
-    @Input() valueStyleClass: string
+    @Input() valueStyleClass?: string
     @Input() value: string;
 
     @Input() icon?: string;
     @Input() iconStyle?: string;
 
+    @Input() showBorder? : boolean;
+
     ngOnInit(): void {
+        console.log(this.valueStyleClass);
+        
         if (this.value == null) throw new Error("value cannot be null");
     }
     

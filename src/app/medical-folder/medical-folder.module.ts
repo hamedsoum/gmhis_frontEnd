@@ -33,6 +33,6 @@ import { examinationRecord } from './examination/record/examination-record.compo
     PrescriptionModule,
     MedicalCertificatesModule,
     InvoiceModule
-  ]
+    ]
 })
 export class MedicalFolderModule { }

@@ -137,8 +137,8 @@ export class InvoiceFormComponent implements OnInit {
     this.findPaymentTypesActiveNameAndIds();
   }
 
-  public onCalculInvoiceCost() {    
-    let invoiceCost: InvoiceCost = this.invoiceService.calculInvoiceCost(this.admissionForTemplate.admissionStatus, this.invoiceForm.getRawValue(), this.invoiceForm.getRawValue(), this.totalInvoice, this.partPecByCNAM, this.partPecByOthherInsurance, this.partientPart, this.insureds.controls);
+  public onCalculInvoiceCost():void {    
+    let invoiceCost: InvoiceCost = this.invoiceService.calculInvoiceCost(this.admissionForTemplate.admissionStatus, this.invoiceForm.getRawValue(), this.insureds.controls);
     this.totalInvoice = invoiceCost.totalInvoice;
     this.partPecByCNAM = invoiceCost.partPecByCNAM;
     this.partPecByOthherInsurance = invoiceCost.partPecByOthherInsurance;

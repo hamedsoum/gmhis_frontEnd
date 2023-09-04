@@ -21,7 +21,7 @@ export class PrescriptionDocumentService {
     var doc = new jsPDF('p', 'mm', 'a5');
         
       doc.setFontSize(8)
-      doc.text(`Dr ${prescription["practicienFirstName"]} ${prescription["practicienFirstName"]}`.toString().toUpperCase(), 15, 13);
+      doc.text(`Dr ${prescription["practicianName"]} }`.toString().toUpperCase(), 15, 13);
       // doc.text(prescription["serviceName"].toString().toLowerCase(), 15, 17);
 
       doc.setFontSize(8)
@@ -88,11 +88,12 @@ export class PrescriptionDocumentService {
       doc.setFontSize(9)
       doc.text(prescription["prescriptionObservation"].toString(), 15, 150);
 
-      doc.setFontSize(9)
-      doc.text("Signature", 120, 170);
+      // doc.setFontSize(9)
+      // doc.text("Signature", 120, 170);
 
       doc.setFontSize(9)
-      doc.text("CAchet", 120, 185);
+      doc.addImage(prescription["practicianSignature"], "JPEG", 110, 170, 30, 30);
+
       return doc;
     
     }

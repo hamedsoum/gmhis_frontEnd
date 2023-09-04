@@ -128,7 +128,7 @@
 
   <!-- ngx-extended-pdf-viewer -->
 <ng-template #printContent let-c="close" let-d="dismiss">
-    <div class="modal-header bg-gray">
+    <div class="modal-header ">
       <h4 class="text-capitalize modal-title" id="update-form-modal">IMPRIMER</h4>
       <nb-icon
         style="cursor: pointer"
@@ -137,7 +137,7 @@
         icon="close-circle-outline"
       ></nb-icon>
     </div>
-    <div class="modal-body bg-gray">
+    <div class="modal-body ">
       <ngx-extended-pdf-viewer
         *ngIf="docSrc"
         [src]="docSrc"

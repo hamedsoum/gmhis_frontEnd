@@ -66,6 +66,20 @@ export class ExaminationService {
     );
   }
 
+  searchPracticianExamination(data): Observable<any> {
+    let queryParams = {};
+    queryParams = {
+      params: new HttpParams()
+        .set('page', data['page'])
+        .set('size', data['size'] ?? '')
+        .set('sort', data['sort']),
+    };
+    return this.http.get<any>(
+      `${this.apiUrl}/examination/practicianExamination`,
+      queryParams
+    );
+  }
+
   getExaminationNumberByAdmissionId(admissionId: number): Observable<any> {    
     return this.http.get<any>(`${this.apiUrl}/examination/getPatientExaminationNumber/${admissionId}`);
   }

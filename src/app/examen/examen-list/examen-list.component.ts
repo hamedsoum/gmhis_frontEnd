@@ -9,7 +9,6 @@ import { SubSink } from 'subsink';
 import { IExam } from '../models/exam';
 import { AnalysisBulletinDocService } from '../services/document/analysis-bulletin-doc.service';
 import { ExamService } from '../services/exam.service';
-import { LaboratoryTypeEnum } from './examen';
 
 @Component({
   selector: 'app-examen-list',

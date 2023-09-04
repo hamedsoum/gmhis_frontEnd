@@ -84,7 +84,7 @@ export class AdmissionService {
   }
 
   updateAdmission(admission: any): Observable<any> {    
-    return this.http.patch<any>(
+    return this.http.put<any>(
       `${this.apiUrl}/admission/${admission.id}`,
       admission
     );

@@ -57,18 +57,25 @@ export class AdmissionFormComponent implements OnInit {
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+    this.findActiveServiceNameAndId();
+    this.findActCategorieNameAndId();
+    this.findActPracticiainNameAndId();
     this.buildFields();
+    
     if (this.admission) {
+      
       this.admissionService.getAdmissionDetail(this.admission).subscribe(
         (response: any) => {
+
+          this.onRetrieveActsAndPracticians(response.serviceID);
           this.formGroup.get('id').setValue(response.id);
           this.formGroup.get('patient').setValue(response.patientId);
           this.formGroup.get('patientName').setValue(response.patientName);
           this.formGroup.get('patientExternalId').setValue(response.patientExternalId);
           this.formGroup.get('createdAt').setValue(new Date(response.admissionDate));
           this.formGroup.get('act').setValue(response.act);
-          this.formGroup.get('service').setValue(response.service);
-          this.formGroup.get('practician').setValue(response.practician);
+          this.formGroup.get('speciality').setValue(response.serviceID);
+          this.formGroup.get('practician').setValue(response.practicianId);
         }
       )
     }
@@ -78,9 +85,7 @@ export class AdmissionFormComponent implements OnInit {
       this.formGroup.get('patientExternalId').setValue(this.patient.patientExternalId)
     }
 
-    this.findActiveServiceNameAndId();
-    this.findActCategorieNameAndId();
-    this.findActPracticiainNameAndId();
+   
   }
 
   onChangePractician(practicianID: any) {

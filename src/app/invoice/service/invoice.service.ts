@@ -15,25 +15,29 @@ export class InvoiceService {
  
   constructor(private http: HttpClient) {}
 
-  calculInvoiceCost(admissionStatus:string, formValue : any, acts : any, totalInvoice : number, partPecByCNAM : number, partPecByOthherInsurance : number, partientPart : number, controls : AbstractControl[]) : InvoiceCost{
+  calculInvoiceCost( admissionStatus:string, formValue : any, controls : AbstractControl[]) : InvoiceCost{
+   console.log(formValue);
+   console.log("admissionStatus ==>> " + admissionStatus);
+   
     let invoiceFormValue = formValue;
-    partPecByCNAM = 0;
-    partPecByOthherInsurance = 0; 
-    partientPart = 0;
    let remaingAfterCnamReduction = 0;
-     acts = invoiceFormValue["acts"];     
-  totalInvoice = 0;
+   let totalInvoice = 0;
+   let partPecByOthherInsurance = 0;
+   let partientPart = 0;  
+   let partPecByCNAM = 0;
+    let acts = invoiceFormValue["acts"];   
     acts.forEach((el) => {      
       totalInvoice = totalInvoice  + el["cost"];
     })
 
     if (admissionStatus == 'B') {
-      acts.forEach((el) => {      
+      acts.forEach((el) => {              
         partPecByCNAM += el["costToApplyCNAMInsured"]*controls[0].get('insuredCoverage').value/100;
       })
     }else{
       partPecByCNAM = controls[0].get('costToApplyCNAMInsured').value*controls[0].get('insuredCoverage').value/100;
     }    
+    console.log(partPecByCNAM);
 
     controls[0].get('insuredPart').setValue(partPecByCNAM);
     remaingAfterCnamReduction = totalInvoice - partPecByCNAM;
