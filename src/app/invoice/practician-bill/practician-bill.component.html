@@ -76,30 +76,26 @@
               <th>Practicien</th>
               <th>N° patient</th>
               <th>Nom du Patient</th>
-              <th>Part Centre de Santé</th>
+              <th>Facture</th>
               <th>Part Practicien</th>
-              <th>Total Facture</th>
+              <th>Part Centre de Santé</th>
             </tr>
           </thead>
   
           <tbody>
             <tr
-              *ngFor=" let invoice of items| paginate : { itemsPerPage: selectedSize, currentPage: currentPage, totalItems: totalItems }; 
+              *ngFor=" let invoice of itemsFiltered| paginate : { itemsPerPage: selectedSize, currentPage: currentPage, totalItems: totalItems }; 
               let i = index"
               [class.active]="i == currentIndex"
               (click)="rowSelected(commune, i)"
               >
               <td class="text-nowrap">{{ invoice.date | date:  "dd/MM/yyyy HH:mm:ss" }}</td>
-              <td>{{ invoice?.invoiceNumber | uppercase }}</td>
               <td class="text-nowrap">{{ invoice?.practicianName }}</td>
               <td class="text-nowrap">{{ invoice?.patientNumber }}</td>
-              <td class="text-right">{{ invoice?.patientAmount| currency: "FCFA":"symbol":"1.0-0" }} </td>
-                <td class="text-right">{{ invoice?.totalAmount/2 | currency: "FCFA":"symbol":"1.0-0" }} </td>
-                <td class="text-right">{{ invoice?.totalAmount/2 | currency: "FCFA":"symbol":"1.0-0" }}</td>
-                <td class="text-nowrap text-right">{{ invoice?.totalAmount | currency: "FCFA":"symbol":"1.0-0" }}</td>
-              <td class="text-center">
-                <span class="status" [ngClass]="{'statusSuccess': invoice.billStatus == 'C', 'statusError': invoice.billStatus == 'R'}" >{{invoice.billStatus == 'C' ? 'Encaissée' : 'Non Encaissée'}}</span>
-              </td>
+              <td class="text-nowrap">{{ invoice?.patientName }}</td>
+              <td class="text-right">{{ invoice?.amount| currency: "FCFA":"symbol":"1.0-0" }} </td>
+                <td class="text-right">{{ invoice?.amount/2 | currency: "FCFA":"symbol":"1.0-0" }} </td>
+                <td class="text-right">{{ invoice?.amount/2 | currency: "FCFA":"symbol":"1.0-0" }}</td>
             </tr>
           </tbody>
         </table>

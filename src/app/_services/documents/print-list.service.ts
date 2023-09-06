@@ -69,9 +69,9 @@ export class PrintListService {
         { content: insuranceContent['invoiceNumber'] },
         { content: insuranceContent['practicianName']},
         { content: insuranceContent['patientNumber']},
-        { content: insuranceContent['totalAmount'], halign: 'left' },
-        { content: insuranceContent['totalAmount']/2, halign: 'right' },
-        { content: insuranceContent['totalAmount']/2, halign: 'right' },
+        { content: insuranceContent['amount'], halign: 'left' },
+        { content: insuranceContent['amount']/2, halign: 'right' },
+        { content: insuranceContent['amount']/2, halign: 'right' },
       ]
      body.push(practicianBillContents);
     });

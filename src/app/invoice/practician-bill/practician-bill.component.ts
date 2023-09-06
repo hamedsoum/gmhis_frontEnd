@@ -163,18 +163,14 @@ export class PracticianBillComponent implements OnInit, OnDestroy {
   }
 
   public onFilter(dateFilter? :any): void {
+    console.log(dateFilter);
+    
     let userID = this.searchForm.get('userID').value;
     let billStatus : billStatus = this.searchForm.get('billStatus').value;
     let date = this.searchForm.get('date').value as Object;
     console.log("userID: " + userID + " billStatus: " + billStatus + " date: " + date);
     
-    if (userID !== null && billStatus === null && date === null) this.filterItemsByPractician(userID);
-    else if (userID === null && billStatus !== null && date === null) this.filterItemsByStatus(billStatus);
-    else if (userID === null && billStatus === null && date !== null) this.filterByDate(dateFilter); 
-    else if (userID !== null && billStatus !== null && date === null) this.filterItemsByPracticianAndStatus(userID,billStatus );
-    else if (userID !== null && billStatus === null && date !== null) this.filterByPracticianAndDate(userID,dateFilter);
-    else if (userID === null && billStatus !== null && date !== null) this.filterByStatusAndDate(billStatus, dateFilter);
-    else if (userID !== null && billStatus !== null && date !== null) this.filterByPracticianAndStatusAndDate(userID,billStatus,dateFilter);
+    this.filterByDate(dateFilter);
 
     this.calculTotalAmount(); 
   }
@@ -195,6 +191,8 @@ export class PracticianBillComponent implements OnInit, OnDestroy {
           this.firstPage = response.firstPage;
           this.items = response.items;          
           this.itemsFiltered = this.items;
+          console.log(this.itemsFiltered);
+          
           this.calculTotalAmount();
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
@@ -238,7 +236,9 @@ export class PracticianBillComponent implements OnInit, OnDestroy {
 
    private filterByDate(date: any): void {
       this.formatDate(date);
-      this.itemsFiltered = this.items.filter(item => new Date(item.date) >= new Date(this.dateStart) && new Date(item.date) <= new Date(this.dateEnd)); 
+      this.itemsFiltered = this.items.filter(item => (new Date(item.date) >= new Date(this.dateStart)) && (new Date(item.date) <= new Date(this.dateEnd))); 
+      console.log(this.itemsFiltered);
+      
    }
 
    private filterByPracticianAndDate(userID: number, date: any): void {     

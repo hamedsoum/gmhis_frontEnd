@@ -7,7 +7,6 @@ import { PredefinedDate } from 'src/app/_common/domain/predefinedDate';
 import { PredefinedPeriodService } from 'src/app/_common/services/predefined-period.service';
 import { PageList } from 'src/app/_models/page-list.model';
 import { PrintInsuranceInvoiceService } from 'src/app/_services/documents/print-insurance-invoice.service';
-import { PrintListService } from 'src/app/_services/documents/print-list.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';

@@ -22,8 +22,10 @@ import autoTable from 'jspdf-autotable';
   
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(12);
-      let facilityName: string = this.user.facility.name;
-      doc.text(facilityName.toUpperCase(), 70, 22);
+      console.log(this.user);
+      
+      //TODO
+      doc.text('Sanlam Assurance', 70, 22);
   
       doc.text('Détails des factures',16, 35);
   
