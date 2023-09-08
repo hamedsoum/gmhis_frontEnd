@@ -30,7 +30,7 @@ import autoTable from 'jspdf-autotable';
       doc.text('Détails des factures',16, 35);
   
       doc.setFontSize(9);
-      doc.text('Nom du Assurance',18, 45);
+      doc.text('Nom de Assurance',18, 45);
       doc.text(`${insuranceData.insuranceName} `,55, 45);
       doc.line(16, 47, 102, 47);
   

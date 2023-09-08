@@ -1,33 +1,52 @@
 <form [formGroup]='examinationForm' (submit)='save()'>
-    <div class="row">
+    <div >
         <div>
           <app-patient-constant [patientId]="patient.id" [PaginationSize]="3" [newConstantsButtonVisibled]="false"></app-patient-constant>
         </div>
-        <div class="col-md-12">
-            <label class="fw-bold mb-2" for="reason">Motif de consultation<span class="text-danger">*</span></label>
+        <div class="row">
+          <div class="col-md-12  mb-3">
+            <label class="fw-bold mb-2" for="reason">MOTIF DE CONSULTATION<span class="text-danger">*</span></label>
             <textarea class="form-control" formControlName="examinationReasons" rows="4"></textarea>
             <span class="text-danger" *ngIf="formSubmitted && !examinationForm.controls.examinationReasons.valid">
                 <div *ngIf="examinationReasons.errors.required" class="text-danger">Veuillez renseigner le motif de la
                     consultation </div>
             </span>
         </div>
-        <div>
-          <label class="fw-bold mb-2" for="reason">Histoire de la maladie</label>
-
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold mb-2" for="reason">ANAMNESE ACTUELLE</label>
           <textarea class="form-control" formControlName="history" rows="4"></textarea>
         </div>
-        <div>
-          <label class="fw-bold mb-2" for="reason">Antécedent</label>
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold mb-2" for="reason">ANAMNESE SOCIO-PROFESSIONNELLE</label>
+          <textarea class="form-control" rows="4"></textarea>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold mb-2" for="reason">ANTECEDENTS PERSONNELS</label>
           <textarea class="form-control" formControlName="oldTreatment" rows="4"></textarea>
         </div>
-        <div>
-          <label class="fw-bold mb-2" for="reason">Examens Cliniques<span class="text-danger">*</span></label>
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold mb-2" for="reason">ANTECEDENTS FAMILIAUX</label>
+          <textarea class="form-control" rows="4"></textarea>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold mb-2" for="reason">HABITUDES</label>
+          <textarea class="form-control" rows="4"></textarea>
+        </div>
+      
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold mb-2" for="reason">EXAMENS CLINIQUES<span class="text-danger">*</span></label>
           <textarea class="form-control" formControlName="clinicalExamination" rows="4"></textarea>
         </div>
-        <div *ngIf="makePrescription" class="col-md-12">
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold mb-2" for="reason">DIAGNOSTIC DE PRESOMPTION ?<span class="text-danger">*</span></label>
+          <textarea class="form-control" formControlName="clinicalExamination" rows="4"></textarea>
+        </div>
+        <div class="col-md-6" *ngIf="makePrescription" class="col-md-12">
           <label class="fw-bold mb-2" for="reason">Diagnostic</label>
           <textarea class="form-control" formControlName="conclusion" rows="4"></textarea>
       </div>
+        </div>
+       
     </div>
 </form>
 <div [style.margin-top]="'20px'" class=" d-flex justify-content-center">

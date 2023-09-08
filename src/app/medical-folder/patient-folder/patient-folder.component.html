@@ -71,7 +71,7 @@
                     <span [style.font-size]="'13px'" [style.display]="'block'">Centre de Santé : {{examination.facility}}</span>
                 </nb-card-header>
                     <nb-card-body>
-                    <span>Diagnostic du Medecin:</span> {{examination?.conclusion ? truncate(examination?.conclusion,100) : 'En Attente' }}
+                    <span>Diagnostic du Medecin: </span> <span class="sh-color-primary fw-bold">{{examination?.conclusion ? truncate(examination?.conclusion,100) : 'En Attente' }}</span>
                 </nb-card-body>
                 <nb-card-footer>
                     {{examination.date | date: "dd/MM/yyyy"}}

@@ -1,4 +1,8 @@
 export interface IExaminationDto {
+  anamnesisSocioProfessional?: string;
+	antecedentsFamily?: string;
+	habits?: string;
+	diagnosisPresumptive?: string;
   admission: number,
   conclusion: string,
   conclusionExamResult: string,
