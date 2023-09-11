@@ -1,4 +1,8 @@
 export interface IExamination {
+    anamnesisSocioProfessional?: string;
+	antecedentsFamily?: string;
+	habits?: string;
+	diagnosisPresumptive?: string;
     admission: number,
     conclusion: string,
     clinicalExamination: string;

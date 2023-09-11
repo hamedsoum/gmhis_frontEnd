@@ -98,6 +98,10 @@ export class NewExaminationComponent implements OnInit {
         history : new FormControl(''),
         oldTreatment : new FormControl(''),
         clinicalExamination: new FormControl('', Validators.required),
+        anamnesisSocioProfessional: new FormControl(''),
+        antecedentsFamily: new FormControl(''),
+        habits: new FormControl(''),
+        diagnosisPresumptive: new FormControl(''),
         startDate: new FormControl(this.startDate)
       })
     }

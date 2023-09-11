@@ -18,7 +18,7 @@
         </div>
         <div class="col-md-6 mb-3">
           <label class="fw-bold mb-2" for="reason">ANAMNESE SOCIO-PROFESSIONNELLE</label>
-          <textarea class="form-control" rows="4"></textarea>
+          <textarea class="form-control" formControlName="anamnesisSocioProfessional" rows="4"></textarea>
         </div>
         <div class="col-md-6 mb-3">
           <label class="fw-bold mb-2" for="reason">ANTECEDENTS PERSONNELS</label>
@@ -26,11 +26,11 @@
         </div>
         <div class="col-md-6 mb-3">
           <label class="fw-bold mb-2" for="reason">ANTECEDENTS FAMILIAUX</label>
-          <textarea class="form-control" rows="4"></textarea>
+          <textarea class="form-control" formControlName="antecedentsFamily" rows="4"></textarea>
         </div>
         <div class="col-md-6 mb-3">
           <label class="fw-bold mb-2" for="reason">HABITUDES</label>
-          <textarea class="form-control" rows="4"></textarea>
+          <textarea class="form-control" formControlName="habits" rows="4"></textarea>
         </div>
       
         <div class="col-md-6 mb-3">
@@ -39,10 +39,10 @@
         </div>
         <div class="col-md-6 mb-3">
           <label class="fw-bold mb-2" for="reason">DIAGNOSTIC DE PRESOMPTION ?<span class="text-danger">*</span></label>
-          <textarea class="form-control" formControlName="clinicalExamination" rows="4"></textarea>
+          <textarea class="form-control" formControlName="diagnosisPresumptive" rows="4"></textarea>
         </div>
-        <div class="col-md-6" *ngIf="makePrescription" class="col-md-12">
-          <label class="fw-bold mb-2" for="reason">Diagnostic</label>
+        <div class="col-md-6" *ngIf="makePrescription">
+          <label class="fw-bold mb-2" for="reason">DIAGNOSTIC</label>
           <textarea class="form-control" formControlName="conclusion" rows="4"></textarea>
       </div>
         </div>

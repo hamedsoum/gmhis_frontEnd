@@ -1,10 +1,33 @@
 <div class="{{styleClass}}">
-    
-            <data-field-textarea label="Motif de Consultation"  [value]="examination.examinationReasons" ></data-field-textarea>
-            <data-field-textarea *ngIf="examination.history" label="Histoire de la maladie" [value]="examination.history"></data-field-textarea>
-            <data-field-textarea *ngIf="examination.oldTreatment" label="Antécédent" [value]="examination.oldTreatment"></data-field-textarea>
-            <data-field-textarea label="Examen Clinique" [value]="examination.clinicalExamination"></data-field-textarea>
-            <data-field-textarea *ngIf="examination.conclusion" label="Diagnostic" labelStyleClass="sh-color-primary" [value]="examination.conclusion"></data-field-textarea>
+        <div class="row">
+            <div class="col-lg-12">
+                <data-field-textarea label="Motif de Consultation"  [value]="examination.examinationReasons" ></data-field-textarea>
+            </div>
+            <div class="col-lg-6">
+                <data-field-textarea *ngIf="examination.history" label="Anamnese Actuelle" [value]="examination.history"></data-field-textarea>
+            </div>
+            <div class="col-lg-6">
+                <data-field-textarea *ngIf="examination.anamnesisSocioProfessional" label="Anamnese Socio-professionnelle" [value]="examination.anamnesisSocioProfessional"></data-field-textarea>
+            </div>
+            <div class="col-lg-6">
+                <data-field-textarea *ngIf="examination.oldTreatment" label="Antecedents personnels" [value]="examination.oldTreatment"></data-field-textarea>
+            </div>
+            <div class="col-lg-6">
+                <data-field-textarea *ngIf="examination.antecedentsFamily" label="Antecedents Familiaux" [value]="examination.antecedentsFamily"></data-field-textarea>
+            </div>
+             <div class="col-lg-6">
+                <data-field-textarea *ngIf="examination.habits" label="Habitudes" [value]="examination.habits"></data-field-textarea>
+            </div> 
+            <div class="col-lg-6">
+                <data-field-textarea *ngIf="examination.clinicalExamination" label="Examen Clinique" [value]="examination.clinicalExamination"></data-field-textarea>
+            </div>
+            <div class="col-lg-6">
+                <data-field-textarea *ngIf="examination.diagnosisPresumptive" label="Diagnostic de presemption" [value]="examination.diagnosisPresumptive"></data-field-textarea>
+            </div>
+            <div class="col-lg-6">
+                <data-field-textarea *ngIf="examination.conclusion" label="Diagnostic" labelStyleClass="sh-color-primary" [value]="examination.conclusion"></data-field-textarea>
+            </div>
+        </div>
 
     <div>
     </div>
