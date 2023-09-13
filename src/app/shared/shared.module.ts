@@ -13,11 +13,12 @@ import { RouterModule } from '@angular/router';
 import { SafePipe } from './safe.pipe';
 import { SHButtonComponent } from './components/button/sh-button.component';
 import { SHDatafieldTextaeraComponent } from './components/data-field/textarea/data-field-textarea.component';
+import { DataFieldText } from './components/data-field/text/data-field-text.component';
 
 
 
 @NgModule({
-  declarations: [SafePipe, SHButtonComponent, SHDatafieldTextaeraComponent],
+  declarations: [SafePipe, SHButtonComponent, SHDatafieldTextaeraComponent, DataFieldText],
   imports: [
     CommonModule
   ],
@@ -45,7 +46,8 @@ import { SHDatafieldTextaeraComponent } from './components/data-field/textarea/d
     NgbCarouselModule,
     SafePipe,
     SHButtonComponent,
-    SHDatafieldTextaeraComponent
+    SHDatafieldTextaeraComponent,
+    DataFieldText
   ]
 })
 export class SharedModule { }

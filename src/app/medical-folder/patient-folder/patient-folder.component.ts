@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
 import { PatientConstantService } from 'src/app/constant/patient-constant/service/patient-constant.service';
 import { ExamService } from 'src/app/examen/services/exam.service';
-import { IPatient } from 'src/app/patient/patient';
+import { Patient } from 'src/app/patient/patient';
 import { PatientService } from 'src/app/patient/patient.service';
 import { PrescriptionService } from 'src/app/prescription/services/prescription.service';
 import { PageList } from 'src/app/_models/page-list.model';
@@ -27,7 +27,7 @@ export class PatientFolderComponent implements OnInit {
 
   private subs = new SubSink();
 
-  patient: IPatient;
+  patient: Patient;
   patientId: number;
   admissionId: number;
   admission : Admission;

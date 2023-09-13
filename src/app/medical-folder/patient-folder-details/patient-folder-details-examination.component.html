@@ -1,42 +1,69 @@
 <nb-card>
    
     <nb-card-body>
-        <div class="row d-flex justify-content-end">
-            <div class="col-lg-2">
+        <div class="row d-flex ">
+          <div class="col-lg-3">
+            <button 
+            (click)="openExaminationForm(addFormContent, 'xl')"
+              class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+              style="background-color: #14a2b8;">
+              <nb-icon icon="plus-outline"></nb-icon>
+              <span>Consultation</span>
+            </button>
+          </div>
+          <div class="col-lg-3">
+            <button (click)="onOpenModal(constantForm, 'lg')"
+              class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+              style="background-color: #14a2b8;">
+              <nb-icon icon="plus-outline"></nb-icon>
+              <span>Constante</span>
+            </button>
+          </div>        
+          <div class="col-lg-3">
+            <button 
+            (click)="onOpenModal(prescriptionFormContent, 'xl')"
+              class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+              style="background-color: #14a2b8;">
+              <nb-icon icon="plus-outline"></nb-icon>
+              <span [style.display]="'block'">Ordonnance </span>
+            </button>
+          </div>
+
+          <div class="col-lg-3">
+            <button 
+              class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+              style="background-color: #14a2b8;">
+              <nb-icon icon="plus-outline"></nb-icon>
+              <span [style.display]="'block'">Certificats </span>
+            </button>
+          </div>
+          </div>
+          <div class="row d-flex justify-content-end">
+            <div class="col-lg-3">
               <button 
-              (click)="openExaminationForm(addFormContent, 'xl')"
                 class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
                 style="background-color: #14a2b8;">
                 <nb-icon icon="plus-outline"></nb-icon>
-                <span>Consultation</span>
+                <span [style.display]="'block'">Affectation </span>
               </button>
             </div>
-            <div class="col-lg-2">
-              <button (click)="onOpenModal(constantForm, 'lg')"
-                class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
-                style="background-color: #14a2b8;">
-                <nb-icon icon="plus-outline"></nb-icon>
-                <span>Constante</span>
-              </button>
-            </div>        
-            <div class="col-lg-2">
-              <button 
-              (click)="onOpenModal(prescriptionFormContent, 'xl')"
-                class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
-                style="background-color: #14a2b8;">
-                <nb-icon icon="plus-outline"></nb-icon>
-                <span [style.display]="'block'">Ordonnance </span>
-              </button>
-            </div>
-            <div class="col-lg-2">
+            <div class="col-lg-3">
               <button 
                 class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
                 style="background-color: #14a2b8;">
                 <nb-icon icon="plus-outline"></nb-icon>
-                <span [style.display]="'block'">Certificats </span>
+                <span [style.display]="'block'">Transfert</span>
               </button>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-3">
+              <button 
+                class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+                style="background-color: #14a2b8;">
+                <nb-icon icon="plus-outline"></nb-icon>
+                <span [style.display]="'block'">Décès </span>
+              </button>
+            </div>
+            <div class="col-lg-3">
               <button  class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
               style="background-color: #14a2b8;" > <a href="https://www.calameo.com/read/007447978ecdfcfe57d3e" target="_blank" style="text-decoration: none; color: white;">Carnet de Santé</a></button>
             </div>
@@ -47,7 +74,7 @@
                 </nb-menu>
             </div>      
             <div *ngIf="showConsultationList == true && menuClick=='Consultations'" class="col-lg-10">
-                <app-examination-list [(newExamination)]="newExamination" [admissionId]="admissionId" [patientId]="patientId"></app-examination-list>
+                <app-examination-list [(newExamination)]="newExamination" [admissionId]="admissionId" [patientId]="patientId" [patient]="patient"></app-examination-list>
             </div>
             <div *ngIf="menuClick=='Constantes'" class="col-lg-10"> 
                 <app-patient-constant [newConstantsButtonVisibled]="false" (updatePattientConstantNumber)="updatePattientConstantNumber()" *ngIf="showConstantList == true" [admissionId]="admissionId" [patientId]="patientId"></app-patient-constant>

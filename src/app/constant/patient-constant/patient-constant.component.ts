@@ -5,7 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
-import { IPatient } from 'src/app/patient/patient';
+import { Patient } from 'src/app/patient/patient';
 import { PatientService } from 'src/app/patient/patient.service';
 import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services/notification.service';
@@ -54,7 +54,7 @@ export class PatientConstantComponent implements OnInit {
   showloading: boolean = false;
   currentIndex: number;
   PatientconstantDomain: any;
-  patient: IPatient;
+  patient: Patient;
 
   @Input()
   patientId: number;

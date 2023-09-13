@@ -6,7 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Admission } from 'src/app/admission/model/admission';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
 import { PathologyService } from 'src/app/pathalogy/services/pathology.service';
-import { IPatient } from 'src/app/patient/patient';
+import { Patient } from 'src/app/patient/patient';
 import { SymptomService } from 'src/app/symptom/services/symptom.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
@@ -31,7 +31,7 @@ export class NewExaminationComponent implements OnInit {
 
     examinationForm: FormGroup;
 
-    @Input() patient: IPatient;
+    @Input() patient: Patient;
    
     @Input() admissionId: number;
     @Input() admission: Admission;

@@ -14,6 +14,7 @@ import { MedicalCertificatesModule } from '../medical-certificates/medical-certi
 import { PatientFolderExaminationDetailsComponent } from './patient-folder-details/patient-folder-examination.details.component';
 import { InvoiceModule } from '../invoice/invoice.module';
 import { examinationRecord } from './examination/record/examination-record.component';
+import { PatientInformations } from './patient-informations/patient-informations.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { examinationRecord } from './examination/record/examination-record.compo
     PatientFolderComponent,
     ExaminationListComponent,
     PatientFolderExaminationDetailsComponent,
-    examinationRecord],
+    examinationRecord,
+    PatientInformations],
   imports: [
     CommonModule,
     MedicalFolderRoutingModule,

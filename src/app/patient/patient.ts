@@ -1,5 +1,5 @@
-export interface IPatient {
-  service: any;
+export interface Patient {
+  service?: any;
   id: number;
   patientExternalId: string;
   cnamNumber: string;
@@ -9,22 +9,23 @@ export interface IPatient {
   gender: string;
   civility: string;
   birthDate: Date;
-  profession: string;
-  maritalStatus: string;
-  numberOfChildren: number;
-  address: string;
-  cityId: number;
+  profession?: string;
+  maritalStatus?: string;
+  numberOfChildren?: number;
+  address?: string;
+  city:any;
+  cityId?: number;
   cellPhone1: string;
-  cellPhone2: string;
-  email: string;
+  cellPhone2?: string;
+  email?: string;
   idcardType: string;
   idCardNumber: string;
   motherFirstName: string;
   motherLastName: string;
-  motherProfession: string;
+  motherProfession?: string;
   correspondant: string;
   correspondantCellPhone: string;
   emergencyContact: string;
-  emergencyContact2: string;
+  emergencyContact2?: string;
   insurances;
 }

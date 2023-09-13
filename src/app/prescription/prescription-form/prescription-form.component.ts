@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DrugService } from 'src/app/drug/services/drug.service';
 import { IExamination } from 'src/app/medical-folder/examination/models/examination';
 import { ExaminationService } from 'src/app/medical-folder/examination/services/examination.service';
-import { IPatient } from 'src/app/patient/patient';
+import { Patient } from 'src/app/patient/patient';
 import { labelValue } from 'src/app/shared/domain';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
@@ -18,7 +18,7 @@ import { traitmentDuration } from './prescription';
 export class PrescriptionFormComponent implements OnInit {
   private subs = new SubSink();
 
-  @Input() patient: IPatient;
+  @Input() patient: Patient;
 
   @Input() examinationId : number;
 

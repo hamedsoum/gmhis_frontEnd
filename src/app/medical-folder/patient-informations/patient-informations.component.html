@@ -1,0 +1,38 @@
+<div class="sh-border-discrete p-2 {{ styleClass }}">
+   <div class="row">
+       <div class="col-md-3 col-lg-4">
+        <data-field-text label="Nom" [value]="patient.lastName" ></data-field-text>
+       </div>
+       <div class="col-md-3 col-lg-4">
+        <data-field-text label="Prénom (s)" [value]="patient.firstName" ></data-field-text>
+       </div>
+
+       <div class="col-md-6 col-lg-4">
+        <data-field-text label="Téléphone" [value]="patient.cellPhone1" ></data-field-text>
+       </div>
+       <div class="col-md-6 col-lg-4">
+        <data-field-text label="Email" [value]="patient.email" ></data-field-text>
+       </div>
+       <div class="col-md-6 col-lg-4">
+        <data-field-text label="Taille" value="--" ></data-field-text>
+       </div>
+       <div class="col-md-6 col-lg-4">
+        <data-field-text label="Poids" value="--" ></data-field-text>
+       </div>
+       <div class="col-md-6 col-lg-4">
+        <data-field-text label="Pathologie" value="--" ></data-field-text>
+       </div>
+       <div class="col-md-6 col-lg-4">
+        <data-field-text label="Traitement en cours" value="--" ></data-field-text>
+       </div>
+       <div class="col-md-6 col-lg-4">
+        <data-field-text label="Date de Naissance" [value]="patient.birthDate | date" ></data-field-text>
+       </div>
+       <div class="col-md-6 col-lg-4">
+        <data-field-text label="Sexe" [value]="patient.maritalStatus" ></data-field-text>
+       </div>
+       <div class="col-md-6 col-lg-4">
+        <data-field-text label="Ville" [value]="patient.city.name" ></data-field-text>
+       </div>
+   </div>
+</div>

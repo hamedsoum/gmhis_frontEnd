@@ -11,7 +11,7 @@ import { SubscriberService } from 'src/app/insurance/subscriber.service';
 import { InsuredServiceService } from 'src/app/insured/service/insured-service.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
-import { IPatient } from '../patient';
+import { Patient } from '../patient';
 import { PatientService } from '../patient.service';
 import { labelValue } from 'src/app/shared/domain';
 import { civilitys, typeOfPieces } from 'src/app/shared/gmhis.enum';
@@ -27,7 +27,7 @@ export class PatientFormmComponent implements OnInit {
   
   @Input() details: boolean;
 
-  @Input() patient: IPatient;
+  @Input() patient: Patient;
 
   @Input() disabledAllFormFiled : boolean ;
 
@@ -109,7 +109,7 @@ export class PatientFormmComponent implements OnInit {
     
     this.buildFields();
     if (this.patient) {      
-      this.patientService.getPatientDetail(this.patient.id).subscribe((response: IPatient) => {
+      this.patientService.getPatientDetail(this.patient.id).subscribe((response: Patient) => {
         console.log(response);
           this.formGroup.patchValue(response);
           this.onGetCityBycountry(response['country']['id']);
@@ -167,7 +167,7 @@ export class PatientFormmComponent implements OnInit {
       if (this.patient.id) {
         this.subs.add(
           this.patientService.updatePatient(this.patient).subscribe(
-            (response: IPatient) => {
+            (response: Patient) => {
               this.loading = false;
               this.updatePatient.emit();
             },
@@ -183,7 +183,7 @@ export class PatientFormmComponent implements OnInit {
       } else {
         this.subs.add(
           this.patientService.createPatient(this.patient).subscribe(
-            (response: IPatient) => {
+            (response: Patient) => {
               this.loading = false;
               this.addPatient.emit();
             },

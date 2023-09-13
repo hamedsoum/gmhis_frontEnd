@@ -6,7 +6,7 @@ import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
-import { IPatient } from '../patient';
+import { Patient } from '../patient';
 import { PatientService } from '../patient.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class PatientListComponent implements OnInit {
 
   public searchForm: FormGroup;
 
-  public patient: IPatient;
+  public patient: Patient;
 
   currentPage: number;
   empty: boolean;
@@ -174,7 +174,7 @@ export class PatientListComponent implements OnInit {
     this.getPatient();
   }
 
-  rowSelected(patient: IPatient, index: number) {
+  rowSelected(patient: Patient, index: number) {
     this.currentIndex = index;
     this.patient = patient;
   }

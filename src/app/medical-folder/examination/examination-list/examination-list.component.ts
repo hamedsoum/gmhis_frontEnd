@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
+import { Patient } from 'src/app/patient/patient';
 import { Pagination } from 'src/app/shared/domain';
 import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services/notification.service';
@@ -27,11 +28,10 @@ export class ExaminationListComponent implements OnInit, OnChanges {
   public examinationId: number;
 
 
-  @Input()
-  patientId : number;
+  @Input() patient : Patient;
+  @Input() patientId : number;
 
-  @Input()
-  admissionId : number;
+  @Input() admissionId : number;
 
   @Input() newExamination : boolean;
   @Output() newExaminationChange = new EventEmitter();
@@ -89,6 +89,8 @@ export class ExaminationListComponent implements OnInit, OnChanges {
     this.findAdmission({id : this.admissionId});
     this.initform();
     this.getExamination();
+    console.log(this.patient);
+    
     this.newExaminationChange.subscribe(() => this.getExamination())
   }
 

@@ -7,7 +7,7 @@ import { Admission } from 'src/app/admission/model/admission';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
 import { PatientConstantService } from 'src/app/constant/patient-constant/service/patient-constant.service';
 import { ExamService } from 'src/app/examen/services/exam.service';
-import { IPatient } from 'src/app/patient/patient';
+import { Patient } from 'src/app/patient/patient';
 import { PatientService } from 'src/app/patient/patient.service';
 import { PrescriptionService } from 'src/app/prescription/services/prescription.service';
 import { NotificationService } from 'src/app/_services';
@@ -16,7 +16,7 @@ import { ExaminationService } from '../examination/services/examination.service'
 @Component({selector :'patient-detail-component', templateUrl :'patient-folder-details-examination.component.html'})
 export class PatientFolderExaminationDetailsComponent implements OnInit{
 
-  patient: IPatient;
+  patient: Patient;
   patientId: number;
 
   admissionId: number;

@@ -4,7 +4,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActService } from 'src/app/act/act/service/act.service';
 import { ActCategoryService } from 'src/app/act/category/service/act-category.service';
-import { IPatient } from 'src/app/patient/patient';
+import { Patient } from 'src/app/patient/patient';
 import { PracticianService } from 'src/app/practician/practician.service';
 import { ServiceService } from 'src/app/service/service/service.service';
 import { INameAndId } from 'src/app/shared/models/name-and-id';
@@ -27,7 +27,7 @@ export class AdmissionFormComponent implements OnInit {
   @Output() updateAdmission = new EventEmitter();
 
   @Input()
-  patient: IPatient
+  patient: Patient
 
   @Input()
   admission: Admission;
@@ -135,7 +135,7 @@ export class AdmissionFormComponent implements OnInit {
       } else {
         this.subs.add(
           this.admissionService.createAdmission(this.admissionCreateData).subscribe(
-            (response: IPatient) => {
+            (response: Patient) => {
               this.loading = false;
               this.addAdmission.emit();
             },

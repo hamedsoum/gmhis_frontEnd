@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { Utils } from "src/app/shared/base/utils";
 
-@Component({selector: 'data-field-textarea', templateUrl: './data-field-textarea.component.html'})
-export class SHDatafieldTextaeraComponent implements OnInit {
+@Component({selector: 'data-field-text', templateUrl: './data-field-text.component.html', styleUrls: ['./data-field-text.component.scss']})
+export class DataFieldText implements OnInit {
     @Input() styleClass?: string;
 
     @Input() labelStyleClass?: string;
@@ -15,8 +16,8 @@ export class SHDatafieldTextaeraComponent implements OnInit {
 
     @Input() showBorder? : boolean;
 
-    ngOnInit(): void {        
-        if (this.value == null) throw new Error("value cannot be null");
+    ngOnInit(): void {
+        Utils.notNull(this.value, 'value');
     }
     
 }

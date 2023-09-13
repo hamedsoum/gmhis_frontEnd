@@ -1,5 +1,5 @@
 import { Admission } from '../admission/model/admission';
-import { IPatient } from '../patient/patient';
+import { Patient } from '../patient/patient';
 import { Customer } from './customer.model';
 import { User } from './user.model';
 
@@ -26,7 +26,7 @@ export interface Invoice {
   taxpayerAccount: string;
   billDate: Date;
   admision : Admission;
-  patient : IPatient;
+  patient : Patient;
   patientType :string;
   patientPart : number;
   partTakenCareOf : number;

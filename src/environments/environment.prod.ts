@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8080',
+  apiUrl: 'http://94.23.1.78:8080',
   tvaRate : 18,
   airsiRate : 7.5,
   predefinedPeriode :  "PERIODE PREDEFINIE",
