@@ -9,6 +9,9 @@ export class examinationRecord implements OnInit {
     @Input() patient: Patient;
     @Input() examination: IExamination;
 
+    docSrc: any;
+
+    constructor( ){}
     ngOnInit(): void {
         this.notNull(this.examination);        
     }
@@ -19,4 +22,6 @@ export class examinationRecord implements OnInit {
             throw new Error(`${arg} Argument must not be null`);
         }
     }
+
+   
 }

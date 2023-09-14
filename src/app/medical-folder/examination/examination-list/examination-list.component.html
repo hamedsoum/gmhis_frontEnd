@@ -86,9 +86,12 @@
 
 <ng-template #examinationRecordModal let-c="close" let-d="dismiss">
   <div class="modal-header">
+    
    <div>
     <span class="modalTitle" >Details de la consultation</span>
     <span class="modal-subTitle" >---</span>
+    <div (click)="onPrintExaminationRecord(recordContent,examination)"><span class="button-text"> <span  class="material-icons">ios_share</span></span> </div>
+
    </div>
     <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
   </div>
@@ -177,4 +180,24 @@
       <button (click)="ChooseLaboratoryType(exameFormContent,true)" class="btn btn-success">Interne</button>
   </div>
 
+</ng-template>
+
+<ng-template #recordContent let-c="close" let-d="dismiss">
+  <div class="modal-header ">
+    <nb-icon
+      style="cursor: pointer"
+      (click)="d('Cross click')"
+      class="h4"
+      icon="close-circle-outline"
+    ></nb-icon>
+  </div>
+  <div class="modal-body ">
+    <ngx-extended-pdf-viewer
+      *ngIf="docSrc"
+      [src]="docSrc"
+      useBrowserLocale="true"
+      height="80vh"
+    >
+    </ngx-extended-pdf-viewer>
+  </div>
 </ng-template>

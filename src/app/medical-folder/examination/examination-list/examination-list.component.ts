@@ -10,13 +10,10 @@ import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
 import { IExamination } from '../models/examination';
+import { ExaminationPrintDocumentService } from '../record/examination-print-document.service';
 import { ExaminationService } from '../services/examination.service';
 
-@Component({
-  selector: 'app-examination-list',
-  templateUrl: './examination-list.component.html',
-  styleUrls: ['./examination-list.component.scss']
-})
+@Component({selector: 'app-examination-list',templateUrl: './examination-list.component.html'})
 export class ExaminationListComponent implements OnInit, OnChanges {
 
   private subs = new SubSink();
@@ -77,20 +74,20 @@ export class ExaminationListComponent implements OnInit, OnChanges {
   admission: any;
 
   diagnostic: string;
+  docSrc: string;
 
   constructor(
     private examinationService: ExaminationService,
     private notificationService: NotificationService,
     private modalService: NgbModal,
-    private admissionService : AdmissionService
+    private admissionService : AdmissionService,
+    private examinationPrintDocumentService : ExaminationPrintDocumentService,
   ) {}
 
   ngOnInit(): void {
     this.findAdmission({id : this.admissionId});
     this.initform();
-    this.getExamination();
-    console.log(this.patient);
-    
+    this.getExamination();    
     this.newExaminationChange.subscribe(() => this.getExamination())
   }
 
@@ -101,6 +98,12 @@ export class ExaminationListComponent implements OnInit, OnChanges {
       this.getExamination();
       this.newExamination = false;
     }
+  }
+
+  public onPrintExaminationRecord(recordContent: any):void {  
+    this.modalService.open(recordContent, { size: 'lg' });
+    let doc  = this.examinationPrintDocumentService.examinationRecordPDF(this.examination,this.patient)
+    this.docSrc = doc.output('datauristring');       
   }
 
   public onAddDiagnostic(examination:IExamination,diagnosticDialog: any):void {
