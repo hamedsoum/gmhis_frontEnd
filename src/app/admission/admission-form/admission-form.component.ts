@@ -23,14 +23,12 @@ import { AdmissionService } from '../service/admission.service';
 export class AdmissionFormComponent implements OnInit {
   private subs = new SubSink();
 
+  @Input() patient: Patient
+
+  @Input() admission: Admission;
+
   @Output() addAdmission = new EventEmitter();
   @Output() updateAdmission = new EventEmitter();
-
-  @Input()
-  patient: Patient
-
-  @Input()
-  admission: Admission;
 
   admissionCreateData: IAdmissionDto;
 

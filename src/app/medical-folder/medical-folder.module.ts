@@ -15,6 +15,7 @@ import { PatientFolderExaminationDetailsComponent } from './patient-folder-detai
 import { InvoiceModule } from '../invoice/invoice.module';
 import { examinationRecord } from './examination/record/examination-record.component';
 import { PatientInformations } from './patient-informations/patient-informations.component';
+import { AdmissionModule } from '../admission/admission.module';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { PatientInformations } from './patient-informations/patient-informations
     ExamenModule,
     PrescriptionModule,
     MedicalCertificatesModule,
-    InvoiceModule
+    InvoiceModule,
+    AdmissionModule
     ]
 })
 export class MedicalFolderModule { }

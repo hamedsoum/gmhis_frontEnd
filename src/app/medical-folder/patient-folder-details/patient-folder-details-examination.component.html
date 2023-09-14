@@ -41,6 +41,7 @@
           <div class="row d-flex justify-content-end">
             <div class="col-lg-3">
               <button 
+               (click)="onOpenModal(assignmentForm, 'lg')"
                 class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
                 style="background-color: #14a2b8;">
                 <nb-icon icon="plus-outline"></nb-icon>
@@ -137,4 +138,17 @@
   </div>
 </ng-template>
 
+<!-- update modal -->
+<ng-template #assignmentForm let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div>
+      <span class="modalTitle" >Affectation</span>
+      <span class="modal-subTitle" >Affecter votre patient vers un autre service</span>
+    </div>
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+  </div>
+  <div class="modal-body"> 
+    dddd
+    <app-admission-form [patient]="patient" (addAdmission)="handleAssignment()"></app-admission-form> </div>
+</ng-template>
 

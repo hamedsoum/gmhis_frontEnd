@@ -161,11 +161,16 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
     this.newExamination = !this.newExamination;
   }
   
-  openExaminationForm(addFormContent, size:string) {
+  public openExaminationForm(addFormContent, size:string) {
     
     this.modalService.open(addFormContent, { size: size });
   }
+ 
+  public handleAssignment(): void {
+    this.notificationService.notify(NotificationType.SUCCESS,"Affectation effectuée avec succès");
+    this.modalService.dismissAll();
 
+  }
   updateExaminationNuber(patientId?:number){
     this.examinationService.getExaminationNumberByAdmissionId(this.admissionId).subscribe(
       (response : number) => {
