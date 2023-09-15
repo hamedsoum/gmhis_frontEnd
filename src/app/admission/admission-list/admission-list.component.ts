@@ -12,11 +12,7 @@ import { SubSink } from 'subsink';
 import { admissionStatus, Admission } from '../model/admission';
 import { AdmissionService } from '../service/admission.service';
 
-@Component({
-  selector: 'app-admission-list',
-  templateUrl: './admission-list.component.html',
-  styleUrls: ['./admission-list.component.scss']
-})
+@Component({selector: 'app-admission-list',templateUrl: './admission-list.component.html'})
 export class AdmissionListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
@@ -48,11 +44,6 @@ export class AdmissionListComponent implements OnInit, OnDestroy {
     { id: 250, value: 250 },
     { id: 500, value: 500 },
     { id: 1000, value: 1000 },
-  ];
-
-  actives = [
-    { id: true, value: 'Actif' },
-    { id: false, value: 'Inactif' },
   ];
 
   admissionStatus =  [

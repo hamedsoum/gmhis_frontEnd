@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PageList } from '../_models/page-list.model';
-import { IFacility } from './models/facility';
+import { Facility } from './models/facility';
 import { IFacilityDto as IFacilityCreateUpdate } from './models/facility-dto';
 
 @Injectable({
@@ -48,8 +48,8 @@ export class FaciityServiceService {
     return this.http.get<any[]>(`${this.apiUrl}/facility_category/active_facilitiesCategory_name`);
   }
 
-  createFaciity(facilityDto: IFacilityCreateUpdate): Observable<IFacility> {
-    return this.http.post<IFacility>(`${this.apiUrl}/facility/add`, facilityDto);
+  createFaciity(facilityDto: IFacilityCreateUpdate): Observable<Facility> {
+    return this.http.post<Facility>(`${this.apiUrl}/facility/add`, facilityDto);
   }
 
   updateFacility(facilityDto: IFacilityCreateUpdate): Observable<IFacilityCreateUpdate> {

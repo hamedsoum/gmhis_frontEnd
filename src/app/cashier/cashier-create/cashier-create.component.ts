@@ -80,7 +80,7 @@ export class CashierCreateComponent implements OnInit {
               
               if (this.cashierCreate.id) {
                   this.subs.add(
-                      this.cashierService.updateCashier(this.cashierCreate.id, this.cashierCreate)
+                      this.cashierService.update(this.cashierCreate.id, this.cashierCreate)
                       .pipe(finalize(()=> this.loading = false))
                       .subscribe(
                         (response : Cashier) => {
@@ -93,7 +93,7 @@ export class CashierCreateComponent implements OnInit {
                   )
               }else {
                 this.subs.add(
-                    this.cashierService.createCashier(this.cashierCreate)
+                    this.cashierService.create(this.cashierCreate)
                     .pipe(finalize(()=> this.loading = false))
                     .subscribe(
                       (response: Cashier) => {

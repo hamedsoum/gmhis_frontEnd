@@ -1,2 +1,2 @@
-export interface IFacility {
+export interface Facility {
 }

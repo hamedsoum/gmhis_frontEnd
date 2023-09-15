@@ -90,7 +90,7 @@ currentIndex: number;
   private searchCashier(): void {
     this.loading = true;
     this.subs.add(
-      this.cashierService.searchCashiers(this.searchForm.value)
+      this.cashierService.search(this.searchForm.value)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe(
         (response: PageList) => {

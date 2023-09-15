@@ -14,7 +14,7 @@ export class CashierService {
     private readonly host = environment.apiUrl;
     constructor(private http: HttpClient) { }
 
-    public searchCashiers(data): Observable<PageList> {
+    public search(data): Observable<PageList> {
       let queryParams = {};
 
       queryParams = {
@@ -28,18 +28,18 @@ export class CashierService {
       return this.http.get<PageList>(this.host + GMHIS_ENDPOINT.cashier.index, queryParams)
     }
 
-    public retrieveCashier(cashierID: string): Observable<Cashier>{
+    public retrieve(cashierID: string): Observable<Cashier>{
         if (cashierID == undefined || cashierID == null) throw new Error("cashier must not be empty");
         return this.http.get<Cashier>(this.host + GMHIS_ENDPOINT.cashier.retrieve.replace('${cashierID}', cashierID.trim));
     }
 
-    public updateCashier(cashierID: string, cashierCreate: CashierCreate): Observable<Cashier>{
+    public update(cashierID: string, cashierCreate: CashierCreate): Observable<Cashier>{
         if (cashierID == undefined || cashierID == null) throw new Error("cashier must not be empty");
         if (cashierCreate == undefined || cashierCreate == null) throw new Error("cashierCreate must not be empty");
         return this.http.put<Cashier>(this.host + GMHIS_ENDPOINT.cashier.update.replace('${cashierID}', cashierID.trim()), cashierCreate)
     }
 
-    public createCashier(cashierCreate: CashierCreate): Observable<Cashier> {      
+    public create(cashierCreate: CashierCreate): Observable<Cashier> {      
         if (cashierCreate == undefined || cashierCreate == null) throw new Error("cashierCreate must not be empty");
         return this.http.post<Cashier>(this.host + GMHIS_ENDPOINT.cashier.create, cashierCreate)
     }

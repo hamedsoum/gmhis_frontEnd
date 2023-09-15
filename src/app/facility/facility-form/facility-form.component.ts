@@ -5,7 +5,7 @@ import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
 import { FaciityServiceService } from '../faciity-service.service';
-import { IFacility } from '../models/facility';
+import { Facility } from '../models/facility';
 import { IFacilityDto } from '../models/facility-dto';
 
 @Component({
@@ -17,7 +17,7 @@ export class FacilityFormComponent implements OnInit {
   private subs = new SubSink();
 
   @Input()
-  facility: IFacility;
+  facility: Facility;
 
   facilityCreateUpdate : IFacilityDto
 
@@ -137,7 +137,7 @@ export class FacilityFormComponent implements OnInit {
       } else {
         this.subs.add(
           this.facilityService.createFaciity(this.facilityCreateUpdate).subscribe(
-            (response: IFacility) => {
+            (response: Facility) => {
               this.showloading = false;
               this.addFaciity.emit();
             },

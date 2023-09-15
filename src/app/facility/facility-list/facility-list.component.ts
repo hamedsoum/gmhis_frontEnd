@@ -7,7 +7,7 @@ import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
 import { FaciityServiceService } from '../faciity-service.service';
-import { IFacility } from '../models/facility';
+import { Facility } from '../models/facility';
 
 @Component({
   selector: 'app-facility-list',
@@ -20,7 +20,7 @@ export class FacilityListComponent implements OnInit {
 
   public searchForm: FormGroup;
 
-  public facility: IFacility;
+  public facility: Facility;
 
   currentPage: number;
   empty: boolean;
@@ -147,7 +147,7 @@ export class FacilityListComponent implements OnInit {
     this.getActCode();
   }
 
-  rowSelected(facility: IFacility, index: number) {
+  rowSelected(facility: Facility, index: number) {
     this.currentIndex = index;
     this.facility = facility;
   }
