@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PageList } from '../_models/page-list.model';
-import { INameAndId as NameAndId } from 'src/app/shared/models/name-and-id';
+import { GMHISNameAndID as NameAndId } from 'src/app/shared/models/name-and-id';
 
 
 @Injectable({

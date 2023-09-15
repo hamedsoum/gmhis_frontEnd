@@ -1,22 +1,30 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { HttpErrorResponse } from "@angular/common/http";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 import { Subscription } from "rxjs";
+import { ActCategoryService } from "src/app/act/category/service/act-category.service";
+import { GMHISNameAndID } from "src/app/shared/models/name-and-id";
+import { PageList } from "src/app/_models/page-list.model";
+import { NotificationService } from "src/app/_services";
+import { NotificationType } from "src/app/_utilities/notification-type-enum";
 import { SIZE } from "../api/constant/evacuation.constant";
 import { GMHISEvacuationPartial } from "../api/domain/evacuation.domain";
+import { GmhisEvacuationService } from "../api/service/gmhis.evacuation.service";
 
  export interface Pagination {
-    currentPage: number;
-    empty: boolean;
-    firstPage: boolean;
-    lastPage: boolean;
-    totalItems: number;
-    totalPages: number;
-    selectedSize: number;
-    currentIndex: number;
-    items: any[];
+    currentPage?: number;
+    empty?: boolean;
+    firstPage?: boolean;
+    lastPage?: boolean;
+    totalItems?: number;
+    totalPages?: number;
+    selectedSize?: number;
+    currentIndex?: number;
+    items?: any[];
  }
 
 @Component({ selector: 'gmhis-evacuations', templateUrl: './gmhis-evacuations.component.html'})
-export class GMHISEvacuationsComponent implements OnInit {
+export class GMHISEvacuationsComponent implements OnInit, OnDestroy {
 
     @Input() styleClass?: string;
 
@@ -25,14 +33,95 @@ export class GMHISEvacuationsComponent implements OnInit {
 
     subscription : Subscription = new Subscription();
     
-    paginaton: Pagination;
+    pagination: Pagination = {};
 
     sizes = SIZE;
 
     loading: boolean;
 
+    searchForm: FormGroup;
 
-    ngOnInit(): void {} 
+    currentIndex: number;
+
+    services: GMHISNameAndID[];
+
+    constructor(
+      private evacuationService: GmhisEvacuationService,
+      private notificationService: NotificationService,
+      private actCategorieService: ActCategoryService){}
+   
+    ngOnInit(): void {
+        this.getServices();
+        this.buildSearchFields();
+        this.findEvacuations();
+        } 
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
+
+    public onSearchValueChange(): void {
+      this.findEvacuations();
+    }
+
+  
+      public findEvacuations():void {
+        this.loading = true;
+        this.subscription.add(
+          this.evacuationService.search(this.searchForm.value)
+          .subscribe(
+            (response: PageList) => {
+              this.loading = false;
+              this.pagination.currentPage = response.currentPage + 1;
+              this.pagination.empty = response.empty;
+              this.pagination.firstPage = response.firstPage;
+              this.pagination.items = response.items;                                            
+              this.pagination.lastPage = response.lastPage;
+              this.pagination.selectedSize = response.size;
+              this.pagination.totalItems = response.totalItems;
+              this.pagination.totalPages = response.totalPages;
+            },
+            (errorResponse: HttpErrorResponse) => {
+              this.loading = false;
+              this.notificationService.notify(
+                NotificationType.ERROR,
+                errorResponse.error.message
+              );
+            }
+          )
+        );
+      }
+
+      public onUpdate(updateFormContent, evacuation: GMHISEvacuationPartial): void {
+
+      }
 
 
+      public rowSelected(evacuation: GMHISEvacuationPartial, index: number) {
+            this.currentIndex = index;
+            this.evacuation = evacuation;
+        }
+
+      public onPageChange(event) {
+        this.searchForm.get('page').setValue(event - 1);
+        this.findEvacuations();
+      }
+
+      private buildSearchFields():void {
+        this.searchForm = new FormGroup({
+          service: new FormControl(null),
+          page: new FormControl(0),
+          size: new FormControl(25),
+          sort: new FormControl('id,desc'),
+        });
+      }
+
+      private getServices() {
+        this.actCategorieService.findActiveActCategoryNameAndId().subscribe(
+          (response: GMHISNameAndID[]) => {
+            console.log(response);
+            
+            this.services = response
+          }
+        )}
 }

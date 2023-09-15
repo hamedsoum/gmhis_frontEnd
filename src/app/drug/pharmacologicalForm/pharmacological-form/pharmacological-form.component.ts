@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { INameAndId } from 'src/app/shared/models/name-and-id';
+import { GMHISNameAndID } from 'src/app/shared/models/name-and-id';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
@@ -20,7 +20,7 @@ export class PharmacologicalFormComponent implements OnInit {
   @Input()
   pharmacologicalForm : IPharmacologicalForm;
 
-  pharmacologicalFormDto : INameAndId;
+  pharmacologicalFormDto : GMHISNameAndID;
 
   @Input()
   details: boolean;

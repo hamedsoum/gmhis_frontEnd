@@ -1,0 +1,154 @@
+<nb-card class="nbCardList">
+    <nb-card-header class="row d-flex justify-content-between align-items-center">
+      <div class="col-lg-7 col-md-3 col-sm-12">
+        <h4
+          class="text-capitalize d-flex justify-content-start w-100 text-center"
+        >
+          Évacuations
+        </h4>
+      </div>
+    </nb-card-header>
+    <nb-card-body> 
+      <form [formGroup]="searchForm">
+        <div class="row d-flex justify-content-between align-items-center">
+          <div class="col-lg-9 col-md-9 col-sm-12">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12 mb-2 rounded-pill">
+                <ng-select (change)="onSearchValueChange()" placeholder="Filtrer par service" formControlName="service">
+                  <ng-option *ngFor="let service of services" [value]="service.id">{{
+                    service.name
+                  }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-lg-2">
+                <span
+                  (click)="onSearchValueChange()"
+                  style="
+                    background-color: #ededed;
+                    color: #14a2b8;
+                    cursor: pointer;
+                  "
+                  class="material-icons px-2 p-1 rounded"
+                >
+                  search
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-12">
+            <ng-select
+              [(ngModel)]="pagination.selectedSize"
+              formControlName="size"
+              (change)="onSearchValueChange()"
+            >
+              <ng-option *ngFor="let size of sizes" [value]="size.id">{{
+                size.value
+              }}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </form>
+      <div class="tableFixHead">
+        <table class="table table-bordered table-hover table-md align-middle">
+          <thead class="pb-3 text-capitalize">
+            <tr class="pb-3">
+                <th>Date de Depart</th>   
+                <th>Établissement evacuateur</th>   
+                <th>Service évacuateur</th>   
+                <th>Médecin évacuateur</th>   
+                <th>Patient</th>   
+                <th>Motif de l'évacuation</th>   
+                <th>Renseignement cliniques</th>   
+                <th>Traitement réçu</th>   
+                <th>Établissement d'accueil</th>   
+              <th>Action</th>   
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr
+              *ngFor="
+                let evacuation of pagination.items
+                  | paginate
+                    : {
+                        itemsPerPage: pagination.selectedSize,
+                        currentPage: pagination.currentPage,
+                        totalItems: pagination.totalItems
+                      };
+                let i = index
+              "
+              [class.active]="i == currentIndex"
+              (click)="rowSelected(commune, i)"
+              >
+              <td class="text-nowrap ">{{evacuation.startDate | date:  "dd/MM/yyyy HH:mm:ss"}}</td>
+              <td class="text-nowrap ">{{evacuation.evacuationFacilityName}}</td>
+              <td class="text-nowrap ">{{evacuation.service}}</td>
+              <td class="text-nowrap ">{{evacuation.practicianName}}</td>
+              <td class="text-nowrap ">{{evacuation.patientName}}</td>
+              <td class="text-nowrap ">{{evacuation.evacuationReason}}</td>
+              <td class="text-nowrap ">{{evacuation.clinicalInformation}}</td>
+              <td class="text-nowrap ">{{evacuation.treatmentReceived}}</td>
+              <td class="text-nowrap ">{{evacuation.receptionFacilityName}}</td>
+              <td>
+                <div ngbDropdown class="d-inline-block">
+                  <button type="button" class="btn btn-outline-info" id="dropdownBasic1" ngbDropdownToggle>
+                    ...
+                  </button>
+                  <div class="text" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button
+                    (click)="onUpdate(updateFormContent, admission)"
+                     class="text-center" 
+                     ngbDropdownItem>
+                     Modifier
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex w-100 justify-content-center">
+        <div
+          style="color: #623508"
+          *ngIf="loading"
+          class="spinner-border"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <pagination-controls
+          responsive="true"
+          previousLabel="Prev"
+          nextLabel="Next"
+          (pageChange)="onPageChange($event)"
+        >
+        </pagination-controls>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  
+
+  <!-- update modal -->
+  <ng-template #updateFormContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
+        Modifer une Evacuation
+      </h4>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+    <div class="modal-body">
+   
+    </div>
+  </ng-template>
+
+
+  

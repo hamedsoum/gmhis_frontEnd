@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Patient } from "src/app/patient/patient";
-import { Utils } from "src/app/shared/base/utils";
+import { GmhisUtils } from "src/app/shared/base/utils";
 
 @Component({selector: 'patient-informations', templateUrl: './patient-informations.component.html'})
 export class PatientInformations implements OnInit {
@@ -8,10 +8,8 @@ export class PatientInformations implements OnInit {
 
     @Input() patient : Patient;
 
-    ngOnInit(): void {
-        console.log(this.patient);
-        
-        Utils.notNull(this.patient, 'patient');
+    ngOnInit(): void {        
+        GmhisUtils.notNull(this.patient, 'patient');
     }
     
 }

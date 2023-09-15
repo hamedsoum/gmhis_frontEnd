@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { INameAndId } from 'src/app/shared/models/name-and-id';
+import { GMHISNameAndID } from 'src/app/shared/models/name-and-id';
 import { PageList } from 'src/app/_models/page-list.model';
 import { environment } from 'src/environments/environment';
 
@@ -37,8 +37,8 @@ export class SymptomService {
    * It returns an Observable of an array of objects, each object containing an id and a name
    * @returns An array of objects with the name and id of the active categories.
    */
-  findActiveSymptomNameAndId():Observable<INameAndId[]>{
-    return this.http.get<INameAndId[]>(`${this.apiUrl}/symptom/active_symptoms_name`);
+  findActiveSymptomNameAndId():Observable<GMHISNameAndID[]>{
+    return this.http.get<GMHISNameAndID[]>(`${this.apiUrl}/symptom/active_symptoms_name`);
   }
 
 /**

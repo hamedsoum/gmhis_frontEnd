@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActService } from 'src/app/act/act/service/act.service';
 import { MedicalAnalysisSpecialityService as analysisSpecialityService } from 'src/app/medical-analysis-speciality/service/medical-analysis-speciality.service';
 import { ExaminationService } from 'src/app/medical-folder/examination/services/examination.service';
-import { INameAndId as NameAndId } from 'src/app/shared/models/name-and-id';
+import { GMHISNameAndID as NameAndId } from 'src/app/shared/models/name-and-id';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { ExamenCreateData } from '../models/exam-dto';

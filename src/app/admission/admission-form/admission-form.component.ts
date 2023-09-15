@@ -7,7 +7,7 @@ import { ActCategoryService } from 'src/app/act/category/service/act-category.se
 import { Patient } from 'src/app/patient/patient';
 import { PracticianService } from 'src/app/practician/practician.service';
 import { ServiceService } from 'src/app/service/service/service.service';
-import { INameAndId } from 'src/app/shared/models/name-and-id';
+import { GMHISNameAndID } from 'src/app/shared/models/name-and-id';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
@@ -165,12 +165,12 @@ export class AdmissionFormComponent implements OnInit {
 
   private findActCategorieNameAndId() {
     this.actCategorieService.findActiveActCategoryNameAndId().subscribe(
-      (response: INameAndId[]) => {this.actCategories = response;}
+      (response: GMHISNameAndID[]) => {this.actCategories = response;}
     )}
 
   private findActPracticiainNameAndId() {
     this.practicianService.findPracticianSimpleList().subscribe(
-      (response: INameAndId[]) => {
+      (response: GMHISNameAndID[]) => {
         this.practicians = response;
         console.log(this.practicians);
         

@@ -1,4 +1,4 @@
-export interface INameAndId {
+export interface GMHISNameAndID {
     id : number,
     name : string
     actvie : boolean

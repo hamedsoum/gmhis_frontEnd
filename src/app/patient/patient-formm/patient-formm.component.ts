@@ -15,7 +15,7 @@ import { Patient } from '../patient';
 import { PatientService } from '../patient.service';
 import { labelValue } from 'src/app/shared/domain';
 import { civilitys, typeOfPieces } from 'src/app/shared/gmhis.enum';
-import { INameAndId as NameAndId } from 'src/app/shared/models/name-and-id';
+import { GMHISNameAndID as NameAndId } from 'src/app/shared/models/name-and-id';
 
 @Component({selector: 'app-patient-formm',templateUrl: './patient-formm.component.html',styleUrls: ['./patient-formm.component.scss']})
 export class PatientFormmComponent implements OnInit {

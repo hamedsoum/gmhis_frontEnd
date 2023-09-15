@@ -157,6 +157,19 @@ class="dashboard py-3"
   ><span class="fw-bold">Hospitalisation</span>
 </p>
 <p
+  [ngClass]="{ menuActive: menuItem == 'owner' }"
+  (click)="menuItemFunction('owner')"
+  routerLink="/evacuation"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faUser"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Evacuation</span>
+</p>
+<p
   [hidden]="!canAccessStatistics"
   [ngClass]="{ menuActive: menuItem == 'owner' }"
   (click)="menuItemFunction('owner')"

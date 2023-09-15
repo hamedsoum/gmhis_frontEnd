@@ -10,10 +10,10 @@ import { GMHISEvacuationCreateUpdate, GMHISEvacuationPartial } from "../domain/e
 @Injectable({
     providedIn: 'root'
   })
-export class GmhisExaminationService {
+export class GmhisEvacuationService {
 
     private readonly host = environment.apiUrl;
-    
+
     constructor(private http: HttpClient) { }
 
     public search(data): Observable<PageList> {
@@ -21,7 +21,7 @@ export class GmhisExaminationService {
 
       queryParams = {
         params: new HttpParams()
-          .set('active', data['active'] ?? "")
+          .set('service', data['service'] ?? "")
           .set('sort', data['sort'])
           .set('page', data['page'])
           .set('size', data['size'] ?? "")

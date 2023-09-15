@@ -8,7 +8,7 @@ import { Insured } from 'src/app/insurance/insured';
 import { InsuredServiceService } from 'src/app/insured/service/insured-service.service';
 import { PaymentTypeService } from 'src/app/payment-type/service/payment-type.service';
 import { PracticianService } from 'src/app/practician/practician.service';
-import { INameAndId } from 'src/app/shared/models/name-and-id';
+import { GMHISNameAndID } from 'src/app/shared/models/name-and-id';
 import { Invoice } from 'src/app/_models/invoice.model';
 import { User } from 'src/app/_models/user.model';
 import { NotificationService } from 'src/app/_services/notification.service';
@@ -37,7 +37,7 @@ export class InvoiceFormComponent implements OnInit {
 
   public invoiceForm: FormGroup;
 
-  public cashRegisters: INameAndId[];
+  public cashRegisters: GMHISNameAndID[];
 
   public paymentTypes: any;
 
@@ -47,7 +47,7 @@ export class InvoiceFormComponent implements OnInit {
 
   public practicians: any;
 
-  actsList: INameAndId[];
+  actsList: GMHISNameAndID[];
 
   insured = null;
 
@@ -300,11 +300,11 @@ public isCnamCostField(controlIndex: number): boolean {
   }
 
   private findCashRegisternameAndIdList(){
-    this.cashRegisterService.findCashRegisternameAndIdList().subscribe((response: INameAndId[]) => {this.cashRegisters = response;})
+    this.cashRegisterService.findCashRegisternameAndIdList().subscribe((response: GMHISNameAndID[]) => {this.cashRegisters = response;})
   }
 
   private findActsNameAndIdList() {
-    this.actService.getListOfActiveAct().subscribe((response: INameAndId[]) => {this.actsList = response;})
+    this.actService.getListOfActiveAct().subscribe((response: GMHISNameAndID[]) => {this.actsList = response;})
   }
 
   private findPracticianSimpleList() {

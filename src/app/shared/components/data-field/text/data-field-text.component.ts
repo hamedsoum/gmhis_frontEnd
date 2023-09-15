@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Utils } from "src/app/shared/base/utils";
+import { GmhisUtils } from "src/app/shared/base/utils";
 
 @Component({selector: 'data-field-text', templateUrl: './data-field-text.component.html', styleUrls: ['./data-field-text.component.scss']})
 export class DataFieldText implements OnInit {
@@ -17,7 +17,7 @@ export class DataFieldText implements OnInit {
     @Input() showBorder? : boolean;
 
     ngOnInit(): void {
-        Utils.notNull(this.value, 'value');
+        GmhisUtils.notNull(this.value, 'value');
     }
     
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { INameAndId } from 'src/app/shared/models/name-and-id';
+import { GMHISNameAndID } from 'src/app/shared/models/name-and-id';
 import { PageList } from 'src/app/_models/page-list.model';
 import { environment } from 'src/environments/environment';
 
@@ -37,8 +37,8 @@ export class ActCategoryService {
    * It returns an Observable of an array of objects, each object containing an id and a name
    * @returns An array of objects with the name and id of the active categories.
    */
-  findActiveActCategoryNameAndId():Observable<INameAndId[]>{
-    return this.http.get<INameAndId[]>(`${this.apiUrl}/actCategory/active_categries_name`);
+  findActiveActCategoryNameAndId():Observable<GMHISNameAndID[]>{
+    return this.http.get<GMHISNameAndID[]>(`${this.apiUrl}/actCategory/active_categries_name`);
   }
 
 /**
