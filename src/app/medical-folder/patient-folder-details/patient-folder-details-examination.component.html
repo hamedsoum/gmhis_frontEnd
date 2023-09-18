@@ -58,7 +58,9 @@
               </button>
             </div>
             <div class="col-lg-3">
-              <button 
+              <button
+              *ngIf="patient.deathDate == null"
+              (click)="onOpenModal(patientDeathFormRef, 'lg')" 
                 class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
                 style="background-color: #14a2b8;">
                 <nb-icon icon="plus-outline"></nb-icon>
@@ -164,6 +166,20 @@
   </div>
   <div class="modal-body"> 
     <gmhis-evacuation-create-update (saveEvent)="handleSaveEvacuation()" [admission]="admission"></gmhis-evacuation-create-update>
+
+ </div>
+</ng-template>
+
+<ng-template #patientDeathFormRef let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div>
+      <span class="modalTitle" >Décès</span>
+      <span class="modal-subTitle" >Déclarez le décès d'un patient</span>
+    </div>
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+  </div>
+  <div class="modal-body"> 
+    <gmhis-patient-death [patient]="patient"></gmhis-patient-death>
 
  </div>
 </ng-template>

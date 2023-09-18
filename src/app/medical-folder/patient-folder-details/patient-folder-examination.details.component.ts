@@ -126,7 +126,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
           link:'https://www.calameo.com/read/00744797887c2253a0c92'
         }
   ];
-  ngOnInit(): void {    
+  ngOnInit(): void {        
     this.currentDate = new Date();
     this.route.paramMap.subscribe(
       params => {
@@ -139,6 +139,8 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
           this.patientService.getPatientDetail(this.patientId).subscribe(
           (response : any) => {
             this.patient = response;
+            console.log(this.patient);
+            
             this.showConsultationList = true;
             this.showConstantList = true;
             this.updateExaminationNuber(this.admissionId);
@@ -155,15 +157,6 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
       this.menuService.onItemClick().subscribe(
         (res : any) => {
           this.menuClick = res['item']['title'];
-        }
-      )
-  }
-
-  private patientDeath(): void {
-      this.patientService.updatePatientSetDeathDate(this.admission.patientId).subscribe(
-        (res: any) => {},
-        (error: HttpErrorResponse) => {
-
         }
       )
   }
@@ -260,21 +253,5 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
     this.modalService.dismissAll();
     this.modalService.open(exameFormContent, { size: 'xl' });
   }
-
-  resetAndSendNewPassword() {
-    Swal.fire({
-      title: `êtes vous sur de de vouloir declarer le patient ${this.admission.patientFirstName} ${this.admission.UpdatedByLastName} Mort ?`,
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: 'Save',
-      denyButtonText: `Don't save`,
-    }).then((result) => {
-        this.patientDeath();
-      if (result.isConfirmed) {
-        Swal.fire('Saved!', '', 'success')
-      } else if (result.isDenied) {
-        Swal.fire('Changes are not saved', '', 'info')
-      }
-    })
-  }
+  
 }

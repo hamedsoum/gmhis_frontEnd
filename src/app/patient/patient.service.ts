@@ -14,8 +14,10 @@ export class PatientService {
 
   constructor(private http: HttpClient) {}
 
-  updatePatientSetDeathDate(patientID: number): Observable<any> {    
-    return this.http.put<any>(`${this.apiUrl}/patient/update/${patientID}`,{});
+  updatePatientSetDeathDate(patientID: number, deathDate: string): Observable<any> { 
+    console.log(deathDate);
+       
+    return this.http.put<any>(`${this.apiUrl}/patient/death/${patientID}`,deathDate);
   }
 
   findAll(data): Observable<PageList> {

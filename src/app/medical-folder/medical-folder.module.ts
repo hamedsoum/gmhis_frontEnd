@@ -17,6 +17,7 @@ import { examinationRecord } from './examination/record/examination-record.compo
 import { PatientInformations } from './patient-informations/patient-informations.component';
 import { AdmissionModule } from '../admission/admission.module';
 import { GMHISEvacuationsModule } from '../evacuation/gmhis-evacuations.module';
+import { GMHISPatientDeathCreateUpdate } from './patient-death/create-update/patient-death.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { GMHISEvacuationsModule } from '../evacuation/gmhis-evacuations.module';
     ExaminationListComponent,
     PatientFolderExaminationDetailsComponent,
     examinationRecord,
-    PatientInformations],
+    PatientInformations,
+    GMHISPatientDeathCreateUpdate],
   imports: [
     CommonModule,
     MedicalFolderRoutingModule,

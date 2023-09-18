@@ -28,4 +28,5 @@ export interface Patient {
   emergencyContact: string;
   emergencyContact2?: string;
   insurances;
+  deathDate: string;
 }
