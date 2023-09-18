@@ -36,15 +36,19 @@ export interface GMHISEvacuationPartial {
     id: string;
 	 
 	evacuationFacilityName: string;
-	
+    evacuationFacilityID: string;
+
 	startDate: string;
 	
 	service: string;
-	
+    serviceID: number;
+
 	practicianName: string;
-	
+    practicianID: number;
+
 	patientName: string;
-	
+    patientID: number;
+
 	evacuationReason: string;
 	
 	clinicalInformation: string;
@@ -52,6 +56,8 @@ export interface GMHISEvacuationPartial {
 	treatmentReceived: string;
 	
 	receptionFacilityName: string;
+    receptionFacilityID: string;
+
 }
 
 export interface GMHISEvacuationCreateUpdate {
@@ -61,9 +67,9 @@ export interface GMHISEvacuationCreateUpdate {
 
     serviceID: number;
 
-	PracticianID: number;
+	practicianID: number;
 
-	PatientID: number;
+	patientID: number;
 
 	evacuationReason: string;
 

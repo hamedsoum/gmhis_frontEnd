@@ -16,6 +16,7 @@ import { InvoiceModule } from '../invoice/invoice.module';
 import { examinationRecord } from './examination/record/examination-record.component';
 import { PatientInformations } from './patient-informations/patient-informations.component';
 import { AdmissionModule } from '../admission/admission.module';
+import { GMHISEvacuationsModule } from '../evacuation/gmhis-evacuations.module';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { AdmissionModule } from '../admission/admission.module';
     PrescriptionModule,
     MedicalCertificatesModule,
     InvoiceModule,
-    AdmissionModule
+    AdmissionModule,
+    GMHISEvacuationsModule
     ]
 })
 export class MedicalFolderModule { }

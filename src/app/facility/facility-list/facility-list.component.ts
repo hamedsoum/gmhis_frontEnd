@@ -6,7 +6,7 @@ import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
-import { FaciityServiceService } from '../faciity-service.service';
+import { FaciityService } from '../faciity-service.service';
 import { Facility } from '../models/facility';
 
 @Component({
@@ -51,7 +51,7 @@ export class FacilityListComponent implements OnInit {
   showloading: boolean = false;
   currentIndex: number;
   constructor(
-    private facilityService: FaciityServiceService,
+    private facilityService: FaciityService,
     private notificationService: NotificationService,
     config: NgbModalConfig,
     private modalService: NgbModal

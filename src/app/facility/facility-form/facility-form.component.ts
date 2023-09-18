@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
-import { FaciityServiceService } from '../faciity-service.service';
+import { FaciityService } from '../faciity-service.service';
 import { Facility } from '../models/facility';
 import { IFacilityDto } from '../models/facility-dto';
 
@@ -47,7 +47,7 @@ export class FacilityFormComponent implements OnInit {
   image : any = "";
   facilityLogo : File;
   constructor(
-    private facilityService: FaciityServiceService,
+    private facilityService: FaciityService,
     private notificationService: NotificationService
   ) {}
 

@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FaciityServiceService } from 'src/app/facility/faciity-service.service';
+import { FaciityService } from 'src/app/facility/faciity-service.service';
 import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
@@ -36,7 +36,7 @@ export class SpecialityFormComponent implements OnInit {
   
   loading: boolean = false;
 
-  constructor(private notificationService: NotificationService, private specialityService : SepecialityService, private facilityService : FaciityServiceService) {}
+  constructor(private notificationService: NotificationService, private specialityService : SepecialityService, private facilityService : FaciityService) {}
 
   ngOnInit(): void {    
     this.buildField();

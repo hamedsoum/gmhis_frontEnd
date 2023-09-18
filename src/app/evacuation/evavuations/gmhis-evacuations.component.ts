@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { th } from "date-fns/locale";
 import { Subscription } from "rxjs";
 import { ActCategoryService } from "src/app/act/category/service/act-category.service";
 import { GMHISNameAndID } from "src/app/shared/models/name-and-id";
@@ -48,6 +50,7 @@ export class GMHISEvacuationsComponent implements OnInit, OnDestroy {
     constructor(
       private evacuationService: GmhisEvacuationService,
       private notificationService: NotificationService,
+      private modalService: NgbModal,
       private actCategorieService: ActCategoryService){}
    
     ngOnInit(): void {
@@ -93,7 +96,10 @@ export class GMHISEvacuationsComponent implements OnInit, OnDestroy {
       }
 
       public onUpdate(updateFormContent, evacuation: GMHISEvacuationPartial): void {
-
+        this.evacuation = evacuation;
+        console.log(this.evacuation);
+        
+        this.modalService.open(updateFormContent, {size: 'lg'});
       }
 
 
@@ -117,11 +123,21 @@ export class GMHISEvacuationsComponent implements OnInit, OnDestroy {
       }
 
       private getServices() {
-        this.actCategorieService.findActiveActCategoryNameAndId().subscribe(
-          (response: GMHISNameAndID[]) => {
-            console.log(response);
-            
-            this.services = response
-          }
-        )}
+        this.subscription.add(
+          this.actCategorieService.findActiveActCategoryNameAndId().subscribe(
+            (response: GMHISNameAndID[]) => {
+              console.log(response);
+              
+              this.services = response
+            }
+          )
+        )
+        
+      }
+
+      public handleUpdateEvacuation(): void {
+        this.modalService.dismissAll();
+        this.findEvacuations();
+          this.notificationService.notify(NotificationType.SUCCESS, 'evcuation modifiée avec succès')
+      }
 }

@@ -9,7 +9,7 @@ import { IFacilityDto as IFacilityCreateUpdate } from './models/facility-dto';
 @Injectable({
   providedIn: 'root'
 })
-export class FaciityServiceService {
+export class FaciityService {
   
   private readonly apiUrl = environment.apiUrl;
 

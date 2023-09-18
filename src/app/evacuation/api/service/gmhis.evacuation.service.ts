@@ -32,7 +32,7 @@ export class GmhisEvacuationService {
 
     public retrieve(evacuationID: string): Observable<GMHISEvacuationPartial>{
         GmhisUtils.notNull(evacuationID, 'evacuationID');
-        return this.http.get<GMHISEvacuationPartial>(this.host + GMHIS_ENDPOINT.evacuation.retrieve.replace('${cashierID}', evacuationID.trim()));
+        return this.http.get<GMHISEvacuationPartial>(this.host + GMHIS_ENDPOINT.evacuation.retrieve.replace('${evacuationID}', evacuationID.trim()));
     }
 
     public update(evacuationID: string, evacuationCreate: GMHISEvacuationCreateUpdate): Observable<GMHISEvacuationPartial>{
@@ -41,7 +41,9 @@ export class GmhisEvacuationService {
         return this.http.put<GMHISEvacuationPartial>(this.host + GMHIS_ENDPOINT.evacuation.update.replace('${evacuationID}', evacuationID.trim()), evacuationCreate)
     }
 
-    public create(evacuationCreate: GMHISEvacuationCreateUpdate): Observable<GMHISEvacuationPartial> {      
+    public create(evacuationCreate: GMHISEvacuationCreateUpdate): Observable<GMHISEvacuationPartial> {   
+      console.log(evacuationCreate);
+         
         GmhisUtils.notNull(evacuationCreate, 'evacuationCreate');
         return this.http.post<GMHISEvacuationPartial>(this.host + GMHIS_ENDPOINT.evacuation.create, evacuationCreate)
     }

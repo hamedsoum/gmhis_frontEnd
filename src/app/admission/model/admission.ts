@@ -39,9 +39,10 @@ export interface Admission {
     patientMaidenName: string;
 
     service: string;
-
+    serviceID: number;
     updatedAt: Date;
 
+    facilityName: string;
     facilityType: string;
 
     takeCare: boolean;

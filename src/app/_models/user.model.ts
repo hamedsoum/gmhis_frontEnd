@@ -16,4 +16,5 @@ export interface User {
     profileImage : string;
     passwordMustBeChange:boolean;
     facility : any;
+    facilityId: string;
 }

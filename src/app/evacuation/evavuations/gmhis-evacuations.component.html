@@ -96,7 +96,7 @@
                   </button>
                   <div class="text" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                     <button
-                    (click)="onUpdate(updateFormContent, admission)"
+                    (click)="onUpdate(updateFormContent, evacuation)"
                      class="text-center" 
                      ngbDropdownItem>
                      Modifier
@@ -146,7 +146,7 @@
       ></nb-icon>
     </div>
     <div class="modal-body">
-   
+      <gmhis-evacuation-create-update (updateEvent)="handleUpdateEvacuation()" [evacuationID]="evacuation?.id "></gmhis-evacuation-create-update>
     </div>
   </ng-template>
 

@@ -13,6 +13,10 @@ import { PrescriptionService } from 'src/app/prescription/services/prescription.
 import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { ExaminationService } from '../examination/services/examination.service';
+import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
+
+
 @Component({selector :'patient-detail-component', templateUrl :'patient-folder-details-examination.component.html'})
 export class PatientFolderExaminationDetailsComponent implements OnInit{
 
@@ -39,6 +43,8 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
   newExamination : boolean = false;
 
   currentDate : any;
+
+  subscription: Subscription = new Subscription();
 
   @Output() updateExaminationNuberEvent: EventEmitter<any> = new EventEmitter();
   constructor(
@@ -120,7 +126,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
           link:'https://www.calameo.com/read/00744797887c2253a0c92'
         }
   ];
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.currentDate = new Date();
     this.route.paramMap.subscribe(
       params => {
@@ -152,8 +158,22 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
         }
       )
   }
+
+  private patientDeath(): void {
+      this.patientService.updatePatientSetDeathDate(this.admission.patientId).subscribe(
+        (res: any) => {},
+        (error: HttpErrorResponse) => {
+
+        }
+      )
+  }
+
+  public handleSaveEvacuation():void {
+    this.modalService.dismissAll();
+    this.notificationService.notify( NotificationType.SUCCESS,"Evacuation ajoutée avec succès");
+  }
   
-  onOpenModal(addFormContent, size:string, centered? : boolean) {
+  public onOpenModal(addFormContent, size:string, centered? : boolean):void {
         this.modalService.open(addFormContent, { size: size, centered: centered});
   }
 
@@ -239,5 +259,22 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
     this.examenType = laboratoryType;
     this.modalService.dismissAll();
     this.modalService.open(exameFormContent, { size: 'xl' });
+  }
+
+  resetAndSendNewPassword() {
+    Swal.fire({
+      title: `êtes vous sur de de vouloir declarer le patient ${this.admission.patientFirstName} ${this.admission.UpdatedByLastName} Mort ?`,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+      denyButtonText: `Don't save`,
+    }).then((result) => {
+        this.patientDeath();
+      if (result.isConfirmed) {
+        Swal.fire('Saved!', '', 'success')
+      } else if (result.isDenied) {
+        Swal.fire('Changes are not saved', '', 'info')
+      }
+    })
   }
 }

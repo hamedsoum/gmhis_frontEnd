@@ -46,9 +46,7 @@ export class CashierCreateComponent implements OnInit {
     ngOnInit(): void {
         this.buildFields();
         this.retrieveUsers();
-        if (this.cashier) {
-            console.log(this.cashier);
-            
+        if (this.cashier) {            
             this.fieldGroup.get('id').setValue(this.cashier.id);
             this.fieldGroup.get('active').setValue(this.cashier.active);
             this.fieldGroup.get('userID').setValue(this.cashier.userID);

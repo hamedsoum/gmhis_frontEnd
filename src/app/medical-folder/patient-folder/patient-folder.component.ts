@@ -137,6 +137,7 @@ export class PatientFolderComponent implements OnInit {
         }
   ];
   ngOnInit(): void {
+    console.log(this.admission);
     
     this.currentDate = new Date();
     this.route.paramMap.subscribe(

@@ -43,4 +43,8 @@ export class PracticianService {
      getPracticianDetails(practician : number) : Observable<any>{
       return this.http.get<any>(`${this.apiUrl}/practician/get-detail/` + practician)
     }
+
+    getPracticianDetaisByUserID(userID : number) : Observable<any>{
+      return this.http.get<any>(`${this.apiUrl}/practician/byUser/` + userID)
+    }
 }

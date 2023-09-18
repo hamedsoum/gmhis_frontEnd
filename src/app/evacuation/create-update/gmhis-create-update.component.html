@@ -1,0 +1,66 @@
+<form [formGroup]="fieldGroup">
+    <div
+      *ngIf="loading == true"
+      class="overlay d-flex justify-content-center align-items-center"
+    >
+      <div class="d-flex w-100 justify-content-center">
+        <div
+          class="spinner-border"
+          style="width: 5rem; height: 5rem; color: #623508"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="invalidForm" class="alert alert-danger">Formulaire invalid</div>
+    <div class="row mb-2">
+
+        <div class="col-lg-6 col-md-4 col-sm-12 mb-2 rounded-pill field">
+            <label class=" mb-2">Date et horaire de depart <span class="text-danger">*</span> </label>
+            <input [nbDatepicker]="datepicker" formControlName="startDate" class="form-control">
+            <nb-datepicker format="dd-MM-yyyy" #datepicker></nb-datepicker>
+        </div>
+
+        <div class="col-lg-6 col-md-4 col-sm-12 mb-2 rounded-pill">
+            <label for="receptionFacilityID" class="form-label ">Etablissement d'accueil</label>
+            <ng-select formControlName="receptionFacilityID">
+              <ng-option *ngFor="let facility of facilities" [value]="facility.id">{{
+                facility.name
+              }}</ng-option>
+            </ng-select>
+            <div *ngIf="formSubmitted && !fieldGroup.controls.receptionFacilityID.valid">
+                <small *ngIf="receptionFacilityID.errors.required" class="text-danger sh-text-small">Veuillez Selectionner un Etat</small>
+              </div>
+          </div>
+
+
+          <div class="col-lg-12 mb-3">
+            <label class="mb-2" for="reason">Raison de l'evacuation</label>
+            <textarea class="form-control" formControlName="evacuationReason" rows="4"></textarea>
+          </div>
+
+          <div class="col-lg-12 mb-3">
+            <label class="mb-2" for="reason">Renseignement Clinique</label>
+            <textarea class="form-control" formControlName="clinicalInformation" rows="4"></textarea>
+          </div>
+
+          <div class="col-lg-12 mb-3">
+            <label class="mb-2" for="reason">Traitement Réçu</label>
+            <textarea class="form-control" formControlName="treatmentReceived" rows="4"></textarea>
+          </div>
+    </div>
+    <div  class="mt-3 col">
+      <div class="">
+        <button
+          style="background-color: #14a2b8"
+          type="submit"
+          (click)="createUpdate()"
+          class="btn text-capitalize bg-biblos justify-content-center text-white rounded px-4 py-2 fw-bold"
+        >
+          VALIDER
+        </button>
+      </div>
+    </div>
+  </form>
