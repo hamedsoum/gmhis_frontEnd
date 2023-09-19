@@ -5,16 +5,7 @@ import { Patient } from "src/app/patient/patient";
 import { PatientService } from "src/app/patient/patient.service";
 import Swal from "sweetalert2";
 
-@Component({selector: 'gmhis-patient-death', template: `
-    <div class="col-lg-6 col-md-4 col-sm-12 mb-2 rounded-pill">
-        <label for="code" class="form-label text-capitalize">Date et heure du Décès
-          <span  class="text-danger">*</span>
-        </label>
-        <input nbInput [(ngModel)]="deathDate" placeholder="Date et heure d'ouverture" class="form-control" [nbDatepicker]="dateTimePicker">
-        <nb-date-timepicker format="yyyy-MM-dd HH:mm:ss" withSeconds #dateTimePicker></nb-date-timepicker>
-      </div>
-      <button class="btn-submit" (click)="onPatientDeath()">Valider</button>
-`})
+@Component({selector: 'gmhis-patient-death', templateUrl: './gmhis-patient-death-create-update.component.html'})
 export class GMHISPatientDeathCreateUpdate implements OnInit {
 
     @Input() styleClass?: string

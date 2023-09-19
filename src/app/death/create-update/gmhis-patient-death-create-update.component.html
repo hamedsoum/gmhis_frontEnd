@@ -1,0 +1,8 @@
+<div class="col-lg-6 col-md-4 col-sm-12 mb-2 rounded-pill">
+    <label for="code" class="form-label text-capitalize">Date et heure du Décès
+      <span  class="text-danger">*</span>
+    </label>
+    <input nbInput [(ngModel)]="deathDate" placeholder="Date et heure d'ouverture" class="form-control" [nbDatepicker]="dateTimePicker">
+    <nb-date-timepicker format="yyyy-MM-dd HH:mm:ss" withSeconds #dateTimePicker></nb-date-timepicker>
+  </div>
+  <button class="btn-submit" (click)="onPatientDeath()">Valider</button>

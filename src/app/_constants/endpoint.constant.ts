@@ -1,4 +1,11 @@
 export const GMHIS_ENDPOINT = {
+      // === Death ===
+      death: {
+        index: '/deaths',
+        create: '/deaths',
+        update: '/deaths/${deathID}',
+        retrieve: '/deaths/${deathID}',
+    },
     // === Evaluation ===
     evacuation: {
         index: '/evacuations',
