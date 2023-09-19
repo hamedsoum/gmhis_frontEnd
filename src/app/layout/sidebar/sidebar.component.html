@@ -169,6 +169,20 @@ class="dashboard py-3"
   ></fa-icon
   ><span class="fw-bold">Evacuation</span>
 </p>
+
+<p
+  [ngClass]="{ menuActive: menuItem == 'death' }"
+  (click)="menuItemFunction('death')"
+  routerLink="/death"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faUser"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Décès</span>
+</p>
 <p
   [hidden]="!canAccessStatistics"
   [ngClass]="{ menuActive: menuItem == 'owner' }"

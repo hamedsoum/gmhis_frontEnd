@@ -5,25 +5,16 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { th } from "date-fns/locale";
 import { Subscription } from "rxjs";
 import { ActCategoryService } from "src/app/act/category/service/act-category.service";
+import { PAGINATION_SIZE } from "src/app/shared/constant";
+import { GMHISPagination } from "src/app/shared/models/gmhis-domain";
 import { GMHISNameAndID } from "src/app/shared/models/name-and-id";
 import { PageList } from "src/app/_models/page-list.model";
 import { NotificationService } from "src/app/_services";
 import { NotificationType } from "src/app/_utilities/notification-type-enum";
-import { SIZE } from "../api/constant/evacuation.constant";
 import { GMHISEvacuationPartial } from "../api/domain/evacuation.domain";
 import { GmhisEvacuationService } from "../api/service/gmhis.evacuation.service";
 
- export interface Pagination {
-    currentPage?: number;
-    empty?: boolean;
-    firstPage?: boolean;
-    lastPage?: boolean;
-    totalItems?: number;
-    totalPages?: number;
-    selectedSize?: number;
-    currentIndex?: number;
-    items?: any[];
- }
+
 
 @Component({ selector: 'gmhis-evacuations', templateUrl: './gmhis-evacuations.component.html'})
 export class GMHISEvacuationsComponent implements OnInit, OnDestroy {
@@ -35,9 +26,9 @@ export class GMHISEvacuationsComponent implements OnInit, OnDestroy {
 
     subscription : Subscription = new Subscription();
     
-    pagination: Pagination = {};
+    pagination: GMHISPagination = {};
 
-    sizes = SIZE;
+    sizes = PAGINATION_SIZE;
 
     loading: boolean;
 

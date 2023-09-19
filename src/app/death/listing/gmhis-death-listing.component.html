@@ -1,0 +1,155 @@
+<nb-card class="nbCardList">
+    <nb-card-header class="row d-flex justify-content-between align-items-center">
+      <div class="col-lg-7 col-md-3 col-sm-12">
+        <h4
+          class="text-capitalize d-flex justify-content-start w-100 text-center"
+        >
+          {{ TITLE }}
+        </h4>
+      </div>
+    </nb-card-header>
+    <nb-card-body> 
+      <form [formGroup]="searchFieldsForm">
+        <div class="row d-flex justify-content-between align-items-center mb-2">
+          <div class="col-lg-9 col-md-9 col-sm-12">
+            <div class="row">
+              <div class="col-lg-2">
+                <span
+                  (click)="onSearchValueChange()"
+                  style="
+                    background-color: #ededed;
+                    color: #14a2b8;
+                    cursor: pointer;
+                  "
+                  class="material-icons px-2 p-1 rounded"
+                >
+                  search
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-12">
+            <ng-select
+              [(ngModel)]="pagination.selectedSize"
+              formControlName="size"
+              (change)="onSearchValueChange()"
+            >
+              <ng-option *ngFor="let size of sizes" [value]="size.id">{{
+                size.value
+              }}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </form>
+      <div class="tableFixHead">
+        <table class="table table-bordered table-hover table-md align-middle">
+          <thead class="pb-3 text-capitalize">
+            <tr class="pb-3">
+                <th>Date de Décès</th>  
+                <th>Code</th> 
+                <th>Nom du Patient</th>
+                <th>Prènom(s) du Patient</th>
+              <th>Action</th>   
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr
+              *ngFor="
+                let death of pagination.items
+                  | paginate
+                    : {
+                        itemsPerPage: pagination.selectedSize,
+                        currentPage: pagination.currentPage,
+                        totalItems: pagination.totalItems
+                      };
+                let i = index
+              "
+              [class.active]="i == currentIndex"
+              (dblclick)="onDeathSelected(recordRef,death)"
+              >
+              <td class="text-nowrap ">{{death.deathDate | date:  "dd/MM/yyyy HH:mm:ss"}}</td>
+              <td class="text-nowrap ">{{death.code}}</td>
+              <td class="text-nowrap ">{{death.patientLastName}}</td>
+              <td class="text-nowrap ">{{death.patientFirstName}}</td>
+              <td>
+                <div ngbDropdown class="d-inline-block">
+                  <button type="button" class="btn btn-outline-info" id="dropdownBasic1" ngbDropdownToggle>
+                    ...
+                  </button>
+                  <div class="text" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button
+                    (click)="onUpdate(updateFormContent, evacuation)"
+                     class="text-center" 
+                     ngbDropdownItem>
+                     Modifier
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex w-100 justify-content-center">
+        <div
+          style="color: #623508"
+          *ngIf="loading"
+          class="spinner-border"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <pagination-controls
+          responsive="true"
+          previousLabel="Prev"
+          nextLabel="Next"
+          (pageChange)="onPageChange($event)"
+        >
+        </pagination-controls>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  
+
+  <!-- update modal -->
+  <ng-template #updateFormContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
+        Modifer un Décès
+      </h4>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+    <div class="modal-body">
+      <gmhis-evacuation-create-update (updateEvent)="handleUpdateEvacuation()" [evacuationID]="evacuation?.id "></gmhis-evacuation-create-update>
+    </div>
+  </ng-template>
+
+  <ng-template #recordRef let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <div>
+          <span class="modalTitle" >Détails du Décès</span>
+          <span class="modal-subTitle" >--</span>
+        </div>
+        <nb-icon
+          style="cursor: pointer"
+          (click)="d('Cross click')"
+          class="h4"
+          icon="close-circle-outline"
+        ></nb-icon>
+      </div>
+    <div class="modal-body">
+      <gmhis-death-record  [death]="death"></gmhis-death-record>
+    </div>
+  </ng-template>
+
+
+  

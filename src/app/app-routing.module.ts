@@ -38,6 +38,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'death',
+        loadChildren: () =>
+          import('./death/gmhis-death.module').then(
+            (m) => m.GMHISDeathModule
+          ),
+      },
+      {
         path: 'evacuation',
         loadChildren: () =>
           import('./evacuation/gmhis-evacuations.module').then(

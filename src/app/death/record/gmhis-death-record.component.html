@@ -1,0 +1,26 @@
+
+ <div class="row">
+    <div class="col-lg-6 col-md-4 col-sm-12">
+        <data-field-text styleClass="mb-5" label="Date de déclaration du décès"  value="{{death.deathDeclarationDate | date: 'yyyy/mm/dd hh:mm'}}" ></data-field-text>
+    </div>
+
+    <div class="col-lg-6 col-md-4 col-sm-12">
+        <data-field-text styleClass="mb-5" label="Date du Décès"  value="{{death.deathDate | date: 'yyyy/mm/dd hh:mm'}}" ></data-field-text>
+    </div>
+
+    <div class="col-lg-6 col-md-4 col-sm-12">
+         <data-field-text styleClass="mb-5" label="Nom du Patient"  [value]="death.patientLastName" ></data-field-text>
+     </div>
+
+    <div class="col-lg-6 col-md-4 col-sm-12">
+         <data-field-text styleClass="mb-5" label="Prénom(s) du Patient"  [value]="death.patientFirstName" ></data-field-text>
+    </div>
+
+    <div class="col-lg-6 col-md-4 col-sm-12">
+        <data-field-textarea styleClass="mb-5" label="Motif du Décès"  [value]="death.deathReason" ></data-field-textarea>
+   </div>
+
+   <div class="col-lg-6 col-md-4 col-sm-12">
+    <data-field-textarea styleClass="mb-5" label="Décès déclaré par"  [value]="death.deathDeclaratedByName" ></data-field-textarea>
+</div>
+ </div>

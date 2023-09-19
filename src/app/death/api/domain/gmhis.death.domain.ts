@@ -30,7 +30,8 @@ export interface GMHISDeathPartial {
 	deathDeclaratedByName: string;
 	deathDeclarationByID: number;
 	
-	patientName: string;
+	patientFirstName: string;
+	patientLastName: string;
 	patientID: number;
 }
 

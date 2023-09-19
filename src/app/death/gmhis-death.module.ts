@@ -4,6 +4,7 @@ import { GMHISPatientDeathCreateUpdate } from './create-update/gmhis-patient-dea
 import { SharedModule } from '../shared/shared.module';
 import { GMHISDeathListing } from './listing/gmhis-death-listing.component';
 import { GMHISDesathRecord } from './record/gmhis-death-record.component';
+import { GMHISDeathRoutingModule } from './gmhis-death-routing.module';
 
 
 
@@ -11,7 +12,8 @@ import { GMHISDesathRecord } from './record/gmhis-death-record.component';
   declarations: [GMHISPatientDeathCreateUpdate, GMHISDeathListing, GMHISDesathRecord],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    GMHISDeathRoutingModule
   ]
 })
 export class GMHISDeathModule { }
