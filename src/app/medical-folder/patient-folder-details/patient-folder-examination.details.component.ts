@@ -13,10 +13,6 @@ import { PrescriptionService } from 'src/app/prescription/services/prescription.
 import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { ExaminationService } from '../examination/services/examination.service';
-import Swal from 'sweetalert2';
-import { Subscription } from 'rxjs';
-
-
 @Component({selector :'patient-detail-component', templateUrl :'patient-folder-details-examination.component.html'})
 export class PatientFolderExaminationDetailsComponent implements OnInit{
 
@@ -30,7 +26,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
 
   examinationNumber: number = 0;
   patientConstantNumber: number = 0;
-  prescriptionNumber: number = 0;
+  patientPrescriptionNumber: number = 0;
   patientExamNumber: number = 0;
 
   showConstantList: boolean;
@@ -43,8 +39,6 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
   newExamination : boolean = false;
 
   currentDate : any;
-
-  subscription: Subscription = new Subscription();
 
   @Output() updateExaminationNuberEvent: EventEmitter<any> = new EventEmitter();
   constructor(
@@ -102,31 +96,9 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
             text: '0',
             status: 'warning',
           },
-        },
-        {
-          title: 'Bilan de Santé',
-          icon: 'minus-outline',
-         
-          badge: {
-            text: "0",
-            status: 'warning',
-          }
-        },
-        {
-          title: 'Suivi',
-          icon: 'minus-outline',
-          badge: {
-            text: "0",
-            status: 'warning',
-          }
-        },
-        {
-          title: 'Carnet virtuel',
-          icon: 'minus-outline',
-          link:'https://www.calameo.com/read/00744797887c2253a0c92'
         }
   ];
-  ngOnInit(): void {        
+  ngOnInit(): void {
     this.currentDate = new Date();
     this.route.paramMap.subscribe(
       params => {
@@ -139,13 +111,11 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
           this.patientService.getPatientDetail(this.patientId).subscribe(
           (response : any) => {
             this.patient = response;
-            console.log(this.patient);
-            
             this.showConsultationList = true;
             this.showConstantList = true;
             this.updateExaminationNuber(this.admissionId);
             this.updatePattientConstantNumber(this.patient.id);
-            this.onChangePrescriptionNumber(this.admissionId)
+            this.updatePatientPrescriptionNumber(this.admissionId)
             this.updatePatientExamenNumber(this.admissionId)
           }
         )
@@ -160,13 +130,8 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
         }
       )
   }
-
-  public handleSaveEvacuation():void {
-    this.modalService.dismissAll();
-    this.notificationService.notify( NotificationType.SUCCESS,"Evacuation ajoutée avec succès");
-  }
   
-  public onOpenModal(addFormContent, size:string, centered? : boolean):void {
+  onOpenModal(addFormContent, size:string, centered? : boolean) {
         this.modalService.open(addFormContent, { size: size, centered: centered});
   }
 
@@ -174,22 +139,16 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
     this.newExamination = !this.newExamination;
   }
   
-  public openExaminationForm(addFormContent, size:string) {
+  openExaminationForm(addFormContent, size:string) {
     
     this.modalService.open(addFormContent, { size: size });
   }
- 
-  public handleAssignment(): void {
-    this.notificationService.notify(NotificationType.SUCCESS,"Affectation effectuée avec succès");
-    this.modalService.dismissAll();
 
-  }
   updateExaminationNuber(patientId?:number){
     this.examinationService.getExaminationNumberByAdmissionId(this.admissionId).subscribe(
       (response : number) => {
         this.examinationNumber = response;
         this.items2[0]["badge"]["text"] = this.examinationNumber.toString();
-        this.newExamination = !this.newExamination;
       }
     )
   }
@@ -203,12 +162,11 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
     )
   }
 
-  onChangePrescriptionNumber(admissionID?:number){
+  updatePatientPrescriptionNumber(admissionID?:number){
     this.prescriptionService.getPrescriptionNumberByPatientId(this.admissionId).subscribe(
       (response : any) => {
-        this.prescriptionNumber = response;
-        this.items2[2]["badge"]["text"] = this.prescriptionNumber.toString();
-        this.newExamination = !this.newExamination;
+        this.patientPrescriptionNumber = response;
+        this.items2[2]["badge"]["text"] = this.patientPrescriptionNumber.toString();
       }
     )
   }
@@ -245,7 +203,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
       NotificationType.SUCCESS,
       "Ordonnance prescrite avec succès"
     );
-    this.onChangePrescriptionNumber();
+    this.updatePatientPrescriptionNumber();
   }
 
   ChooseLaboratoryType(exameFormContent,laboratoryType : boolean) : void {
@@ -253,5 +211,4 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
     this.modalService.dismissAll();
     this.modalService.open(exameFormContent, { size: 'xl' });
   }
-  
 }
