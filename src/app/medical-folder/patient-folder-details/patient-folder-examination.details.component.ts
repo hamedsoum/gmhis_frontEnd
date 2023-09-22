@@ -12,6 +12,7 @@ import { PatientService } from 'src/app/patient/patient.service';
 import { PrescriptionService } from 'src/app/prescription/services/prescription.service';
 import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
+import Swal from 'sweetalert2';
 import { ExaminationService } from '../examination/services/examination.service';
 @Component({selector :'patient-detail-component', templateUrl :'patient-folder-details-examination.component.html'})
 export class PatientFolderExaminationDetailsComponent implements OnInit{
@@ -130,8 +131,41 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
         }
       )
   }
+
+  public handleAssignment():void {
+    this.modalService.dismissAll();
+    this.notificationService.notify( NotificationType.SUCCESS,` ${this.patient.firstName} ${this.patient.firstName} affecté avec succès`);
+  }
+
+  public handleSaveEvacuation():void {
+    this.modalService.dismissAll();
+    this.notificationService.notify( NotificationType.SUCCESS,` ${this.patient.firstName} ${this.patient.firstName} evacué avec succès`);
+  }
+  pubic 
+  public handleDeathSaveEvent(): void {
+    this.modalService.dismissAll();
+    this.notificationService.notify( NotificationType.SUCCESS,` ${this.patient.firstName} ${this.patient.firstName} déclaré mort avec succès`);
+  }
+
+  public onPatientDeath(patientDeathFormRef) {
+    this.modalService.dismissAll();
+    Swal.fire({
+      title: `êtes vous sur de de vouloir declarer le patient ${this.patient.firstName} ${this.patient.lastName} Mort ?`,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'oui',
+      denyButtonText: `Non`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+       this.modalService.open(patientDeathFormRef, {size: 'md'})
+      } else if (result.isDenied) {
+        Swal.fire('')
+      }
+    
+    })
+  }
   
-  onOpenModal(addFormContent, size:string, centered? : boolean) {
+  public onOpenModal(addFormContent, size:string, centered? : boolean) {
         this.modalService.open(addFormContent, { size: size, centered: centered});
   }
 

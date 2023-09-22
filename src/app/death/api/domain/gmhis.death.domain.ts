@@ -38,9 +38,7 @@ export interface GMHISDeathPartial {
 
 export interface GMHISDeathCreateUpdate {
     id: string;
-	
-	code: string;
-	
+		
 	deathDate: string;
 
 	deathReason: string;

@@ -14,6 +14,7 @@ import { GMHISDeathRoutingModule } from './gmhis-death-routing.module';
     CommonModule,
     SharedModule,
     GMHISDeathRoutingModule
-  ]
+  ],
+  exports: [GMHISPatientDeathCreateUpdate]
 })
 export class GMHISDeathModule { }

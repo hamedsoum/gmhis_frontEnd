@@ -57,10 +57,10 @@
                 <span [style.display]="'block'">Evacuation</span>
               </button>
             </div>
-            <div class="col-lg-3">
+            <div  *ngIf="patient.deathDate == null" class="col-lg-3">
               <button
-              *ngIf="patient.deathDate == null"
-              (click)="onOpenModal(patientDeathFormRef, 'lg')" 
+             
+              (click)="onPatientDeath(patientDeathFormRef)" 
                 class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
                 style="background-color: #14a2b8;">
                 <nb-icon icon="plus-outline"></nb-icon>
@@ -179,7 +179,7 @@
     <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
   </div>
   <div class="modal-body"> 
-    <gmhis-patient-death [patient]="patient"></gmhis-patient-death>
+    <gmhis-death-create-update (saveEvent)="handleDeathSaveEvent()" [patientID]="patient.id"></gmhis-death-create-update>
 
  </div>
 </ng-template>
