@@ -196,9 +196,7 @@ addPayment(){
         
            this.actservice.getActsByBillId(res["billID"]).subscribe(
         (response : any) => {
-          this.acts = response;
-          console.log(this.acts);
-          
+          this.acts = response;          
           this.modalService.open(printContent, { size: 'xl' });
           let doc = this.invoiceDocumentService.getInvoiceDocument(res,  this.acts);
           this.docSrc = doc.output('datauristring');  

@@ -155,6 +155,8 @@
       <div>
         <span class="modalTitle" >Fiche d'évacuation</span>
         <span class="modal-subTitle" >--</span>
+        <div (click)="onPrintRecordPDF(printRecordRef)"><span class="button-text"> <span  class="material-icons">ios_share</span></span> </div>
+
       </div>
       <nb-icon
         style="cursor: pointer"
@@ -168,5 +170,24 @@
   </div>
 </ng-template>
 
+<ng-template #printRecordRef let-c="close" let-d="dismiss">
+  <div class="modal-header ">
+    <nb-icon
+      style="cursor: pointer"
+      (click)="d('Cross click')"
+      class="h4"
+      icon="close-circle-outline"
+    ></nb-icon>
+  </div>
+  <div class="modal-body ">
+    <ngx-extended-pdf-viewer
+      *ngIf="docSrc"
+      [src]="docSrc"
+      useBrowserLocale="true"
+      height="80vh"
+    >
+    </ngx-extended-pdf-viewer>
+  </div>
+</ng-template>
 
   
