@@ -109,7 +109,7 @@ export class PatientFormmComponent implements OnInit {
     
     this.buildFields();
     if (this.patient) {      
-      this.patientService.getPatientDetail(this.patient.id).subscribe((response: Patient) => {
+      this.patientService.retrieve(this.patient.id).subscribe((response: Patient) => {
         console.log(response);
           this.formGroup.patchValue(response);
           this.onGetCityBycountry(response['country']['id']);
@@ -166,7 +166,7 @@ export class PatientFormmComponent implements OnInit {
       this.patient.insurances = this.insuranceFormGroup.value;
       if (this.patient.id) {
         this.subs.add(
-          this.patientService.updatePatient(this.patient).subscribe(
+          this.patientService.update(this.patient).subscribe(
             (response: Patient) => {
               this.loading = false;
               this.updatePatient.emit();
@@ -182,7 +182,7 @@ export class PatientFormmComponent implements OnInit {
         );
       } else {
         this.subs.add(
-          this.patientService.createPatient(this.patient).subscribe(
+          this.patientService.create(this.patient).subscribe(
             (response: Patient) => {
               this.loading = false;
               this.addPatient.emit();
@@ -317,11 +317,11 @@ export class PatientFormmComponent implements OnInit {
   }
 
   private onGetCountry(): void {
-    this.patientService.getCountry().subscribe((res) => {this.countries = res;});
+    this.patientService.getCountries().subscribe((res) => {this.countries = res;});
 }
 
   private onGetCityBycountry(idCountry: number): void {
-    this.patientService.getCityByCountry(idCountry).subscribe((res) => {this.cities = res;});
+    this.patientService.getCities(idCountry).subscribe((res) => {this.cities = res;});
   }
 
   private getInsuranceSimpleList(): void {

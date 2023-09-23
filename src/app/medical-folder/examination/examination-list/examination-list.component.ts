@@ -28,7 +28,7 @@ export class ExaminationListComponent implements OnInit, OnChanges {
   @Input() patient : Patient;
   @Input() patientId : number;
 
-  @Input() admissionId : number;
+  @Input() admissionID : number;
 
   @Input() newExamination : boolean;
   @Output() newExaminationChange = new EventEmitter();
@@ -85,7 +85,9 @@ export class ExaminationListComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.findAdmission({id : this.admissionId});
+    console.log(this.admissionID);
+    
+    this.findAdmission({id : this.admissionID});
     this.initform();
     this.getExamination();    
     this.newExaminationChange.subscribe(() => this.getExamination())
@@ -93,7 +95,7 @@ export class ExaminationListComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {    
     if(changes.newExamination){
-      this.findAdmission({id : this.admissionId});
+      this.findAdmission({id : this.admissionID});
       this.initform();
       this.getExamination();
       this.newExamination = false;
@@ -123,7 +125,7 @@ export class ExaminationListComponent implements OnInit, OnChanges {
 
   private initform():void {    
     this.searchForm = new FormGroup({
-      admissionID: new FormControl(this.admissionId),
+      admissionID: new FormControl(this.admissionID),
       patient: new FormControl(this.patientId),
       page: new FormControl(0),
       size: new FormControl(10),

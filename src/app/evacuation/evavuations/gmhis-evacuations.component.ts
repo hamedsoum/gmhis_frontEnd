@@ -2,7 +2,6 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { th } from "date-fns/locale";
 import { Subscription } from "rxjs";
 import { ActCategoryService } from "src/app/act/category/service/act-category.service";
 import { PAGINATION_SIZE } from "src/app/shared/constant";
@@ -94,9 +93,9 @@ export class GMHISEvacuationsComponent implements OnInit, OnDestroy {
       }
 
 
-      public rowSelected(evacuation: GMHISEvacuationPartial, index: number) {
-            this.currentIndex = index;
-            this.evacuation = evacuation;
+      public onDeathSelected(recordRef: any,evacuation: GMHISEvacuationPartial) {
+        this.evacuation = evacuation;
+        this.modalService.open(recordRef, {size: 'lg'})
         }
 
       public onPageChange(event) {
@@ -116,9 +115,7 @@ export class GMHISEvacuationsComponent implements OnInit, OnDestroy {
       private getServices() {
         this.subscription.add(
           this.actCategorieService.findActiveActCategoryNameAndId().subscribe(
-            (response: GMHISNameAndID[]) => {
-              console.log(response);
-              
+            (response: GMHISNameAndID[]) => {              
               this.services = response
             }
           )

@@ -1,8 +1,8 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbMenuItem, NbMenuService } from '@nebular/theme';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 import { Admission } from 'src/app/admission/model/admission';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
 import { PatientConstantService } from 'src/app/constant/patient-constant/service/patient-constant.service';
@@ -15,12 +15,14 @@ import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import Swal from 'sweetalert2';
 import { ExaminationService } from '../examination/services/examination.service';
 @Component({selector :'patient-detail-component', templateUrl :'patient-folder-details-examination.component.html'})
-export class PatientFolderExaminationDetailsComponent implements OnInit{
+export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestroy{
+
+  @Output() updateExaminationNuberEvent: EventEmitter<any> = new EventEmitter();
 
   patient: Patient;
   patientId: number;
 
-  admissionId: number;
+  admissionID: number;
   admission?: Admission;
 
   showConsultationList : boolean;
@@ -35,27 +37,31 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
   menuClick:string = 'Consultations';
 
 
-  examenType: boolean;
-  examinationId : number;
+  isLaboratoryExamenType: boolean;
+  examinationID : number;
   newExamination : boolean = false;
 
   currentDate : any;
 
-  @Output() updateExaminationNuberEvent: EventEmitter<any> = new EventEmitter();
+  private subscriptions: Subscription = new Subscription();
+
   constructor(
     private route : ActivatedRoute,
+    private modalService: NgbModal,
+    private menuService : NbMenuService,
     private patientService : PatientService,
     private admissionService : AdmissionService,
     private examinationService : ExaminationService,
     private patientConstantService : PatientConstantService,
     private prescriptionService : PrescriptionService,
     private examService : ExamService,
-    private menuService : NbMenuService,
-    private modalService: NgbModal,
     private notificationService: NotificationService,
 
     ) { }
-
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+ 
   items2: NbMenuItem[] = [
          {
           title: 'Consultations',
@@ -99,29 +105,15 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
           },
         }
   ];
+
+
   ngOnInit(): void {
     this.currentDate = new Date();
     this.route.paramMap.subscribe(
       params => {
         const id = Number(params.get('id'));
-        this.admissionId = id;
-        this.admissionService.retrieveAdmission(id).subscribe(
-          (response : any)=>{   
-            this.admission = response;                     
-            this.patientId = this.admission.patientId;
-          this.patientService.getPatientDetail(this.patientId).subscribe(
-          (response : any) => {
-            this.patient = response;
-            this.showConsultationList = true;
-            this.showConstantList = true;
-            this.updateExaminationNuber(this.admissionId);
-            this.updatePattientConstantNumber(this.patient.id);
-            this.updatePatientPrescriptionNumber(this.admissionId)
-            this.updatePatientExamenNumber(this.admissionId)
-          }
-        )
-          }
-        ) 
+        this.admissionID = id;
+        this.retrieveAdmission(this.admissionID);
       }
       )
       
@@ -130,7 +122,15 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
           this.menuClick = res['item']['title'];
         }
       )
+
+
   }
+
+   get canShowConsultationList(): boolean {
+    return this.showConsultationList;
+  }
+
+  
 
   public handleAssignment():void {
     this.modalService.dismissAll();
@@ -141,7 +141,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
     this.modalService.dismissAll();
     this.notificationService.notify( NotificationType.SUCCESS,` ${this.patient.firstName} ${this.patient.firstName} evacué avec succès`);
   }
-  pubic 
+ 
   public handleDeathSaveEvent(): void {
     this.modalService.dismissAll();
     this.notificationService.notify( NotificationType.SUCCESS,` ${this.patient.firstName} ${this.patient.firstName} déclaré mort avec succès`);
@@ -179,7 +179,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
   }
 
   updateExaminationNuber(patientId?:number){
-    this.examinationService.getExaminationNumberByAdmissionId(this.admissionId).subscribe(
+    this.examinationService.getExaminationNumberByAdmissionId(this.admissionID).subscribe(
       (response : number) => {
         this.examinationNumber = response;
         this.items2[0]["badge"]["text"] = this.examinationNumber.toString();
@@ -197,7 +197,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
   }
 
   updatePatientPrescriptionNumber(admissionID?:number){
-    this.prescriptionService.getPrescriptionNumberByPatientId(this.admissionId).subscribe(
+    this.prescriptionService.getPrescriptionNumberByPatientId(this.admissionID).subscribe(
       (response : any) => {
         this.patientPrescriptionNumber = response;
         this.items2[2]["badge"]["text"] = this.patientPrescriptionNumber.toString();
@@ -205,16 +205,14 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
     )
   }
 
-
   updatePatientExamenNumber(admissionId?:number){
-    this.examService.getAnalysisRequestNumberByPatientId(this.admissionId).subscribe(
+    this.examService.getAnalysisRequestNumberByPatientId(this.admissionID).subscribe(
       (response : any) => {
         this.patientExamNumber = response;
         this.items2[3]["badge"]["text"] = this.patientExamNumber.toString();
       }
     )
   }
-
 
   createExaminationEvent() {
     this.modalService.dismissAll();
@@ -231,7 +229,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
     this.updatePattientConstantNumber();
   }
 
-  addPrescription(){
+  handleAddPrescriptionEvent(){
     this.modalService.dismissAll();
     this.notificationService.notify(
       NotificationType.SUCCESS,
@@ -240,9 +238,44 @@ export class PatientFolderExaminationDetailsComponent implements OnInit{
     this.updatePatientPrescriptionNumber();
   }
 
-  ChooseLaboratoryType(exameFormContent,laboratoryType : boolean) : void {
-    this.examenType = laboratoryType;
+  public ChooseLaboratoryType(exameFormContent,laboratoryType : boolean) : void {
+    this.isLaboratoryExamenType = laboratoryType;
     this.modalService.dismissAll();
     this.modalService.open(exameFormContent, { size: 'xl' });
+  }
+
+  private retrieveAdmission(admissionID: number): void {
+    console.log(admissionID);
+    
+    this.subscriptions.add(
+      this.admissionService.retrieve(admissionID).subscribe(
+          (response: any) => {
+            this.admission = response;
+            console.log(this.admission);
+            this.retrievePatient(this.admission.patientId);
+          }
+      )
+    )
+  }
+
+  private retrievePatient(patientID: number): void {
+    this.subscriptions.add(
+      this.patientService.retrieve(patientID).subscribe(
+        (response: any) => {
+          this.patient = response;
+          this.patientId = this.patient.id;
+          this.initialize();
+        }
+      )
+    )
+  }
+
+  private initialize(): void {
+    this.showConsultationList = true;
+    this.showConstantList = true;
+    this.updateExaminationNuber(this.admissionID);
+    this.updatePattientConstantNumber(this.patient.id);
+    this.updatePatientPrescriptionNumber(this.admissionID)
+    this.updatePatientExamenNumber(this.admissionID)
   }
 }

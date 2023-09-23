@@ -46,25 +46,25 @@ export class PatientService {
     return this.http.get<any[]>(`${this.apiUrl}/patient/p_list`);
   }
 
-  createPatient(patient: any): Observable<any> {
+  create(patient: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/patient/add`, patient);
   }
 
-  updatePatient(patient: any): Observable<any> {    
+  update(patient: any): Observable<any> {    
     return this.http.put<any>(`${this.apiUrl}/patient/update/${patient.id}`,patient);
   }
 
-  getPatientDetail(patient: any): Observable<any> {
+  retrieve(patient: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/patient/detail/${patient}`);
   }
 
-  getCountry(): Observable<NameAndId[]> {
+  getCountries(): Observable<NameAndId[]> {
     return this.http.get<NameAndId[]>(`${this.apiUrl}/country/names`);
   }
 
-  getCityByCountry(idCountry: number): Observable<any[]> {
+  getCities(countryID: number): Observable<any[]> {
     return this.http.get<NameAndId[]>(
-      `${this.apiUrl}/country/cities_name/${idCountry}`
+      `${this.apiUrl}/country/cities_name/${countryID}`
     );
   }
 

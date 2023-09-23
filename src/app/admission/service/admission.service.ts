@@ -92,11 +92,13 @@ export class AdmissionService {
 
   revokeAdmission(admissionId: number): Observable<any> {return this.http.delete<any>(`${this.apiUrl}/admission/delete/${admissionId}`);}
 
-  getAdmissionDetail(admission: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/admission/get-detail/${admission.id}`);
+  getAdmissionDetail(admission: Admission): Observable<Admission> {
+    return this.http.get<Admission>(`${this.apiUrl}/admission/get-detail/${admission.id}`);
   }
 
-  retrieveAdmission(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/admission/get-detail/${id}`);
+  retrieve(admissionID: number): Observable<Admission> {
+    console.log("admissionID", admissionID);
+    
+    return this.http.get<Admission>(`${this.apiUrl}/admission/get-detail/${admissionID}`);
   }
 }

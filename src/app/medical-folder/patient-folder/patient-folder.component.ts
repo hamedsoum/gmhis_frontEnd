@@ -144,11 +144,11 @@ export class PatientFolderComponent implements OnInit {
       params => {
         const id = Number(params.get('id'));
         this.admissionId = id;
-        this.admissionService.retrieveAdmission(id).subscribe(
+        this.admissionService.retrieve(id).subscribe(
           (response : any)=>{
             this.admission = response;
             this.patientId = response["patientId"];
-          this.patientService.getPatientDetail(this.patientId).subscribe(
+          this.patientService.retrieve(this.patientId).subscribe(
           (response : any) => {
             this.patient = response;
             this.showConsultationList = true;

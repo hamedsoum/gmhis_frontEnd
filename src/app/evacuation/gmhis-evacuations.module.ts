@@ -5,9 +5,10 @@ import { GMHISEvacuationsComponent } from "./evavuations/gmhis-evacuations.compo
 import { GMHISEvacuationsRoutingModule } from "./gmhis-evacuations-routing.module";
 import { GMHISCreateUpdateComponent } from './create-update/gmhis-create-update.component';
 import { NbDateFnsDateModule } from "@nebular/date-fns";
+import { GMHISEvacuationRecordComponent } from "./record/gmhis-evacuation-record.component";
 
 @NgModule({
-    declarations: [GMHISEvacuationsComponent, GMHISCreateUpdateComponent],
+    declarations: [GMHISEvacuationsComponent, GMHISCreateUpdateComponent,GMHISEvacuationRecordComponent],
     imports: [CommonModule, SharedModule,GMHISEvacuationsRoutingModule,NbDateFnsDateModule],
     exports: [GMHISCreateUpdateComponent]
 })

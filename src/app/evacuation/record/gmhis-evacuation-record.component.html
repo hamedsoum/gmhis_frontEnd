@@ -1,0 +1,29 @@
+
+ <div class="row">
+    <div class="col-lg-6 col-md-4 col-sm-12">
+        <data-field-text styleClass="mb-5" label="Etablissement evacuateur"  value="{{evacuation.evacuationFacilityName }}" ></data-field-text>
+    </div>
+
+    <div class="col-lg-6 col-md-4 col-sm-12">
+        <data-field-text styleClass="mb-5" label="Date et Horaire de départ de l'évacuation"  value="{{evacuation.startDate | date: 'yyyy/mm/dd hh:mm'}}" ></data-field-text>
+    </div>
+
+    <div class="col-lg-6 col-md-4 col-sm-12">
+         <data-field-text styleClass="mb-5" label="Service Evacuateur"  [value]="evacuation.service" ></data-field-text>
+     </div>
+
+    <div class="col-lg-6 col-md-4 col-sm-12">
+         <data-field-text styleClass="mb-5" label="Médecin ayant décidé l'évatuation"  [value]="evacuation.practicianName" ></data-field-text>
+    </div>
+
+    <div class="col-lg-6 col-md-4 col-sm-12">
+        <data-field-text styleClass="mb-5" label="Nom et Prénom(s) du malade"  [value]="evacuation.patientName" ></data-field-text>
+   </div>
+
+   <div class="col-lg-6 col-md-4 col-sm-12">
+    <data-field-textarea styleClass="mb-5" label="Motif de l'evacuation"  [value]="evacuation.evacuationReason" ></data-field-textarea>
+</div>
+<div class="col-lg-6 col-md-4 col-sm-12">
+    <data-field-textarea styleClass="mb-5" label="Renseignements cliniques"  [value]="evacuation.clinicalInformation" ></data-field-textarea>
+</div>
+ </div>

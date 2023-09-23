@@ -229,7 +229,7 @@ export class PatientConstantComponent implements OnInit {
   getPatientDetailsByPatientId(patientId : number){
     this.searchForm.get("patientId").setValue(patientId);
     this.getPatientConstant();
-    this.patientService.getPatientDetail(patientId).subscribe(
+    this.patientService.retrieve(patientId).subscribe(
       (response : any) => {
         this.patient = response;
       }

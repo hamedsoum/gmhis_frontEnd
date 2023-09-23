@@ -38,7 +38,7 @@ currentIndex: number;
   ) { }
 
   ngOnInit(): void {
-    this.buildField();
+    this.buildFields();
     this.search()
   }
 
@@ -56,13 +56,11 @@ currentIndex: number;
     this.search();
   }
 
-  
-
   public onSearchValueChange(): void {
     this.search();
   }
 
-  buildField(): void {
+  private buildFields(): void {
     this.searchFieldsForm = new FormGroup({
       page: new FormControl(0),
       size: new FormControl(PAGINATION_DEFAULT_SIZE),
@@ -81,7 +79,6 @@ currentIndex: number;
           this.pagination.empty = response.empty;
           this.pagination.firstPage = response.firstPage;
           this.pagination.items = response.items; 
-          console.log(this.pagination.items);
           this.pagination.lastPage = response.lastPage;
           this.pagination.selectedSize = response.size;
           this.pagination.totalItems = response.totalItems;
@@ -93,23 +90,22 @@ currentIndex: number;
     )
   }
 
-  
-  onOpenCreateForm(deathFormRef) {
+  public onOpenCreateForm(deathFormRef):void {
     this.modalService.open(deathFormRef, { size: 'md' });
   }
 
-  onOpenUpdateForm(deathFormRef, item?) {
+  public onOpenUpdateForm(deathFormRef, item?):void {
     this.death = item;
     this.modalService.open(deathFormRef, { size: 'md' });
   }
 
-  handeDeathSaveEvent(): void{
+  public handeDeathSaveEvent(): void{
     this.modalService.dismissAll();
     this.notificationService.notify(NotificationType.SUCCESS,'Décès declaré avec succès');
     this.search();
   }
 
-  handeDeathUpdateEvent() {
+  public handeDeathUpdateEvent():void {
     this.modalService.dismissAll();
     this.notificationService.notify(NotificationType.SUCCESS,'Décès modifié avec succès');
     this.search();

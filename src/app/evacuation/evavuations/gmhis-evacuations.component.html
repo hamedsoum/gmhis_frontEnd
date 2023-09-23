@@ -78,7 +78,7 @@
                 let i = index
               "
               [class.active]="i == currentIndex"
-              (click)="rowSelected(commune, i)"
+              (dblclick)="onDeathSelected(recordRef,evacuation)"
               >
               <td class="text-nowrap ">{{evacuation.startDate | date:  "dd/MM/yyyy HH:mm:ss"}}</td>
               <td class="text-nowrap ">{{evacuation.evacuationFacilityName}}</td>
@@ -149,6 +149,24 @@
       <gmhis-evacuation-create-update (updateEvent)="handleUpdateEvacuation()" [evacuationID]="evacuation?.id "></gmhis-evacuation-create-update>
     </div>
   </ng-template>
+
+  <ng-template #recordRef let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <div>
+        <span class="modalTitle" >Fiche d'évacuation</span>
+        <span class="modal-subTitle" >--</span>
+      </div>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+  <div class="modal-body">
+    <gmhis-evacuation-record [evacuation]="evacuation"></gmhis-evacuation-record>
+  </div>
+</ng-template>
 
 
   
