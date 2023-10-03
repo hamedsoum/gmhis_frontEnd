@@ -1,4 +1,4 @@
-export interface ICashRegisterActivity {
+export interface CashRegisterActivity {
     cashRegister: number,
     cashier: number,
     id: string,

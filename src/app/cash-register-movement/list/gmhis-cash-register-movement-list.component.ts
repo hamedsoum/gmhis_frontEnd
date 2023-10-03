@@ -1,31 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {NotificationService,CashRegisterMovementService, UserService, CashRegisterActivityService } from 'src/app/_services';
-import { ICashRegisterActivity, ICashRegisterMovement, User } from 'src/app/_models';
-import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { CashRegisterActivity, ICashRegisterMovement, User } from 'src/app/_models';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SubSink } from 'subsink';
 import { PageList } from 'src/app/_models/page-list.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { CashRegisterService } from 'src/app/cash-register/cash-register.service';
-import { PredefinedPeriodService } from 'src/app/_common/services/predefined-period.service';
 import { PrintCashRegisterMovementService } from 'src/app/_services/documents/print-cash-register-movement.service';
 import { PredefinedDate } from 'src/app/_common/domain/predefinedDate';
 
-@Component({selector: 'app-cr-mlist',templateUrl: './cr-mlist.component.html'})
-export class CrMListComponent implements OnInit {
+@Component({selector: 'gmhis-cash-register-movement-list',templateUrl: './gmhis-cash-register-movement-list.component.html'})
+export class GMHISCashRegisterMovementListComponent implements OnInit {
 
   private subs = new SubSink();
-  searchForm : FormGroup;
-  public crMovement : ICashRegisterMovement;
+
+  searchFieldsGroup : FormGroup;
+
+  public cashRegisterMovement : ICashRegisterMovement;
+
   currentPage: number;
+
   empty: boolean;
+
   firstPage: boolean;
+
   lastPage: boolean;
+
   totalItems: number;
+
   totalPages: number;
+
   public items: any;
+
   selectedSize: number;
+
   user : User;
 
   sizes = [
@@ -36,17 +46,24 @@ export class CrMListComponent implements OnInit {
   ];
 
  
-  /* A variable that is used to show a loader when the data is being fetched from the server. */
-  showLoader : boolean = false;
+  loading : boolean = false;
+
   currentIndex: number;
+
   cashRegistersNameAndId: any;
+  
   cashiers: any;
-  crActivity : ICashRegisterActivity;
+
+  crActivity : CashRegisterActivity;
+
   cashRegisterBalance : number = 0;
+
   realClosingBalance : number = 0;
+
   docSrc: any;
 
   predefined =  "PERIODE";
+
   dateOptions = [
     {id:PredefinedDate.TODAY, value:"Aujourd'hui"},
     {id:PredefinedDate.THIS_WEEK , value:"Semaine en cours"},
@@ -60,10 +77,8 @@ export class CrMListComponent implements OnInit {
     private notificationService: NotificationService,
     private cashRegisterService : CashRegisterService,
     private userService : UserService,
-    config: NgbModalConfig,
     private modalService: NgbModal,
     private crActivityService : CashRegisterActivityService,
-    private predefinedPeriodService: PredefinedPeriodService,
     private printCashRegisterMovementService : PrintCashRegisterMovementService
   ) { }
 
@@ -87,7 +102,7 @@ export class CrMListComponent implements OnInit {
 
 
   initSearchForm(){
-    this.searchForm = new FormGroup({
+    this.searchFieldsGroup = new FormGroup({
       prestationNumber : new FormControl(''),
       cashRegister: new FormControl(' '),
       user: new FormControl(this.user.id),
@@ -99,11 +114,11 @@ export class CrMListComponent implements OnInit {
 
 
   public getCrMovement(){
-    this.showLoader = true;
+    this.loading = true;
     this.subs.add(
-      this.crMovementService.getPaginatedListOfCrMovement(this.searchForm.value).subscribe(
+      this.crMovementService.getPaginatedListOfCrMovement(this.searchFieldsGroup.value).subscribe(
         (response: PageList) => {
-          this.showLoader = false;
+          this.loading = false;
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
@@ -114,7 +129,7 @@ export class CrMListComponent implements OnInit {
           this.totalPages = response.totalPages;
         },
         (errorResponse: HttpErrorResponse) => {
-          this.showLoader = false;
+          this.loading = false;
           this.notificationService.notify(
             NotificationType.ERROR,
             errorResponse.error.message
@@ -125,7 +140,7 @@ export class CrMListComponent implements OnInit {
   }
 
   onPageChange(event) {
-    this.searchForm.get('page').setValue(event - 1);
+    this.searchFieldsGroup.get('page').setValue(event - 1);
     this.getCrMovement();
   }
 
@@ -158,7 +173,7 @@ export class CrMListComponent implements OnInit {
 
   rowSelected(crMovement: ICashRegisterMovement, index: number) {
     this.currentIndex = index;
-    this.crMovement = crMovement;
+    this.cashRegisterMovement = crMovement;
   }
 
 
@@ -168,7 +183,7 @@ export class CrMListComponent implements OnInit {
         this.cashRegistersNameAndId = response;        
       },
       (errorResponse : HttpErrorResponse) => {
-        this.showLoader = false;
+        this.loading = false;
         this.notificationService.notify(
           NotificationType.ERROR,
           errorResponse.error.message
@@ -181,12 +196,12 @@ export class CrMListComponent implements OnInit {
 
  getCrActivityByCahier(cashier : number){
       this.crActivityService.getCrActivityByCahier(cashier).subscribe(
-        (response : ICashRegisterActivity) => {
+        (response : CashRegisterActivity) => {
           this.crActivity = response;          
           this.cashRegisterBalance = this.crActivity.cashRegisterBalance;
         },
         (errorResponse : HttpErrorResponse) => {
-          this.showLoader = false;
+          this.loading = false;
           this.notificationService.notify(
             NotificationType.ERROR,
             errorResponse.error.message
@@ -198,14 +213,14 @@ export class CrMListComponent implements OnInit {
   closeCashRegister(){
     this.crActivity.realClosingBalance = this.realClosingBalance;
     this.crActivityService.updateCrActivity(this.crActivity).subscribe(
-      (response : ICashRegisterActivity ) => {
+      (response : CashRegisterActivity ) => {
         this.notificationService.notify(
           NotificationType.SUCCESS,
           'Caisse fermée avec succès'
         );
       },
       (errorResponse : HttpErrorResponse) => {
-        this.showLoader = false;
+        this.loading = false;
         this.notificationService.notify(
           NotificationType.ERROR,
           errorResponse.error.message

@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { SubSink } from 'subsink';
 
 import {NotificationService, CashRegisterActivityService,UserService} from 'src/app/_services';
-import { ICashRegisterActivity } from 'src/app/_models';
+import { CashRegisterActivity } from 'src/app/_models';
 
 
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +21,7 @@ export class CractivityListComponent implements OnInit {
 
   private subs = new SubSink();
   searchForm : FormGroup;
-  public crActivity : ICashRegisterActivity;
+  public crActivity : CashRegisterActivity;
   currentPage: number;
   empty: boolean;
   firstPage: boolean;
@@ -136,7 +136,7 @@ export class CractivityListComponent implements OnInit {
     this.getCrActivity();
   }
 
-  rowSelected(crActivity: ICashRegisterActivity, index: number) {
+  rowSelected(crActivity: CashRegisterActivity, index: number) {
     this.currentIndex = index;
     this.crActivity = crActivity;
   }

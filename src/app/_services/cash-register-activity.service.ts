@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ICashRegisterActivity } from '../_models/cash-register-activity';
+import { CashRegisterActivity } from '../_models/cash-register-activity';
 import { PageList } from '../_models/page-list.model';
 
 @Injectable({
@@ -53,21 +53,21 @@ export class CashRegisterActivityService {
  /**
   * It takes a `ICashRegisterActivity` object as a parameter, and returns an
   * `Observable<ICashRegisterActivity>` object
-  * @param {ICashRegisterActivity} crActivityDto - This is the object that we are going to send to the
+  * @param {CashRegisterActivity} crActivityDto - This is the object that we are going to send to the
   * server.
   * @returns Observable<ICashRegisterActivity>
   */
-  public createCrActivity(crActivityDto : ICashRegisterActivity): Observable<ICashRegisterActivity>{    
-    return this.http.post<ICashRegisterActivity>(`${this.apiUrl}/api/v1/cashRegisterManagement`, crActivityDto)
+  public createCrActivity(crActivityDto : CashRegisterActivity): Observable<CashRegisterActivity>{    
+    return this.http.post<CashRegisterActivity>(`${this.apiUrl}/api/v1/cashRegisterManagement`, crActivityDto)
   }
 
 /**
  * This function takes in a CashRegisterActivity object and updates the database with the new values
- * @param {ICashRegisterActivity} crActivityDto - ICashRegisterActivity - this is the object that we
+ * @param {CashRegisterActivity} crActivityDto - ICashRegisterActivity - this is the object that we
  * are sending to the server.
  * @returns Observable<ICashRegisterActivity>
  */
-  public updateCrActivity(crActivityDto : ICashRegisterActivity) : Observable<ICashRegisterActivity>{    
-    return this.http.put<ICashRegisterActivity>(`${this.apiUrl}/api/v1/cashRegisterManagement/${crActivityDto.id}`, crActivityDto)
+  public updateCrActivity(crActivityDto : CashRegisterActivity) : Observable<CashRegisterActivity>{    
+    return this.http.put<CashRegisterActivity>(`${this.apiUrl}/api/v1/cashRegisterManagement/${crActivityDto.id}`, crActivityDto)
   }
 }

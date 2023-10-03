@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CrMListComponent } from './cr-mlist/cr-mlist.component';
+import { GMHISCashRegisterMovementListComponent } from './list/gmhis-cash-register-movement-list.component';
 
 const routes: Routes = [
-  {path : 'list', component : CrMListComponent}
+  {path : 'list', component : GMHISCashRegisterMovementListComponent}
 ];
 
 @NgModule({

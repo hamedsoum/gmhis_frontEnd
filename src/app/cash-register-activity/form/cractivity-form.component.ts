@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ICashRegisterActivity } from 'src/app/_models';
+import { CashRegisterActivity } from 'src/app/_models';
 import { SubSink } from 'subsink';
 
 import {NotificationService, CashRegisterActivityService,UserService} from 'src/app/_services';
@@ -20,7 +20,7 @@ export class CractivityFormComponent implements OnInit {
   private subs = new SubSink();
 
   @Input()
-  crActivity : ICashRegisterActivity;
+  crActivity : CashRegisterActivity;
 
   @Output('addCrActivity') addCrActivity: EventEmitter<any> = new EventEmitter();
   @Output('updateCrActivity') updateCrActivity: EventEmitter<any> = new EventEmitter();
@@ -86,7 +86,7 @@ export class CractivityFormComponent implements OnInit {
       if (this.crActivity.id) {
           this.subs.add(
             this.crActivityService.updateCrActivity(this.crActivity).subscribe(
-              (response: ICashRegisterActivity) => {
+              (response: CashRegisterActivity) => {
                 this.showLoader = false;
                 this.updateCrActivity.emit();
               },
@@ -102,7 +102,7 @@ export class CractivityFormComponent implements OnInit {
       }else{
         this.subs.add(
           this.crActivityService.createCrActivity(this.crActivity).subscribe(
-            (response: ICashRegisterActivity) => {
+            (response: CashRegisterActivity) => {
               this.showLoader = false;
               this.addCrActivity.emit();
             },

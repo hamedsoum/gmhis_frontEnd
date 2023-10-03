@@ -76,7 +76,7 @@ const routes: Routes = [
       {
         path: 'cr-activity',
         loadChildren: () =>
-          import('./cr-activity/cr-activity.module').then( (m) => m.CrActivityModule),
+          import('./cash-register-activity/cr-activity.module').then( (m) => m.CrActivityModule),
       },
       {
         path: 'constant', 

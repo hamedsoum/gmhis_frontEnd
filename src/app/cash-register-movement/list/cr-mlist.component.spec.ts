@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CrMListComponent } from './cr-mlist.component';
+import { GMHISCashRegisterMovementListComponent } from './gmhis-cash-register-movement-list.component';
 
 describe('CrMListComponent', () => {
-  let component: CrMListComponent;
-  let fixture: ComponentFixture<CrMListComponent>;
+  let component: GMHISCashRegisterMovementListComponent;
+  let fixture: ComponentFixture<GMHISCashRegisterMovementListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CrMListComponent ]
+      declarations: [ GMHISCashRegisterMovementListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CrMListComponent);
+    fixture = TestBed.createComponent(GMHISCashRegisterMovementListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
