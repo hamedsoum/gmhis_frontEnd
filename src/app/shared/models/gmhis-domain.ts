@@ -9,3 +9,8 @@ export interface GMHISPagination {
     currentIndex?: number;
     items?: any[];
  }
+
+ export interface GMHISName {
+     firstName?: string;
+     lastName?: string;
+ }

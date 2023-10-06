@@ -33,6 +33,9 @@ export class ExaminationListComponent implements OnInit, OnChanges {
   @Input() newExamination : boolean;
   @Output() newExaminationChange = new EventEmitter();
 
+  @Input() lastExaminationID : number;
+  @Output() lastExaminationIDChange = new EventEmitter();
+
   @Output() updateExaminationNumber: EventEmitter<any> = new EventEmitter();
 
   @Output() updatePatientPrescriptionNumber: EventEmitter<any> =new EventEmitter();

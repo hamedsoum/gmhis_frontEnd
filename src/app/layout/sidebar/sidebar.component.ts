@@ -166,6 +166,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
         case 'death':
           this.menuItem = 'death';
           localStorage.setItem('menuItem', menuItem);
+          break;
+          case 'hospitalization-request':
+            this.menuItem = 'hospitalization-request';
+            localStorage.setItem('menuItem', menuItem);
+            break;
       default:
         break;
     }

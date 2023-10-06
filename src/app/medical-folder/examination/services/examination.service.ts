@@ -14,10 +14,12 @@ export class ExaminationService {
  
   constructor(private http: HttpClient) {}
 
+  retrieve(examinationID: number):Observable<IExamination>{
+    return this.http.get<IExamination>(`${this.apiUrl}/examination/${examinationID}`);
+  }
 
-
-  retrieveLastExamination(admissionID:number):Observable<boolean>{
-    return this.http.get<boolean>(`${this.apiUrl}/patient/last_consultation/${admissionID}`);
+  retrieveLastExamination(admissionID: number):Observable<IExamination>{
+    return this.http.get<IExamination>(`${this.apiUrl}/patient/last_consultation/${admissionID}`);
   }
 
   AdmissionNoHaveExamination(patientID:number):Observable<boolean>{

@@ -52,6 +52,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'hospitalization',
+        loadChildren: () =>
+          import('./hospitalization/gmhis-hospitalization.module').then(
+            (m) => m.GMHISHospitalizationModule
+          ),
+      },
+      {
         path: 'insurance',
         loadChildren: () =>
           import('./insurance/insurance.module').then((m) => m.InsuranceModule),

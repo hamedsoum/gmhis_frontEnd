@@ -120,7 +120,6 @@ export class GMHISEvacuationsComponent implements OnInit, OnDestroy {
             (response: PageList) => {
               this.loading = false;
               GmhisUtils.pageListMap(this.pagination, response);
-              console.log(this.pagination);
               
             },
             (errorResponse: HttpErrorResponse) => {

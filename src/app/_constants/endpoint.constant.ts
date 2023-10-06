@@ -1,4 +1,13 @@
 export const GMHIS_ENDPOINT = {
+
+    // === Hospitalization Request ===
+    hospitalizationRequest: {
+        index: '/hospitalization-request',
+        create: '/hospitalization-request',
+        update: '/hospitalization-request/${hospitalizationRequestID}',
+        retrieve: '/hospitalization-request/${hospitalizationRequestID}',
+    },
+
       // === Death ===
       death: {
         index: '/deaths',
@@ -6,6 +15,7 @@ export const GMHIS_ENDPOINT = {
         update: '/deaths/${deathID}',
         retrieve: '/deaths/${deathID}',
     },
+
     // === Evaluation ===
     evacuation: {
         index: '/evacuations',
@@ -13,6 +23,7 @@ export const GMHIS_ENDPOINT = {
         update: '/evacuations/${evacuationID}',
         retrieve: '/evacuations/${evacuationID}',
     },
+
     // === Cashier ===
     cashier: {
         index: '/cashiers',
@@ -20,6 +31,7 @@ export const GMHIS_ENDPOINT = {
         update: '/cashiers/${cashierID}',
         retrieve: '/cashiers/${cashierID}',
     },
+
     // === Examen Complementary ===
      examenComplementary: {
         index: '/examen-complementaries',

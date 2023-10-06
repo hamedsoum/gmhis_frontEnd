@@ -33,7 +33,7 @@ registerLocaleData(localFr, 'fr');
  
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
   ],  
   imports: [
     BrowserModule,

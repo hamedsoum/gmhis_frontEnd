@@ -18,6 +18,7 @@ import { PatientInformations } from './patient-informations/patient-informations
 import { AdmissionModule } from '../admission/admission.module';
 import { GMHISEvacuationsModule } from '../evacuation/gmhis-evacuations.module';
 import { GMHISDeathModule } from '../death/gmhis-death.module';
+import { GMHISHospitalizationModule } from '../hospitalization/gmhis-hospitalization.module';
 
 
 @NgModule({
@@ -41,7 +42,9 @@ import { GMHISDeathModule } from '../death/gmhis-death.module';
     InvoiceModule,
     AdmissionModule,
     GMHISEvacuationsModule,
-    GMHISDeathModule
-    ]
+    GMHISDeathModule,
+    GMHISHospitalizationModule
+    ],
+    exports: [examinationRecord]
 })
 export class MedicalFolderModule { }

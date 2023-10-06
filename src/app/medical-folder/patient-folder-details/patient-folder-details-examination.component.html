@@ -38,41 +38,51 @@
               <span [style.display]="'block'">Certificats </span>
             </button>
           </div>
+          <div class="col-lg-3">
+            <button 
+             (click)="onOpenModal(assignmentForm, 'lg')"
+              class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+              style="background-color: #14a2b8;">
+              <nb-icon icon="plus-outline"></nb-icon>
+              <span [style.display]="'block'">Affectation </span>
+            </button>
           </div>
-          <div class="row d-flex justify-content-end">
-            <div class="col-lg-3">
-              <button 
-               (click)="onOpenModal(assignmentForm, 'lg')"
-                class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
-                style="background-color: #14a2b8;">
-                <nb-icon icon="plus-outline"></nb-icon>
-                <span [style.display]="'block'">Affectation </span>
-              </button>
-            </div>
-            <div class="col-lg-3">
-              <button 
-              (click)="onOpenModal(transfertForm, 'lg')"
-                class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
-                style="background-color: #14a2b8;">
-                <nb-icon icon="plus-outline"></nb-icon>
-                <span [style.display]="'block'">Evacuation</span>
-              </button>
-            </div>
-            <div class="col-lg-3">
-              <button
-             
-              (click)="onPatientDeath(patientDeathFormRef)" 
-                class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
-                style="background-color: #14a2b8;">
-                <nb-icon icon="plus-outline"></nb-icon>
-                <span [style.display]="'block'">Transfert </span>
-              </button>
-            </div>
-            <div class="col-lg-3">
-              <button  class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
-              style="background-color: #14a2b8;" > <a href="https://www.calameo.com/read/007447978ecdfcfe57d3e" target="_blank" style="text-decoration: none; color: white;">Carnet de Santé</a></button>
-            </div>
+          <div class="col-lg-3">
+            <button 
+            (click)="onOpenModal(transfertForm, 'lg')"
+              class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+              style="background-color: #14a2b8;">
+              <nb-icon icon="plus-outline"></nb-icon>
+              <span [style.display]="'block'">Evacuation</span>
+            </button>
           </div>
+          <div class="col-lg-3">
+            <button
+           
+            (click)="onPatientDeath(patientDeathFormRef)" 
+              class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+              style="background-color: #14a2b8;">
+              <nb-icon icon="plus-outline"></nb-icon>
+              <span [style.display]="'block'">Transfert </span>
+            </button>
+          </div>
+          <div class="col-lg-3">
+            <button  class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+            style="background-color: #14a2b8;" > <a href="https://www.calameo.com/read/007447978ecdfcfe57d3e" target="_blank" style="text-decoration: none; color: white;">Carnet de Santé</a></button>
+          </div>
+
+          <div class="col-lg-3">
+            <button
+           
+            (click)="onOpenModal(hospitalizationRequestRef, 'lg')"
+              class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
+              style="background-color: #14a2b8;">
+              <nb-icon icon="plus-outline"></nb-icon>
+              <span [style.display]="'block'">Démande d'hospitalisation </span>
+            </button>
+          </div>
+          </div>
+          
       </div>
         
         <div class="row">
@@ -184,6 +194,19 @@
   <div class="modal-body"> 
     <gmhis-death-create-update (saveEvent)="handleDeathSaveEvent()" [patientID]="patient.id"></gmhis-death-create-update>
 
+ </div>
+</ng-template>
+
+<ng-template #hospitalizationRequestRef let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div>
+      <span class="modalTitle" >Démande d'hospitalisation</span>
+      <span class="modal-subTitle" >Faites une Démande d'Hospitalisation qui sera transmise au Médécin Conseil </span>
+    </div>
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+  </div>
+  <div class="modal-body"> 
+    <gmhis-hospitalization-request-create-update [patientID]="patient.id" [admissionID]="admissionID" (saveEvent)="handleHospitalizationRequestSaveEvent()"></gmhis-hospitalization-request-create-update>
  </div>
 </ng-template>
 

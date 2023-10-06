@@ -1,0 +1,207 @@
+<nb-card class="nbCardList">
+    <nb-card-header class="row d-flex justify-content-between align-items-center">
+      <div class="col-lg-7 col-md-3 col-sm-12">
+        <h4
+          class="text-capitalize d-flex justify-content-start w-100 text-center"
+        >
+          {{ TITLE }}
+        </h4>
+      </div>
+    </nb-card-header>
+    <nb-card-body> 
+      <form [formGroup]="searchFieldsForm">
+        <div class="row d-flex justify-content-between align-items-center mb-4">
+          <div class="col-lg-9 col-md-9 col-sm-12">
+            <div class="row">
+              <div class="col-lg-2">
+                <span
+                  (click)="onSearchValueChange()"
+                  style="
+                    background-color: #ededed;
+                    color: #14a2b8;
+                    cursor: pointer;
+                  "
+                  class="material-icons px-2 p-1 rounded"
+                >
+                  search
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-12">
+            <ng-select
+              [(ngModel)]="pagination.selectedSize"
+              formControlName="size"
+              (change)="onSearchValueChange()"
+            >
+              <ng-option *ngFor="let size of sizes" [value]="size.id">{{
+                size.value
+              }}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </form>
+      <div class="tableFixHead">
+        <table class="table table-bordered table-hover table-md align-middle">
+          <thead class="pb-3 text-capitalize">
+            <tr class="pb-3">
+                <th>Date de Démade</th>   
+                <th>Patient</th>   
+                <th>Practicien</th>   
+                <th>Motif d'hospitalisation</th>   
+                <th>Durée Problable</th>   
+                <th>Date de Début Problable</th>   
+              <th>Action</th>   
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr
+              *ngFor="
+                let hospitalizationRequest of pagination.items
+                  | paginate
+                    : {
+                        itemsPerPage: pagination.selectedSize,
+                        currentPage: pagination.currentPage,
+                        totalItems: pagination.totalItems
+                      };
+                let i = index
+              "
+              [class.active]="i == currentIndex"
+              (dblclick)="onHospitalizationRequestSelected(recordRef,hospitalizationRequest)"
+              >
+              <td class="text-nowrap ">{{hospitalizationRequest.date | date:  "dd/MM/yyyy HH:mm:ss"}}</td>
+              <td class="text-nowrap ">{{hospitalizationRequest.patientName.firstName }} {{hospitalizationRequest.patientName.lastName}}</td>
+              <td class="text-nowrap ">{{hospitalizationRequest.praticianName.firstName }} {{hospitalizationRequest.praticianName.lastName}}</td>
+              <td class="text-nowrap ">{{hospitalizationRequest.reason}}</td>
+              <td class="text-nowrap ">{{hospitalizationRequest.dayNumber}} Jour(s)</td>
+              <td class="text-nowrap ">{{hospitalizationRequest.startDate | date: "dd/MM/yyyy"}} </td>
+
+              <td>
+                <sh-button (clickEvent)="onOpenExaminationRecord(examinationRecordModal,hospitalizationRequest.patientID,hospitalizationRequest.examination)" type="text" size="small" label="Fiche Médicale" labelStyleClass="sh-color-primary"></sh-button>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex w-100 justify-content-center">
+        <div
+          style="color: #623508"
+          *ngIf="loading"
+          class="spinner-border"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <pagination-controls
+          responsive="true"
+          previousLabel="Prev"
+          nextLabel="Next"
+          (pageChange)="onPageChange($event)"
+        >
+        </pagination-controls>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  
+
+  <!-- update modal -->
+  <ng-template #updateFormContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
+        Modifer une Demande d'hospitalisation
+      </h4>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+    <div class="modal-body">
+      <gmhis-hospitalization-request-create-update ></gmhis-hospitalization-request-create-update>
+    </div>
+  </ng-template>
+
+  <ng-template #recordRef let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <div>
+        <span class="modalTitle" >Fiche de demande</span>
+        <span class="modal-subTitle" >--</span>
+        <div (click)="onPrintRecordPDF(printRecordRef)"><span class="button-text"> <span  class="material-icons">ios_share</span></span> </div>
+
+      </div>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+  <div class="modal-body">
+    <gmhis-hospitalization-request-record [evacuation]="evacuation"></gmhis-hospitalization-request-record>
+  </div>
+</ng-template>
+
+
+<ng-template #examinationRecordModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    
+   <div>
+    <span class="modalTitle" >Résumé de la consultation</span>
+    <span class="modal-subTitle" >---</span>
+    <div (click)="onPrintExaminationRecord(recordContent,examination)"><span class="button-text"> <span  class="material-icons">ios_share</span></span> </div>
+
+   </div>
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+  </div>
+  <div class="modal-body">
+    <shared-examination-record [patient]="patient" [examination]="examination"></shared-examination-record>
+  </div>
+</ng-template>
+
+<ng-template #recordContent let-c="close" let-d="dismiss">
+  <div class="modal-header ">
+    <nb-icon
+      style="cursor: pointer"
+      (click)="d('Cross click')"
+      class="h4"
+      icon="close-circle-outline"
+    ></nb-icon>
+  </div>
+  <div class="modal-body ">
+    <ngx-extended-pdf-viewer
+      *ngIf="docSrc"
+      [src]="docSrc"
+      useBrowserLocale="true"
+      height="80vh"
+    >
+    </ngx-extended-pdf-viewer>
+  </div>
+</ng-template>
+
+<!-- <ng-template #printRecordRef let-c="close" let-d="dismiss">
+  <div class="modal-header ">
+    <nb-icon
+      style="cursor: pointer"
+      (click)="d('Cross click')"
+      class="h4"
+      icon="close-circle-outline"
+    ></nb-icon>
+  </div>
+  <div class="modal-body ">
+    <ngx-extended-pdf-viewer
+      *ngIf="docSrc"
+      [src]="docSrc"
+      useBrowserLocale="true"
+      height="80vh"
+    >
+    </ngx-extended-pdf-viewer>
+  </div>
+</ng-template> -->
+
+  

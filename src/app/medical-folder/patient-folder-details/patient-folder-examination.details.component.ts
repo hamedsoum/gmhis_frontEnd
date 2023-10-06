@@ -130,7 +130,10 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
     return this.showConsultationList;
   }
 
-  
+  handleHospitalizationRequestSaveEvent(): void {
+    this.modalService.dismissAll();
+    this.notificationService.notify( NotificationType.SUCCESS,`Démande d'hospitalisation démandé pour le patient ${this.patient.firstName} ${this.patient.firstName}`);
+  }
 
   public handleAssignment():void {
     this.modalService.dismissAll();
@@ -165,8 +168,8 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
     })
   }
   
-  public onOpenModal(addFormContent, size:string, centered? : boolean) {
-        this.modalService.open(addFormContent, { size: size, centered: centered});
+  public onOpenModal(templateRef, size:string, centered? : boolean) {
+        this.modalService.open(templateRef, { size: size, centered: centered});
   }
 
   changeNewExaminationValue(){
@@ -244,9 +247,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
     this.modalService.open(exameFormContent, { size: 'xl' });
   }
 
-  private retrieveAdmission(admissionID: number): void {
-    console.log(admissionID);
-    
+  private retrieveAdmission(admissionID: number): void {    
     this.subscriptions.add(
       this.admissionService.retrieve(admissionID).subscribe(
           (response: any) => {

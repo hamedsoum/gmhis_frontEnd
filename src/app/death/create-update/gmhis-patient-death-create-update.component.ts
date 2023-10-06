@@ -33,6 +33,7 @@ export class GMHISPatientDeathCreateUpdate implements OnInit, OnDestroy {
     deathCreate: GMHISDeathCreateUpdate;
 
     subscription: Subscription = new Subscription();
+    
     constructor(
       private deathService: GmhisDeathService,
       private modalService: NgbModal,

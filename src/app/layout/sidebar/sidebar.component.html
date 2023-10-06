@@ -183,6 +183,21 @@ class="dashboard py-3"
   ></fa-icon
   ><span class="fw-bold">Décès</span>
 </p>
+
+<p
+  [ngClass]="{ menuActive: menuItem == 'hospitalization-request' }"
+  (click)="menuItemFunction('hospitalization-request')"
+  routerLink="/hospitalization"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faUser"
+    ngbTooltip=""
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Demande d'Hospitalisation</span>
+</p>
+
 <p
   [hidden]="!canAccessStatistics"
   [ngClass]="{ menuActive: menuItem == 'owner' }"

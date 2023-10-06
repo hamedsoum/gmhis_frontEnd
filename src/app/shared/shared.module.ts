@@ -14,11 +14,13 @@ import { SafePipe } from './safe.pipe';
 import { SHButtonComponent } from './components/button/sh-button.component';
 import { SHDatafieldTextaeraComponent } from './components/data-field/textarea/data-field-textarea.component';
 import { DataFieldText } from './components/data-field/text/data-field-text.component';
+import { SharedxaminationRecord } from './components/record/shared-examination-record.component';
+import { SharedPatientInformations } from './components/patient-informations/shared-patient-informations.component';
 
 
 
 @NgModule({
-  declarations: [SafePipe, SHButtonComponent, SHDatafieldTextaeraComponent, DataFieldText],
+  declarations: [SafePipe, SHButtonComponent, SHDatafieldTextaeraComponent, DataFieldText,SharedxaminationRecord, SharedPatientInformations],
   imports: [
     CommonModule
   ],
@@ -47,7 +49,9 @@ import { DataFieldText } from './components/data-field/text/data-field-text.comp
     SafePipe,
     SHButtonComponent,
     SHDatafieldTextaeraComponent,
-    DataFieldText
+    DataFieldText,
+    SharedxaminationRecord,
+    SharedPatientInformations
   ]
 })
 export class SharedModule { }

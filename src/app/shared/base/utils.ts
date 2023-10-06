@@ -12,6 +12,10 @@ export class GmhisUtils {
         }
     }
 
+    public static isNull(arg: any):boolean {
+        return (arg == null || arg == undefined);
+    }
+
     public static pageListMap(pagination: GMHISPagination, arg: PageList): void {
         pagination.currentPage = arg.currentPage + 1;
         pagination.empty = arg.empty;
