@@ -1,4 +1,4 @@
-<nb-card class="nbCardList">
+<nb-card   class="nbCardList">
     <nb-card-header class="row d-flex justify-content-between align-items-center">
       <div class="col-lg-7 col-md-3 col-sm-12">
         <h4
@@ -41,11 +41,11 @@
           </div>
         </div>
       </form>
-      <div class="tableFixHead">
+      <div #hospitalizationRequestTab class="tableFixHead">
         <table class="table table-bordered table-hover table-md align-middle">
           <thead class="pb-3 text-capitalize">
             <tr class="pb-3">
-                <th>Date de Démade</th>   
+                <th>Date de Démande</th>   
                 <th>Patient</th>   
                 <th>Practicien</th>   
                 <th>Motif d'hospitalisation</th>   
@@ -79,6 +79,8 @@
 
               <td>
                 <sh-button (clickEvent)="onOpenExaminationRecord(examinationRecordModal,hospitalizationRequest.patientID,hospitalizationRequest.examination)" type="text" size="small" label="Fiche Médicale" labelStyleClass="sh-color-primary"></sh-button>
+                <sh-button (clickEvent)="onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef,hospitalizationRequest)" type="text" size="small" label="Certificat Médicale d'hospitalisation" labelStyleClass="sh-color-primary"></sh-button>
+                <sh-button (clickEvent)="onAfterPrintInternalHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef,hospitalizationRequest)" type="text" size="small" label="Certificat d'hospitalisation" labelStyleClass="sh-color-primary"></sh-button>
 
               </td>
             </tr>
@@ -147,7 +149,6 @@
   </div>
 </ng-template>
 
-
 <ng-template #examinationRecordModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     
@@ -155,13 +156,13 @@
     <span class="modalTitle" >Résumé de la consultation</span>
     <span class="modal-subTitle" >---</span>
     <div (click)="onPrintExaminationRecord(recordContent,examination)"><span class="button-text"> <span  class="material-icons">ios_share</span></span> </div>
-
    </div>
     <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
   </div>
   <div class="modal-body">
     <shared-examination-record [patient]="patient" [examination]="examination"></shared-examination-record>
   </div>
+
 </ng-template>
 
 <ng-template #recordContent let-c="close" let-d="dismiss">
@@ -173,7 +174,7 @@
       icon="close-circle-outline"
     ></nb-icon>
   </div>
-  <div class="modal-body ">
+  <div class="modal-body">
     <ngx-extended-pdf-viewer
       *ngIf="docSrc"
       [src]="docSrc"
@@ -184,7 +185,7 @@
   </div>
 </ng-template>
 
-<!-- <ng-template #printRecordRef let-c="close" let-d="dismiss">
+<ng-template #printRecordRef let-c="close" let-d="dismiss">
   <div class="modal-header ">
     <nb-icon
       style="cursor: pointer"
@@ -202,6 +203,26 @@
     >
     </ngx-extended-pdf-viewer>
   </div>
-</ng-template> -->
+</ng-template>
+
+<ng-template #hospitalilazionCertificateDocRef let-c="close" let-d="dismiss">
+  <div class="modal-header ">
+    <nb-icon
+      style="cursor: pointer"
+      (click)="d('Cross click')"
+      class="h4"
+      icon="close-circle-outline"
+    ></nb-icon>
+  </div>
+  <div class="modal-body ">
+    <ngx-extended-pdf-viewer
+      *ngIf="docSrc"
+      [src]="docSrc"
+      useBrowserLocale="true"
+      height="80vh"
+    >
+    </ngx-extended-pdf-viewer>
+  </div>
+</ng-template>
 
   

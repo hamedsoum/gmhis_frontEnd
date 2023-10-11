@@ -73,19 +73,7 @@
               <td class="text-nowrap ">{{death.patientLastName}}</td>
               <td class="text-nowrap ">{{death.patientFirstName}}</td>
               <td>
-                <div ngbDropdown class="d-inline-block">
-                  <button type="button" class="btn btn-outline-info" id="dropdownBasic1" ngbDropdownToggle>
-                    ...
-                  </button>
-                  <div class="text" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button
-                    (click)="onUpdate(updateFormContent, evacuation)"
-                     class="text-center" 
-                     ngbDropdownItem>
-                     Modifier
-                    </button>
-                  </div>
-                </div>
+                <sh-button (click)="print(deathcertificatDocRef, death)" type="text" size="small" label="Imprimer le Certificat" labelStyleClass="sh-color-primary"></sh-button>
               </td>
             </tr>
           </tbody>
@@ -133,10 +121,10 @@
     </div>
   </ng-template>
 
-  <ng-template #recordRef let-c="close" let-d="dismiss">
+  <ng-template #deathcertificatDocRef let-c="close" let-d="dismiss">
       <div class="modal-header">
         <div>
-          <span class="modalTitle" >Détails du Décès</span>
+          <span class="modalTitle" >Certificat de Décès</span>
           <span class="modal-subTitle" >--</span>
         </div>
         <nb-icon
@@ -147,7 +135,13 @@
         ></nb-icon>
       </div>
     <div class="modal-body">
-      <gmhis-death-record  [death]="death"></gmhis-death-record>
+      <ngx-extended-pdf-viewer
+      *ngIf="docSrc"
+      [src]="docSrc"
+      useBrowserLocale="true"
+      height="80vh"
+    >
+    </ngx-extended-pdf-viewer>
     </div>
   </ng-template>
 

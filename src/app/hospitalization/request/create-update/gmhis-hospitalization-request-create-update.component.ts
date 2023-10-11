@@ -72,10 +72,6 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
       else this.update(); 
   }
 
-  public get isFormInvalid(): boolean {
-    return !this.fieldGroup.valid ;
-  }
-
   private update(): void {
     this.subscription.add(
       this.hospitalizationService.update(this.hospitalizationRequest.id, this.hospitalizationCreate)
@@ -114,7 +110,6 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
     this.subscription.add(
       this.examinationService.retrieveLastExamination(this.admissionID).subscribe(
           (response: IExamination) => {
-            console.log(response); 
             this.fieldGroup.get('examinationID').setValue(response.id);
             this.fieldGroup.get('reason').setValue(response.conclusion);
           },

@@ -59,6 +59,9 @@ doc.text("Diagnostic: ", 92, 49);
 doc.setFontSize(11)
 if(examination.conclusion) doc.text(`${examination.conclusion}`.toUpperCase(), 120,49 );
 
+
+doc.html('<div> Integration de html </div>', {x: 20, y: 70,  width: 170, windowWidth: 650 })
+
 doc.setFontSize(12)
 doc.text("Motif de Consultation", 20, 75);
 doc.setFontSize(10)

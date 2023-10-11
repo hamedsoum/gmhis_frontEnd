@@ -1,14 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Admission } from 'src/app/admission/model/admission';
-import { AdmissionService } from 'src/app/admission/service/admission.service';
 import { IExamination } from 'src/app/medical-folder/examination/models/examination';
 import { ExaminationPrintDocumentService } from 'src/app/medical-folder/examination/record/examination-print-document.service';
-import { ExaminationService } from 'src/app/medical-folder/examination/services/examination.service';
 import { Patient } from 'src/app/patient/patient';
 import { PatientService } from 'src/app/patient/patient.service';
 import { GmhisUtils } from 'src/app/shared/base/utils';
@@ -19,8 +17,9 @@ import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { GMHISHospitalizationRequestPartial } from '../../api/domain/request/gmhis-hospitalization-request';
 import { GmhisHospitalizationService } from '../../api/service/gmhis-hospitalization.service';
+import { GMHISHospitalizationPdfService } from '../../api/service/gmhis.hospitalization.pdf.service';
 
-@Component({selector: 'gmhis-hospitalization-request-listing-update',templateUrl: './gmhis-hospitalization-request-listing.component.html'})
+@Component({selector: 'gmhis-hospitalization-request-listing-update',templateUrl: './gmhis-hospitalization-request-listing.component.html', providers: [GMHISHospitalizationPdfService]})
 export class GMHISHospitalizationRequestListingComponent implements OnInit {
  
 readonly TITLE = 'Démande d\'hospitalisation';
@@ -40,6 +39,8 @@ loading: boolean;
 
 currentIndex: number;
 
+@ViewChild('hospitalizationRequestTab', {static: false}) table: HTMLElement;
+
 docSrc: string;
 examination: IExamination;
   admission: Admission;
@@ -50,8 +51,7 @@ examination: IExamination;
     private notificationService: NotificationService,
     private modalService: NgbModal,
     private examinationPrintDocumentService : ExaminationPrintDocumentService,
-    private examinationService: ExaminationService,
-    private admissionService: AdmissionService,
+    private hospitalizationPdfService: GMHISHospitalizationPdfService,
     private patientService: PatientService
 
 
@@ -64,6 +64,18 @@ examination: IExamination;
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  public onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef, hospitalisationRequest: GMHISHospitalizationRequestPartial): void {    
+    let doc = this.hospitalizationPdfService.buildhospitalizationCertificatePdf(hospitalisationRequest);
+    this.modalService.open(hospitalilazionCertificateDocRef, { size: 'xl' });
+    this.docSrc = doc.output('datauristring'); 
+  }
+
+  public onAfterPrintInternalHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef, hospitalisationRequest: GMHISHospitalizationRequestPartial): void {    
+    let doc = this.hospitalizationPdfService.buildInternalHospitalizationCertificatePDF(hospitalisationRequest);
+    this.modalService.open(hospitalilazionCertificateDocRef, { size: 'xl' });
+    this.docSrc = doc.output('datauristring'); 
   }
 
   public onOpenExaminationRecord(recordContent: any, patientID: number, examination):void {  
@@ -116,9 +128,7 @@ examination: IExamination;
       .pipe(finalize(() => (this.loading = false)))
       .subscribe(
         (response: PageList) => {
-         GmhisUtils.pageListMap(this.pagination, response);
-         console.log(this.pagination.items);
-         
+         GmhisUtils.pageListMap(this.pagination, response);         
         },
         (errorResponse: HttpErrorResponse) => {         
         }

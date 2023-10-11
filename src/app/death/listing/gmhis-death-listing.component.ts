@@ -10,9 +10,10 @@ import { PageList } from "src/app/_models/page-list.model";
 import { NotificationService } from "src/app/_services";
 import { NotificationType } from "src/app/_utilities/notification-type-enum";
 import { GMHISDeathPartial } from "../api/domain/gmhis.death.domain";
+import { GMHISDeathPdfService } from "../api/service/gmhis.death.pdf.service";
 import { GmhisDeathService } from "../api/service/gmhis.death.service";
 
-@Component({selector: 'gmhis-deaths', templateUrl: './gmhis-death-listing.component.html'})
+@Component({selector: 'gmhis-deaths', templateUrl: './gmhis-death-listing.component.html', providers: [GMHISDeathPdfService]})
 export class GMHISDeathListing implements OnInit, OnDestroy {
     
 readonly TITLE = 'Décès';
@@ -30,11 +31,14 @@ sizes = PAGINATION_SIZE;
 
 loading: boolean;
 
+docSrc: string;
+
 currentIndex: number;
   constructor(
     private deathService: GmhisDeathService,
     private notificationService: NotificationService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private deathPdfService: GMHISDeathPdfService
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +48,12 @@ currentIndex: number;
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  public print(deathcertificatDocRef, death: GMHISDeathPartial): void {    
+    let doc = this.deathPdfService.buildPdf(death);
+    this.modalService.open(deathcertificatDocRef, { size: 'xl' });
+    this.docSrc = doc.output('datauristring'); 
   }
 
   public onDeathSelected(recordRef, death : GMHISDeathPartial): void {

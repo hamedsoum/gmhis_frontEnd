@@ -106,7 +106,6 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
         }
   ];
 
-
   ngOnInit(): void {
     this.currentDate = new Date();
     this.route.paramMap.subscribe(
@@ -252,7 +251,6 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
       this.admissionService.retrieve(admissionID).subscribe(
           (response: any) => {
             this.admission = response;
-            console.log(this.admission);
             this.retrievePatient(this.admission.patientId);
           }
       )

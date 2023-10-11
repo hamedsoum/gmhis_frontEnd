@@ -93,52 +93,10 @@ export class PatientFolderComponent implements OnInit {
       });
     }
 
-  items2: NbMenuItem[] = [
-         {
-          title: 'Consultations',
-          icon: 'minus-outline',
-         
-          badge: {
-            text: "0",
-            status: 'warning',
-          }
-        },
-        {
-          title: 'Constantes',
-          icon: 'minus-outline',
-          badge: {
-            text: "0",
-            status: 'warning',
-          },
-        },
-        {
-          title: 'Ordonances',
-          icon: 'minus-outline',
-          badge: {
-            text: '0',
-            status: 'warning',
-          },
-        },
-        {
-          title: 'Examens',
-          icon: 'minus-outline',
-          badge: {
-            text: '0',
-            status: 'warning',
-          },
-        },
-        {
-          title: 'Certificats médicaux',
-          icon: 'minus-outline',
-          badge: {
-            text: '0',
-            status: 'warning',
-          },
-        }
-  ];
-  ngOnInit(): void {
-    console.log(this.admission);
-    
+ 
+
+
+  ngOnInit(): void {    
     this.currentDate = new Date();
     this.route.paramMap.subscribe(
       params => {
@@ -196,9 +154,7 @@ export class PatientFolderComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items;    
-          console.log(this.items);
-                
+          this.items = response.items;                    
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -214,6 +170,51 @@ export class PatientFolderComponent implements OnInit {
       )
     );
   }
+
+  items2: NbMenuItem[] = [
+    {
+     title: 'Consultations',
+     icon: 'minus-outline',
+    
+     badge: {
+       text: "0",
+       status: 'warning',
+     }
+   },
+   {
+     title: 'Constantes',
+     icon: 'minus-outline',
+     badge: {
+       text: "0",
+       status: 'warning',
+     },
+   },
+   {
+     title: 'Ordonances',
+     icon: 'minus-outline',
+     badge: {
+       text: '0',
+       status: 'warning',
+     },
+   },
+   {
+     title: 'Examens',
+     icon: 'minus-outline',
+     badge: {
+       text: '0',
+       status: 'warning',
+     },
+   },
+   {
+     title: 'Certificats médicaux',
+     icon: 'minus-outline',
+     badge: {
+       text: '0',
+       status: 'warning',
+     },
+   }
+];
+
   updateExaminationNuber(patientId?:number){
     this.examinationService.getExaminationNumberByAdmissionId( this.patient.id).subscribe(
       (response : number) => {
