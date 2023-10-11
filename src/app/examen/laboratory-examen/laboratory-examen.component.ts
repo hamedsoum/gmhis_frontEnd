@@ -146,7 +146,6 @@ export class LaboratoryExamenComponent implements OnInit {
 
   public openMakAsDone(MakAsDoneContent, item : IExam) {
     this.examen = item;
-    console.log(this.examen);
     
     this.modalService.open(MakAsDoneContent, { size: 'lg' });
   }

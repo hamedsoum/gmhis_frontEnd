@@ -54,14 +54,11 @@ export class BiologicalAnalysisComponent implements OnInit, OnDestroy {
       }
 
       private searchActs(analysisSerach: string): void {
-            console.log(analysisSerach);
             if (analysisSerach == '') {                
                 this.bASpecialitiesFilter = this.bASpecialitiesName;
             }else{
-                console.log(this.biologicalAnalysisFind)
                 this.biologicalAnalysisFind = this.biologicalAnalysis.filter((analysis) => analysis.actName.toLowerCase().includes(analysisSerach.toLowerCase()));
                 let specialitiesNameFilterPartial = [];
-                console.log(this.biologicalAnalysisFind);
                 
                 this.biologicalAnalysisFind.forEach(el => {
                   if (!specialitiesNameFilterPartial.includes(el.medicalAnalysisName)) specialitiesNameFilterPartial.push(el.medicalAnalysisName);
@@ -85,12 +82,10 @@ export class BiologicalAnalysisComponent implements OnInit, OnDestroy {
       }
 
       private removeDuplicates(arr, item) {
-        console.log(item);
         if (!arr.includes(item)) arr.push(item);
       }
 
       public examenSelected(examen : ExamenComplementary): void {  
-          console.log(examen);
                   
           this.analysisSelectEvent.emit(examen);
       }

@@ -78,6 +78,14 @@ examination: IExamination;
     this.docSrc = doc.output('datauristring'); 
   }
 
+  public onAfterPrintMedicalCertificatePdf(hospitalilazionCertificateDocRef, hospitalisationRequest: GMHISHospitalizationRequestPartial): void {    
+    let doc = this.hospitalizationPdfService.buildMedicalCertificate('JEAN NOEL TAMAKLOE', 'SOUMAHORO MAMADOU HAMED');
+    this.modalService.open(hospitalilazionCertificateDocRef, { size: 'xl' });
+    this.docSrc = doc.output('datauristring'); 
+  }
+
+  buildMedicalCertificates
+
   public onOpenExaminationRecord(recordContent: any, patientID: number, examination):void {  
     this.examination = examination;
     this.retrievePatient(patientID,recordContent)

@@ -94,9 +94,6 @@ export class PatientConstantComponent implements OnInit {
       ) 
   }
 
-  public controlConstants(constant: string):void{
-    console.log(constant); 
-  }
  
   initform() {
     this.searchForm = new FormGroup({
@@ -122,7 +119,6 @@ export class PatientConstantComponent implements OnInit {
       pipe(
         map((response: PageList) => {          
             let data = response.items;  
-            console.log(data);       
             const constantgroupedByDate : any[] = data.reduce((constantGroup: {[key: string]: any[]}, item) => {
               if (!constantGroup[item.takenAt]) {
                constantGroup[item.takenAt] = [];

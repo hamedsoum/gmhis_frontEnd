@@ -22,7 +22,6 @@ import autoTable from 'jspdf-autotable';
   
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(12);
-      console.log(this.user);
       
       //TODO
       doc.text('Sanlam Assurance', 70, 22);

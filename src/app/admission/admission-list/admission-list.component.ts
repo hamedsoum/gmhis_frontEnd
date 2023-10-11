@@ -86,7 +86,6 @@ export class AdmissionListComponent implements OnInit, OnDestroy {
       this.admissionService.supervisory(admissionID)
         .subscribe(
           (response : Admission) => {
-            console.log(response); 
             this.notificationService.notify(
               NotificationType.SUCCESS,
               'Admission de surveillance crée avec succès'
@@ -154,7 +153,6 @@ export class AdmissionListComponent implements OnInit, OnDestroy {
           this.empty = response.empty;
           this.firstPage = response.firstPage;
           this.items = response.items; 
-          console.log(this.items);
                                        
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;

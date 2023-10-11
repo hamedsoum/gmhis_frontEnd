@@ -70,7 +70,6 @@ export class GMHISEvacuationsComponent implements OnInit, OnDestroy {
 
       public onUpdate(updateFormContent, evacuation: GMHISEvacuationPartial): void {
         this.evacuation = evacuation;
-        console.log(this.evacuation);
         
         this.modalService.open(updateFormContent, {size: 'lg'});
       }

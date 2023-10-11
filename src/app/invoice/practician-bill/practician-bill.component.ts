@@ -163,12 +163,6 @@ export class PracticianBillComponent implements OnInit, OnDestroy {
   }
 
   public onFilter(dateFilter? :any): void {
-    console.log(dateFilter);
-    
-    let userID = this.searchForm.get('userID').value;
-    let billStatus : billStatus = this.searchForm.get('billStatus').value;
-    let date = this.searchForm.get('date').value as Object;
-    console.log("userID: " + userID + " billStatus: " + billStatus + " date: " + date);
     
     this.filterByDate(dateFilter);
 
@@ -191,7 +185,6 @@ export class PracticianBillComponent implements OnInit, OnDestroy {
           this.firstPage = response.firstPage;
           this.items = response.items;          
           this.itemsFiltered = this.items;
-          console.log(this.itemsFiltered);
           
           this.calculTotalAmount();
           this.lastPage = response.lastPage;
@@ -223,7 +216,6 @@ export class PracticianBillComponent implements OnInit, OnDestroy {
   private filterItemsByPractician(userID : number): void {    
     this.practicianChange(userID)    
     this.itemsFiltered = this.items.filter(item => item.userID === userID);
-    console.log(this.itemsFiltered);
    }
 
   private filterItemsByStatus(status : billStatus): void {
@@ -237,7 +229,6 @@ export class PracticianBillComponent implements OnInit, OnDestroy {
    private filterByDate(date: any): void {
       this.formatDate(date);
       this.itemsFiltered = this.items.filter(item => (new Date(item.date) >= new Date(this.dateStart)) && (new Date(item.date) <= new Date(this.dateEnd))); 
-      console.log(this.itemsFiltered);
       
    }
 

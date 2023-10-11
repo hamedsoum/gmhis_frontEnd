@@ -10,7 +10,6 @@ export class GMHISDeathPdfService {
     constructor(private sharedDocPdfService: GMHISSharedDocPdfService, private datePipe: DatePipe){}
 
     buildPdf(death: GMHISDeathPartial): jsPDF {
-        console.log(death);
         
         var doc = new jsPDF('p', 'mm', 'a4');
         

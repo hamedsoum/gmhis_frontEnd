@@ -60,21 +60,16 @@ export class GMHISCreateUpdateComponent implements OnInit, OnDestroy {
   
   ngOnInit(): void {
     this.practician();
-    this.facilityID = this.user().facilityId;
+    this.facilityID = this.user().facility.id;
+
     if (this.admission) {
         this.patientID = this.admission.patientId;
         this.serviceID = this.admission.serviceID;
     }
-    if(this.evacuation) {
-      console.log(this.evacuation);
+
+    if(this.evacuation) this.fieldGroup.get('practicianID').setValue(this.practicianID); 
     
-      this.fieldGroup.get('practicianID').setValue(this.practicianID);           
-    }
-    console.log(this.evacuationID);
-    
-    if (!!this.evacuationID ) {
-      this.retrieveEvacuation();
-    }
+    if (!!this.evacuationID ) this.retrieveEvacuation();
     this.findFacilities();
       this.buildFields();      
   }
@@ -91,7 +86,6 @@ export class GMHISCreateUpdateComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
         this.practicianservice.getPracticianDetaisByUserID(this.user().id).subscribe(
           (response : any) => {
-            console.log(response);
             this.practicianID = response.id;
             this.fieldGroup.get('practicianID').setValue(this.practicianID);           
           }
@@ -131,8 +125,6 @@ export class GMHISCreateUpdateComponent implements OnInit, OnDestroy {
   get receptionFacilityID() {return this.fieldGroup.get('receptionFacilityID')}
 
   public createUpdate(): void {
-    console.log(this.isUpdate());
-    console.log(this.evacuationID);
 
     if (this.isUpdate()) this.update();
     else this.create();
@@ -160,7 +152,6 @@ export class GMHISCreateUpdateComponent implements OnInit, OnDestroy {
   public create():void {
       this.formSubmitted = true;
       const formData = this.buildCreateUpdateData(this.fieldGroup.value);
-      console.log(formData);
 
       if (this.formIsValid()) {
         this.loading = true;

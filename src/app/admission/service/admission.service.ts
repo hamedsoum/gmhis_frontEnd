@@ -97,7 +97,6 @@ export class AdmissionService {
   }
 
   retrieve(admissionID: number): Observable<Admission> {
-    console.log("admissionID", admissionID);
     
     return this.http.get<Admission>(`${this.apiUrl}/admission/get-detail/${admissionID}`);
   }

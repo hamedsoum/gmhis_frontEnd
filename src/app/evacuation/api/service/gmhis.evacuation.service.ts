@@ -42,7 +42,6 @@ export class GmhisEvacuationService {
     }
 
     public create(evacuationCreate: GMHISEvacuationCreateUpdate): Observable<GMHISEvacuationPartial> {   
-      console.log(evacuationCreate);
          
         GmhisUtils.notNull(evacuationCreate, 'evacuationCreate');
         return this.http.post<GMHISEvacuationPartial>(this.host + GMHIS_ENDPOINT.evacuation.create, evacuationCreate)

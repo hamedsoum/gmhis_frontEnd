@@ -140,7 +140,6 @@ export class InsuranceBillComponent implements OnInit {
   public onFilter(dateFilter? :any): void {
     let insuranceID = this.searchForm.get('insuranceID').value;
     let date = this.searchForm.get('date').value as Object;
-    console.log("insuranceID: " + insuranceID + " date: " + date);
     
     if (insuranceID !== null && date === null) this.filterItemsByInsurance(insuranceID);
     else if (insuranceID === null && date !== null) this.filterByDate(dateFilter); 
@@ -247,7 +246,6 @@ export class InsuranceBillComponent implements OnInit {
       this.insuranceBalance += element.insurancePart;
     }); 
     
-    console.log(this.insuranceBalance);
     
   }
   private filterByDate(date: any): void {

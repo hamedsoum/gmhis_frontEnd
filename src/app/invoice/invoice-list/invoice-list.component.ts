@@ -192,7 +192,6 @@ addPayment(){
   public onPrint(printContent, invoice):void {        
     this.invoiceService.getInvoiceDetail(invoice.id).subscribe(
       (res : any) => {
-        console.log(res);
         
            this.actservice.getActsByBillId(res["billID"]).subscribe(
         (response : any) => {

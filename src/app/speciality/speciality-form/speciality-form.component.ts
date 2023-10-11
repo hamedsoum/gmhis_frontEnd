@@ -109,10 +109,8 @@ export class SpecialityFormComponent implements OnInit {
     this.subs.add(
       this.facilityService.findActiveFacilityNameAndId().subscribe(
         (response : any) => {
-          console.log(response);  
         },
         (errorResponse: HttpErrorResponse) => {
-          console.log(errorResponse.error.message);      
         }
       )
     )

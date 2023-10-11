@@ -74,7 +74,6 @@ export class CashierCreateComponent implements OnInit {
           if (!this.invalidForm) {
               this.loading = true;
               this.cashierCreate = this.fieldGroup.value;
-              console.log(this.cashierCreate);
               
               if (this.cashierCreate.id) {
                   this.subs.add(
@@ -109,7 +108,7 @@ export class CashierCreateComponent implements OnInit {
       retrieveUsers(): void {
           this.userService.findAllActive()
             .subscribe(
-                (response : User[]) => {this.users = response; console.log(this.users);
+                (response : User[]) => {this.users = response;;
                 },
                 (errorResponse: HttpErrorResponse) => {this.notificationService.notify( NotificationType.ERROR,errorResponse.error.message)})
      }

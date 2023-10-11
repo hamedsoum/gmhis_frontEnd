@@ -80,7 +80,6 @@ export class FacilityFormComponent implements OnInit {
     reader.onload = () => {
       let imageURL;
       imageURL = reader.result as string;
-      console.log(imageURL);
       this.facilityForm.get('logo').setValue(imageURL);
     };
     reader.readAsDataURL(this.facilityLogo);
@@ -119,7 +118,6 @@ export class FacilityFormComponent implements OnInit {
     if (this.facilityForm.valid) {
       this.showloading = true;
       this.facilityCreateUpdate = this.facilityForm.value;
-      console.log(this.facilityCreateUpdate);
       
       if (this.facilityCreateUpdate.id) {
         this.subs.add(

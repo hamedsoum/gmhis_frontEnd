@@ -110,7 +110,6 @@ export class PatientFormmComponent implements OnInit {
     this.buildFields();
     if (this.patient) {      
       this.patientService.retrieve(this.patient.id).subscribe((response: Patient) => {
-        console.log(response);
           this.formGroup.patchValue(response);
           this.onGetCityBycountry(response['country']['id']);
           this.formGroup.get('country').setValue(response['country']['id']);

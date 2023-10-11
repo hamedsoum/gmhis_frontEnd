@@ -87,9 +87,7 @@ export class ExaminationListComponent implements OnInit, OnChanges {
     private examinationPrintDocumentService : ExaminationPrintDocumentService,
   ) {}
 
-  ngOnInit(): void {
-    console.log(this.admissionID);
-    
+  ngOnInit(): void {    
     this.findAdmission({id : this.admissionID});
     this.initform();
     this.getExamination();    

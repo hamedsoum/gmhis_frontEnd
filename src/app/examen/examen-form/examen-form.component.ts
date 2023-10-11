@@ -77,7 +77,6 @@ export class ExamenFormComponent implements OnInit {
     } else {
       this.examenCreateData.examenTytpe = this.examenType;
       this.selectedItems.forEach((el) => { this.examenCreateData.acts.push(el["id"]) })
-      console.log(this.selectedItems);
       
       if (this.examenCreateData.acts.length != 0) {
         this.examenService.createExam(this.examenCreateData).subscribe(
@@ -158,7 +157,6 @@ export class ExamenFormComponent implements OnInit {
   }
 
   private removeDuplicates(arr, item) {
-    console.log(item);
     if (!arr.includes(item)) arr.push(item);
   }
 

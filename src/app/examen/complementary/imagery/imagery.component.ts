@@ -37,7 +37,6 @@ export class ImageryComponent implements OnInit{
     }
 
     public examenSelected(examen : ExamenComplementary): void {  
-        console.log(examen);        
         this.analysisSelectEvent.emit(examen);
     }
 

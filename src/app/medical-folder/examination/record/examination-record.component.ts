@@ -17,7 +17,6 @@ export class examinationRecord implements OnInit {
     }
 
     private notNull(arg: any):void {
-        console.log(arg);
         if(arg == null || arg == undefined) {
             throw new Error(`${arg} Argument must not be null`);
         }

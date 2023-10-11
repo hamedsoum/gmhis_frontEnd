@@ -85,9 +85,7 @@ export class PrescriptionFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder,private drugService : DrugService,private examinationService : ExaminationService,private notificationService: NotificationService,private prescriptionService : PrescriptionService) {}
 
-  ngOnInit(): void { 
-    console.log(this.patient);
-       
+  ngOnInit(): void {        
     this.retrieveLastExamination();
     this.findActiveDrugNameAndId();
     this.initForm(); 

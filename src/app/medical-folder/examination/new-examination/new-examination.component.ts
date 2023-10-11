@@ -119,7 +119,6 @@ export class NewExaminationComponent implements OnInit {
         if (this.examinationForm.valid) {
           this.showloading = true;
           this.examinationCreateUpdate = this.examinationForm.value;
-          console.log(this.examinationCreateUpdate);
           
           if (this.examinationCreateUpdate.id) {
             this.subs.add(
@@ -221,7 +220,6 @@ export class NewExaminationComponent implements OnInit {
     addExam() {
       this.save();
       this.modalService.dismissAll();
-      console.log("here");
       
       this.notificationService.notify( NotificationType.SUCCESS,"Examen demandé avec succès");
     }

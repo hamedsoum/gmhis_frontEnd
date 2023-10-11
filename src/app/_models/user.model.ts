@@ -1,3 +1,6 @@
+import { Facility } from "../facility/models/facility";
+import { IFacilityDto } from "../facility/models/facility-dto";
+
 export interface User {
     id : number;
     firstName : string;
@@ -15,6 +18,5 @@ export interface User {
     isNonLocked : boolean;
     profileImage : string;
     passwordMustBeChange:boolean;
-    facility : any;
-    facilityId: string;
+    facility : Facility;
 }

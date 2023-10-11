@@ -65,7 +65,6 @@ export class GMHISPatientDeathCreateUpdate implements OnInit, OnDestroy {
         if (!this.invalidForm) {
             this.loading = true;
             this.deathCreate = this.fieldGroup.value;
-            console.log(this.deathCreate);
             if (this.deathCreate.id) {
                 this.subscription.add(
                     this.deathService.update(this.deathCreate.id, this.deathCreate)

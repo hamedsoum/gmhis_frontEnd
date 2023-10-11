@@ -16,8 +16,6 @@ export class InvoiceService {
   constructor(private http: HttpClient) {}
 
   calculInvoiceCost( admissionStatus:string, formValue : any, controls : AbstractControl[]) : InvoiceCost{
-   console.log(formValue);
-   console.log("admissionStatus ==>> " + admissionStatus);
    
     let invoiceFormValue = formValue;
    let remaingAfterCnamReduction = 0;
@@ -37,7 +35,6 @@ export class InvoiceService {
     }else{
       partPecByCNAM = controls[0].get('costToApplyCNAMInsured').value*controls[0].get('insuredCoverage').value/100;
     }    
-    console.log(partPecByCNAM);
 
     controls[0].get('insuredPart').setValue(partPecByCNAM);
     remaingAfterCnamReduction = totalInvoice - partPecByCNAM;

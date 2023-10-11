@@ -42,7 +42,6 @@ export class GmhisDeathService {
     }
 
     public create(deathCreate: GMHISDeathCreateUpdate): Observable<GMHISDeathPartial> {   
-      console.log(deathCreate);
          
         GmhisUtils.notNull(deathCreate, 'deathCreate');
         return this.http.post<GMHISDeathPartial>(this.host + GMHIS_ENDPOINT.death.create, deathCreate)

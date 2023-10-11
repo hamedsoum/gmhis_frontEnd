@@ -112,7 +112,6 @@ export class AdmissionFormComponent implements OnInit {
     if (this.formGroup.valid) {
       this.loading = true;
       this.admissionCreateData = this.formGroup.value;
-      console.log("admissionCreateData ==> ",this.admissionCreateData);
 
       if (this.admissionCreateData.id) {
         this.subs.add(
@@ -148,7 +147,6 @@ export class AdmissionFormComponent implements OnInit {
   }
 
   onRetrieveActsAndPracticians(specialityId: number) {
-    console.log(this.practicians);
     this.specialityPracticians = this.practicians.filter(practician => practician.specialityId === specialityId);
 
     this.actService.retrieveSpecialityActs(specialityId).subscribe((res: any) => {this.actsNameAndId = res})
@@ -172,7 +170,6 @@ export class AdmissionFormComponent implements OnInit {
     this.practicianService.findPracticianSimpleList().subscribe(
       (response: GMHISNameAndID[]) => {
         this.practicians = response;
-        console.log(this.practicians);
         
       }
     )}

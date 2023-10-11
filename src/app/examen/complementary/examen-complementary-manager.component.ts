@@ -61,7 +61,6 @@ export class examenComplementaryManagerComponent implements OnInit {
     }  
     
     public create(): void {
-        console.log(this.dayBetweenLastExaminationAndCurrentDate);
         
         if (this.dayBetweenLastExaminationAndCurrentDate > DAY_BETWEEN_LAST_EXAMINATION_AND_CURRENTDATE) {
           this.notificationService.notify( NotificationType.WARNING,`Vous ne pouvez pas effectuer de nouvelle consultation, car cette admission date de plus de ${this.dayBetweenLastExaminationAndCurrentDate}. Veuillez effectuer une autre admission pour ce patient`);
@@ -101,8 +100,6 @@ public onSelectedExamenComplementary(examen: ExamenComplementary){
         this.selectedExamens.push(examen);
         this.actsID.push(examen.actID)
       }     
-      console.log(this.selectedExamens);
-      console.log(this.actsID);
     
       this.removeDuplicates(this.examenComplementriesTypeLeftSection,examen.examenComplementaryType )
 }
@@ -144,19 +141,11 @@ public onSelectedExamenComplementary(examen: ExamenComplementary){
                 this.filteredExamenComplementaryTypes = partial;
             }) 
         }
-            console.log(this.filteredExamenComplementaries);
              
       }
 
       private removeDuplicates(arr, item) {
-          console.log(this.examenComplementriesTypeLeftSection);
-          
-        console.log(item);
         if (!arr.includes(item)) arr.push(item);
-      }
-
-      public analysisSelect(examenID: any){
-        console.log(examenID);
       }
 
       private dayBetweenFirstExaminationAndCurrentDate() {

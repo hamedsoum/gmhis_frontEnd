@@ -56,7 +56,6 @@ export class ConstantListComponent implements OnInit {
         (response: any) => {
           this.showloading = false;
           this.items = response.items;
-          console.log(this.items);
           
           this.items.forEach((el, i) => {
             if (el["constant"] == "Température") {

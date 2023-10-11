@@ -165,9 +165,7 @@ export class PracticianFormComponent implements OnInit, OnChanges {
     this.userService.findAllActive()
     .subscribe( 
       (response : any) => {
-        this.users = response; 
-        console.log(this.userSelected);
-        
+        this.users = response;         
       },
       (error : HttpErrorResponse) => {throw new Error(error.message);
       } )}
