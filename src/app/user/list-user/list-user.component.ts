@@ -11,7 +11,6 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Depot } from 'src/app/_models/depot.model';
 import { Role } from 'src/app/_models/role.model';
 import { UserAuthority } from 'src/app/_enum/userAuthority.enum';
-import { DepotService } from 'src/app/_services/depot.service';
 import Swal from 'sweetalert2';
 
 
@@ -90,7 +89,6 @@ export class ListUserComponent implements OnInit, OnDestroy, AfterViewInit {
     private userService: UserService,
     config: NgbModalConfig,
     private modalService: NgbModal,
-    private depotService: DepotService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;

@@ -12,13 +12,6 @@ export class CashRegisterMovementService {
   private readonly apiUrl = environment.apiUrl;
   constructor(private http : HttpClient) { }
 
-
- /**
-  * It returns an Observable of type PageList, which is a class that contains a list of CrMovement and
-  * a pagination object
-  * @param data - {
-  * @returns A list of cash register movements
-  */
   public getPaginatedListOfCrMovement(data) : Observable<PageList>{
     let queryParams = {};
     queryParams = {
