@@ -1,10 +1,8 @@
 import { Admission } from '../admission/model/admission';
 import { Patient } from '../patient/patient';
-import { Customer } from './customer.model';
 import { User } from './user.model';
 
 export interface Invoice {
-  customer: Customer;
   deliveryNote: [];
   discount: 0;
   id: 0;

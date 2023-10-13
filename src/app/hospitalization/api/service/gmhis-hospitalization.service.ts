@@ -32,17 +32,17 @@ export class GmhisHospitalizationService {
         return this.http.get<GMHISHospitalizationRequestPartial>(this.host + GMHIS_ENDPOINT.hospitalizationRequest.retrieve.replace('${hospitalizationRequestID}', hospitalizationRequestID.trim()));
     }
 
-    public update(hospitalizationRequestID: string, deathCreate: GMHISHospitalizationRequestCreate): Observable<GMHISHospitalizationRequestPartial>{
+    public update(hospitalizationRequestID: string, hospitalizationRequestCreate: GMHISHospitalizationRequestCreate): Observable<GMHISHospitalizationRequestPartial>{
         GmhisUtils.notNull(hospitalizationRequestID, 'hospitalizationRequestID');
-        GmhisUtils.notNull(deathCreate, 'deathCreate');
+        GmhisUtils.notNull(hospitalizationRequestCreate, 'hospitalizationRequestCreate');
 
-        return this.http.put<GMHISHospitalizationRequestPartial>(this.host + GMHIS_ENDPOINT.hospitalizationRequest.update.replace('${hospitalizationRequestID}', hospitalizationRequestID.trim()), deathCreate)
+        return this.http.put<GMHISHospitalizationRequestPartial>(this.host + GMHIS_ENDPOINT.hospitalizationRequest.update.replace('${hospitalizationRequestID}', hospitalizationRequestID.trim()), hospitalizationRequestCreate)
     }
 
-    public create(deathCreate: GMHISHospitalizationRequestCreate): Observable<GMHISHospitalizationRequestPartial> {            
-        GmhisUtils.notNull(deathCreate, 'deathCreate');
+    public create(hospitalizationRequestCreate: GMHISHospitalizationRequestCreate): Observable<GMHISHospitalizationRequestPartial> {            
+        GmhisUtils.notNull(hospitalizationRequestCreate, 'hospitalizationRequestCreate');
         
-        return this.http.post<GMHISHospitalizationRequestPartial>(this.host + GMHIS_ENDPOINT.hospitalizationRequest.create, deathCreate)
+        return this.http.post<GMHISHospitalizationRequestPartial>(this.host + GMHIS_ENDPOINT.hospitalizationRequest.create, hospitalizationRequestCreate)
     }
     
 }

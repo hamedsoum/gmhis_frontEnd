@@ -8,7 +8,6 @@ import { UserService } from 'src/app/_services/user.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Depot } from 'src/app/_models/depot.model';
 import { Role } from 'src/app/_models/role.model';
 import { UserAuthority } from 'src/app/_enum/userAuthority.enum';
 import Swal from 'sweetalert2';
@@ -37,8 +36,6 @@ export class ListUserComponent implements OnInit, OnDestroy, AfterViewInit {
   */
 
   public items: User[];
-
-  depots: Depot[];
 
   roles: Role[];
 

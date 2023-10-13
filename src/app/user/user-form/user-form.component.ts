@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit,  OnDestroy ,Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Depot } from 'src/app/_models/depot.model';
 import { Role } from 'src/app/_models/role.model';
 import { User } from 'src/app/_models/user.model';
 import { NotificationService } from 'src/app/_services/notification.service';
@@ -31,8 +30,6 @@ export class UserFormComponent implements OnInit ,  OnDestroy{ private subs = ne
   public formSubmitted = false;
 
   invalidFormControls: any;
-
-  depots: Depot[];
 
   roles: Role[];
 
