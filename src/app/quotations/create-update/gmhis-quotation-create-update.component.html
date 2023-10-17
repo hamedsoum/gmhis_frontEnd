@@ -12,13 +12,13 @@
                 </ng-select>
                 
 
-                <ng-select *ngIf="isInsuredPatient()" placeholder="Selectionner une Assurance" class="mb-3">
+                <ng-select *ngIf="isInsuredPatient()" placeholder="Selectionner un l'Etablissement Payeur" class="mb-3">
                     <ng-option  *ngFor="let insurrance of insurrances" [value]="insurrance.id">{{insurrance.name}} </ng-option>
                 </ng-select>
 
                 <div class="d-flex applyCnam">
                     <label class="sh-font-size-intermediate sh-display-block ml-3" for="scales">Appliquer la CNAM</label>
-                    <input (change)="onApplyCnam($event)" type="checkbox" id="applyCnam" name="applyCnam" class="mr-2" />
+                    <input (change)="onApplyCMU($event)" type="checkbox" id="applyCnam" name="applyCnam" class="mr-2" />
                   </div>
             </div>
 
@@ -43,15 +43,15 @@
                             </div>
                     
                             <div class="col-lg-1 col-md-12 col-sm-12">
-                                <span class="sh-display-bloc">quantité</span>
+                                <span class="sh-display-bloc">Quantité</span>
                             </div> 
         
                             <div class="col-lg-2 col-md-12 col-sm-12">
-                                <span class="sh-display-bloc">prix unitaire</span>
+                                <span class="sh-display-bloc">Prix Unitaire</span>
                             </div> 
         
                             <div class="col-lg-2 col-md-12 col-sm-12">
-                                <span class="sh-display-bloc">Praticien</span>
+                                <span class="sh-display-bloc">Practicien</span>
                             </div> 
         
                             <div *ngIf="isapplyCnam()" class="col-lg-2 col-md-12 col-sm-12">

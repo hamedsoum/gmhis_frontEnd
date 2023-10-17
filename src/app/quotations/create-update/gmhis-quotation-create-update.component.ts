@@ -30,7 +30,7 @@ export class GMHISQuotationCreateUpdate implements OnInit {
         {key: GMHISPatientType.INSURED_PATIENT, value:GMHISPatientType.INSURED_PATIENT},
     ]
 
-    applyCnam: boolean = false;
+    applyCMU: boolean = false;
 
     constructor(
         private fb: FormBuilder,
@@ -52,8 +52,8 @@ export class GMHISQuotationCreateUpdate implements OnInit {
         this.patientType = patientType;
     }
 
-    public onApplyCnam(event : any){
-        this.applyCnam = event.target.checked;
+    public onApplyCMU(event : any){
+        this.applyCMU = event.target.checked;
         
     }
 
@@ -62,7 +62,7 @@ export class GMHISQuotationCreateUpdate implements OnInit {
     }
 
     public isapplyCnam(): boolean {
-        return this.applyCnam;
+        return this.applyCMU;
     }
 
     public addItem(): void {  
