@@ -1,3 +1,8 @@
+export enum GMHISPatientType {
+  CASH_PATIENT = 'Comptant',
+  INSURED_PATIENT = 'Assuré'
+}
+
 export interface Patient {
   service?: any;
   id: number;

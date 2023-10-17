@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import {  faTachometerAlt, faUser, faHome, faUsers,faKey, faDollarSign,  faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { SideBar1MenuAuthorityEnum } from 'src/app/_enum/first-sidebar-authority';
 
@@ -42,6 +43,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public  menuItem : string;
 
   constructor(
+    private router: Router,
     private userService: UserService,
     private notificationService: NotifService,
      ) {
@@ -117,61 +119,67 @@ export class SidebarComponent implements OnInit, OnDestroy {
  
   /** */
 
-  menuItemFunction(menuItem : string){
+  menuItemFunction(menuItem : string, url?: string) {
     switch (menuItem) {
-      case 'Dashboard':
-        this.menuItem = 'Dashboard';
-        localStorage.setItem('menuItem', menuItem);
-        break;
-      case 'patient':
-        this.menuItem = 'patient';
-        localStorage.setItem('menuItem', menuItem);
-        break;
+        case 'Dashboard':
+          this.menuItem = 'Dashboard';
+          localStorage.setItem('menuItem', menuItem);
+          break;
+        case 'patient':
+          this.menuItem = 'patient';
+          localStorage.setItem('menuItem', menuItem);
+          break;
         case 'admission':
-        this.menuItem = 'admission';
-        localStorage.setItem('menuItem', menuItem);
-        break;
-      case 'invoice':
-        this.menuItem = 'invoice';
-        localStorage.setItem('menuItem', menuItem);
-        break; 
-      case 'insuranceBill':
-        this.menuItem = 'insuranceBill';
-        localStorage.setItem('menuItem', menuItem);
-        break;
+          this.menuItem = 'admission';
+          localStorage.setItem('menuItem', menuItem);
+          break;
+        case 'invoice':
+          this.menuItem = 'invoice';
+          localStorage.setItem('menuItem', menuItem);
+          break; 
+        case 'insuranceBill':
+          this.menuItem = 'insuranceBill';
+          localStorage.setItem('menuItem', menuItem);
+          break;
         case 'practicianInvoice':
-        this.menuItem = 'practicianInvoice';
-        localStorage.setItem('menuItem', menuItem);
-        break;
+          this.menuItem = 'practicianInvoice';
+          localStorage.setItem('menuItem', menuItem);
+          break;
         case 'constantWaitingRoom':
-        this.menuItem = 'constantWaitingRoom';
-        localStorage.setItem('menuItem', menuItem);
-        break;
+          this.menuItem = 'constantWaitingRoom';
+          localStorage.setItem('menuItem', menuItem);
+          break;
         case 'pharmacy':
           this.menuItem = 'pharmacy';
           localStorage.setItem('menuItem', menuItem);
           break;
-          case 'laboratory-exam':
+        case 'laboratory-exam':
             this.menuItem = 'laboratory-exam';
             localStorage.setItem('menuItem', menuItem);
             break;
-            case 'evacuation':
+        case 'evacuation':
             this.menuItem = 'evacuation';
             localStorage.setItem('menuItem', menuItem);
             break;
         case 'waitingRoom':
-        this.menuItem = 'waitingRoom';
-        localStorage.setItem('menuItem', menuItem);
-        break;
+          this.menuItem = 'waitingRoom';
+          localStorage.setItem('menuItem', menuItem);
+          break;
         case 'death':
           this.menuItem = 'death';
           localStorage.setItem('menuItem', menuItem);
           break;
-          case 'hospitalization-request':
+        case 'hospitalization-request':
             this.menuItem = 'hospitalization-request';
             localStorage.setItem('menuItem', menuItem);
             break;
-      default:
+          case 'quotations':
+            this.menuItem = 'quotations';
+            localStorage.setItem('menuItem', menuItem);
+            console.log(url);
+            this.router.navigateByUrl(url)
+            break;
+        default:
         break;
     }
   }

@@ -1,3 +1,5 @@
+import { HttpParams } from "@angular/common/http";
+import { ar } from "date-fns/locale";
 import { PageList } from "src/app/_models/page-list.model";
 import { GMHISPagination } from "../models/gmhis-domain";
 
@@ -24,5 +26,13 @@ export class GmhisUtils {
         pagination.selectedSize = arg.size;
         pagination.totalItems = arg.totalItems;
         pagination.totalPages = arg.totalPages;
+    }
+
+    public static toHttpParams(args: Map<string,string>): HttpParams {
+        let params = new HttpParams();
+        args.forEach((value, key) => {
+            params.set(key, value)
+        });
+        return params;
     }
 }

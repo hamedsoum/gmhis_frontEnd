@@ -1,0 +1,56 @@
+.gmhis-quotation-sheldon-main{
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+
+    .gmhis-quotation-sheldon-content{
+        display: flex;
+        flex-direction: column; 
+
+        .gmhis-quotation-sheldon-title{
+
+            margin-bottom: 30px;
+            .title{
+                display: block;
+                font-size: 24px;
+                font-weight: 600;
+                display: block;
+                margin-bottom: 5px;
+                color: var(--sh-color-primary);
+              }
+              subTitle{
+                display: block;
+                font-size: 11px;
+                color: var(--sh-text-color-primary);
+              }
+        }
+        
+        .gmhis-quotation-sheldon-header{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 60px;
+            .applyCnam{
+                input {
+                    margin-left: 10px;
+                }
+            }
+        }
+
+        .gmhis-quotation-sheldon-content{
+            display: flex;
+            justify-content: center;
+            .quotationItems{
+                padding: 0 20px;
+            }
+          
+        }
+
+        .actionButton{
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            margin-top: 50px;
+        }
+    }
+}

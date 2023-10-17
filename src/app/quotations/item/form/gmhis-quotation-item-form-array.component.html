@@ -1,0 +1,43 @@
+
+    <div>
+        <sh-button (click)="addItem()" type="text" size="small" label="add New Item" labelStyleClass="sh-color-primary"></sh-button>
+    </div>
+    <ng-container formArrayName="formArray">
+        <ng-container *ngFor="let form of formArray.controls; let i = index">
+            <div formGroupName={{i}}>
+                <div class="row">
+
+                    <div class="col-lg-2 col-md-12 col-sm-12">
+                        <ng-select formControlName="actId">
+                            <ng-option *ngFor="let act of acts" [value]="act.id">{{act.name}}</ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-lg-2 col-md-12 col-sm-12">
+                         <input id="{{'actCode' + i}}" name="{{'actCode' + i}}" type="text" class="form-control" formControlName="actCode">
+                    </div>
+
+                    <div class="col-lg-2 col-md-12 col-sm-12">
+                        <input id="{{'actNumber' + i}}" name="{{'actNumber' + i}}" type="number" class="form-control" formControlName="actNumber">
+                    </div>
+
+                    <div class="col-lg-2 col-md-12 col-sm-12">
+                        <input id="{{'quantity' + i}}" name="{{'quantity' + i}}" type="number" class="form-control" formControlName="quantity">
+                    </div>
+
+                    <div class="col-lg-2 col-md-12 col-sm-12">
+                        <input id="{{'unitPrice' + i}}" name="{{'unitPrice' + i}}" type="number" class="form-control" formControlName="unitPrice">
+                    </div>
+
+                    <div class="col-lg-2 col-md-12 col-sm-12">
+                        <input [disabled]="true" id="{{'totalAmount' + i}}" name="{{'totalAmount' + i}}" type="number" class="form-control" formControlName="totalAmount">
+                    </div>
+
+                    <sh-button (click)="removeItem(i)" type="text" size="small" label="remove" labelStyleClass="sh-color-error"></sh-button>
+                </div>
+
+            </div>
+        </ng-container>
+        
+    </ng-container>
+

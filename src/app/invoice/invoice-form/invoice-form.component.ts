@@ -66,9 +66,17 @@ export class InvoiceFormComponent implements OnInit {
   public partientPart: number = 0;
   private displayAddInssuranceBtn: boolean = true;
 
-  constructor(private fb: FormBuilder,private cashRegisterService: CashRegisterService,private actService: ActService, private practicianService: PracticianService,
-  private insuredService: InsuredServiceService,private paymentTypeService: PaymentTypeService, private invoiceService: InvoiceService,private notificationService: NotificationService,
-  private userService: UserService) {}
+  constructor(
+    private fb: FormBuilder,
+    private cashRegisterService: CashRegisterService,
+    private actService: ActService, 
+    private practicianService: PracticianService,
+    private insuredService: InsuredServiceService,
+    private paymentTypeService: PaymentTypeService, 
+    private invoiceService: InvoiceService,
+    private notificationService: NotificationService,
+    private userService: UserService
+    ) {}
 
   ngOnInit(): void {    
     this.currentDate = new Date();

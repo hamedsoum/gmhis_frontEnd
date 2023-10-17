@@ -47,8 +47,6 @@ export interface GMHISQuotationItemCreate {
 
     totalAmount: number;
 
-    quotationID: string;
-
     moderatorTicket?: number;
 
     cmuAmount?: number;

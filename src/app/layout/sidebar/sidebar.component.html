@@ -7,7 +7,7 @@
 >
   <fa-icon
     [icon]="faTachometerAlt"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Tableau de bord</span>
@@ -22,7 +22,7 @@
 >
   <fa-icon
     [icon]="faHome"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Patients</span>
@@ -37,7 +37,7 @@
 >
   <fa-icon
     [icon]="faUsers"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Admissions</span>
@@ -48,14 +48,14 @@
   [ngClass]="{ menuActive: menuItem == 'invoice' }"
   (click)="menuItemFunction('invoice')"
   routerLink="/invoice/list"
-  class="dashboard py-3"
->
-  <fa-icon
-    [icon]="faKey"
-    ngbTooltip=""
-    style="font-size: 1rem; margin-right: 10px"
-  ></fa-icon
-  ><span class="fw-bold">Caisse</span>
+  class="dashboard py-3">
+    <fa-icon [icon]="faKey" style="font-size: 1rem; margin-right: 10px"></fa-icon><span class="fw-bold">Caisse</span>
+</p>
+<p
+  [ngClass]="{ menuActive: menuItem == 'quotations' }"
+  (click)="menuItemFunction('quotations', '/gmhis-quotations/list')"
+  class="dashboard py-3">
+    <fa-icon [icon]="faKey" style="font-size: 1rem; margin-right: 10px"></fa-icon><span class="fw-bold">Dévis</span>
 </p>
 
 <p
@@ -67,7 +67,7 @@
 >
   <fa-icon
     [icon]="faKey"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Factures assurance</span>
@@ -81,7 +81,7 @@
 >
   <fa-icon
     [icon]="faKey"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Factures Practicien </span>
@@ -95,7 +95,7 @@
 >
   <fa-icon
     [icon]="falOGOUT"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Salle de prise de constante</span>
@@ -109,7 +109,7 @@
 >
   <fa-icon
     [icon]="falOGOUT"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Salle d'attentes</span>
@@ -123,7 +123,7 @@
 >
   <fa-icon
     [icon]="faUser"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Pharmacie</span>
@@ -137,7 +137,7 @@ class="dashboard py-3"
 >
   <fa-icon
     [icon]="faUser"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Laboratoire</span>
@@ -151,7 +151,7 @@ class="dashboard py-3"
 >
   <fa-icon
     [icon]="faUser"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Hospitalisation</span>
@@ -164,7 +164,7 @@ class="dashboard py-3"
 >
   <fa-icon
     [icon]="faUser"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Evacuation</span>
@@ -178,7 +178,7 @@ class="dashboard py-3"
 >
   <fa-icon
     [icon]="faUser"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Décès</span>
@@ -192,7 +192,7 @@ class="dashboard py-3"
 >
   <fa-icon
     [icon]="faUser"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Demande d'Hospitalisation</span>
@@ -207,7 +207,7 @@ class="dashboard py-3"
 >
   <fa-icon
     [icon]="faUser"
-    ngbTooltip=""
+  
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
   ><span class="fw-bold">Etats</span>

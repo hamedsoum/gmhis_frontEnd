@@ -3,3 +3,8 @@ export interface GMHISNameAndID {
     name : string
     actvie : boolean
 }
+
+export interface GMHISKeyValue {
+    key : string,
+    value: any
+}
