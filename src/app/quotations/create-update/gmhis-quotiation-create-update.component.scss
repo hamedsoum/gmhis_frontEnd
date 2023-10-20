@@ -40,6 +40,7 @@
         .gmhis-quotation-sheldon-content{
             display: flex;
             justify-content: center;
+            margin-bottom: 50px;
             .quotationItems{
                 padding: 0 20px;
             }
@@ -49,8 +50,15 @@
         .actionButton{
             display: flex;
             align-items: center;
-            justify-content: end;
-            margin-top: 50px;
+        }
+
+        .allAmount{
+            min-width: 300px;
+            font-size: 20px;
+            .netToPay{
+                font-size: 30px;
+                font-weight: bold;
+            }
         }
     }
 }

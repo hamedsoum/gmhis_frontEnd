@@ -5,7 +5,7 @@ import { ActService } from 'src/app/act/act/service/act.service';
 import { admissionStatus, Admission } from 'src/app/admission/model/admission';
 import { CashRegisterService } from 'src/app/cash-register/cash-register.service';
 import { Insured } from 'src/app/insurance/insured';
-import { InsuredServiceService } from 'src/app/insured/service/insured-service.service';
+import { GMHISInsuredService } from 'src/app/insured/service/insured-service.service';
 import { PaymentTypeService } from 'src/app/payment-type/service/payment-type.service';
 import { PracticianService } from 'src/app/practician/practician.service';
 import { GMHISNameAndID } from 'src/app/shared/models/name-and-id';
@@ -71,7 +71,7 @@ export class InvoiceFormComponent implements OnInit {
     private cashRegisterService: CashRegisterService,
     private actService: ActService, 
     private practicianService: PracticianService,
-    private insuredService: InsuredServiceService,
+    private insuredService: GMHISInsuredService,
     private paymentTypeService: PaymentTypeService, 
     private invoiceService: InvoiceService,
     private notificationService: NotificationService,

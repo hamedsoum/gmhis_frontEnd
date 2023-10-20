@@ -32,26 +32,32 @@ export interface GMHISQuotationCreate {
 
     indication?: string,
 
-    InsuranceID?: number,
+    insuranceID?: number,
 
-    PatientID: number,
+    patientID: number,
 
     totalAmount: number,
 
     moderatorTicket?: number,
 
     quotationItems: GMHISQuotationItemCreate[];
+
+    cmuPart?: number;
+
+   insurancePart?: number;
 }
 
 export interface GMHISQuotationPartial {
+    dateOp : string;
+
     id: string,
 
     code: string,
 
     quotationNumber: string,
 
-    InsuranceName?: string,
-    InsuranceID?: string
+    insuranceName?: string,
+    insuranceID?: string
 
     affection: string,
 
@@ -68,10 +74,30 @@ export interface GMHISQuotationPartial {
     status : GMHISQuotationStatus,
 
     quotationItems: GMHISQuotationItemCreate;
+
+    cmuPart?: number;
+
+    insurancePart?: number;
 }
 
 export enum GMHISQuotationStatus {
    DRAFT = "draft",
    SEND = "send",
    ACCEPTED = "accepted"
+}
+
+export interface GMHISQuotationAmounts  {
+    totalAmount: number,
+
+    CMUModeratorTicket: number,
+
+    insuranceModeratorTicket: number, 
+
+    moderatorTicket: number,
+
+    cmuPart: number,
+
+    insurancePart: number,
+
+    netToPay: number
 }

@@ -6,6 +6,7 @@ import { GMHIS_ENDPOINT } from "src/app/_constants/endpoint.constant";
 import { PageList } from "src/app/_models/page-list.model";
 import { environment } from "src/environments/environment";
 import { GMHISQuotationCreate, GMHISQuotationPartial } from "../domain/gmhis.quotation";
+import { GMHISQuotationItem, GMHISQuotationItemPartial } from "../domain/gmhis.quotation.item";
 
 @Injectable({providedIn: 'root'})
 export class GMHISQuotationService {
@@ -30,6 +31,12 @@ export class GMHISQuotationService {
         GmhisUtils.notNull(quotationID, 'quotationID');
 
         return this.http.get<GMHISQuotationPartial>(this.host + GMHIS_ENDPOINT.quotation.retrieve.replace('${quotationID}', quotationID.trim()));
+    }
+
+    public findQuotationItemsByquotationID(quotationID: string): Observable<GMHISQuotationItemPartial[]>{
+        GmhisUtils.notNull(quotationID, 'quotationID');
+
+        return this.http.get<GMHISQuotationItemPartial[]>(this.host + GMHIS_ENDPOINT.quotation.find.replace('${quotationID}', quotationID.trim()));
     }
 
     public update(quotationID: string, quotationCreate: GMHISQuotationCreate): Observable<GMHISQuotationPartial>{

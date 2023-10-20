@@ -14,7 +14,7 @@ enum size {
 }
 type sizeStr = 'small | medium | intermediate | large';
 
-@Component({selector:'sh-button',templateUrl: './sh-button.component.html'})
+@Component({selector:'sh-button',templateUrl: './sh-button.component.html', styleUrls: ['./sh-button.component.scss']})
 export class SHButtonComponent implements OnInit {
     @Input() styleClass?: string;
     @Input() labelStyleClass?: string;

@@ -1,0 +1,151 @@
+<nb-card   class="nbCardList">
+    <nb-card-header class=" d-flex justify-content-between align-items-start">
+        <h4 class="text-capitalize ">
+          {{ TITLE }}
+        </h4>
+        <sh-button type="button" size="large" [label]="NEW_QUOTATION" labelStyleClass="sh-color-primary" (clickEvent)="onCreate()" styleClass="m-2"></sh-button>
+
+    </nb-card-header>
+    <nb-card-body> 
+      <form [formGroup]="searchFieldsForm">
+        <div class="row d-flex justify-content-between align-items-center mb-4">
+          <div class="col-lg-9 col-md-9 col-sm-12">
+            <div class="row">
+              <div class="col-lg-2">
+                <span
+                  (click)="onSearchValueChange()"
+                  style="
+                    background-color: #ededed;
+                    color: #14a2b8;
+                    cursor: pointer;
+                  "
+                  class="material-icons px-2 p-1 rounded"
+                >
+                  search
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-12">
+            <ng-select
+              [(ngModel)]="pagination.selectedSize"
+              formControlName="size"
+              (change)="onSearchValueChange()"
+            >
+              <ng-option *ngFor="let size of sizes" [value]="size.id">{{
+                size.value
+              }}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </form>
+
+      <div class="d-flex justify-content-end">
+        <sh-button (clickEvent)="onPrint(printFormRef)" type="text" size="intermediate" label="Imprimer" labelStyleClass="sh-color-primary" styleClass="m-2"></sh-button>
+        <sh-button (clickEvent)="onOpenUpdateForm(updateFormRef)" type="text" size="intermediate" label="Modifier" labelStyleClass="sh-color-primary" styleClass="m-2"></sh-button>
+      </div>
+      <div #hospitalizationRequestTab class="tableFixHead">
+        <table class="table table-bordered table-hover table-md align-middle">
+          <thead class="pb-3 text-capitalize">
+            <tr class="pb-3">
+                <th>Date Op</th>   
+                <th>Numéro Facture</th>   
+                <th>Nom du Patient</th>
+                <th>Prénom du Patient</th> 
+                <th>Montant Total</th>  
+                <th>Status</th>  
+                <th>Etablissement Payeur</th> 
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr
+              *ngFor="
+                let quotation of pagination.items
+                  | paginate
+                    : {
+                        itemsPerPage: pagination.selectedSize,
+                        currentPage: pagination.currentPage,
+                        totalItems: pagination.totalItems
+                      };
+                let i = index
+              "
+              [class.active]="i == currentIndex"
+              (click)="onQuotationSelected(quotation)"
+              >
+              <td class="text-nowrap ">{{quotation.dateOp | date:  "dd/MM/yyyy HH:mm:ss"}}</td>
+              <td>{{quotation.quotationNumber}}</td>
+              <td class="text-nowrap ">{{quotation.patientName.firstName }} </td>
+              <td>{{quotation.patientName.lastName}}</td>
+              <td class="text-nowrap ">{{quotation.insuranceName ? quotation.insuranceName : "---"}}</td>
+              <td class="text-nowrap ">{{quotation.totalAmount}}</td>
+              <td class="text-nowrap ">{{quotation.status}}</td>
+             
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex w-100 justify-content-center">
+        <div
+          style="color: #623508"
+          *ngIf="loading"
+          class="spinner-border"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <pagination-controls
+          responsive="true"
+          previousLabel="Prev"
+          nextLabel="Next"
+          (pageChange)="onPageChange($event)"
+        >
+        </pagination-controls>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  
+
+  <!-- update modal -->
+  <ng-template #updateFormRef let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
+        Modifer La facture
+      </h4>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+    <div class="modal-body">
+      <gmhis-hospitalization-request-create-update ></gmhis-hospitalization-request-create-update>
+    </div>
+  </ng-template>
+
+<ng-template #printFormRef let-c="close" let-d="dismiss">
+  <div class="modal-header ">
+    <nb-icon
+      style="cursor: pointer"
+      (click)="d('Cross click')"
+      class="h4"
+      icon="close-circle-outline"
+    ></nb-icon>
+  </div>
+  <div class="modal-body ">
+    <ngx-extended-pdf-viewer
+      *ngIf="docSrc"
+      [src]="docSrc"
+      useBrowserLocale="true"
+      height="80vh"
+    >
+    </ngx-extended-pdf-viewer>
+  </div>
+</ng-template>
+
+
+  

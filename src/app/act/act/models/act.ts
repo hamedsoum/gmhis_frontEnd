@@ -18,3 +18,15 @@ export interface Act {
     actCategory: string,
     updatedAt: Date 
 }
+
+export interface ActPartial {
+    id: number;
+
+   name: string;
+
+    code: string;
+
+    coefficient: string;
+
+    codValue: string;
+}

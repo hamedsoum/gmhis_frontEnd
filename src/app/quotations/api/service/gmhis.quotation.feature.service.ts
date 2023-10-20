@@ -1,44 +1,65 @@
 import { Injectable } from "@angular/core";
 import { GMHISPatientType } from "src/app/patient/patient";
-import { GMHISQuotation } from "../domain/gmhis.quotation";
-import { GMHISQuotationItem } from "../domain/gmhis.quotation.item";
+import { GMHISQuotationAmounts } from "../domain/gmhis.quotation";
+import { GMHISQuotationItem, GMHISQuotationItemCreate } from "../domain/gmhis.quotation.item";
 
-Injectable()
+@Injectable({providedIn: 'root'})
 export class GMHISQuotationFeatureService {
 
-    quotationTotalAmount(quotationItems: GMHISQuotationItem[], patientType: GMHISPatientType, CMUApplied: boolean): {totalAmount: number,CMUModeratorTicket: number,insuranceModeratorTicket: number , moderatorTicket: number} {
-        let totalAmount = 0; 
-        let CMUModeratorTicket = 0;
-        let insuranceModeratorTicket = 0;
+    public quotationTotalAmount(quotationItems: GMHISQuotationItem[] | GMHISQuotationItemCreate[], patientType: GMHISPatientType, CMUApplied: boolean, insurranceCoverage?: number): GMHISQuotationAmounts {
+       let totalAmounts :GMHISQuotationAmounts = {
+           totalAmount: 0,
+           CMUModeratorTicket: 0,
+           insuranceModeratorTicket: 0,
+           moderatorTicket: 0,
+           cmuPart: 0,
+           insurancePart: 0,
+           netToPay: 0
+       }
 
-        quotationItems.forEach(el => totalAmount += (el.unitPrice * el.quantity));
+        quotationItems.forEach(el => totalAmounts.totalAmount += (el.unitPrice * el.quantity));
+        
+       if (CMUApplied) {
+        totalAmounts.CMUModeratorTicket = this.CMUTotalAmount(quotationItems);
+        totalAmounts.cmuPart =  totalAmounts.totalAmount - this.CMUTotalAmount(quotationItems);
 
-        if (patientType === GMHISPatientType.INSURED_PATIENT) {
-            if (!CMUApplied) {
-                insuranceModeratorTicket = this.quotationTotalAmountInsurance(quotationItems, totalAmount);
-            } else {
-                CMUModeratorTicket =  this.quotationTotalAmountCMU(quotationItems, totalAmount)
-                insuranceModeratorTicket =  (totalAmount - CMUModeratorTicket) - this.quotationTotalAmountInsurance(quotationItems, totalAmount);
-            }
+            if (patientType === GMHISPatientType.INSURED_PATIENT) {
+                totalAmounts.insurancePart = this.InsuranceTotalAmount(totalAmounts.CMUModeratorTicket,insurranceCoverage);
+                totalAmounts.moderatorTicket = totalAmounts.insuranceModeratorTicket =  totalAmounts.CMUModeratorTicket - totalAmounts.insurancePart;
+            } else totalAmounts.moderatorTicket = totalAmounts.totalAmount -  totalAmounts.cmuPart;
+            
+        } else {
+            if (patientType === GMHISPatientType.INSURED_PATIENT) {
+                totalAmounts.insuranceModeratorTicket =  this.InsuranceTotalAmount(totalAmounts.totalAmount,insurranceCoverage);
+                totalAmounts.moderatorTicket = totalAmounts.totalAmount - totalAmounts.insuranceModeratorTicket;
+                totalAmounts.netToPay = totalAmounts.moderatorTicket;
+            } 
+
         }
 
-        return { totalAmount : totalAmount,CMUModeratorTicket: CMUModeratorTicket,insuranceModeratorTicket: insuranceModeratorTicket, moderatorTicket: CMUModeratorTicket +  insuranceModeratorTicket }
+        totalAmounts.netToPay = (totalAmounts.moderatorTicket > 0) ? totalAmounts.moderatorTicket : totalAmounts.totalAmount;
+        
+        console.log(totalAmounts);
+        return totalAmounts;
 
     }
 
-    quotationTotalAmountCMU(quotationItems: GMHISQuotationItem[], totalAmount: number): number {
+    private CMUTotalAmount(quotationItems: GMHISQuotationItem[]| GMHISQuotationItemCreate[]): number {
         let CMUtotalAmount: number = 0;
-        quotationItems.forEach(el => CMUtotalAmount += (el.cmuAmount * el.quantity) * el.cmuPercent)
+        quotationItems.forEach(el => {
 
-        return totalAmount - CMUtotalAmount;
+            CMUtotalAmount += el.unitPrice - ((el.cmuAmount * el.quantity) * el.cmuPercent/100);
+            
+        });
+        
+
+        return CMUtotalAmount;
     }
 
-    quotationTotalAmountInsurance(quotationItems: GMHISQuotationItem[], totalAmount: number): number {
-        let InsuranceTotalAmount: number = 0;
-
-        quotationItems.forEach(el => InsuranceTotalAmount += (el.unitPrice * el.quantity) * el.insurancePercent)
-
-        return totalAmount - InsuranceTotalAmount;
+    private InsuranceTotalAmount(amount, insurranceCoverage: number): number {
+        console.log(insurranceCoverage);
+        
+        return amount * (insurranceCoverage/100);
     }
 
 }

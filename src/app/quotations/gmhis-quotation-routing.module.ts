@@ -1,9 +1,12 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { GMHISQuotationListingComponent } from "./listing/gmhis-quotation-listing.component";
+import { GMHISQuotationCreateUpdate } from "./create-update/gmhis-quotation-create-update.component";
+import { GMHISQuotationsComponent } from "./gmhis-quotations.component";
 
 const routes : Routes = [
-    {path: 'list', component:GMHISQuotationListingComponent}
+    {path: '', component:GMHISQuotationsComponent},
+    {path: 'create', component:GMHISQuotationCreateUpdate}
+
 
 ]
 @NgModule({

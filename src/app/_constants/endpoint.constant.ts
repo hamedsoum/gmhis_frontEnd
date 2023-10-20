@@ -2,10 +2,11 @@ export const GMHIS_ENDPOINT = {
 
      // === Hospitalization Request ===
      quotation: {
-        index: '/quotation',
-        create: '/quotation',
-        update: '/quotation/${quotationID}',
-        retrieve: '/quotation/${quotationID}',
+        index: '/quotations',
+        create: '/quotations',
+        update: '/quotations/${quotationID}',
+        retrieve: '/quotations/${quotationID}',
+        find: '/quotations/find/${quotationID}',
     },
 
     // === Hospitalization Request ===

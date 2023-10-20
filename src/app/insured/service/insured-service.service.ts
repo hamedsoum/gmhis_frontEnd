@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class InsuredServiceService {
+export class GMHISInsuredService {
 
   private readonly apiUrl = environment.apiUrl;
 

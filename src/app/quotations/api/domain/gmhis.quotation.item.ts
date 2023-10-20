@@ -1,6 +1,8 @@
+import { ActPartial } from "src/app/act/act/models/act";
 import { Practician } from "src/app/practician/practician";
 import { AuditPKDTO } from "src/app/shared/models/Audit";
 import { GMHISName } from "src/app/shared/models/gmhis-domain";
+import { GMHISQuotationPartial } from "./gmhis.quotation";
 
 export interface GMHISQuotationItem extends AuditPKDTO{
     id: string;
@@ -9,9 +11,9 @@ export interface GMHISQuotationItem extends AuditPKDTO{
 
     actId: number;
     
-    actCode: string;
-    
-    actNumber: number;
+    actCoefficient: number;
+
+    actCodeValue: number;
 
     quantity: number;
 
@@ -19,7 +21,7 @@ export interface GMHISQuotationItem extends AuditPKDTO{
 
     totalAmount: number;
 
-    quotation: string;
+    quotation: GMHISQuotationPartial;
 
     moderatorTicket?: number;
 
@@ -37,17 +39,9 @@ export interface GMHISQuotationItemCreate {
 
     actId: number;
 
-    actCode: string;
-
-    actNumber: number;
-
     quantity: number;
 
-    unitPrice: number;
-
     totalAmount: number;
-
-    moderatorTicket?: number;
 
     cmuAmount?: number;
 
@@ -55,7 +49,9 @@ export interface GMHISQuotationItemCreate {
 
     insurancePercent?: number;
 
-    PracticianID?: number;
+    moderatorTicket?: number;
+
+    practicianID?: number;
 
 }
 
@@ -63,9 +59,9 @@ export interface GMHISQuotationItemPartial {
 
     actID: number;
 
-    actCode: string;
+    actCodeValue: number;
 
-    actNumber: number;
+    actCoefficient: number;
 
     quantity: number;
 
@@ -86,4 +82,11 @@ export interface GMHISQuotationItemPartial {
     praticianName?: GMHISName;
 
     practicianID?: number;
+
+    dateOp: string;
+
+    act: ActPartial;
+
+    actCode: string;
+
 }

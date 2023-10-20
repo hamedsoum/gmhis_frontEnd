@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { InsuredServiceService } from './insured-service.service';
+import { GMHISInsuredService } from './insured-service.service';
 
 describe('InsuredServiceService', () => {
-  let service: InsuredServiceService;
+  let service: GMHISInsuredService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(InsuredServiceService);
+    service = TestBed.inject(GMHISInsuredService);
   });
 
   it('should be created', () => {

@@ -41,7 +41,7 @@ export class PatientService {
   }
 
   findPatient(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/patient/p_list`);
+    return this.http.get<any[]>(`${this.apiUrl}/patient/patients`);
   }
 
   create(patient: any): Observable<any> {

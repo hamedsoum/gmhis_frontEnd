@@ -8,7 +8,7 @@ import { SubSink } from 'subsink';
 
 import { InsuranceService } from 'src/app/insurance/insurance.service';
 import { SubscriberService } from 'src/app/insurance/subscriber.service';
-import { InsuredServiceService } from 'src/app/insured/service/insured-service.service';
+import { GMHISInsuredService } from 'src/app/insured/service/insured-service.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { Patient } from '../patient';
@@ -99,7 +99,7 @@ export class PatientFormmComponent implements OnInit {
   public formsErrors: { [key: string]: string } = {};
 
   constructor(private patientService: PatientService,private notificationService: NotificationService,private insuranceService: InsuranceService,
-    private insuranceSubscriberService: SubscriberService,private insuredServiceService: InsuredServiceService,private datePipe : DatePipe) {}
+    private insuranceSubscriberService: SubscriberService,private insuredServiceService: GMHISInsuredService,private datePipe : DatePipe) {}
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();

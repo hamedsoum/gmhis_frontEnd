@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { finalize } from "rxjs/operators";
+import { GmhisUtils } from "src/app/shared/base/utils";
 import { PAGINATION_DEFAULT_SIZE, PAGINATION_SIZE } from "src/app/shared/constant";
 import { GMHISPagination } from "src/app/shared/models/gmhis-domain";
 import { PageList } from "src/app/_models/page-list.model";
@@ -17,7 +18,7 @@ import { GmhisDeathService } from "../api/service/gmhis.death.service";
 export class GMHISDeathListing implements OnInit, OnDestroy {
     
 readonly TITLE = 'Décès';
-readonly NEW_CASHIER = 'Déclarer un nouveau Décés';
+readonly NEW_DEATH = 'Déclarer un nouveau Décés';
 
 subscription: Subscription = new Subscription()
 
@@ -34,6 +35,7 @@ loading: boolean;
 docSrc: string;
 
 currentIndex: number;
+
   constructor(
     private deathService: GmhisDeathService,
     private notificationService: NotificationService,
@@ -85,14 +87,7 @@ currentIndex: number;
       .pipe(finalize(() => (this.loading = false)))
       .subscribe(
         (response: PageList) => {
-          this.pagination.currentPage = response.currentPage + 1;
-          this.pagination.empty = response.empty;
-          this.pagination.firstPage = response.firstPage;
-          this.pagination.items = response.items; 
-          this.pagination.lastPage = response.lastPage;
-          this.pagination.selectedSize = response.size;
-          this.pagination.totalItems = response.totalItems;
-          this.pagination.totalPages = response.totalPages;
+          GmhisUtils.pageListMap(this.pagination, response);         
         },
         (errorResponse: HttpErrorResponse) => {         
         }

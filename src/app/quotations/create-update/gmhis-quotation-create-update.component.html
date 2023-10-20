@@ -2,18 +2,26 @@
     <div class="gmhis-quotation-sheldon-main">
     <form  [formGroup]="quotationFieldGroup" class="gmhis-quotation-sheldon-content">
         <div class="gmhis-quotation-sheldon-title">
-              <span class="title" >Nouveau Dévis</span>
-              <span class="subTitle" >Création de Dévis</span>
+              <span class="title" >Nouvelle Facture Proforma</span>
+              <span class="subTitle" >Création de Facture Proforma</span>
         </div>
         <div class="gmhis-quotation-sheldon-header row">
+            <div class="col-12 mb-3">
+                <ng-select formControlName="patientID" placeholder="Selectionner un Patient">
+                    <ng-option *ngFor="let patient of patients" [value]="patient.id">{{patient.firstName}}  {{patient.lastName}}</ng-option>
+                </ng-select> 
+                <div *ngIf="formSubmitted && !quotationFieldGroup.controls.patientID.valid">
+                    <small *ngIf="patientIDField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+                  </div>
+            </div>
             <div class="col-4">
                 <ng-select (change)="onSelectPatientType($event)" placeholder="Selectionner le Type de Patient" class="mb-3">
                     <ng-option *ngFor="let patientType of patientTypes" [value]="patientType.value">{{patientType.key}} </ng-option>
                 </ng-select>
                 
 
-                <ng-select *ngIf="isInsuredPatient()" placeholder="Selectionner un l'Etablissement Payeur" class="mb-3">
-                    <ng-option  *ngFor="let insurrance of insurrances" [value]="insurrance.id">{{insurrance.name}} </ng-option>
+                <ng-select (change)="onSelectInsurance($event)" *ngIf="isInsuredPatient()" placeholder="Selectionner un l'Etablissement Payeur" class="mb-3">
+                    <ng-option  *ngFor="let insurrance of patientInsureds" [value]="insurrance">{{insurrance.insuranceName}} </ng-option>
                 </ng-select>
 
                 <div class="d-flex applyCnam">
@@ -23,8 +31,12 @@
             </div>
 
             <div class="col-4">
-                <input id="affection" name="affection" type="text" class="form-control mb-3" placeholder="Affection" formControlName="affection">
-
+               <div class="mb-3">
+                <input id="affection" name="affection" type="text" class="form-control" placeholder="Affection" formControlName="affection">
+                <div *ngIf="formSubmitted && !quotationFieldGroup.controls.affection.valid">
+                    <small *ngIf="affection.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+                  </div>
+               </div>
                 <input id="affection" name="affection" type="text" class="form-control" placeholder="Indication" formControlName="indication">
             </div>
            
@@ -93,7 +105,7 @@
                                 </div>
             
                                     <div class="col-lg-2 col-md-12 col-sm-12">
-                                        <ng-select formControlName="PracticianID" >
+                                        <ng-select formControlName="practicianID" >
                                             <ng-option *ngFor="let practician of practicians" [value]="practician.id">{{practician.practicianName}}</ng-option>
                                         </ng-select>
                                     </div>
@@ -123,10 +135,20 @@
             </div>
         </div>
 
-        <div class="actionButton">
-            <sh-button type="text" label="Annuler" labelStyleClass="sh-color-error"></sh-button>
-            <sh-button type="button" label="Valider"></sh-button>
+        <div class="d-flex justify-content-between mt-50">
+            <div class="actionButton">
+                <sh-button type="text" label="Annuler" labelStyleClass="sh-color-error"></sh-button>
+                <sh-button type="text" label="Caluler" (clickEvent)="calculateAmount()"></sh-button>
+                <sh-button type="button" label="Valider" (clickEvent)="save()"></sh-button>
+            </div>
 
+            <div class="allAmount">
+                <span class="sh-display-block mb-3">Montant Total : {{totalAmount.totalAmount}}</span>
+                <span class="sh-display-block mb-3">Part CNAM : {{totalAmount.cmuPart}}</span>
+                <span class="sh-display-block mb-3">Part Assurance {{insured?.insuranceName}} : {{totalAmount.insurancePart}}</span>
+                <span class="sh-display-block mb-3">Ticket Modérateur : {{totalAmount.moderatorTicket}}</span>
+                <span class="sh-display-block ">Net à Payer : <span class="sh-color-primary netToPay">{{totalAmount.netToPay}}</span> </span>  
+            </div>
         </div>
     </form>
 </div>

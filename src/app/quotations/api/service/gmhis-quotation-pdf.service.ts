@@ -4,24 +4,18 @@ import jsPDF from "jspdf";
 import { GMHISSharedDocPdfService } from "src/app/shared/api/service/gmhis.shared.DocPdf.service";
 import { GMHISQuotationPartial } from "../domain/gmhis.quotation";
 import autoTable from 'jspdf-autotable';
-import { GMHISQuotationService } from "./gmhis.quotation.service";
 import { Subscription } from "rxjs";
 import { GMHISQuotationItemPartial } from "../domain/gmhis.quotation.item";
+import { GMHISQuotationFeatureService } from "./gmhis.quotation.feature.service";
 
 @Injectable()
-export class GMHISQuotationPdfService implements OnInit {
+export class GMHISQuotationPdfService  {
 
     subscription: Subscription = new Subscription();
 
-    constructor(private sharedDocPdfService: GMHISSharedDocPdfService, private datePipe: DatePipe){}
+    constructor(private sharedDocPdfService: GMHISSharedDocPdfService, private datePipe: DatePipe, private quotationFeatureService: GMHISQuotationFeatureService){}
 
-    ngOnInit(): void {
-        
-    }
 
-    findQuotationItems(quotationID): void {
-
-    }
     buildPdf(quotation: GMHISQuotationPartial, quotationItems: GMHISQuotationItemPartial[]): jsPDF {
         console.log(quotation);
         
@@ -34,8 +28,8 @@ export class GMHISQuotationPdfService implements OnInit {
     let praticianName = quotationItem.praticianName ? `${quotationItem.praticianName.firstName} ${quotationItem.praticianName.lastName}` : '';
       let quotationItems = [
         {content :date },
-        { content: "" },
-        { content: ""},
+        { content: quotationItem.actCode },
+        { content: quotationItem.act.name},
         { content: quotationItem.actCoefficient},
         { content: quotationItem.unitPrice },
         { content: quotationItem.totalAmount, halign: 'right' },
@@ -91,15 +85,60 @@ export class GMHISQuotationPdfService implements OnInit {
         doc.setFontSize(12);
         doc.text(`${indication}`,  58,131);
 
+        doc.setFontSize(10);
+
         autoTable(doc, {
+            
             headStyles: { fillColor: '#16a2b8' },
-            head: [['Date','Acte', 'Libelle de l\'acte', 'NB/Co', 'PU', 'Montant', 'Medecin']],
+            head: [['Date','Acte', 'Libelle de l\'acte', 'NB/Co', 'PU', 'Montant', 'Practicien']],
             body:body,
             // foot: [
             //   ['Total Part Mutuelle', '', '', '', '', ` FCFA`],
             // ],
-            startY: 150,
+            startY: 140,
           });
+
+          const cmuPart = quotation.cmuPart ? quotation.cmuPart : 0;
+          doc.setFontSize(11);
+          doc.setFont("arial", "normal");
+          doc.text('Part CMU : ',  20,225);
+          doc.setFontSize(13);
+          doc.rect(65, 219, 30, 8)
+          doc.setFont("arial", "normal");
+          doc.text(`${cmuPart}`,  78,225);
+
+          const insurancePart = quotation.insurancePart ? quotation.insurancePart : 0;
+          doc.setFontSize(11);
+          doc.setFont("arial", "normal");
+          doc.text('Part Assurance : ',  20,235);
+          doc.setFontSize(13);
+          doc.rect(65, 229, 30, 8)
+          doc.setFont("arial", "normal");
+          doc.text(`${insurancePart}`,  78,235);
+
+          const moderatorTicket = quotation.moderatorTicket ? quotation.moderatorTicket : 0;
+        doc.setFontSize(11);
+        doc.setFont("arial", "bold");
+        doc.text('Ticket Modérateur : ',  20,245);
+        doc.setFontSize(13);
+        doc.rect(65, 239, 30, 8)
+        doc.setFont("arial", "bold");
+        doc.text(`${moderatorTicket}`,  78,245);
+
+        
+        doc.setFontSize(11);
+        doc.setFont("arial", "normal");
+        doc.text('Net à Payer : ',  20,255);
+        doc.rect(65, 249, 30, 8)
+        doc.setFontSize(13);
+        doc.setFont("arial", "bold");
+        doc.text(`${quotation.totalAmount}`.toUpperCase(),  78,255);
+
+        doc.setFontSize(11);
+        doc.setFont("arial", "normal");
+        doc.text(`LA FACTURATION `,  160,270);
+
+
         return doc;
     }
 }
