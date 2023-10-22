@@ -1,18 +1,22 @@
 import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NbMenuItem, NbMenuService } from '@nebular/theme';
+import { NbMenuBag, NbMenuItem, NbMenuService } from '@nebular/theme';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Admission } from 'src/app/admission/model/admission';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
 import { PatientConstantService } from 'src/app/constant/patient-constant/service/patient-constant.service';
 import { ExamService } from 'src/app/examen/services/exam.service';
+import { GMHISHospitalizationRequestPartial } from 'src/app/hospitalization/api/domain/request/gmhis-hospitalization-request';
+import { GMHISHospitalizationPdfService } from 'src/app/hospitalization/api/service/gmhis.hospitalization.pdf.service';
 import { Patient } from 'src/app/patient/patient';
 import { PatientService } from 'src/app/patient/patient.service';
 import { PrescriptionService } from 'src/app/prescription/services/prescription.service';
-import { NotificationService } from 'src/app/_services';
+import { User } from 'src/app/_models';
+import { NotificationService, UserService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import Swal from 'sweetalert2';
+import { medicalFolderMenu } from '../api/medical-folder';
 import { ExaminationService } from '../examination/services/examination.service';
 @Component({selector :'patient-detail-component', templateUrl :'patient-folder-details-examination.component.html'})
 export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestroy{
@@ -41,9 +45,11 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
   examinationID : number;
   newExamination : boolean = false;
 
-  currentDate : any;
 
   private subscriptions: Subscription = new Subscription();
+
+  docSrc: string;
+  practician: User;
 
   constructor(
     private route : ActivatedRoute,
@@ -56,15 +62,13 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
     private prescriptionService : PrescriptionService,
     private examService : ExamService,
     private notificationService: NotificationService,
-
+    private hospitalizationPdfService: GMHISHospitalizationPdfService,
+    private userService: UserService
     ) { }
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-  }
  
   items2: NbMenuItem[] = [
          {
-          title: 'Consultations',
+          title: medicalFolderMenu.CONSULTATIONS,
           icon: 'minus-outline',
          
           badge: {
@@ -73,7 +77,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
           }
         },
         {
-          title: 'Constantes',
+          title: medicalFolderMenu.CONSTANTES,
           icon: 'minus-outline',
           badge: {
             text: "0",
@@ -81,7 +85,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
           },
         },
         {
-          title: 'Ordonances',
+          title: medicalFolderMenu.CONSTANTES,
           icon: 'minus-outline',
           badge: {
             text: '0',
@@ -89,7 +93,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
           },
         },
         {
-          title: 'Examens',
+          title: medicalFolderMenu.EXAMENS,
           icon: 'minus-outline',
           badge: {
             text: '0',
@@ -97,7 +101,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
           },
         },
         {
-          title: 'Certificats médicaux',
+          title: medicalFolderMenu.MEDICAL_CERTIFICATES,
           icon: 'minus-outline',
           badge: {
             text: '0',
@@ -107,7 +111,6 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
   ];
 
   ngOnInit(): void {
-    this.currentDate = new Date();
     this.route.paramMap.subscribe(
       params => {
         const id = Number(params.get('id'));
@@ -117,17 +120,36 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
       )
       
       this.menuService.onItemClick().subscribe(
-        (res : any) => {
-          this.menuClick = res['item']['title'];
+        (response : NbMenuBag) => {
+          this.menuClick = response.item.title;
         }
       )
 
+      this.practician = this.userService.getUserFromLocalCache();
+            
+  }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
    get canShowConsultationList(): boolean {
     return this.showConsultationList;
   }
+
+  public onAfterPrintInternalHospitalilazionCertificatePdf(certificateDocRef): void {    
+    let doc = this.hospitalizationPdfService.buildInternalHospitalizationCertificatePDF();
+    this.modalService.open(certificateDocRef, { size: 'xl' });
+    this.docSrc = doc.output('datauristring'); 
+  }
+
+  public onAfterPrintMedicalCertificatePdf(certificateDocRef): void {  
+    const practicianName = `${this.practician.firstName} ${this.practician.lastName}`;
+    let doc = this.hospitalizationPdfService.buildMedicalCertificate(practicianName);
+    this.modalService.open(certificateDocRef, { size: 'xl' });
+    this.docSrc = doc.output('datauristring'); 
+  }
+  
 
   handleHospitalizationRequestSaveEvent(): void {
     this.modalService.dismissAll();

@@ -15,6 +15,7 @@
 @import "../src/app/shared/sh-style/sh-spacing.scss";
 @import "../src/app/shared/sh-style/sh-data-field.scss";
 @import "../src/app/shared/sh-style/sh-grid.scss";
+@import "../src/app/shared/sh-style/sh-flex.scss";
 
 .actsSelected {
   padding: 2rem 2rem;
@@ -459,6 +460,8 @@ th     { background:#6c757d !important; color: white; }
 // ng modal
 .modal-header{
   padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 ::ng-deep .my-class .modal-dialog { 
@@ -468,8 +471,6 @@ th     { background:#6c757d !important; color: white; }
 .modal-dialog > .modal-xl{
   margin: 0 !important;
 }
-
-
 
 .xlModal > .modal-dialog {
   max-width: 1490px !important;

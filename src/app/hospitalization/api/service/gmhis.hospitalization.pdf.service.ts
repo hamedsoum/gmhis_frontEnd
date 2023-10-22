@@ -50,7 +50,7 @@ export class GMHISHospitalizationPdfService {
         return doc;
     }
 
-   public buildInternalHospitalizationCertificatePDF(hospitalizationRequest: GMHISHospitalizationRequestPartial): jsPDF {
+   public buildInternalHospitalizationCertificatePDF(hospitalizationRequest?: GMHISHospitalizationRequestPartial): jsPDF {
         var doc = new jsPDF('p', 'mm', 'a4');
         doc = this.sharedDocPdfService.docHeader("CERTIFICAT D'HOSPITALISATION", 44);
 
@@ -63,7 +63,7 @@ export class GMHISHospitalizationPdfService {
     }
 
 
-    public buildMedicalCertificate(practicianName: string, patientName: string):jsPDF {
+    public buildMedicalCertificate(practicianName: string, patientName?: string):jsPDF {
         var doc = new jsPDF();
         
         doc = this.sharedDocPdfService.docHeader("CERTIFICAT MEDICALE", 62);
