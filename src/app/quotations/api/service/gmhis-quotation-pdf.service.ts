@@ -17,7 +17,7 @@ export class GMHISQuotationPdfService  {
 
 
     buildPdf(quotation: GMHISQuotationPartial, quotationItems: GMHISQuotationItemPartial[]): jsPDF {
-        console.log(quotation);
+        console.log(quotationItems);
         
         var body: any[] = [];
 
@@ -55,35 +55,35 @@ export class GMHISQuotationPdfService  {
 
         doc.setFontSize(11);
         doc.setFont("arial", "normal");
-        doc.text('Etablissement Payeur : ',  20,95);
+        doc.text('Etablissement Payeur : ',  20,80);
         doc.setFontSize(13);
         doc.setFont("arial", "bold");
-        doc.text(`${insuranceName}`.toUpperCase(),  58,95);
+        doc.text(`${insuranceName}`.toUpperCase(),  58,80);
 
         doc.setFontSize(11);
         doc.setFont("arial", "normal");
-        doc.text('Nom Patient : ',  20,104);
+        doc.text('Nom Patient : ',  20,89);
         doc.setFontSize(13);
         doc.setFont("arial", "bold");
-        doc.text(`${quotation.patientName.firstName} ${quotation.patientName.lastName}`.toUpperCase(),  58,104);
+        doc.text(`${quotation.patientName.firstName} ${quotation.patientName.lastName}`.toUpperCase(),  58,89);
 
         doc.setFontSize(11);
         doc.setFont("arial", "normal");
-        doc.text('Code Patient : ',  20,113);
+        doc.text('Code Patient : ',  20,98);
         doc.setFontSize(12);
-        doc.text(`${quotation.code}`.toUpperCase(),  58,113);
+        doc.text(`${quotation.code}`.toUpperCase(),  58,98);
 
         doc.setFontSize(11);
         doc.setFont("arial", "normal");
-        doc.text('Affection : ',  20,122);
+        doc.text('Affection : ',  20,107);
         doc.setFontSize(12);
-        doc.text(`${affection}`,  58,122);
+        doc.text(`${affection}`,  58,107);
 
         doc.setFontSize(11);
         doc.setFont("arial", "normal");
-        doc.text('Indication : ',  20,131);
+        doc.text('Indication : ',  20,116);
         doc.setFontSize(12);
-        doc.text(`${indication}`,  58,131);
+        doc.text(`${indication}`,  58,116);
 
         doc.setFontSize(10);
 
@@ -95,7 +95,7 @@ export class GMHISQuotationPdfService  {
             // foot: [
             //   ['Total Part Mutuelle', '', '', '', '', ` FCFA`],
             // ],
-            startY: 140,
+            startY: 125,
           });
 
           const cmuPart = quotation.cmuPart ? quotation.cmuPart : 0;
@@ -125,14 +125,23 @@ export class GMHISQuotationPdfService  {
         doc.setFont("arial", "bold");
         doc.text(`${moderatorTicket}`,  78,245);
 
-        
         doc.setFontSize(11);
         doc.setFont("arial", "normal");
-        doc.text('Net à Payer : ',  20,255);
+        doc.text('Total Amount : ',  20,255);
         doc.rect(65, 249, 30, 8)
         doc.setFontSize(13);
-        doc.setFont("arial", "bold");
+        doc.setFont("arial", "normal");
         doc.text(`${quotation.totalAmount}`.toUpperCase(),  78,255);
+
+        const netToPay = quotation.moderatorTicket ? quotation.moderatorTicket : quotation.totalAmount;
+        doc.setFontSize(11);
+        doc.setFont("arial", "normal");
+        doc.text('Net à Payer : ',  20,265);
+        doc.rect(65, 259, 30, 8)
+        doc.setFontSize(13);
+        doc.setFont("arial", "bold");
+        doc.text(`${netToPay}`.toUpperCase(),  78,265);
+
 
         doc.setFontSize(11);
         doc.setFont("arial", "normal");

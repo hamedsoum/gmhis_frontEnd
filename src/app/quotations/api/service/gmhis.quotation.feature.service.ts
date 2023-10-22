@@ -7,7 +7,7 @@ import { GMHISQuotationItem, GMHISQuotationItemCreate } from "../domain/gmhis.qu
 export class GMHISQuotationFeatureService {
 
     public quotationTotalAmount(quotationItems: GMHISQuotationItem[] | GMHISQuotationItemCreate[], patientType: GMHISPatientType, CMUApplied: boolean, insurranceCoverage?: number): GMHISQuotationAmounts {
-       let totalAmounts :GMHISQuotationAmounts = {
+       let amounts :GMHISQuotationAmounts = {
            totalAmount: 0,
            CMUModeratorTicket: 0,
            insuranceModeratorTicket: 0,
@@ -17,30 +17,31 @@ export class GMHISQuotationFeatureService {
            netToPay: 0
        }
 
-        quotationItems.forEach(el => totalAmounts.totalAmount += (el.unitPrice * el.quantity));
+        quotationItems.forEach(el => amounts.totalAmount += (el.unitPrice * el.quantity));
         
        if (CMUApplied) {
-        totalAmounts.CMUModeratorTicket = this.CMUTotalAmount(quotationItems);
-        totalAmounts.cmuPart =  totalAmounts.totalAmount - this.CMUTotalAmount(quotationItems);
+        amounts.CMUModeratorTicket = this.CMUTotalAmount(quotationItems);
+        amounts.cmuPart =  amounts.totalAmount - this.CMUTotalAmount(quotationItems);
 
             if (patientType === GMHISPatientType.INSURED_PATIENT) {
-                totalAmounts.insurancePart = this.InsuranceTotalAmount(totalAmounts.CMUModeratorTicket,insurranceCoverage);
-                totalAmounts.moderatorTicket = totalAmounts.insuranceModeratorTicket =  totalAmounts.CMUModeratorTicket - totalAmounts.insurancePart;
-            } else totalAmounts.moderatorTicket = totalAmounts.totalAmount -  totalAmounts.cmuPart;
+                amounts.insurancePart = this.InsuranceTotalAmount(amounts.CMUModeratorTicket,insurranceCoverage);
+                amounts.moderatorTicket = amounts.insuranceModeratorTicket =  amounts.CMUModeratorTicket - amounts.insurancePart;
+            } else amounts.moderatorTicket = amounts.totalAmount -  amounts.cmuPart;
             
         } else {
             if (patientType === GMHISPatientType.INSURED_PATIENT) {
-                totalAmounts.insuranceModeratorTicket =  this.InsuranceTotalAmount(totalAmounts.totalAmount,insurranceCoverage);
-                totalAmounts.moderatorTicket = totalAmounts.totalAmount - totalAmounts.insuranceModeratorTicket;
-                totalAmounts.netToPay = totalAmounts.moderatorTicket;
+                amounts.insurancePart =  this.InsuranceTotalAmount(amounts.totalAmount,insurranceCoverage);
+                amounts.insuranceModeratorTicket = amounts.totalAmount - amounts.insurancePart;
+                amounts.moderatorTicket = amounts.insuranceModeratorTicket;
+                amounts.netToPay = amounts.moderatorTicket;
             } 
 
         }
 
-        totalAmounts.netToPay = (totalAmounts.moderatorTicket > 0) ? totalAmounts.moderatorTicket : totalAmounts.totalAmount;
+        amounts.netToPay = (amounts.moderatorTicket > 0) ? amounts.moderatorTicket : amounts.totalAmount;
         
-        console.log(totalAmounts);
-        return totalAmounts;
+        console.log(amounts);
+        return amounts;
 
     }
 

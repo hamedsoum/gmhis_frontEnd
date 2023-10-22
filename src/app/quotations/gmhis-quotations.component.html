@@ -52,9 +52,9 @@
                 <th>Numéro Facture</th>   
                 <th>Nom du Patient</th>
                 <th>Prénom du Patient</th> 
+                <th>Etablissement Payeur</th> 
                 <th>Montant Total</th>  
                 <th>Status</th>  
-                <th>Etablissement Payeur</th> 
             </tr>
           </thead>
   
@@ -75,10 +75,10 @@
               >
               <td class="text-nowrap ">{{quotation.dateOp | date:  "dd/MM/yyyy HH:mm:ss"}}</td>
               <td>{{quotation.quotationNumber}}</td>
-              <td class="text-nowrap ">{{quotation.patientName.firstName }} </td>
-              <td>{{quotation.patientName.lastName}}</td>
-              <td class="text-nowrap ">{{quotation.insuranceName ? quotation.insuranceName : "---"}}</td>
-              <td class="text-nowrap ">{{quotation.totalAmount}}</td>
+              <td class="text-nowrap ">{{quotation.patientName.firstName | titlecase }} </td>
+              <td>{{quotation.patientName.lastName | titlecase}}</td>
+              <td class="text-nowrap ">{{(quotation.insuranceName ? quotation.insuranceName : "---") | titlecase}}</td>
+              <td class="text-nowrap text-right ">{{quotation.totalAmount | currency: "":"":"1.0-0"}}</td>
               <td class="text-nowrap ">{{quotation.status}}</td>
              
             </tr>
