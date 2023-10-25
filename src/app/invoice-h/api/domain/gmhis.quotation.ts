@@ -1,9 +1,9 @@
 import { Patient } from "src/app/patient/patient";
 import { AuditPKDTO } from "src/app/shared/models/Audit";
 import { GMHISName } from "src/app/shared/models/gmhis-domain";
-import { GMHISQuotationItemCreate } from "./gmhis.quotation.item";
+import { GMHISInvoiceHItemCreate } from "./gmhis.quotation.item";
 
-export interface GMHISQuotation extends AuditPKDTO {
+export interface GMHISInvoiceH extends AuditPKDTO {
     id: string,
 
     code: string,
@@ -24,10 +24,10 @@ export interface GMHISQuotation extends AuditPKDTO {
 
     moderatorTicket?: number,
 
-    status: GMHISQuotationStatus;
+    status: GMHISInvoiceHStatus;
 }
 
-export interface GMHISQuotationCreate {
+export interface GMHISInvoiceHCreate {
     affection: string,
 
     indication?: string,
@@ -40,21 +40,21 @@ export interface GMHISQuotationCreate {
 
     moderatorTicket?: number,
 
-    quotationItems: GMHISQuotationItemCreate[];
+    invoiceHItems: GMHISInvoiceHItemCreate[];
 
     cmuPart?: number;
 
    insurancePart?: number;
 }
 
-export interface GMHISQuotationPartial {
+export interface GMHISInvoiceHPartial {
     dateOp : string;
 
     id: string,
 
     code: string,
 
-    quotationNumber: string,
+    invoiceNumber: string,
 
     insuranceName?: string,
     insuranceID?: string
@@ -71,16 +71,16 @@ export interface GMHISQuotationPartial {
 
     moderatorTicket?: number,
 
-    status : GMHISQuotationStatus,
+    status : GMHISInvoiceHStatus,
 
-    quotationItems: GMHISQuotationItemCreate;
+    quotationItems: GMHISInvoiceHItemCreate;
 
     cmuPart?: number;
 
     insurancePart?: number;
 }
 
-export enum GMHISQuotationStatus {
+export enum GMHISInvoiceHStatus {
    DRAFT = "draft",
    PENDING = "pending",
    TO_BE_INVOICED = "to_be_invoiced",
@@ -88,10 +88,10 @@ export enum GMHISQuotationStatus {
    REFUSED = "refused"
 }
 
-export type  GMHISQuotationStatusStr = 'draft' | 'pending' | 'to_be_invoiced' | 'invoiced' | 'refused';
+export type  GMHISInvoiceHStatusStr = 'draft' | 'pending' | 'to_be_invoiced' | 'invoiced' | 'refused';
 
 
-export interface GMHISQuotationAmounts  {
+export interface GMHISInvoiceHAmounts  {
     totalAmount: number,
 
     CMUModeratorTicket: number,

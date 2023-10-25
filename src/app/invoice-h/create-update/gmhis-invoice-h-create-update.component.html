@@ -1,17 +1,17 @@
 
-    <div class="gmhis-quotation-sheldon-main">
-        <div class="gmhis-quotation-sheldon-content">
-            <form [formGroup]="quotationFieldGroup">
-                <div class="gmhis-quotation-sheldon-title">
-                      <span class="title" >Nouvelle Facture Proforma</span>
-                      <span class="subTitle" >Création de Facture Proforma</span>
+    <div class="gmhis-invoiceH-sheldon-main">
+        <div class="gmhis-invoiceH-sheldon-content">
+            <form [formGroup]="invoiceHFieldGroup">
+                <div class="gmhis-invoiceH-sheldon-title">
+                      <span class="title" >Nouvelle Facture</span>
+                      <span class="subTitle" >Création de Facture</span>
                 </div>
-                <div class="gmhis-quotation-sheldon-header row">
+                <div class="gmhis-invoiceH-sheldon-header row">
                     <div class="col-12 mb-3">
                         <ng-select formControlName="patientID" placeholder="Selectionner un Patient">
                             <ng-option *ngFor="let patient of patients" [value]="patient.id">{{patient.firstName}}  {{patient.lastName}}</ng-option>
                         </ng-select> 
-                        <div *ngIf="formSubmitted && !quotationFieldGroup.controls.patientID.valid">
+                        <div *ngIf="formSubmitted && !invoiceHFieldGroup.controls.patientID.valid">
                             <small *ngIf="patientIDField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
                           </div>
                     </div>
@@ -25,7 +25,7 @@
                         <ng-select [clearable]="false" (change)="onSelectInsurance($event)" *ngIf="isInsuredPatient()" placeholder="Selectionner un l'Etablissement Payeur">
                             <ng-option  *ngFor="let insurrance of patientInsureds" [value]="insurrance">{{insurrance.insuranceName}} </ng-option>
                         </ng-select>
-                        <div *ngIf="formSubmitted && !quotationFieldGroup.controls.insuranceID.valid">
+                        <div *ngIf="formSubmitted && !invoiceHFieldGroup.controls.insuranceID.valid">
                             <small *ngIf="insurance.errors.required" class="text-danger">Veuillez remplir ce champs</small>
                           </div>
                        </div>
@@ -39,7 +39,7 @@
                     <div class="col-4">
                        <div class="mb-3">
                         <input id="affection" name="affection" type="text" class="form-control" placeholder="Affection" formControlName="affection">
-                        <div *ngIf="formSubmitted && !quotationFieldGroup.controls.affection.valid">
+                        <div *ngIf="formSubmitted && !invoiceHFieldGroup.controls.affection.valid">
                             <small *ngIf="affection.errors.required" class="text-danger">Veuillez remplir ce champs</small>
                           </div>
                        </div>
@@ -50,9 +50,9 @@
                 <div class="d-flex mb-4">
                     <sh-button (click)="addItem()" type="text" size="'intermediate'" label="Ajouter une Prestation" labelStyleClass="sh-color-primary"></sh-button>
                 </div>
-                <div class="gmhis-quotation-sheldon-content">
+                <div class="gmhis-invoiceH-sheldon-content">
                    
-                    <div formArrayName="quotationItems" class="quotationItems">
+                    <div formArrayName="invoiceHItems" class="invoiceHItems">
                         <div class="row mb-4">
                                     <div class="col-lg-4 col-md-12 col-sm-12" [ngClass]="{'col-lg-3-imp': isApplyCnam()}">
                                         <span class="sh-display-bloc">Prestation</span>
@@ -85,7 +85,7 @@
                                         <span class="sh-display-bloc">% Ass</span>
                                     </div> -->    
                         </div>
-                        <div *ngFor="let quotationItemsForm of quotationItemsFormArray.controls; let i = index" >
+                        <div *ngFor="let invoiceHItemsForm of invoiceHItemsFormArray.controls; let i = index" >
                             
                                 <div class="row mb-4" [formGroupName]="i">
                 

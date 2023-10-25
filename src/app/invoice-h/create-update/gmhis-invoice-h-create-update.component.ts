@@ -11,20 +11,20 @@ import { PracticianService } from "src/app/practician/practician.service";
 import { GMHISKeyValue, GMHISNameAndID } from "src/app/shared/models/name-and-id";
 import { NotificationService } from "src/app/_services";
 import { NotificationType } from "src/app/_utilities/notification-type-enum";
-import { GMHISQuotationAmounts, GMHISQuotationCreate, GMHISQuotationPartial } from "../api/domain/gmhis.quotation";
-import { GMHISQuotationItemCreate } from "../api/domain/gmhis.quotation.item";
-import { GMHISQuotationFeatureService } from "../api/service/gmhis.quotation.feature.service";
-import { GMHISQuotationService } from "../api/service/gmhis.quotation.service";
+import { GMHISInvoiceHAmounts, GMHISInvoiceHCreate, GMHISInvoiceHPartial } from "../api/domain/gmhis.quotation";
+import { GMHISInvoiceHItemCreate } from "../api/domain/gmhis.quotation.item";
+import { GMHISInvoiceHFeatureService } from "../api/service/gmhis.invoice-h.feature.service";
+import { GMHISInvoiceHService } from "../api/service/gmhis.invoice-h.service";
 
-@Component({selector: 'gmhis-quotation-create-update', templateUrl: './gmhis-quotation-create-update.component.html', styleUrls:['./gmhis-quotiation-create-update.component.scss'],providers: [GMHISQuotationFeatureService] })
-export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
+@Component({selector: 'gmhis-quotation-create-update', templateUrl: './gmhis-invoice-h-create-update.component.html', styleUrls:['./gmhis-invoice-h-create-update.component.scss'],providers: [GMHISInvoiceHFeatureService] })
+export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
 
     @Input() patientID: number = 1;
 
-    quotationFieldGroup: FormGroup = new FormGroup({});
-    quotationItemFieldGroup: FormGroup;
+    invoiceHFieldGroup: FormGroup = new FormGroup({});
+    invoiceHItemFieldGroup: FormGroup;
 
-    quotationIntems: GMHISQuotationPartial[];
+    quotationIntems: GMHISInvoiceHPartial[];
 
     // TODO:  Change any to better type for acts
     acts: any[];
@@ -50,7 +50,7 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
     insurranceCoverage: undefined | number;
     insured: any;
 
-    totalAmount: GMHISQuotationAmounts;
+    totalAmount: GMHISInvoiceHAmounts;
     formSubmitted: boolean;
 
     constructor(
@@ -59,8 +59,8 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
          private actService: ActService,
          private insuranceService: InsuranceService,
          private practicianService: PracticianService,
-         private quotationService: GMHISQuotationService,
-         private featureService : GMHISQuotationFeatureService,
+         private quotationService: GMHISInvoiceHService,
+         private featureService : GMHISInvoiceHFeatureService,
          private insuredService: GMHISInsuredService,
          private patientService: PatientService,
          private notificationService: NotificationService,
@@ -77,18 +77,18 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
 
     public onSelectAct(actID: any, formArrayRowID): void {
         let act = this.acts.find(act => act.id === actID);
-        this.quotationItemsFormArray.controls[formArrayRowID].get('unitPrice').setValue(act.amount);
+        this.invoiceHItemsFormArray.controls[formArrayRowID].get('unitPrice').setValue(act.amount);
          
     }
 
     public onSelectPatientType(patientType: GMHISPatientType): void {
         this.patientType = patientType;
         if (this.patientType === GMHISPatientType.INSURED_PATIENT){
-            this.quotationFieldGroup.get("insuranceID").setValidators(Validators.required);
-            this.quotationFieldGroup.updateValueAndValidity();
+            this.invoiceHFieldGroup.get("insuranceID").setValidators(Validators.required);
+            this.invoiceHFieldGroup.updateValueAndValidity();
         } else if (this.patientType === GMHISPatientType.CASH_PATIENT) {
-            this.quotationFieldGroup.get("insuranceID").clearValidators();
-            this.quotationFieldGroup.updateValueAndValidity(); 
+            this.invoiceHFieldGroup.get("insuranceID").clearValidators();
+            this.invoiceHFieldGroup.updateValueAndValidity(); 
         }
     }
 
@@ -112,7 +112,7 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
 
     public addItem(): void {  
         
-        const  quotationItemFieldGroup = this.fb.group( {
+        const  invoiceItemFieldGroup = this.fb.group( {
         actId: new FormControl(null, Validators.required),
         quantity: new FormControl(1, Validators.required),
         unitPrice: new FormControl(null, Validators.required),
@@ -122,31 +122,31 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
         practicianID: new FormControl(null)
         })
 
-        this.quotationItemsFormArray.push(quotationItemFieldGroup);
+        this.invoiceHItemsFormArray.push(invoiceItemFieldGroup);
         
     }
 
     public removeItem(itemIndex: number): void {
-        this.quotationItemsFormArray.removeAt(itemIndex);
+        this.invoiceHItemsFormArray.removeAt(itemIndex);
     }
 
     private buildfieldGroup(): void {
-        this.quotationFieldGroup = this.fb.group ({
+        this.invoiceHFieldGroup = this.fb.group ({
             affection: new FormControl('', Validators.required),
             indication: new FormControl(''),
             insuranceID: new FormControl(''),
             patientID: new FormControl(null, Validators.required),
-            quotationItems: this.fb.array([])
+            invoiceHItems: this.fb.array([])
         })
     }
 
-    get patientIDField() {return this.quotationFieldGroup.get('patientID')}
-    get affection() {return this.quotationFieldGroup.get('affection')}
-    get insurance() {return this.quotationFieldGroup.get('insuranceID')}
+    get patientIDField() {return this.invoiceHFieldGroup.get('patientID')}
+    get affection() {return this.invoiceHFieldGroup.get('affection')}
+    get insurance() {return this.invoiceHFieldGroup.get('insuranceID')}
 
 
-    get quotationItemsFormArray() : FormArray{
-        return this.quotationFieldGroup.controls["quotationItems"] as FormArray;
+    get invoiceHItemsFormArray() : FormArray{
+        return this.invoiceHFieldGroup.controls["invoiceHItems"] as FormArray;
       }
 
       // TODO: pas de code d'acte ni de numero d'acte, recuperer cela avec l'id de l'acte
@@ -155,8 +155,8 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
 
     public save(): void {
         this.calculateAmount();
-        const formData = this.quotationFieldGroup.value;
-        const createData = this.buildCreateQuotationData(formData);
+        const formData = this.invoiceHFieldGroup.value;
+        const createData = this.buildCreateInvoiceHData(formData);
         
 
         createData.totalAmount = this.totalAmount.totalAmount;
@@ -166,12 +166,12 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
         
         if (this.insured) createData.insuranceID = this.insured.insuranceId;
         this.formSubmitted = true;
-        if(this.quotationFieldGroup.valid){
+        if(this.invoiceHFieldGroup.valid){
             this.subscriptions.add(
                 this.quotationService.create(createData).subscribe(
                     {
                         next: (quotationCreated: any) => {
-                            this.router.navigateByUrl('/gmhis-quotations');
+                            this.router.navigateByUrl('/gmhis-invoice-h');
                             this.notificationService.notify(NotificationType.SUCCESS,'Facture Proformat Crée');
                         }
                     }
@@ -186,18 +186,18 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
     }
 
     private calculateAmount(): void {
-        const formData = this.quotationFieldGroup.value;
-        let quotationItems =  formData.quotationItems;
+        const formData = this.invoiceHFieldGroup.value;
+        let quotationItems =  formData.invoiceHItems;
 
         this.totalAmount = this.featureService.quotationTotalAmount(quotationItems, this.patientType, this.isApplyCnam(),this.insurranceCoverage);
       }
 
-     private buildCreateQuotationData(formData:any): GMHISQuotationCreate {
-        const quotationItemsCreate : GMHISQuotationItemCreate[] = [];
+     private buildCreateInvoiceHData(formData:any): GMHISInvoiceHCreate {
+        const invoiceHItemsItemsCreate : GMHISInvoiceHItemCreate[] = [];
         let totalAmount = 0;
 
-        formData.quotationItems.forEach( quotationItem => {
-            quotationItemsCreate.push(this.buildCreateQuotationItemData(quotationItem));
+        formData.invoiceHItems.forEach( quotationItem => {
+            invoiceHItemsItemsCreate.push(this.buildCreateInvoiceHItemData(quotationItem));
             let itemTotalAmount = quotationItem.quantity * quotationItem.unitPrice;
             totalAmount += itemTotalAmount;
         })
@@ -209,16 +209,16 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
                 patientID: formData.patientID,
                 totalAmount: totalAmount,
                 moderatorTicket: formData.moderatorTicket,
-                quotationItems: quotationItemsCreate
+                invoiceHItems: invoiceHItemsItemsCreate
             }
     }
 
-    private buildCreateQuotationItemData(formData: any): GMHISQuotationItemCreate {
+    private buildCreateInvoiceHItemData(formData: any): GMHISInvoiceHItemCreate {
         return {
             actId: formData.actId,
             quantity: formData.quantity,
             totalAmount: formData.quantity * formData.unitPrice,
-            cmuAmount: formData.cmuAmount,
+            cmuAmount: formData.cmuAmount,  
             cmuPercent: formData.cmuPercent,
             insurancePercent: formData.insurancePercent,
             moderatorTicket: formData.moderatorTicket,
@@ -227,7 +227,7 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
     }
 
     private buildQutationItemFields() : void {
-        this.quotationItemFieldGroup = this.fb.group( {
+        this.invoiceHItemFieldGroup = this.fb.group( {
           
         })
         }

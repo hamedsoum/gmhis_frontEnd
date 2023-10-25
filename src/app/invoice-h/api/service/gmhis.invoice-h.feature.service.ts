@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
 import { GMHISPatientType } from "src/app/patient/patient";
 import { GmhisUtils } from "src/app/shared/base/utils";
-import { GMHISQuotationAmounts } from "../domain/gmhis.quotation";
-import { GMHISQuotationItem, GMHISQuotationItemCreate } from "../domain/gmhis.quotation.item";
+import { GMHISInvoiceHAmounts } from "../domain/gmhis.quotation";
+import { GMHISInvoiceHItem, GMHISInvoiceHItemCreate } from "../domain/gmhis.quotation.item";
 
 @Injectable({providedIn: 'root'})
-export class GMHISQuotationFeatureService {
+export class GMHISInvoiceHFeatureService {
 
-    public quotationTotalAmount(quotationItems: GMHISQuotationItem[] | GMHISQuotationItemCreate[], patientType: GMHISPatientType, CMUApplied: boolean, insurranceCoverage?: number): GMHISQuotationAmounts {
-       let amounts :GMHISQuotationAmounts = {
+    public quotationTotalAmount(quotationItems: GMHISInvoiceHItem[] | GMHISInvoiceHItemCreate[], patientType: GMHISPatientType, CMUApplied: boolean, insurranceCoverage?: number): GMHISInvoiceHAmounts {
+       let amounts :GMHISInvoiceHAmounts = {
            totalAmount: 0,
            CMUModeratorTicket: 0,
            insuranceModeratorTicket: 0,
@@ -45,7 +45,7 @@ export class GMHISQuotationFeatureService {
 
     }
 
-    private CMUTotalAmount(quotationItems: GMHISQuotationItem[]| GMHISQuotationItemCreate[]): number {
+    private CMUTotalAmount(quotationItems: GMHISInvoiceHItem[]| GMHISInvoiceHItemCreate[]): number {
         let CMUtotalAmount: number = 0;
         quotationItems.forEach(el => {
 

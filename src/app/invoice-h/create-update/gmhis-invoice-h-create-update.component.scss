@@ -1,0 +1,64 @@
+.gmhis-invoiceH-sheldon-main{
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+
+    .gmhis-invoiceH-sheldon-content{
+        display: flex;
+        flex-direction: column; 
+
+        .gmhis-invoiceH-sheldon-title{
+
+            margin-bottom: 30px;
+            .title{
+                display: block;
+                font-size: 24px;
+                font-weight: 600;
+                display: block;
+                margin-bottom: 5px;
+                color: var(--sh-color-primary);
+              }
+              subTitle{
+                display: block;
+                font-size: 11px;
+                color: var(--sh-text-color-primary);
+              }
+        }
+        
+        .gmhis-invoiceH-sheldon-header{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 60px;
+            .applyCnam{
+                input {
+                    margin-left: 10px;
+                }
+            }
+        }
+
+        .gmhis-invoiceH-sheldon-content{
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+            .invoiceHItems{
+                padding: 0 20px;
+            }
+          
+        }
+
+        .actionButton{
+            display: flex;
+            align-items: center;
+        }
+
+        .allAmount{
+            min-width: 300px;
+            font-size: 20px;
+            .netToPay{
+                font-size: 30px;
+                font-weight: bold;
+            }
+        }
+    }
+}

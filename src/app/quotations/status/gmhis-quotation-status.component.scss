@@ -1,0 +1,33 @@
+.quotation_status {
+    padding: 1px 1px;
+    color: white;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.draft {
+    background-color: #fff;
+    color: black !important;
+}
+
+.pending {
+    background-color: rgb(35, 62, 119);
+}
+
+.to_be_invoiced {
+    background-color: rgba(255, 166, 0, 0.886);
+}
+
+.invoiced {
+    background-color: rgba(26, 143, 26, 0.918);
+}
+
+.refused {
+    background-color: #cccccc;
+}
+
+// DRAFT = "draft",
+// PENDING = "pending",
+// TO_BE_INVOICED = "to_be_invoiced",
+// INVOICED = "invoiced",
+// REFUSED = "refused"

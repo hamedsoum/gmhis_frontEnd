@@ -4,9 +4,10 @@ import { GMHISQuotationCreateUpdate } from "./create-update/gmhis-quotation-crea
 import { GMHISQuotationModuleRouting } from "./gmhis-quotation-routing.module";
 import { GMHISQuotationsComponent } from "./gmhis-quotations.component";
 import { GMHISQuotationItemFormComponent } from "./item/form/gmhis-quotation-item-form-array.component";
+import { GMHISQuotationSttusComponent } from "./status/gmhis-quotation-status.component";
 
 @NgModule({
-    declarations: [GMHISQuotationsComponent, GMHISQuotationItemFormComponent, GMHISQuotationCreateUpdate],
+    declarations: [GMHISQuotationsComponent, GMHISQuotationItemFormComponent, GMHISQuotationCreateUpdate, GMHISQuotationSttusComponent],
     imports: [GMHISQuotationModuleRouting,SharedModule ],
     exports: []
 })

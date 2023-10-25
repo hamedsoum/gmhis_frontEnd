@@ -11,21 +11,21 @@ import { GMHISPagination } from "../shared/models/gmhis-domain";
 import { PageList } from "../_models/page-list.model";
 import { NotificationService } from "../_services";
 import { NotificationType } from "../_utilities/notification-type-enum";
-import { GMHISQuotationPartial } from "./api/domain/gmhis.quotation";
-import { GMHISQuotationItemPartial } from "./api/domain/gmhis.quotation.item";
-import { GMHISQuotationPdfService } from "./api/service/gmhis-quotation-pdf.service";
-import { GMHISQuotationService } from "./api/service/gmhis.quotation.service";
+import { GMHISInvoiceHPartial } from "./api/domain/gmhis.quotation";
+import { GMHISInvoiceHItemPartial } from "./api/domain/gmhis.quotation.item";
+import { GMHISInvoiceHPdfService } from "./api/service/gmhis-invoice-h-pdf.service";
+import { GMHISInvoiceHService } from "./api/service/gmhis.invoice-h.service";
 
-@Component({ selector: 'gmhis-quotations', templateUrl: './gmhis-quotations.component.html', providers: [GMHISQuotationPdfService]})
-export class GMHISQuotationsComponent implements OnInit {
-    readonly TITLE = 'Facture Proformat';
+@Component({ selector: 'gmhis-invoice-h', templateUrl: './gmhis-invoice-h.component.html', providers: [GMHISInvoiceHPdfService]})
+export class GMHISInvoiceHComponent implements OnInit {
+    readonly TITLE = 'Facture';
     readonly NEW_QUOTATION = 'Nouvelle Facture';
 
     subscription: Subscription = new Subscription()
 
     searchFieldsForm: FormGroup;
 
-    quotationSelected : GMHISQuotationPartial;
+    invoiceSelected : GMHISInvoiceHPartial;
 
     pagination: GMHISPagination = {};
 
@@ -37,14 +37,14 @@ export class GMHISQuotationsComponent implements OnInit {
 
     currentIndex: number;
 
-    quotationsItems: GMHISQuotationItemPartial[];
+    quotationsItems: GMHISInvoiceHItemPartial[];
 
     constructor(
         private router: Router,
-        private quotationService: GMHISQuotationService,
+        private invoiceHService: GMHISInvoiceHService,
         private notificationService: NotificationService,
         private modalService: NgbModal,
-        private quotationPdfService: GMHISQuotationPdfService
+        private quotationPdfService: GMHISInvoiceHPdfService
     ) { }
 
     ngOnInit(): void {
@@ -57,15 +57,15 @@ export class GMHISQuotationsComponent implements OnInit {
     }
 
     onCreate(): void {
-        this.router.navigateByUrl('/gmhis-quotations/create')
+        this.router.navigateByUrl('/gmhis-invoice-h/create')
     }
 
-    public onPrint(quotationDocRef): void {    
-        this.findquotationItems(this.quotationSelected,quotationDocRef)        
+    public onPrint(invoiceDocRef): void {    
+        this.findInvoiceItems(this.invoiceSelected,invoiceDocRef)        
     }
 
-    public onQuotationSelected(quotation: GMHISQuotationPartial): void {
-        this.quotationSelected = quotation;
+    public onInvoiceSelected(invoice: GMHISInvoiceHPartial): void {
+        this.invoiceSelected = invoice;
     }
 
     public onPageChange(event) {
@@ -81,8 +81,8 @@ export class GMHISQuotationsComponent implements OnInit {
         this.modalService.open(quotationFormRef, { size: 'md' });
     }
 
-    public onOpenUpdateForm(quotationFormRef, quotation?: GMHISQuotationPartial):void {
-        this.quotationSelected = quotation;
+    public onOpenUpdateForm(quotationFormRef, quotation?: GMHISInvoiceHPartial):void {
+        this.invoiceSelected = quotation;
         this.modalService.open(quotationFormRef, { size: 'md' });
     }
 
@@ -110,22 +110,26 @@ export class GMHISQuotationsComponent implements OnInit {
     private search(): void {
         this.loading = true;
         this.subscription.add(
-        this.quotationService.search(this.searchFieldsForm.value)
+        this.invoiceHService.search(this.searchFieldsForm.value)
         .pipe(finalize(() => (this.loading = false)))
         .subscribe(
             (response: PageList) => {
                 GmhisUtils.pageListMap(this.pagination, response); 
+                console.log(this.pagination.items)        
             },
             (errorResponse: HttpErrorResponse) => {   
+                console.error(errorResponse.error.message);      
             }
         )
         )
     }
 
-    private findquotationItems(quotation: GMHISQuotationPartial, quotationDocRef) {
-        this.quotationService.findQuotationItemsByquotationID(quotation.id).subscribe((response: GMHISQuotationItemPartial[]) => { 
-            this.quotationsItems = response;            
-            let doc = this.quotationPdfService.buildPdf(this.quotationSelected, this.quotationsItems);
+    private findInvoiceItems(quotation: GMHISInvoiceHPartial, quotationDocRef) {
+        this.invoiceHService.findnvoiceItemsByinvoiceHID(quotation.id).subscribe((response: GMHISInvoiceHItemPartial[]) => { 
+            this.quotationsItems = response;
+            console.log(this.quotationsItems);
+            
+            let doc = this.quotationPdfService.buildPdf(this.invoiceSelected, this.quotationsItems);
             this.modalService.open(quotationDocRef, { size: 'xl' });
             this.docSrc = doc.output('datauristring'); 
         })

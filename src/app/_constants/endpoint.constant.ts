@@ -1,4 +1,12 @@
 export const GMHIS_ENDPOINT = {
+    // === Invoice H ===
+    invoiceH: {
+        index: '/invoice-h',
+        create: '/invoice-h',
+        update: '/invoice-h/${invoiceHID}',
+        retrieve: '/invoice-h/${invoiceHID}',
+        find: '/invoice-h/${invoiceHID}/find',
+    },
 
      // === Hospitalization Request ===
      quotation: {

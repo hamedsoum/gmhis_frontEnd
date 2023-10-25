@@ -1,3 +1,8 @@
+.sh-diseable { 
+    opacity: 0.5; 
+    pointer-events: none;
+}
+
 .sh-display-block {
     display: block;
 }

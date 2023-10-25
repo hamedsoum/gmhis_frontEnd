@@ -176,9 +176,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
           case 'quotations':
             this.menuItem = 'quotations';
             localStorage.setItem('menuItem', menuItem);
-            console.log(url);
             this.router.navigateByUrl(url)
             break;
+            case 'invoiceH':
+              this.menuItem = 'invoiceH';
+              localStorage.setItem('menuItem', menuItem);
+              this.router.navigateByUrl(url)
+              break;
         default:
         break;
     }

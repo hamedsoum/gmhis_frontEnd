@@ -52,10 +52,16 @@
     <fa-icon [icon]="faKey" style="font-size: 1rem; margin-right: 10px"></fa-icon><span class="fw-bold">Caisse</span>
 </p>
 <p
+  [ngClass]="{ menuActive: menuItem == 'invoiceH' }"
+  (click)="menuItemFunction('invoiceH', '/gmhis-invoice-h')"
+  class="dashboard py-3">
+    <fa-icon [icon]="faKey" style="font-size: 1rem; margin-right: 10px"></fa-icon><span class="fw-bold">Facture Hospitalisation</span>
+</p>
+<p
   [ngClass]="{ menuActive: menuItem == 'quotations' }"
   (click)="menuItemFunction('quotations', '/gmhis-quotations')"
   class="dashboard py-3">
-    <fa-icon [icon]="faKey" style="font-size: 1rem; margin-right: 10px"></fa-icon><span class="fw-bold">Facture Proformat</span>
+    <fa-icon [icon]="faKey" style="font-size: 1rem; margin-right: 10px"></fa-icon><span class="fw-bold">Dévis Hospitalisation</span>
 </p>
 
 <p

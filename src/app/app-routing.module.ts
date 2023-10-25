@@ -37,6 +37,7 @@ const routes: Routes = [
       { path: 'drug', loadChildren: () => import('./drug/drug.module').then((m) => m.DrugModule) },
       { path: 'facility', loadChildren: () => import('./facility/facility.module').then((m) => m.FacilityModule) },
       { path: 'invoice', loadChildren: () => import('./invoice/invoice.module').then((m) => m.InvoiceModule) },
+      { path: 'gmhis-invoice-h', loadChildren: () => import('./invoice-h/gmhis-invoices-h.module').then((m) => m.GMHISInvoiceHModule) },
       { path: 'patient', loadChildren: () => import('./patient/patient.module').then((m) => m.PatientModule) },
       { path: 'practician', loadChildren: () => import('./practician/practician.module').then((m) => m.PracticianModule) },
       { path: 'prescription', loadChildren: () => import('./prescription/prescription.module').then((m) => m.PrescriptionModule) },
