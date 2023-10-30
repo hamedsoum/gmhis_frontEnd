@@ -85,7 +85,7 @@ export class InvoiceFormComponent implements OnInit {
     this.addActs();
     if (this.admission) {        
       this.admissionForTemplate = this.admission;  
-                
+     
       this.invoiceForm.get('admissionNumber').setValue(this.admission.admissionNumber);
       this.invoiceForm.get('admission').setValue(this.admission.id);
       this.invoiceForm.get('patientExternalId').setValue(this.admission.patientExternalId);

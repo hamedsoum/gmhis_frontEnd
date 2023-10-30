@@ -1,8 +1,21 @@
-.sh-flex-row{
+.sh-flex-row {
     display: flex;
     flex-direction: row;
 }
 
-.sh-justify-content.space-between{
+.sh-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.sh-justify-content-space-between {
     justify-content: space-between;
+}
+
+.sh-justify-content-end {
+    justify-content: end;
+}
+
+.sh-justify-content-start {
+    justify-content: start;
 }

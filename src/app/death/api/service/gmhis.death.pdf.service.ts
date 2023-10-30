@@ -22,6 +22,7 @@ export class GMHISDeathPdfService {
        doc.setFontSize(14);
        doc.setFont("arial", "normal");
        var splitTitle = doc.splitTextToSize(`Je sousigné Docteur ${death.deathDeclaratedByName.toUpperCase()} certifie avoir constaté le décès de Mr/Mme ${death.patientFirstName.toUpperCase()} ${death.patientLastName.toUpperCase()} ;  décès survenu le ${deathDate} à son domicile.`  ,178);
+       doc.text(splitTitle,  20,100);
 
        doc.text(doc.splitTextToSize('En foi de quoi , le présent certificat est établi et délivré aux parents du défunt pour servir et valoir ce que de droit.', 172), 20, 120, {lineHeightFactor: 2})
 

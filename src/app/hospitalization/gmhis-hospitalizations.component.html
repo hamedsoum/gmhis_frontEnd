@@ -1,0 +1,220 @@
+<nb-card   class="nbCardList">
+    <nb-card-header class=" d-flex justify-content-between align-items-start">
+        <h4 class="text-capitalize ">
+          {{ TITLE }}
+        </h4>
+        <sh-button type="button" size="large" [label]="NEW_HOSPITALIZATION" labelStyleClass="sh-color-primary" (clickEvent)="onOpenCreateForm(hospitalizationFormRef)" styleClass="m-2"></sh-button>
+
+    </nb-card-header>
+    <nb-card-body> 
+      <form [formGroup]="searchFieldsForm">
+        <div class="row d-flex justify-content-between align-items-center mb-4">
+          <div class="col-lg-9 col-md-9 col-sm-12">
+            <div class="row">
+              <div class="col-lg-2">
+                <span
+                  (click)="onSearchValueChange()"
+                  style="
+                    background-color: #ededed;
+                    color: #14a2b8;
+                    cursor: pointer;
+                  "
+                  class="material-icons px-2 p-1 rounded"
+                >
+                  search
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-12">
+            <ng-select
+              [(ngModel)]="pagination.selectedSize"
+              formControlName="size"
+              (change)="onSearchValueChange()"
+            >
+              <ng-option *ngFor="let size of sizes" [value]="size.id">{{
+                size.value
+              }}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </form>
+      <div class="sh-flex sh-justify-content-end">
+        <sh-button (clickEvent)="onOpenCloseForm(closeFormRef)" type="text" size="intermediate" label="Terminer l'Hospitalisation" labelStyleClass="sh-color-primary" styleClass="m-2" [ngClass]="{'sh-diseable': hospitalizationSelected == null}"></sh-button>
+        <sh-button (clickEvent)="onPrint(printFormRef)" type="text" size="intermediate" label="Imprimer le Compte Rendu de l'Hospitalisation" labelStyleClass="sh-color-primary" styleClass="m-2" [ngClass]="{'sh-diseable': hospitalizationSelected == null}"></sh-button>
+      </div>
+      <div #hospitalizationTab class="tableFixHead">
+        <table class="table table-bordered table-hover table-md align-middle">
+          <thead class="pb-3 text-capitalize">
+            <tr class="pb-3">
+                <th>Date de Début</th>   
+                <th>Patient</th>   
+                <th>Practicien</th>   
+                <th>Motif d'hospitalisation</th>  
+                <th>Chambre</th> 
+                <th>Date de Fin</th> 
+                <th>État</th>  
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr
+              *ngFor="
+                let hospitalization of pagination.items
+                  | paginate
+                    : {
+                        itemsPerPage: pagination.selectedSize,
+                        currentPage: pagination.currentPage,
+                        totalItems: pagination.totalItems
+                      };
+                let i = index
+              "
+              [class.active]="i == currentIndex"
+              (click)="onHospitalizationSelected(hospitalization)"
+              >
+              <td class="text-nowrap ">{{hospitalization.start | date:  "dd/MM/yyyy HH:mm:ss"}}</td>
+              <td class="text-nowrap ">{{hospitalization.patientName.firstName }} {{hospitalization.patientName.lastName}}</td>
+              <td class="text-nowrap ">{{hospitalization.practicianName.firstName }} {{hospitalization.practicianName.lastName}}</td>
+              <td class="text-nowrap ">{{hospitalization.reason}}</td>
+              <td class="text-nowrap ">{{hospitalization.bedroom}}</td>
+              <td class="text-nowrap ">{{hospitalization.end | date: "dd/MM/yyyy HH:mm:ss"}} </td>
+            <td [ngClass]="{'statusSuccess': hospitalization.status === 'finished', 'statusWarning': hospitalization.status === 'in_progress'}">{{hospitalization.status === 'in_progress' ?  'En Cours' : 'Terminée' }}</td>
+              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex w-100 justify-content-center">
+        <div
+          style="color: #623508"
+          *ngIf="loading"
+          class="spinner-border"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <pagination-controls
+          responsive="true"
+          previousLabel="Prev"
+          nextLabel="Next"
+          (pageChange)="onPageChange($event)"
+        >
+        </pagination-controls>
+      </div>
+    </nb-card-body>
+  </nb-card>
+
+    <!-- create modal -->
+    <ng-template #hospitalizationFormRef let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="text-capitalize modal-title" id="update-form-modal">
+            Crèer une Hospitalisation
+          </h4>
+          <nb-icon
+            style="cursor: pointer"
+            (click)="d('Cross click')"
+            class="h4"
+            icon="close-circle-outline"
+          ></nb-icon>
+        </div>
+        <div class="modal-body">
+          <gmhis-hospitalization-create-update (saveEvent)="handleHospitalizationSaveEvent()" ></gmhis-hospitalization-create-update>
+        </div>
+      </ng-template>
+
+      <ng-template #updateFormRef let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="text-capitalize modal-title" id="update-form-modal">
+            Modifier une Hospitalisation
+          </h4>
+          <nb-icon
+            style="cursor: pointer"
+            (click)="d('Cross click')"
+            class="h4"
+            icon="close-circle-outline"
+          ></nb-icon>
+        </div>
+        <div class="modal-body">
+          <gmhis-hospitalization-create-update (updateEvent)="handleHospitalizationUpdateEvent()" ></gmhis-hospitalization-create-update>
+        </div>
+      </ng-template>
+
+      <ng-template #printFormRef let-c="close" let-d="dismiss">
+        <div class="modal-header ">
+          <nb-icon
+            style="cursor: pointer"
+            (click)="d('Cross click')"
+            class="h4"
+            icon="close-circle-outline"
+          ></nb-icon>
+        </div>
+        <div class="modal-body ">
+          <ngx-extended-pdf-viewer
+            *ngIf="docSrc"
+            [src]="docSrc"
+            useBrowserLocale="true"
+            height="80vh"
+          >
+          </ngx-extended-pdf-viewer>
+        </div>
+      </ng-template>
+
+      <ng-template #closeFormRef let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="text-capitalize modal-title" id="update-form-modal">
+            Terminer l'Hospitalisation
+          </h4>
+          <nb-icon
+            style="cursor: pointer"
+            (click)="d('Cross click')"
+            class="h4"
+            icon="close-circle-outline"
+          ></nb-icon>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="closeFieldGroup" (ngSubmit)="closeHospitalization()">
+            <div class="row mb-2">
+                <div class="col-12 rounded-pill">
+                    <label for="start" class="form-label text-capitalize">
+                      Date Fin de l'hospitalisation
+                      <span  class="text-danger">*</span>
+                    </label>
+                    <input nbInput formControlName="end" class="form-control" [nbDatepicker]="dateTimePicker">
+                    <nb-date-timepicker withSeconds #dateTimePicker></nb-date-timepicker>
+                   
+                    <div *ngIf="formSubmitted && !fieldGroup.controls.end.valid">
+                      <small *ngIf="endField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+                    </div>
+            
+                  </div>
+
+                  <div class="col-lg-12 mb-2 rounded-pill">
+                    <label for="conclusion" class="form-label text-capitalize">Conclusion de l'hospitalisation
+                      <span  class="text-danger">*</span>
+                    </label>
+                    <textarea class="form-control" formControlName="conclusion" rows="5"></textarea>
+          
+                    <div *ngIf="formSubmitted && !closeFieldGroup.controls.conclusion.valid">
+                      <small *ngIf="conclusionField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+                    </div>
+            
+                  </div>
+            </div>
+
+            <div  class="mt-3 col">
+                <div class="">
+                  <button
+                    style="background-color: #14a2b8"
+                    type="submit"
+                    class="btn text-capitalize bg-biblos justify-content-center text-white rounded px-4 py-2 fw-bold"
+                  >
+                    VALIDER
+                  </button>
+                </div>
+              </div>
+          </form>
+        </div>
+      </ng-template>

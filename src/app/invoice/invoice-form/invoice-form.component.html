@@ -4,45 +4,44 @@
 
         <div class="patient_infos row">
             <div class="d-flex col-md-4 mb-3">
-                <span class="sh-display-block sh-text-medium">N° Patient </span>
-                <span class="fw-bold sh-display-block">: {{admissionForTemplate?.patientExternalId}}</span>
+                <span class="sh-display-block sh-text-medium sh-mr-5">N° Patient</span>
+                <span class="fw-bold sh-display-block">{{admissionForTemplate?.patientExternalId}}</span>
             </div>
             <div class="d-flex col-md-4 mb-3">
                 <span class="sh-display-block">Nom du Patient </span>
-                <span class="fw-bold">: {{admissionForTemplate?.patientFirstName}}
+                <span class="fw-bold">{{admissionForTemplate?.patientFirstName}}
                     {{admissionForTemplate?.patientLastName}}</span>
             </div>
             <div class="d-flex col-md-4 mb-3">
                 <span class="sh-display-block">Service </span>
-                <span class="fw-bold">: {{admissionForTemplate?.service}}</span>
+                <span class="fw-bold">{{admissionForTemplate?.service}}</span>
             </div>
             <div class="d-flex col-md-4 mb-3 ">
-                <span class="sh-display-block">Date Facture: </span >
+                <span class="sh-display-block">Date Facture </span >
                 <span class="fw-bold sh-display-block"> {{currentDate | date: "dd/MM/yyyy"}} </span >
             </div>
             <div class="d-flex col-md-4 mb-3 ">
-                <span class="sh-display-block sh-nowrap">Motif d'admission: </span>
+                <span class="sh-display-block sh-nowrap">Motif d'admission </span>
                 <span class="fw-bold sh-color-primary"> {{admissionForTemplate?.act | uppercase}} </span>
             </div>
             <div class="d-flex col-md-4 mb-3">
-                <span class="sh-display-block">Montant: </span>
+                <span class="sh-display-block">Montant </span>
                 <span class="fw-bold sh-color-primary"> {{admissionForTemplate?.actCost | currency:
                     "FCFA":"symbol":"1.0-0" }} </span>
             </div>
             <div class="d-flex col-md-4 mb-3">
-                <span class="sh-display-block ">Médécin: </span>
+                <span class="sh-display-block ">Médécin </span>
                 <span class="sh-display-block sh-color-primary fw-bold"> {{ admissionForTemplate?.practician}}</span>
             </div>
         </div>
     </div>
 
     <div class="mb-4">
-        <span class="subTitle ">Assurance(s)</span><br>
-        <small class="mb-5">Par défaut l'assurance CNAM est appliquée à tout type de patient (assuré ou
-            comptant).</small>
+        <span class="subTitle">Assurance(s)</span><br>
+        <small class="mb-5">Par défaut l'assurance CNAM est appliquée à tout type de patient (Assuré ouComptant).</small>
     </div>
 
-    <div class="">
+    <div class="sh-flex-column">
         <div class="mb-3" formArrayName="insuredList">
             <div class="form-group  mb-2" *ngFor="let insured of insureds.controls; let i = index">
                 <div formGroupName="{{i}}" class="row d-flex align-items-end">
@@ -135,7 +134,7 @@
             </button>
         </div>
         <div class="acts container">
-            <div *ngIf="this.admissionForTemplate.admissionStatus == 'B'">
+            <div >
                 <span class="subTitle mx-2">Actes</span><br>
                 <div class="" formArrayName="acts">
                     <div class="form-group" *ngFor="let act of acts.controls; let i = index">

@@ -1,0 +1,108 @@
+
+  <form [formGroup]="fieldGroup" (ngSubmit)="save()">
+    <div
+      *ngIf="loading == true"
+      class="overlay d-flex justify-content-center align-items-center"
+    >
+      <div class="d-flex w-100 justify-content-center">
+        <div
+          class="spinner-border"
+          style="width: 5rem; height: 5rem; color: #623508"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+
+      <div class="col-lg-6 col-md-6 col-sm-12 mb-2 rounded-pill">
+        <label for="Patient" class="form-label text-capitalize">
+          Patient
+          <span  class="text-danger">*</span>
+        </label>
+        <ng-select formControlName="patientID" placeholder="Selectionner un Patient">
+            <ng-option *ngFor="let patient of patients" [value]="patient.id">{{patient.firstName}}  {{patient.lastName}}</ng-option>
+        </ng-select> 
+        <div *ngIf="formSubmitted && !fieldGroup.controls.patientID.valid">
+            <small *ngIf="patientField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+          </div>
+       </div>
+
+       <div class="col-lg-6 col-md-6 col-sm-12 mb-2 rounded-pill">
+        <label for="practician" class="form-label text-capitalize">
+          Médécin Traiteur
+          <span  class="text-danger">*</span>
+        </label>
+        <ng-select formControlName="practicianID">
+            <ng-option *ngFor="let practician of practicians" [value]="practician.id">{{practician.practicianName}}</ng-option>
+        </ng-select> 
+        <div *ngIf="formSubmitted && !fieldGroup.controls.practicianID.valid">
+            <small *ngIf="practicianField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+          </div>
+       </div>
+
+      <div class="col-lg-6 col-md-6 col-sm-12 mb-2 rounded-pill">
+        <label for="start" class="form-label text-capitalize">
+          Début de l'hospitalisation
+          <span  class="text-danger">*</span>
+        </label>
+        <input nbInput formControlName="start" class="form-control" [nbDatepicker]="dateTimePicker">
+        <nb-date-timepicker withSeconds #dateTimePicker></nb-date-timepicker>
+       
+        <div *ngIf="formSubmitted && !fieldGroup.controls.start.valid">
+          <small *ngIf="startField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+        </div>
+
+      </div>
+
+        <div class="col-lg-6 col-md-6 mb-2 rounded-pill">
+            <label for="bedroom" class="form-label text-capitalize">
+                Chambre
+                <span  class="text-danger">*</span>
+            </label>
+            <ng-select  placeholder="Selectionner une Chambre" formControlName="bedroom" class="mb-3">
+              <ng-option *ngFor="let bedroom of bedrooms" [value]="bedroom.value">{{bedroom.key}} </ng-option>
+             </ng-select>  
+
+             <div *ngIf="formSubmitted && !fieldGroup.controls.bedroom.valid">
+              <small *ngIf="bedroomField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+            </div>
+
+         </div>
+         <div class="col-lg-12 mb-2 rounded-pill">
+          <label for="reason" class="form-label text-capitalize">Motif
+            <span  class="text-danger">*</span>
+          </label>
+          <textarea class="form-control" formControlName="reason" rows="5"></textarea>
+
+          <div *ngIf="formSubmitted && !fieldGroup.controls.protocole.valid">
+            <small *ngIf="reasonField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+          </div>
+  
+        </div>
+
+      <div class="col-lg-12 mb-2 rounded-pill">
+        <label for="code" class="form-label text-capitalize">Protocole
+          <span  class="text-danger">*</span>
+        </label>
+        <textarea class="form-control" formControlName="protocole" rows="5"></textarea>
+
+        <div *ngIf="formSubmitted && !fieldGroup.controls.protocole.valid">
+          <small *ngIf="protocoleField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+        </div>
+
+      </div>
+    </div>
+    <div  class="mt-3 col">
+      <div class="">
+        <button
+          style="background-color: #14a2b8"
+          type="submit"
+          class="btn text-capitalize bg-biblos justify-content-center text-white rounded px-4 py-2 fw-bold"
+        >
+          VALIDER
+        </button>
+      </div>
+    </div>
+  </form>

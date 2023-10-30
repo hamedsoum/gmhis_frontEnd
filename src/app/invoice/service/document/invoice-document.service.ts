@@ -98,10 +98,11 @@ var doc = new jsPDF('p', 'mm', 'a4');
   doc.text("CH4ER" , 138, 84)
 
   acts.forEach(element => {
-    totalAmount = totalAmount + element.actCost; 
+    totalAmount = totalAmount + element.actCost;
+    let practicianName = element.practicianName? element.practicianName : '--';
     let article = [
       { content: element.actName, styles: { valign: 'middle' } },
-      { content: element.practicianName, styles: { valign: 'middle' } },
+      { content: practicianName, styles: { valign: 'middle', halign: 'middle' } },
       { content: 1, styles: { valign: 'middle' } },
       { content: element.actCost +" FCFA", styles: { valign: 'middle' } },
       { content: element.actCost +" FCFA", styles: { valign: 'middle' } },
@@ -118,8 +119,6 @@ var doc = new jsPDF('p', 'mm', 'a4');
   doc.setTextColor(0, 0, 0)
       doc.text("Taux de couverture", 130, 180);
       doc.setTextColor(255, 0, 0)
-      // doc.text(invoice["coverage"].toString()+ "%", 176, 180);
-
       doc.rect(25, 630, 330, 20);
       doc.setTextColor(0, 0, 0)
       doc.text("Part prise en charge (PEC)", 130, 190);

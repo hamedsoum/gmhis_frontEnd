@@ -1,3 +1,4 @@
+import { logging } from "protractor";
 import { IExamination } from "src/app/medical-folder/examination/models/examination";
 import { Patient } from "src/app/patient/patient";
 import { Practician } from "src/app/practician/practician";
@@ -26,6 +27,7 @@ export interface GMHISHospitalizationRequestPartial {
 	code: string;
 
     patientName: GMHISName;
+    patientID: number;
 
     praticianName: GMHISName;
 

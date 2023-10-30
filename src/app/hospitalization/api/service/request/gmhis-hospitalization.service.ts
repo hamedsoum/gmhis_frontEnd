@@ -5,10 +5,10 @@ import { GmhisUtils } from "src/app/shared/base/utils";
 import { GMHIS_ENDPOINT } from "src/app/_constants/endpoint.constant";
 import { PageList } from "src/app/_models/page-list.model";
 import { environment } from "src/environments/environment";
-import { GMHISHospitalizationRequestCreate, GMHISHospitalizationRequestPartial } from "../domain/request/gmhis-hospitalization-request";
+import { GMHISHospitalizationRequestCreate, GMHISHospitalizationRequestPartial } from "../../domain/request/gmhis-hospitalization-request";
 
 @Injectable({providedIn: 'root'})
-export class GmhisHospitalizationService {
+export class GmhisHospitalizationRequestService {
     private readonly host = environment.apiUrl;
 
     constructor(private http: HttpClient) { }

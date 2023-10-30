@@ -13,8 +13,8 @@ import { SubSink } from 'subsink';
 import { admissionStatus, Admission, GMHISAdmissionType } from '../model/admission';
 import { AdmissionService } from '../service/admission.service';
 
-@Component({selector: 'app-admission-list',templateUrl: './admission-list.component.html'})
-export class AdmissionListComponent implements OnInit, OnDestroy {
+@Component({selector: 'gmhis-emergency-admission-list',templateUrl: './gmhis-emergency-admission-list.component.html'})
+export class GMHISEmergencyAdmissionListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
 
@@ -126,7 +126,7 @@ export class AdmissionListComponent implements OnInit, OnDestroy {
     this.searchForm = new FormGroup({
       admissionNumber: new FormControl(''),
       admissionStatus: new FormControl('R'),
-      type: new FormControl('normal'),
+      type: new FormControl('emergency'),
       firstName: new FormControl(''),
       lastName: new FormControl(''),
       patientExternalId: new FormControl(''),

@@ -169,6 +169,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
           this.menuItem = 'death';
           localStorage.setItem('menuItem', menuItem);
           break;
+          case 'hospitalization':
+            this.menuItem = 'hospitalization';
+            localStorage.setItem('menuItem', menuItem);
+            break;
         case 'hospitalization-request':
             this.menuItem = 'hospitalization-request';
             localStorage.setItem('menuItem', menuItem);
@@ -178,10 +182,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
             localStorage.setItem('menuItem', menuItem);
             this.router.navigateByUrl(url)
             break;
-            case 'invoiceH':
+          case 'invoiceH':
               this.menuItem = 'invoiceH';
               localStorage.setItem('menuItem', menuItem);
               this.router.navigateByUrl(url)
+              break;
+          case 'emergency':
+              this.menuItem = 'emergency';
+              localStorage.setItem('menuItem', menuItem);
               break;
         default:
         break;

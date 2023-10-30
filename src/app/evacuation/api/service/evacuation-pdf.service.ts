@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import jsPDF from 'jspdf';
 import { DatePipe } from '@angular/common';
 import { GMHISEvacuationPartial } from '../domain/evacuation.domain';
+import { GMHISSharedDocPdfService } from 'src/app/shared/api/service/gmhis.shared.DocPdf.service';
 
 
 
 @Injectable()
 export class GMHISEvacuationPDFService {
 
-  constructor(private datePipe : DatePipe) { }
+  constructor(private datePipe : DatePipe,private sharedDocPdfService: GMHISSharedDocPdfService) { }
 
 evatuationRecordPDF(evacuation: any): jsPDF{
   
@@ -16,8 +17,8 @@ var doc = new jsPDF('p', 'mm', 'a4');
   
 doc.addImage(evacuation.facilityLogo, "JPEG", 14, 1, 30, 30);
 
-doc.setFontSize(15)
-doc.text("fiche d'évacuation".toUpperCase(), 65, 35);
+
+doc = this.sharedDocPdfService.docHeader("FICHE D'ÉVACUATION", 55)
 
 doc.setFontSize(13)
 doc.text("Établissement evacuateur: ", 23, 51);

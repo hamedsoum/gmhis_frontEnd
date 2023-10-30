@@ -1,8 +1,16 @@
 export interface IAdmissionDto {
-      id : number,
-	  createdAt : Date;
 	  Patient : number;
-	  service : number;
+
+	  speciality : number;
+
 	  act : number;
+
 	  practician : number;
+
+	  createdAt: string;
+
+	  caution: number;
+
+	  takeCare: boolean;
+
 }

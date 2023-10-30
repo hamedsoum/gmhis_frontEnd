@@ -43,7 +43,7 @@ export class GMHISQuotationPdfService  {
         const indication = quotation.indication ? quotation.indication : "";
 
         var doc = new jsPDF('p', 'mm', 'a4');
-        doc = this.sharedDocPdfService.docHeader('FACTURE PROFORMA N° ' + quotation.quotationNumber.toUpperCase(), 24)
+        doc = this.sharedDocPdfService.docHeader('FACTURE PROFORMA N° ' , 24)
        
         let opDate = this.datePipe.transform(quotation.dateOp, 'dd/MM/yyyy');
         let opHour = this.datePipe.transform(quotation.dateOp, 'hh:mm:ss');

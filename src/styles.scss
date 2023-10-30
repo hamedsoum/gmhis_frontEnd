@@ -8,6 +8,7 @@
 @import "~material-icons/iconfont/material-icons.css";
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
 
+@import "../src/app/shared/sh-style/sh-constant.scss";
 @import "../src/app/shared/sh-style/sh-style.scss";
 @import "../src/app/shared/sh-style/sh-default-variable.scss";
 @import "../src/app/shared/sh-style/sh-color.scss";
@@ -116,6 +117,12 @@
   border: 0.09px solid #20c997c7;
   color: #20c997c7;
 }
+
+.statusWarning {
+  border: 0.09px solid #d8941fc8;
+  color: #d8941fc8;
+}
+
 .statusError{
   border: 0.09px solid #dc3545ba;
   color: #dc3545ba;
@@ -382,7 +389,12 @@ font-size: 11px !important;
   font-size: 1.3em;
 }
 
-.tableFixHead  { overflow: auto; max-height:70vh !important; }
+.tableFixHead  { 
+  overflow: auto; 
+  min-height: 190px;
+  max-height:70vh 
+  !important; 
+}
 .statTable {overflow: auto; height: 80%;}
 .tableFixHead thead th,.statTable thead th {
   position: sticky;

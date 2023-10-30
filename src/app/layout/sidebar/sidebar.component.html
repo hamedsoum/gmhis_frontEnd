@@ -40,7 +40,11 @@
   
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
-  ><span class="fw-bold">Admissions</span>
+  ><span class="fw-bold">Consultation</span>
+</p>
+
+<p [ngClass]="{ menuActive: menuItem == 'emergency' }" (click)="menuItemFunction('emergency')" routerLink="/admission/emergency" class="dashboard py-3">
+    <fa-icon [icon]="faUser" style="font-size: 1rem; margin-right: 10px" ></fa-icon><span class="fw-bold">Urgence</span>
 </p>
 
 <p
@@ -191,9 +195,23 @@ class="dashboard py-3"
 </p>
 
 <p
+  [ngClass]="{ menuActive: menuItem == 'hospitalization' }"
+  (click)="menuItemFunction('hospitalization')"
+  routerLink="/hospitalization"
+  class="dashboard py-3"
+>
+  <fa-icon
+    [icon]="faUser"
+  
+    style="font-size: 1rem; margin-right: 10px"
+  ></fa-icon
+  ><span class="fw-bold">Hospitalisation</span>
+</p>
+
+<p
   [ngClass]="{ menuActive: menuItem == 'hospitalization-request' }"
   (click)="menuItemFunction('hospitalization-request')"
-  routerLink="/hospitalization"
+  routerLink="/hospitalization/request"
   class="dashboard py-3"
 >
   <fa-icon

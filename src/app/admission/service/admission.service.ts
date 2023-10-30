@@ -25,6 +25,7 @@ export class AdmissionService {
     let queryParams = {};
     queryParams = {
       params: new HttpParams()
+        .set('type', data['type'])
         .set('patientExternalId', data['patientExternalId'])
         .set('admissionNumber', data['admissionNumber'])
         .set('admissionStatus', data['admissionStatus'])

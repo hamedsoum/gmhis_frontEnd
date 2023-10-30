@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,9 +10,9 @@ import { GMHISNameAndID } from 'src/app/shared/models/name-and-id';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
-import { Admission } from '../model/admission';
-import { IAdmissionDto } from '../model/admission-dto';
+import { Admission, admissionCreateUpdate, GMHISAdmissionType } from '../model/admission';
 import { AdmissionService } from '../service/admission.service';
+import { GMHISKeyValue } from 'src/app/shared/models/name-and-id';
 
 @Component({
   selector: 'app-admission-form',
@@ -30,7 +29,7 @@ export class AdmissionFormComponent implements OnInit {
   @Output() addAdmission = new EventEmitter();
   @Output() updateAdmission = new EventEmitter();
 
-  admissionCreateData: IAdmissionDto;
+  admissionCreateData: admissionCreateUpdate;
 
   public formGroup: FormGroup;
 
@@ -44,7 +43,13 @@ export class AdmissionFormComponent implements OnInit {
   actCategories: any;
 
   practicians: any[] = [];
+
   specialityPracticians : any[] = [];
+
+   types : GMHISKeyValue[] = [ 
+     {key: GMHISAdmissionType.NORMAL, value: 'Normal' },
+     {key: GMHISAdmissionType.EMERGENCY, value: 'Urgence' }
+   ]
 
   constructor(
     private actService: ActService,
@@ -95,6 +100,7 @@ export class AdmissionFormComponent implements OnInit {
   buildFields() {
     this.formGroup = new FormGroup({
       id: new FormControl(null),
+      type: new FormControl(null),
       patientExternalId: new FormControl({ value: '', disabled: true }),
       patientName: new FormControl({ value: '', disabled: true }),
       createdAt: new FormControl(new Date(), [Validators.required]),

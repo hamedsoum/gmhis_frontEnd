@@ -54,7 +54,9 @@ export interface Admission {
 }
 
 export interface admissionCreateUpdate {
-    id: number;
+    id?: number;
+
+    type? : GMHISAdmissionType;
 
 	createdAt : Date;
 
@@ -69,6 +71,11 @@ export interface admissionCreateUpdate {
 	caution?: number;
 
 	takeCare?: number;
+}
+
+export enum GMHISAdmissionType {
+    EMERGENCY = 'emergency',
+    NORMAL = 'normal'
 }
 
 

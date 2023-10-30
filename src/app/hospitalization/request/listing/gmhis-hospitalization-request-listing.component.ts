@@ -16,10 +16,10 @@ import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { GMHISHospitalizationRequestPartial } from '../../api/domain/request/gmhis-hospitalization-request';
-import { GmhisHospitalizationService } from '../../api/service/gmhis-hospitalization.service';
-import { GMHISHospitalizationPdfService } from '../../api/service/gmhis.hospitalization.pdf.service';
+import { GmhisHospitalizationRequestService } from '../../api/service/request/gmhis-hospitalization.service';
+import { GMHISHospitalizationRequestPdfService } from '../../api/service/request/gmhis.hospitalization.pdf.service';
 
-@Component({selector: 'gmhis-hospitalization-request-listing-update',templateUrl: './gmhis-hospitalization-request-listing.component.html', providers: [GMHISHospitalizationPdfService]})
+@Component({selector: 'gmhis-hospitalization-request-listing',templateUrl: './gmhis-hospitalization-request-listing.component.html', providers: [GMHISHospitalizationRequestPdfService]})
 export class GMHISHospitalizationRequestListingComponent implements OnInit {
  
 readonly TITLE = 'Démande d\'hospitalisation';
@@ -41,17 +41,20 @@ currentIndex: number;
 
 @ViewChild('hospitalizationRequestTab', {static: false}) table: HTMLElement;
 
-docSrc: string;
-examination: IExamination;
+  docSrc: string;
+
+  examination: IExamination;
+
   admission: Admission;
+  
   patient: Patient;
 
   constructor(
-    private hospitalizationService: GmhisHospitalizationService,
+    private hospitalizationService: GmhisHospitalizationRequestService,
     private notificationService: NotificationService,
     private modalService: NgbModal,
     private examinationPrintDocumentService : ExaminationPrintDocumentService,
-    private hospitalizationPdfService: GMHISHospitalizationPdfService,
+    private hospitalizationPdfService: GMHISHospitalizationRequestPdfService,
     private patientService: PatientService
 
 
@@ -66,8 +69,8 @@ examination: IExamination;
     this.subscription.unsubscribe();
   }
 
-  public onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef, hospitalisationRequest: GMHISHospitalizationRequestPartial): void {    
-    let doc = this.hospitalizationPdfService.buildhospitalizationCertificatePdf(hospitalisationRequest);
+  public onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef): void {    
+    let doc = this.hospitalizationPdfService.buildhospitalizationCertificatePdf(this.hospitalizationRequest);
     this.modalService.open(hospitalilazionCertificateDocRef, { size: 'xl' });
     this.docSrc = doc.output('datauristring'); 
   }
@@ -80,8 +83,9 @@ examination: IExamination;
 
   buildMedicalCertificates
 
-  public onOpenExaminationRecord(recordContent: any, patientID: number, examination):void {  
-    this.examination = examination;
+  public onOpenExaminationRecord(recordContent: any):void {  
+    this.examination = this.hospitalizationRequest.examination;
+    let patientID = this.hospitalizationRequest.patientID;
     this.retrievePatient(patientID,recordContent)
   }
 
@@ -100,6 +104,10 @@ examination: IExamination;
     )
   }
 
+  rowSelected(hospitalizationRequestSelected: GMHISHospitalizationRequestPartial, index: number) {
+    this.currentIndex = index;
+    this.hospitalizationRequest = hospitalizationRequestSelected;
+  }
 
   public onHospitalizationRequestSelected(recordRef, hospitalizationRequest : GMHISHospitalizationRequestPartial): void {
     this.hospitalizationRequest = hospitalizationRequest;
@@ -147,15 +155,10 @@ examination: IExamination;
     this.modalService.open(hospitalizationRequestFormRef, { size: 'md' });
   }
 
-  public handeDeathSaveEvent(): void{
-    this.modalService.dismissAll();
-    this.notificationService.notify(NotificationType.SUCCESS,'Décès declaré avec succès');
-    this.search();
-  }
 
-  public handeDeathUpdateEvent():void {
+  public handleHospitalizationRequestUpdateEvent():void {
     this.modalService.dismissAll();
-    this.notificationService.notify(NotificationType.SUCCESS,'Décès modifié avec succès');
+    this.notificationService.notify(NotificationType.SUCCESS,'Deemande d\'hospitalisation modifiée avec succès');
     this.search();
   }
 

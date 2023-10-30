@@ -41,6 +41,10 @@
           </div>
         </div>
       </form>
+      <div class="sh-flex-row justify-content-end">
+        <sh-button (clickEvent)="onOpenExaminationRecord(examinationRecordModal)" type="text" size="small" label="Fiche Médicale" labelStyleClass="sh-color-primary"></sh-button>
+                <sh-button (clickEvent)="onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef)" type="text" size="small" label="Certificat Médicale d'hospitalisation" labelStyleClass="sh-color-primary"></sh-button>
+      </div>
       <div #hospitalizationRequestTab class="tableFixHead">
         <table class="table table-bordered table-hover table-md align-middle">
           <thead class="pb-3 text-capitalize">
@@ -65,9 +69,10 @@
                         currentPage: pagination.currentPage,
                         totalItems: pagination.totalItems
                       };
-                let i = index
+                let i = index  
               "
               [class.active]="i == currentIndex"
+              (click)="rowSelected(hospitalizationRequest, i)"
               (dblclick)="onHospitalizationRequestSelected(recordRef,hospitalizationRequest)"
               >
               <td class="text-nowrap ">{{hospitalizationRequest.date | date:  "dd/MM/yyyy HH:mm:ss"}}</td>
@@ -78,10 +83,7 @@
               <td class="text-nowrap ">{{hospitalizationRequest.startDate | date: "dd/MM/yyyy"}} </td>
 
               <td>
-                <sh-button (clickEvent)="onOpenExaminationRecord(examinationRecordModal,hospitalizationRequest.patientID,hospitalizationRequest.examination)" type="text" size="small" label="Fiche Médicale" labelStyleClass="sh-color-primary"></sh-button>
-                <sh-button (clickEvent)="onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef,hospitalizationRequest)" type="text" size="small" label="Certificat Médicale d'hospitalisation" labelStyleClass="sh-color-primary"></sh-button>
-                <sh-button (clickEvent)="onAfterPrintMedicalCertificatePdf(hospitalilazionCertificateDocRef,hospitalizationRequest)" type="text" size="small" label="Certificat Médicale" labelStyleClass="sh-color-primary"></sh-button>
-
+                
               </td>
             </tr>
           </tbody>
@@ -125,7 +127,7 @@
       ></nb-icon>
     </div>
     <div class="modal-body">
-      <gmhis-hospitalization-request-create-update ></gmhis-hospitalization-request-create-update>
+      <gmhis-hospitalization-request-create-update (updateEvent)="handleHospitalizationRequestUpdateEvent()" ></gmhis-hospitalization-request-create-update>
     </div>
   </ng-template>
 

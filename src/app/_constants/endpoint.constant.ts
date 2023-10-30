@@ -7,8 +7,7 @@ export const GMHIS_ENDPOINT = {
         retrieve: '/invoice-h/${invoiceHID}',
         find: '/invoice-h/${invoiceHID}/find',
     },
-
-     // === Hospitalization Request ===
+     // === Quotation ===
      quotation: {
         index: '/quotations',
         create: '/quotations',
@@ -16,7 +15,14 @@ export const GMHIS_ENDPOINT = {
         retrieve: '/quotations/${quotationID}',
         find: '/quotations/find/${quotationID}',
     },
-
+    // === hospitalization===
+    hospitalization: {
+        index: '/hospitalizations',
+        create: '/hospitalizations',
+        update: '/hospitalizations/${hospitalizationID}',
+        close: '/hospitalizations/${hospitalizationID}/close',
+        retrieve: '/hospitalizations/${hospitalizationID}',
+    },
     // === Hospitalization Request ===
     hospitalizationRequest: {
         index: '/hospitalization-request',

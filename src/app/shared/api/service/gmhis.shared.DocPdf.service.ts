@@ -13,11 +13,11 @@ export class GMHISSharedDocPdfService  {
 
         var doc = new jsPDF();
         doc.setFillColor(230, 230, 230);
-        doc.addImage(user.facility.logo, "JPEG", 20, 10, 30, 30);
+        doc.addImage(user.facility.logo, "JPEG", 20, 2, 30, 30);
         doc.setFont("arial", "bold");
         doc.setFontSize(21);
-        doc.rect(20, 50, 172, 15)
-        doc.text(titleValue, titleX, 60);
+        doc.rect(20, 30, 172, 15)
+        doc.text(titleValue, titleX, 40);
         return doc;
     }
 }

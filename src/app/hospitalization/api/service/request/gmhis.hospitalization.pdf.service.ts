@@ -2,10 +2,10 @@ import { DatePipe } from "@angular/common";
 import { Injectable } from "@angular/core";
 import jsPDF from "jspdf";
 import { GMHISSharedDocPdfService } from "src/app/shared/api/service/gmhis.shared.DocPdf.service";
-import { GMHISHospitalizationRequestPartial } from "../domain/request/gmhis-hospitalization-request";
+import { GMHISHospitalizationRequestPartial } from "../../domain/request/gmhis-hospitalization-request";
 
 @Injectable({providedIn: 'root'})
-export class GMHISHospitalizationPdfService {
+export class GMHISHospitalizationRequestPdfService {
 
     constructor(private sharedDocPdfService: GMHISSharedDocPdfService, private datePipe: DatePipe){}
 

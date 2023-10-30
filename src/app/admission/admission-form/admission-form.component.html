@@ -48,11 +48,28 @@
       </div>
 
       <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill field">
+        <label for="active" class="form-label text-capitalize">Type D'admission <span class="text-danger">*</span> </label>
+        <ng-select formControlName="type">
+          <ng-option *ngFor="let type of types" [value]="type.key">{{
+            type.value
+          }}</ng-option>
+        </ng-select>
+      </div>
+
+      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill field">
         <label for="active" class="form-label text-capitalize">Service <span class="text-danger">*</span> </label>
         <ng-select (change)="onRetrieveActsAndPracticians($event)" formControlName="speciality">
           <ng-option *ngFor="let actCategory of actCategories" [value]="actCategory.id">{{
             actCategory.name
           }}</ng-option>
+        </ng-select>
+      </div>
+
+      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill field">
+        <label for="active" class="form-label text-capitalize">Medecin</label>
+        <ng-select placeholder="Practicien" formControlName="practician">
+          <ng-option *ngFor="let practician of specialityPracticians" [value]="practician.id">
+            {{practician.practicianName}}</ng-option>
         </ng-select>
       </div>
 
@@ -65,13 +82,7 @@
         </ng-select>
       </div>
 
-      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill field">
-        <label for="active" class="form-label text-capitalize">Medecin</label>
-        <ng-select placeholder="Practicien" formControlName="practician">
-          <ng-option *ngFor="let practician of specialityPracticians" [value]="practician.id">
-            {{practician.practicianName}}</ng-option>
-        </ng-select>
-      </div>
+     
       <div class="col-lg-6 col-md-4 col-sm-12 field">
         <label for="code" class="form-label text-capitalize">Caution</label>
         <input

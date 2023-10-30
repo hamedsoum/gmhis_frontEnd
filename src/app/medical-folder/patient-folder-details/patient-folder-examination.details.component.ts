@@ -8,7 +8,7 @@ import { AdmissionService } from 'src/app/admission/service/admission.service';
 import { PatientConstantService } from 'src/app/constant/patient-constant/service/patient-constant.service';
 import { ExamService } from 'src/app/examen/services/exam.service';
 import { GMHISHospitalizationRequestPartial } from 'src/app/hospitalization/api/domain/request/gmhis-hospitalization-request';
-import { GMHISHospitalizationPdfService } from 'src/app/hospitalization/api/service/gmhis.hospitalization.pdf.service';
+import { GMHISHospitalizationRequestPdfService } from 'src/app/hospitalization/api/service/request/gmhis.hospitalization.pdf.service';
 import { Patient } from 'src/app/patient/patient';
 import { PatientService } from 'src/app/patient/patient.service';
 import { PrescriptionService } from 'src/app/prescription/services/prescription.service';
@@ -62,7 +62,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
     private prescriptionService : PrescriptionService,
     private examService : ExamService,
     private notificationService: NotificationService,
-    private hospitalizationPdfService: GMHISHospitalizationPdfService,
+    private hospitalizationPdfService: GMHISHospitalizationRequestPdfService,
     private userService: UserService
     ) { }
  

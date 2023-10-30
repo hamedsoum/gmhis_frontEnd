@@ -9,7 +9,7 @@ import { GmhisUtils } from 'src/app/shared/base/utils';
 import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { GMHISHospitalizationRequestCreate, GMHISHospitalizationRequestPartial } from '../../api/domain/request/gmhis-hospitalization-request';
-import { GmhisHospitalizationService } from '../../api/service/gmhis-hospitalization.service';
+import { GmhisHospitalizationRequestService } from '../../api/service/request/gmhis-hospitalization.service';
 
 @Component({selector: 'gmhis-hospitalization-request-create-update',templateUrl: './gmhis-hospitalization-request-create-update.component.html'})
 export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit {
@@ -37,7 +37,7 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
   subscription: Subscription = new Subscription();
   
   constructor(
-    private hospitalizationService: GmhisHospitalizationService,
+    private hospitalizationService: GmhisHospitalizationRequestService,
     private notificationService: NotificationService,
     private examinationService: ExaminationService
       ){}

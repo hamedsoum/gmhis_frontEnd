@@ -77,13 +77,13 @@ export class GMHISInvoiceHComponent implements OnInit {
         this.search();
     }
 
-    public onOpenCreateForm(quotationFormRef):void {
-        this.modalService.open(quotationFormRef, { size: 'md' });
+    public onOpenCreateForm(invoiceFormRef):void {
+        this.modalService.open(invoiceFormRef, { size: 'md' });
     }
 
-    public onOpenUpdateForm(quotationFormRef, quotation?: GMHISInvoiceHPartial):void {
-        this.invoiceSelected = quotation;
-        this.modalService.open(quotationFormRef, { size: 'md' });
+    public onOpenUpdateForm(invoiceFormRef, invoice?: GMHISInvoiceHPartial):void {
+        this.invoiceSelected = invoice;
+        this.modalService.open(invoiceFormRef, { size: 'md' });
     }
 
     public handleQuotationSaveEvent(): void{
