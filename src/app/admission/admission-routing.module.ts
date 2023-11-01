@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AdmissionListComponent } from './admission-list/admission-list.component';
-import { GMHISEmergencyAdmissionListComponent } from './urgency/gmhis-emergency-admission-list.component';
+import { GMHISAdmissionsComponent } from './gmhis-admissions.component';
 
 const routes: Routes = [
-  {path : 'list', component : AdmissionListComponent},
-  {path : 'emergency', component : GMHISEmergencyAdmissionListComponent}
-
+  {path : '', component : GMHISAdmissionsComponent}
 ];
 
 @NgModule({

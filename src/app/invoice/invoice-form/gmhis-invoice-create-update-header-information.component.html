@@ -1,0 +1,34 @@
+<div class="{{ styleClass }}">
+    <span [style.display]="'block'" class="subTitle mb-4">Informations</span>
+
+    <div class="patient_infos row">
+        <div class="d-flex col-md-4 mb-3">
+            <span class="sh-display-block sh-text-medium sh-mr-5">N° Patient</span>
+            <span class="fw-bold sh-display-block">{{data?.patientExternalId}}</span>
+        </div>
+        <div class="d-flex col-md-4 mb-3">
+            <span class="sh-display-block">Nom du Patient </span>
+            <span class="fw-bold">{{data?.patientFirstName}}
+                {{data?.patientLastName}}</span>
+        </div>
+        <div class="d-flex col-md-4 mb-3">
+            <span class="sh-display-block">Service </span>
+            <span class="fw-bold">{{data?.service}}</span>
+        </div>
+        <div class="d-flex col-md-4 mb-3 ">
+            <span class="sh-display-block">Date Facture </span >
+        </div>
+        <div class="d-flex col-md-4 mb-3 ">
+            <span class="sh-display-block sh-nowrap">Motif d'admission </span>
+            <span class="fw-bold sh-color-primary"> {{data?.act | uppercase}} </span>
+        </div>
+        <div class="d-flex col-md-4 mb-3">
+            <span class="sh-display-block">Montant </span>
+            <span class="fw-bold sh-color-primary"> {{data?.actCost | currency:"FCFA":"symbol":"1.0-0" }} </span>
+        </div>
+        <div class="d-flex col-md-4 mb-3">
+            <span class="sh-display-block ">Médécin </span>
+            <span class="sh-display-block sh-color-primary fw-bold"> {{ data?.practician}}</span>
+        </div>
+    </div>
+</div>

@@ -10,10 +10,18 @@ import { PaymentComponent } from './payment/payment.component';
 import { InsuranceBillComponent } from './insurance-bill/insurance-bill.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PracticianBillComponent } from './practician-bill/practician-bill.component';
+import { GMHISInvoiceCreateUpdateHeaderInformationComponent } from './invoice-form/gmhis-invoice-create-update-header-information.component';
 
 
 @NgModule({
-  declarations: [InvoiceListComponent, InvoiceFormComponent, PaymentComponent, InsuranceBillComponent, PracticianBillComponent],
+  declarations: [
+    InvoiceListComponent, 
+    InvoiceFormComponent, 
+    PaymentComponent, 
+    InsuranceBillComponent, 
+    PracticianBillComponent,
+    GMHISInvoiceCreateUpdateHeaderInformationComponent
+  ],
   imports: [
     CommonModule,
     InvoiceRoutingModule,

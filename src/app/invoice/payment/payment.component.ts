@@ -11,14 +11,9 @@ import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { InvoiceService } from '../service/invoice.service';
 import { PaymentType } from './payment';
 
-@Component({
-  selector: 'app-payment',
-  templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.scss'],
-})
+@Component({selector: 'app-payment',templateUrl: './payment.component.html',styleUrls: ['./payment.component.scss']})
 export class PaymentComponent implements OnInit {
-  @Input()
-  invoice: any;
+  @Input()invoice: any;
 
   @Output('addPayment') addPayment: EventEmitter<any> = new EventEmitter();
   selectedSize: number;
@@ -33,7 +28,7 @@ export class PaymentComponent implements OnInit {
   examDto: ExamenCreateData = {
     acts: [],
     admission: 0,
-    diagnostic: 'ok ok ',
+    diagnostic: '',
     id: 0,
     observation: null,
     examenTytpe: false
@@ -65,8 +60,9 @@ export class PaymentComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     if (this.invoice) {
-      
       this.patientInvoice = this.invoice;
+      console.log(this.invoice);
+      
       this.examDto.admission = this.patientInvoice.admission.id;
     }
     this.findPaymentTypesActiveNameAndIds();

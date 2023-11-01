@@ -1,0 +1,56 @@
+// --- width ---
+
+.sh-width-full {
+    width: 100%;
+}
+
+.sh-width-full-imp {
+    width: 100% !important;
+}
+
+.sh-width-inherit {
+    width: inherit;
+}
+
+.sh-width-inherit-imp {
+    width: inherit !important;
+}
+
+.sh-width-auto {
+    width: auto;
+}
+
+.sh-width-auto-imp {
+    width: auto !important;
+}
+
+.sh-width-fit-content {
+    width: fit-content ;
+}
+
+.sh-width-min-content {
+    width: min-content;
+}
+
+.sh-width-min-content-imp {
+    width: min-content !important;
+}
+
+.sh-width-max-content {
+    width: max-content;
+}
+
+.sh-width-max-content-imp {
+    width: max-content !important;
+}
+
+@each $size in $ASIZES {
+    .sh-width-#{$size} {
+        width: $size + px;
+    }
+
+    .sh-width-#{$size}-imp {
+        width: $size + px !important;
+    }
+
+}

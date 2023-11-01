@@ -79,7 +79,6 @@ export class InvoiceListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
     this.initform();
     this.getInvoice();
   }
@@ -106,8 +105,12 @@ export class InvoiceListComponent implements OnInit {
     });
   }
 
-  onSearchValueChange(): void {
+  public onSearchValueChange(): void {
     this.getInvoice();
+  }
+
+  public onAfterSave(invoiceFormRef): void {
+    this.modalService.open(invoiceFormRef, { size: 'xl' });
   }
 
   public getInvoice() {
@@ -147,6 +150,8 @@ export class InvoiceListComponent implements OnInit {
 
   openPaymentForm(paymentFormContent, item?) {    
     this.invoice = item;
+    console.log(this.invoice);
+    
     this.makeInvoice = false;
     this.modalService.open(paymentFormContent, { size: 'xl' });
   }
@@ -185,7 +190,7 @@ addPayment(){
     this.invoice = invoice;
   }
 
-  showActionsList(){
+  public showActionsList(){
     this.acctionsList = !this.acctionsList;
   }
 

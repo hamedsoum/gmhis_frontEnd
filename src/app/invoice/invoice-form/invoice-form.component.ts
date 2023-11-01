@@ -8,6 +8,7 @@ import { Insured } from 'src/app/insurance/insured';
 import { GMHISInsuredService } from 'src/app/insured/service/insured-service.service';
 import { PaymentTypeService } from 'src/app/payment-type/service/payment-type.service';
 import { PracticianService } from 'src/app/practician/practician.service';
+import { GmhisUtils } from 'src/app/shared/base/utils';
 import { GMHISNameAndID } from 'src/app/shared/models/name-and-id';
 import { Invoice } from 'src/app/_models/invoice.model';
 import { User } from 'src/app/_models/user.model';
@@ -17,21 +18,22 @@ import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { InvoiceCreateData, InvoiceCost, patientType } from '../models/invoice';
 import { InvoiceService } from '../service/invoice.service';
 
-@Component({
-  selector: 'app-invoice-form',
-  templateUrl: './invoice-form.component.html',
-  styleUrls: ['./invoice-form.component.scss']
-})
+@Component({selector: 'app-invoice-form',templateUrl: './invoice-form.component.html',styleUrls: ['./invoice-form.component.scss']})
 export class InvoiceFormComponent implements OnInit {
-  @Output() addInvoice = new EventEmitter();
-  @Output() updateInvoice = new EventEmitter();
-  @Output() addPayment= new EventEmitter();
 
   @Input() admission: Admission;
 
   @Input() InvoiceType : string;
 
   @Input() invoice: Invoice;
+
+  @Input() showHearderInformation?: boolean;
+
+  @Output() addInvoice = new EventEmitter();
+
+  @Output() updateInvoice = new EventEmitter();
+
+  @Output() addPayment= new EventEmitter();
 
   admissionForTemplate: Admission;
 
@@ -78,14 +80,14 @@ export class InvoiceFormComponent implements OnInit {
     private userService: UserService
     ) {}
 
-  ngOnInit(): void {    
+  ngOnInit(): void { 
+    if(GmhisUtils.isNull(this.showHearderInformation)) this.showHearderInformation = true;   
     this.currentDate = new Date();
     this.user = this.userService.getUserFromLocalCache();
     this.buildFields();
     this.addActs();
     if (this.admission) {        
       this.admissionForTemplate = this.admission;  
-     
       this.invoiceForm.get('admissionNumber').setValue(this.admission.admissionNumber);
       this.invoiceForm.get('admission').setValue(this.admission.id);
       this.invoiceForm.get('patientExternalId').setValue(this.admission.patientExternalId);

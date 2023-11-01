@@ -1,6 +1,6 @@
 <div class="main-payment">
   <!-- payment section -->
-  <div class="payment-section">
+  <div *ngIf="patientInvoice" class="payment-section">
     <h5 class="payment-section__title">Information</h5>
     <div class="card-payment">
       <div class="flex-item">
@@ -34,7 +34,7 @@
   </div>
 
   <!-- payment section -->
-  <div class="payment-section">
+  <div *ngIf="patientInvoice" class="payment-section">
     <h5 class="payment-section__title">Assurance</h5>
     <div class="card-payment">
       <div class="flex-item">

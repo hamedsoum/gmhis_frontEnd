@@ -115,7 +115,6 @@ export class GMHISInvoiceHComponent implements OnInit {
         .subscribe(
             (response: PageList) => {
                 GmhisUtils.pageListMap(this.pagination, response); 
-                console.log(this.pagination.items)        
             },
             (errorResponse: HttpErrorResponse) => {   
                 console.error(errorResponse.error.message);      
@@ -126,9 +125,7 @@ export class GMHISInvoiceHComponent implements OnInit {
 
     private findInvoiceItems(quotation: GMHISInvoiceHPartial, quotationDocRef) {
         this.invoiceHService.findnvoiceItemsByinvoiceHID(quotation.id).subscribe((response: GMHISInvoiceHItemPartial[]) => { 
-            this.quotationsItems = response;
-            console.log(this.quotationsItems);
-            
+            this.quotationsItems = response;            
             let doc = this.quotationPdfService.buildPdf(this.invoiceSelected, this.quotationsItems);
             this.modalService.open(quotationDocRef, { size: 'xl' });
             this.docSrc = doc.output('datauristring'); 

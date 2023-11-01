@@ -8,15 +8,8 @@
 @import "~material-icons/iconfont/material-icons.css";
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
 
-@import "../src/app/shared/sh-style/sh-constant.scss";
-@import "../src/app/shared/sh-style/sh-style.scss";
-@import "../src/app/shared/sh-style/sh-default-variable.scss";
-@import "../src/app/shared/sh-style/sh-color.scss";
-@import "../src/app/shared/sh-style/sh-typography.scss";
-@import "../src/app/shared/sh-style/sh-spacing.scss";
-@import "../src/app/shared/sh-style/sh-data-field.scss";
-@import "../src/app/shared/sh-style/sh-grid.scss";
-@import "../src/app/shared/sh-style/sh-flex.scss";
+@import "../src/app/shared/sh-style/sh.scss";
+
 
 .actsSelected {
   padding: 2rem 2rem;

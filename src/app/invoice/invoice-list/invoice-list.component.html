@@ -1,30 +1,26 @@
 <nb-card class="nbCardList">
-  <nb-card-header class="row d-flex justify-content-between align-items-center">
-    <div class="col-lg-7 col-md-3 col-sm-12">
+  <nb-card-header>
+    <div class="d-flex justify-content-between align-items-center">
       <h4 class="text-capitalize d-flex justify-content-start w-100 text-center">Factures</h4>
+      <sh-button type="button" size="large" label="Créer une facture" labelStyleClass="sh-color-primary" (clickEvent)="onAfterSave(invoiceFormRef)" styleClass="m-2"></sh-button>
+      <sh-button type="text" size="intermediate" label="" labelStyleClass="sh-color-primary sh-min-width-300"></sh-button>
     </div>
   </nb-card-header>
   <nb-card-body>
     <form [formGroup]="searchForm">
       <div class="row d-flex justify-content-between align-items-end mb-2">
         <div class="col-lg-11 col-md-9 col-sm-12 row">
-
           <div class="col-lg-12 row">
-
             <div class="col-lg-2 col-md-4 col-sm-12 mb-2 rounded-pill">
-              <input type="text" class="form-control" formControlName="billNumber" placeholder="N° facture"/>
+              <input type="text" class="form-control" formControlName="billNumber" placeholder="Rechercher par N° facture"/>
             </div>
 
             <div class="col-lg-2 col-md-4 col-sm-12 mb-2 rounded-pill">
-              <input type="text" class="form-control" formControlName="admissionNumber" placeholder="N° admission"/>
+              <input type="text" class="form-control" formControlName="lastName" placeholder="Rechercher par nom"/>
             </div>
 
             <div class="col-lg-2 col-md-4 col-sm-12 mb-2 rounded-pill">
-              <input type="text" class="form-control" formControlName="lastName" placeholder="Nom"/>
-            </div>
-
-            <div class="col-lg-2 col-md-4 col-sm-12 mb-2 rounded-pill">
-              <input nbInput placeholder="Date et heure d'admission" class="form-control" [nbDatepicker]="dateTimePicker"/>
+              <input nbInput placeholder="Rechercher par Plage de Date" class="form-control" [nbDatepicker]="dateTimePicker"/>
               <nb-date-timepicker withSeconds #dateTimePicker ></nb-date-timepicker>
             </div>
 
@@ -110,7 +106,22 @@
   </div>
 
   <div class="modal-body">
-    <app-admission-form [admission]="admission" (updateAdmission)="updateAdmission()"></app-admission-form>
+    <app-admission-create-update [admission]="admission" (updateAdmission)="updateAdmission()"></app-admission-create-update>
+  </div>
+
+</ng-template>
+
+
+<!-- update modal -->
+<ng-template #invoiceFormRef let-c="close" let-d="dismiss">
+
+  <div class="modal-header">
+    <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">Créer Une Facture</h4>
+    <nb-icon style="cursor: pointer" class="h4" icon="close-circle-outline" (click)="d('Cross click')"></nb-icon>
+  </div>
+
+  <div class="modal-body">
+    <app-invoice-form [showHearderInformation]="false"></app-invoice-form>
   </div>
 
 </ng-template>
@@ -145,6 +156,6 @@
   </div>
 
   <div class="modal-body">
-    <app-payment [invoice]="invoice" (addPayment)="addPayment()"></app-payment>
+      <app-payment [invoice]="invoice" (addPayment)="addPayment()"></app-payment>
   </div>
 </ng-template>

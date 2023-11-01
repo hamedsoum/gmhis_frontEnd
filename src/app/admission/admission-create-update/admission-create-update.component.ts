@@ -14,12 +14,8 @@ import { Admission, admissionCreateUpdate, GMHISAdmissionType } from '../model/a
 import { AdmissionService } from '../service/admission.service';
 import { GMHISKeyValue } from 'src/app/shared/models/name-and-id';
 
-@Component({
-  selector: 'app-admission-form',
-  templateUrl: './admission-form.component.html',
-  styleUrls: ['./admission-form.component.scss']
-})
-export class AdmissionFormComponent implements OnInit {
+@Component({ selector: 'app-admission-create-update', templateUrl: './admission-create-update.component.html'})
+export class GMHISAdmissionCreateUpdateComponent implements OnInit {
   private subs = new SubSink();
 
   @Input() patient: Patient
@@ -47,7 +43,7 @@ export class AdmissionFormComponent implements OnInit {
   specialityPracticians : any[] = [];
 
    types : GMHISKeyValue[] = [ 
-     {key: GMHISAdmissionType.NORMAL, value: 'Normal' },
+     {key: GMHISAdmissionType.NORMAL, value: 'Consultation' },
      {key: GMHISAdmissionType.EMERGENCY, value: 'Urgence' }
    ]
 

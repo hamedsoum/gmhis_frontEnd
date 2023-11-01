@@ -2,21 +2,23 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { ActService } from 'src/app/act/act/service/act.service';
 import { ServiceService } from 'src/app/service/service/service.service';
+import { GmhisUtils } from 'src/app/shared/base/utils';
+import { PAGINATION_SIZE } from 'src/app/shared/constant';
+import { GMHISPagination } from 'src/app/shared/models/gmhis-domain';
 import { GMHISKeyValue } from 'src/app/shared/models/name-and-id';
 import { PageList } from 'src/app/_models/page-list.model';
 import { AdmissionReceiptPaymentService } from 'src/app/_services/documents/admission-receipt-payment.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
-import { SubSink } from 'subsink';
 import { admissionStatus, Admission, GMHISAdmissionType } from '../model/admission';
 import { AdmissionService } from '../service/admission.service';
 
-@Component({selector: 'app-admission-list',templateUrl: './admission-list.component.html'})
-export class AdmissionListComponent implements OnInit, OnDestroy {
-
-  private subs = new SubSink();
+@Component({selector: 'gmhis-admission-consultations',templateUrl: './gmhis-admission-consultations.component.html'})
+export class AdmissionConsultationsComponent implements OnInit, OnDestroy {
 
   public searchForm: FormGroup;
 
@@ -26,33 +28,20 @@ export class AdmissionListComponent implements OnInit, OnDestroy {
 
   public makeInvoiceByAdmission : boolean;
 
-  currentPage: number;
-  empty: boolean;
-  firstPage: boolean;
-  lastPage: boolean;
-  totalItems: number;
-  totalPages: number;
+  pagination: GMHISPagination = {};
+
+  sizes = PAGINATION_SIZE;
 
   public items: any;
 
   selectedSize: number;
-
-  sizes = [
-    { id: 10, value: 10 },
-    { id: 25, value: 25 },
-    { id: 50, value: 50 },
-    { id: 100, value: 100 },
-    { id: 250, value: 250 },
-    { id: 500, value: 500 },
-    { id: 1000, value: 1000 },
-  ];
 
   admissionStatus =  [
     {value: admissionStatus.UNBILLED , item: 'Non Facturée'},
     {value: admissionStatus.BILLED , item: 'Facturée'},
   ]
 
-  showloading: boolean = false;
+  loading: boolean = false;
   currentIndex: number;
 
   acctionsList : boolean = false;
@@ -66,6 +55,8 @@ export class AdmissionListComponent implements OnInit, OnDestroy {
     {key: GMHISAdmissionType.NORMAL, value: 'Normal' },
     {key: GMHISAdmissionType.EMERGENCY, value: 'Urgence' }
   ]
+
+  subscription : Subscription = new Subscription();
 
   constructor(
     private admissionService: AdmissionService,
@@ -84,22 +75,16 @@ export class AdmissionListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.subs.unsubscribe();
+      this.subscription.unsubscribe()
   }
 
   public onAdmissionSupervisory(admissionID: number):void {
-    this.subs.add(
+    this.subscription.add(
       this.admissionService.supervisory(admissionID)
         .subscribe(
           (response : Admission) => {
-            this.notificationService.notify(
-              NotificationType.SUCCESS,
-              'Admission de surveillance crée avec succès'
-            );
-          },
-          (error : HttpErrorResponse) => {
-            throw new Error(error.message);
-          }
+            this.notificationService.notify(NotificationType.SUCCESS,'Admission de surveillance crée avec succès')},
+          (error : HttpErrorResponse) => {throw new Error(error.message);}
         )
     )
   }
@@ -151,23 +136,17 @@ export class AdmissionListComponent implements OnInit, OnDestroy {
   }
 
   public getAdmissions() {
-    this.showloading = true;
-    this.subs.add(
-      this.admissionService.findAll(this.searchForm.value).subscribe(
+    this.loading = true;
+    this.subscription.add(
+      this.admissionService.findAll(this.searchForm.value)
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe(
         (response: PageList) => {
-          this.showloading = false;
-          this.currentPage = response.currentPage + 1;
-          this.empty = response.empty;
-          this.firstPage = response.firstPage;
-          this.items = response.items; 
-          console.log(this.items);                           
-          this.lastPage = response.lastPage;
-          this.selectedSize = response.size;
-          this.totalItems = response.totalItems;
-          this.totalPages = response.totalPages;
+          GmhisUtils.pageListMap(this.pagination, response); 
+
         },
         (errorResponse: HttpErrorResponse) => {
-          this.showloading = false;
+          this.loading = false;
           this.notificationService.notify(
             NotificationType.ERROR,
             errorResponse.error.message
@@ -235,7 +214,7 @@ addInvoice(){
         this.actServicesNameAndId = response;
       },
       (errorResponse : HttpErrorResponse) => {
-        this.showloading = false;
+        this.loading = false;
         this.notificationService.notify(
           NotificationType.ERROR,
           errorResponse.error.message
@@ -249,7 +228,7 @@ addInvoice(){
         this.activeActNameAndId = response; 
       },
       (errorResponse : HttpErrorResponse) => {
-        this.showloading = false;
+        this.loading = false;
         this.notificationService.notify(
           NotificationType.ERROR,
           errorResponse.error.message

@@ -32,7 +32,7 @@
 [hidden]="!canAccessAdmission"
   [ngClass]="{ menuActive: menuItem == 'admission' }"
   (click)="menuItemFunction('admission')"
-  routerLink="/admission/list"
+  routerLink="/admission"
   class="dashboard py-3"
 >
   <fa-icon
@@ -40,12 +40,9 @@
   
     style="font-size: 1rem; margin-right: 10px"
   ></fa-icon
-  ><span class="fw-bold">Consultation</span>
+  ><span class="fw-bold">Admission</span>
 </p>
 
-<p [ngClass]="{ menuActive: menuItem == 'emergency' }" (click)="menuItemFunction('emergency')" routerLink="/admission/emergency" class="dashboard py-3">
-    <fa-icon [icon]="faUser" style="font-size: 1rem; margin-right: 10px" ></fa-icon><span class="fw-bold">Urgence</span>
-</p>
 
 <p
   [hidden]="!canAccessCaisse"
@@ -53,7 +50,7 @@
   (click)="menuItemFunction('invoice')"
   routerLink="/invoice/list"
   class="dashboard py-3">
-    <fa-icon [icon]="faKey" style="font-size: 1rem; margin-right: 10px"></fa-icon><span class="fw-bold">Caisse</span>
+    <fa-icon [icon]="faKey" style="font-size: 1rem; margin-right: 10px"></fa-icon><span class="fw-bold">Facture</span>
 </p>
 <p
   [ngClass]="{ menuActive: menuItem == 'invoiceH' }"

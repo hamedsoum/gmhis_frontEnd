@@ -1,11 +1,7 @@
 <nb-card class="nbCardList">
     <nb-card-header class="row d-flex justify-content-between align-items-center">
       <div class="col-lg-7 col-md-3 col-sm-12">
-        <h4
-          class="text-capitalize d-flex justify-content-start w-100 text-center"
-        >
-          Admissions
-        </h4>
+        <h4 class="text-capitalize d-flex justify-content-start w-100 text-center sh-color-primary sh-mb-5"> Consultation</h4>
       </div>
     </nb-card-header>
     <nb-card-body>
@@ -17,58 +13,18 @@
                     <input
                       type="text"
                       class="form-control"
-                      formControlName="admissionNumber"
-                      placeholder="N° admission"
+                      formControlName="patientExternalId"
+                      placeholder="N° du Patient"
                     />
-                  </div>
+                  </div> 
                   <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
                     <input
                       type="text"
                       class="form-control"
                       formControlName="lastName"
-                      placeholder="Nom"
+                      placeholder="Nom du Patient"
                     />
-                  </div>
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="idCardNumber"
-                      placeholder="N° CNI"
-                    />
-                  </div>
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="cnamNumber"
-                      placeholder="N° CNAM"
-                    />
-                  </div>
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="patientExternalId"
-                      placeholder="N° du Patient"
-                    />
-                  </div>
-
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                    <ng-select formControlName="type" placeholder="choisisez le type d'admission">
-                        <ng-option *ngFor="let type of types" [value]="type.key">
-                          {{type.value}}
-                        </ng-option>
-                      </ng-select>
-                  </div>
-             
-                  <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                    <ng-select formControlName="admissionStatus">
-                        <ng-option *ngFor="let admissionStatu of admissionStatus" [value]="admissionStatu.value">
-                          {{admissionStatu.item}}
-                        </ng-option>
-                      </ng-select>
-                  </div>
+                  </div>           
                   <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
                     <ng-select formControlName="service" placeholder="service">
                         <ng-option *ngFor="let actServiceNameAndId of actServicesNameAndId" [value]="actServiceNameAndId.id">
@@ -76,15 +32,13 @@
                         </ng-option>
                       </ng-select>
                   </div>
-
                   <div class="col-lg-3 col-md-4 col-sm-12 mb-2 rounded-pill">
-                    <ng-select formControlName="act" placeholder="acte">
-                        <ng-option *ngFor="let act of activeActNameAndId" [value]="act.id">
-                          {{act.name}}
+                    <ng-select (change)="onSearchValueChange()" formControlName="admissionStatus">
+                        <ng-option *ngFor="let admissionStatu of admissionStatus" [value]="admissionStatu.value">
+                          {{admissionStatu.item}}
                         </ng-option>
                       </ng-select>
                   </div>
-               
                 </div>
                 <div class="col-lg-1">
                   <span
@@ -100,26 +54,28 @@
                   </span>
                 </div>
               </div>
-              <div class="col-lg-1 col-md-3 col-sm-12 ">
-                <ng-select
-                  [(ngModel)]="selectedSize"
-                  formControlName="size"
-                  (change)="onSearchValueChange()"
-                >
-                  <ng-option *ngFor="let size of sizes" [value]="size.id">{{
-                    size.value
-                  }}</ng-option>
-                </ng-select>
-              </div>
+             
             </div>
-          </form>   
+            <div class="w-100 d-flex justify-content-end" >
+              <ng-select
+                class="min-width-200"
+                [(ngModel)]="pagination.selectedSize"
+                formControlName="size"
+                (change)="onSearchValueChange()"
+              >
+                <ng-option *ngFor="let size of sizes" [value]="size.id">{{
+                  size.value
+                }}</ng-option>
+              </ng-select>
+            </div>  
+          </form> 
+         
       <div class="tableFixHead">
         <table class="table table-bordered table-hover table-md align-middle">
           <thead class="pb-3 text-capitalize">
             <tr class="pb-3">
               <th>Date</th>
               <th>N° Admission</th>
-              <th>Type</th>
               <th>N° patient</th>
               <th>Patient</th>
               <th>Service</th>
@@ -134,13 +90,13 @@
           <tbody>
             <tr
               *ngFor="
-                let admission of items
+                let admission of pagination.items
                   | paginate
-                    : {
-                        itemsPerPage: selectedSize,
-                        currentPage: currentPage,
-                        totalItems: totalItems
-                      };
+                    :{
+                      itemsPerPage: pagination.selectedSize,
+                      currentPage: pagination.currentPage,
+                      totalItems: pagination.totalItems
+                    };
                 let i = index
               "
               [class.active]="i == currentIndex"
@@ -148,15 +104,12 @@
               >
               <td class="text-nowrap ">{{admission.admissionDate | date:  "dd/MM/yyyy HH:mm:ss"}}</td>
               <td>{{admission?.admissionNumber | uppercase }}</td>
-              <td>
-                <span class="status" [ngClass]="{'statusError': admission.type == 'emergency'}" >{{admission.type == 'emergency' ? 'Urgence' : 'Consultation'}}</span>
-              </td>
               <td class="text-nowrap">{{admission.patientExternalId}}</td>
               <td class="text-nowrap">{{admission.patientLastName}} {{admission.patientFirstName}}</td>
               <td class="text-nowrap">{{admission.service}}</td>
               <td class="text-nowrap">{{admission.act}}</td>
               <td class="text-nowrap"> {{admission.practician}}</td>
-              <td class="text-center">{{admission.caution != 0 ? ( admission.caution | currency: "FCFA":"symbol":"1.0-0") : '-'}}</td>
+              <td class="text-center">{{admission.caution != null ? ( admission.caution | currency: "FCFA":"symbol":"1.0-0") : '---'}}</td>
               <td class="text-center">
                 <span class="status" [ngClass]="{'statusSuccess': admission.admissionStatus == 'B', 'statusError': admission.admissionStatus == 'R'}" >{{admission.admissionStatus == 'B' ? 'Facturée' : 'Non Facturé'}}</span>
             </td>
@@ -197,7 +150,7 @@
       <div class="d-flex w-100 justify-content-center">
         <div
           style="color: #623508"
-          *ngIf="showloading"
+          *ngIf="loading"
           class="spinner-border"
           style="width: 3rem; height: 3rem"
           role="status"
@@ -217,7 +170,6 @@
     </nb-card-body>
   </nb-card>
   
-  
   <!-- update modal -->
   <ng-template #updateFormContent let-c="close" let-d="dismiss">
     <div class="modal-header">
@@ -232,10 +184,10 @@
       ></nb-icon>
     </div>
     <div class="modal-body">
-      <app-admission-form
+      <app-admission-create-update
         [admission]="admission"
         (updateAdmission)="updateAdmission()"
-      ></app-admission-form>
+      ></app-admission-create-update>
     </div>
   </ng-template>
 
@@ -253,6 +205,7 @@
     </div>
     <div class="modal-body">
       <app-invoice-form
+        [showHearderInformation]="true"
         [admission]="admission"
         (addInvoice)="addInvoice()"
       ></app-invoice-form>
