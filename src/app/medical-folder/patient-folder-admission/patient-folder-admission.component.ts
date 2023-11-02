@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbMenuBag, NbMenuItem, NbMenuService } from '@nebular/theme';
@@ -7,19 +8,22 @@ import { Admission } from 'src/app/admission/model/admission';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
 import { PatientConstantService } from 'src/app/constant/patient-constant/service/patient-constant.service';
 import { ExamService } from 'src/app/examen/services/exam.service';
-import { GMHISHospitalizationRequestPartial } from 'src/app/hospitalization/api/domain/request/gmhis-hospitalization-request';
 import { GMHISHospitalizationRequestPdfService } from 'src/app/hospitalization/api/service/request/gmhis.hospitalization.pdf.service';
 import { Patient } from 'src/app/patient/patient';
 import { PatientService } from 'src/app/patient/patient.service';
 import { PrescriptionService } from 'src/app/prescription/services/prescription.service';
+import { GmhisUtils } from 'src/app/shared/base/utils';
 import { User } from 'src/app/_models';
 import { NotificationService, UserService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import Swal from 'sweetalert2';
 import { medicalFolderMenu } from '../api/medical-folder';
+import { IExamination } from '../examination/models/examination';
 import { ExaminationService } from '../examination/services/examination.service';
-@Component({selector :'patient-detail-component', templateUrl :'patient-folder-details-examination.component.html'})
-export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestroy{
+
+
+@Component({selector :'patient-folder-admission', templateUrl :'patient-folder-admission.component.html'})
+export class PatientFolderAdmissionComponent implements OnInit, OnDestroy{
 
   @Output() updateExaminationNuberEvent: EventEmitter<any> = new EventEmitter();
 
@@ -44,7 +48,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
   isLaboratoryExamenType: boolean;
   examinationID : number;
   newExamination : boolean = false;
-
+  lastExamination: IExamination;
 
   private subscriptions: Subscription = new Subscription();
 
@@ -70,43 +74,27 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
          {
           title: medicalFolderMenu.CONSULTATIONS,
           icon: 'minus-outline',
-         
-          badge: {
-            text: "0",
-            status: 'warning',
-          }
+          badge: {text: "0",status: 'warning',}
         },
         {
           title: medicalFolderMenu.CONSTANTES,
           icon: 'minus-outline',
-          badge: {
-            text: "0",
-            status: 'warning',
-          },
+          badge: {text: "0",status: 'warning'},
         },
         {
           title: medicalFolderMenu.CONSTANTES,
           icon: 'minus-outline',
-          badge: {
-            text: '0',
-            status: 'warning',
-          },
+          badge: { text: '0',status: 'warning'},
         },
         {
           title: medicalFolderMenu.EXAMENS,
           icon: 'minus-outline',
-          badge: {
-            text: '0',
-            status: 'warning',
-          },
+          badge: {text: '0',status: 'warning'},
         },
         {
           title: medicalFolderMenu.MEDICAL_CERTIFICATES,
           icon: 'minus-outline',
-          badge: {
-            text: '0',
-            status: 'warning',
-          },
+          badge: {text: '0',status: 'warning'},
         }
   ];
 
@@ -116,14 +104,9 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
         const id = Number(params.get('id'));
         this.admissionID = id;
         this.retrieveAdmission(this.admissionID);
-      }
-      )
+      })
       
-      this.menuService.onItemClick().subscribe(
-        (response : NbMenuBag) => {
-          this.menuClick = response.item.title;
-        }
-      )
+      this.menuService.onItemClick().subscribe((response : NbMenuBag) => {this.menuClick = response.item.title})
 
       this.practician = this.userService.getUserFromLocalCache();
             
@@ -188,17 +171,37 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
     
     })
   }
+
+  public onHospitalizationRequest(hospitalizationRequestRef): void {
+      this.examinationService.retrieveLastExamination(this.admissionID)
+      .subscribe(
+         (response) => {
+            this.lastExamination = response;
+            if (GmhisUtils.isNull(this.lastExamination.conclusion)) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Veuillez Diagnostiquer la dernière consultation avant de faire une demande d\'hospitalisation s\'il vous plaît',
+              })
+            } else {
+              this.onOpenModal(hospitalizationRequestRef, 'xl')
+            }          
+         },
+         (error: HttpErrorResponse) => {
+
+         }
+      )
+  }
   
   public onOpenModal(templateRef, size:string, centered? : boolean) {
         this.modalService.open(templateRef, { size: size, centered: centered});
   }
 
-  changeNewExaminationValue(){
+  private changeNewExaminationValue(){
     this.newExamination = !this.newExamination;
   }
   
-  openExaminationForm(addFormContent, size:string) {
-    
+  public openExaminationForm(addFormContent, size:string) {
     this.modalService.open(addFormContent, { size: size });
   }
 
@@ -255,10 +258,7 @@ export class PatientFolderExaminationDetailsComponent implements OnInit, OnDestr
 
   handleAddPrescriptionEvent(){
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      "Ordonnance prescrite avec succès"
-    );
+    this.notificationService.notify( NotificationType.SUCCESS,"Ordonnance prescrite avec succès");
     this.updatePatientPrescriptionNumber();
   }
 

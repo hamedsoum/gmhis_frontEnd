@@ -17,6 +17,9 @@ export interface GMHISHospitalizationRequest extends AuditPKDTO {
     reason: string;
 
     dayNumber: number;
+
+    protocole: string;
+
 }
 
 
@@ -30,10 +33,13 @@ export interface GMHISHospitalizationRequestPartial {
     patientID: number;
 
     praticianName: GMHISName;
-
+    praticianID: number;
+    
     date: string;
     
     reason: string;
+
+    protocole: string;
 
     dayNumber: number;
 
@@ -52,4 +58,7 @@ export interface GMHISHospitalizationRequestCreate {
     dayNumber: number;
 
     startDate: string;
+
+    protocole: string;
+
 }

@@ -127,7 +127,7 @@
                     </button>
                     <button 
                      class="text-center"
-                    (click)="openInvoiceForm(invoiceFormContent, admission)"
+                    (click)="onInvoiceCreate(invoiceFormContent, admission)"
                     ngbDropdownItem>Facture</button>
                     <button 
                     *ngIf="isDeposit(admission.caution)"
@@ -193,22 +193,12 @@
 
   <ng-template #invoiceFormContent let-c="close" let-d="dismiss">
     <div class="modal-header">
-      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
-        Facture
-      </h4>
-      <nb-icon
-        style="cursor: pointer"
-        (click)="d('Cross click')"
-        class="h4"
-        icon="close-circle-outline"
-      ></nb-icon>
+      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">Facture</h4>
+      <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4"icon="close-circle-outline"></nb-icon>
     </div>
+    
     <div class="modal-body">
-      <app-invoice-form
-        [showHearderInformation]="true"
-        [admission]="admission"
-        (addInvoice)="addInvoice()"
-      ></app-invoice-form>
+      <app-invoice-form [showHearderInformation]="true" [admission]="admission" (addInvoice)="addInvoice()"></app-invoice-form>
     </div>
   </ng-template>
 

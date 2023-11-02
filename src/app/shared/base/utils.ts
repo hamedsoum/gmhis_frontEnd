@@ -14,6 +14,7 @@ export class GmhisUtils {
     }
 
     public static isNull(arg: any):boolean {
+        if(typeof arg == "string" && arg.length == 0) return true;
         return (arg == null || arg == undefined);
     }
 

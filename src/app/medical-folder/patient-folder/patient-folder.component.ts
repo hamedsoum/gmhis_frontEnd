@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NbMenuItem, NbMenuService } from '@nebular/theme';
@@ -13,32 +13,36 @@ import { PrescriptionService } from 'src/app/prescription/services/prescription.
 import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
-import { SubSink } from 'subsink';
 import { ExaminationService } from '../examination/services/examination.service';
 import * as moment from 'moment';
 import { Admission } from 'src/app/admission/model/admission';
+import { Subscription } from 'rxjs';
 
-@Component({
-  selector: 'app-patient-folder',
-  templateUrl: './patient-folder.component.html',
-  styleUrls: ['./patient-folder.component.scss']
-})
-export class PatientFolderComponent implements OnInit {
+@Component({selector: 'app-patient-folder',templateUrl: './patient-folder.component.html',styleUrls: ['./patient-folder.component.scss']})
+export class PatientFolderComponent implements OnInit, OnDestroy {
 
-  private subs = new SubSink();
+  private subscription : Subscription = new Subscription();
 
   patient: Patient;
   patientId: number;
+
   admissionId: number;
   admission : Admission;
+
   showConsultationList : boolean;
+
   examinationNumber: number = 0;
+
   showConstantList: boolean;
+
   menuClick:string = 'Consultations';
+
   patientConstantNumber: number = 0;
+
   patientPrescriptionNumber: number = 0;
 
   currentDate : any;
+
   patientExamNumber: number = 0;
 
   public searchForm: FormGroup;
@@ -54,7 +58,6 @@ export class PatientFolderComponent implements OnInit {
 
   selectedSize: number;
 
-
   sizes = [
     { id: 10, value: 10 },
     { id: 25, value: 25 },
@@ -67,6 +70,34 @@ export class PatientFolderComponent implements OnInit {
 
   showloading: boolean = false;
   lastAdmissionNoHaveExamination: boolean;
+
+  items2: NbMenuItem[] = [
+    {
+     title: 'Consultations',
+     icon: 'minus-outline',
+     badge: {text: "0",status: 'warning'}
+   },
+   {
+     title: 'Constantes',
+     icon: 'minus-outline',
+     badge: {text: "0",status: 'warning'},
+   },
+   {
+     title: 'Ordonances',
+     icon: 'minus-outline',
+     badge: {text: '0',status: 'warning'}
+   },
+   {
+     title: 'Examens',
+     icon: 'minus-outline',
+     badge: {text: '0',status: 'warning'}
+   },
+   {
+     title: 'Certificats médicaux',
+     icon: 'minus-outline',
+     badge: {text: '0',status: 'warning'},
+   }
+];
 
   constructor(
     private route : ActivatedRoute,
@@ -81,9 +112,11 @@ export class PatientFolderComponent implements OnInit {
     private modalService: NgbModal
 
     ) { }
+  
+    ngOnDestroy(): void {
+      this.subscription.unsubscribe();
+  }
 
-
-    
     initform() {
       this.searchForm = new FormGroup({
         patient: new FormControl(this.patientId),
@@ -98,32 +131,36 @@ export class PatientFolderComponent implements OnInit {
 
   ngOnInit(): void {    
     this.currentDate = new Date();
-    this.route.paramMap.subscribe(
-      params => {
-        const id = Number(params.get('id'));
-        this.admissionId = id;
-        this.admissionService.retrieve(id).subscribe(
-          (response : any)=>{
-            this.admission = response;
-            this.patientId = response["patientId"];
-          this.patientService.retrieve(this.patientId).subscribe(
-          (response : any) => {
-            this.patient = response;
-            this.showConsultationList = true;
-            this.showConstantList = true;
-            this.initform();
-            this.getExamination();
-            this.updateExaminationNuber(this.patient.id);
-            this.updatePattientConstantNumber(this.patient.id);
-            this.updatePatientPrescriptionNumber(this.patient.id)
-            this.updatePatientExamenNumber(this.patient.id)
-            this.AdmissionNoHaveExamination();
-          }
+
+    this.subscription.add(
+      this.route.paramMap.subscribe(
+        params => {
+          const id = Number(params.get('id'));
+          this.admissionId = id;
+          this.admissionService.retrieve(id).subscribe(
+            (response : any)=>{
+              this.admission = response;
+              this.patientId = response["patientId"];
+            this.patientService.retrieve(this.patientId).subscribe(
+            (response : any) => {
+              this.patient = response;
+              this.showConsultationList = true;
+              this.showConstantList = true;
+              this.initform();
+              this.getExamination();
+              this.updateExaminationNuber(this.patient.id);
+              this.updatePattientConstantNumber(this.patient.id);
+              this.updatePatientPrescriptionNumber(this.patient.id)
+              this.updatePatientExamenNumber(this.patient.id)
+              this.AdmissionNoHaveExamination();
+            }
+          )
+            }
+          ) 
+        }
         )
-          }
-        ) 
-      }
-      )
+    )
+   
       
       this.menuService.onItemClick().subscribe(
         (res : any) => {
@@ -147,7 +184,7 @@ export class PatientFolderComponent implements OnInit {
 
   public getExamination() {
     this.showloading = true;
-    this.subs.add(
+    this.subscription.add(
       this.examinationService.findPatientFirstExaminationsOfAdmisions(this.searchForm.value).subscribe(
         (response: PageList) => {
           this.showloading = false;
@@ -171,49 +208,7 @@ export class PatientFolderComponent implements OnInit {
     );
   }
 
-  items2: NbMenuItem[] = [
-    {
-     title: 'Consultations',
-     icon: 'minus-outline',
-    
-     badge: {
-       text: "0",
-       status: 'warning',
-     }
-   },
-   {
-     title: 'Constantes',
-     icon: 'minus-outline',
-     badge: {
-       text: "0",
-       status: 'warning',
-     },
-   },
-   {
-     title: 'Ordonances',
-     icon: 'minus-outline',
-     badge: {
-       text: '0',
-       status: 'warning',
-     },
-   },
-   {
-     title: 'Examens',
-     icon: 'minus-outline',
-     badge: {
-       text: '0',
-       status: 'warning',
-     },
-   },
-   {
-     title: 'Certificats médicaux',
-     icon: 'minus-outline',
-     badge: {
-       text: '0',
-       status: 'warning',
-     },
-   }
-];
+ 
 
   updateExaminationNuber(patientId?:number){
     this.examinationService.getExaminationNumberByAdmissionId( this.patient.id).subscribe(
@@ -268,11 +263,7 @@ export class PatientFolderComponent implements OnInit {
   }
 
    truncate(str : string, length : number) {
-     if (!!str) {
-      return str.length > length
-      ? str.slice(0, length) + '...'
-      : str;
-     }
+     if (!!str) {return str.length > length? str.slice(0, length) + '...': str;}
   }
 
 }

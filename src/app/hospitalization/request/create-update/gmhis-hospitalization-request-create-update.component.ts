@@ -20,6 +20,8 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
 
   @Input() admissionID: number;
 
+  @Input() examination: IExamination;
+
   @Input() hospitalizationRequest: GMHISHospitalizationRequestPartial;
   
   @Output() saveEvent = new EventEmitter();
@@ -45,7 +47,6 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
 
   ngOnInit(): void {
     this.buildFields(); 
-    this.lasExamination();   
   }
 
   ngOnDestroy(): void {
@@ -55,9 +56,10 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
  private buildFields(): void {
       this.fieldGroup = new FormGroup({
           startDate: new FormControl(null,Validators.required),
-          reason: new FormControl(null,Validators.required),
+          reason: new FormControl(this.examination.conclusion,Validators.required),
+          protocole: new FormControl(null,Validators.required),
           patientID: new FormControl(this.patientID),
-          examinationID: new FormControl(),
+          examinationID: new FormControl(this.examination.id),
           admissionID: new FormControl(this.admissionID),
           dayNumber: new FormControl(null,Validators.required)
       })
@@ -106,15 +108,5 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
    return GmhisUtils.isNull(this.hospitalizationRequest);
   }
 
-  private lasExamination(): void {
-    this.subscription.add(
-      this.examinationService.retrieveLastExamination(this.admissionID).subscribe(
-          (response: IExamination) => {
-            this.fieldGroup.get('examinationID').setValue(response.id);
-            this.fieldGroup.get('reason').setValue(response.conclusion);
-          },
-          (err: HttpErrorResponse) => {}
-      )
-    )
-  }
+
 }

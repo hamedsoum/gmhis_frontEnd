@@ -11,7 +11,7 @@ import { ConstantModule } from '../constant/constant.module';
 import { ExamenModule } from '../examen/examen.module';
 import { PrescriptionModule } from '../prescription/prescription.module';
 import { MedicalCertificatesModule } from '../medical-certificates/medical-certificates.module';
-import { PatientFolderExaminationDetailsComponent } from './patient-folder-details/patient-folder-examination.details.component';
+import { PatientFolderAdmissionComponent } from './patient-folder-admission/patient-folder-admission.component';
 import { InvoiceModule } from '../invoice/invoice.module';
 import { examinationRecord } from './examination/record/examination-record.component';
 import { PatientInformations } from './patient-informations/patient-informations.component';
@@ -26,7 +26,7 @@ import { GMHISHospitalizationModule } from '../hospitalization/gmhis-hospitaliza
     NewExaminationComponent,
     PatientFolderComponent,
     ExaminationListComponent,
-    PatientFolderExaminationDetailsComponent,
+    PatientFolderAdmissionComponent,
     examinationRecord,
     PatientInformations,
     ],

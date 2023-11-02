@@ -1,7 +1,9 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
+import { InvoiceCreateData } from "src/app/invoice/models/invoice";
+import { InvoiceService } from "src/app/invoice/service/invoice.service";
 import { ExaminationService } from "src/app/medical-folder/examination/services/examination.service";
 import { labelValue } from "src/app/shared/domain";
 import { NotificationService } from "src/app/_services";
@@ -11,8 +13,14 @@ import { ExamService } from "../services/exam.service";
 import { DAY_BETWEEN_LAST_EXAMINATION_AND_CURRENTDATE, ExamenComplementary, EXAMEN_COMPLEMENTARY_TYPES } from "./api/domain/examenComplementary";
 import { ExamenComplementaryService } from "./api/service/examen-complementary.service";
 
+type invoiceCreate = {
+  acts: any[],
+  admission: number
+}
+
+
 @Component({ selector: 'examen-complementary-manager', templateUrl: './examen-complementary-manager.component.html'})
-export class examenComplementaryManagerComponent implements OnInit {
+export class examenComplementaryManagerComponent implements OnInit, OnDestroy {
 
     @Input() admissionId: number;
 
@@ -47,6 +55,7 @@ export class examenComplementaryManagerComponent implements OnInit {
       private notificationService: NotificationService,
       private examinationService: ExaminationService,
       private examenComplementaryService: ExamenComplementaryService,
+      private invoiceService: InvoiceService
       ){}
 
     ngOnInit(): void {
@@ -68,18 +77,33 @@ export class examenComplementaryManagerComponent implements OnInit {
           this.examenCreateData.examenTytpe = false;
           this.examenCreateData.acts = this.actsID;
           if (this.examenCreateData.acts.length != 0) {
-            this.examenService.createExam(this.examenCreateData).subscribe(
-              (response: any) => {
-                this.modalService.dismissAll();
-                this.addExam.emit();
-              },
-              (errorResponse: HttpErrorResponse) => {
-                this.notificationService.notify(
-                  NotificationType.ERROR,
-                  errorResponse.error.message
-                );
-              }
+            let invoiceCreate: InvoiceCreateData = {acts: [], admission: this.admissionId};
+
+            invoiceCreate.admission = this.admissionId;
+            this.examenCreateData.acts.forEach( (actID)=> {
+              invoiceCreate.acts.push({act: actID, admission: this.admissionId});
+            })
+            console.log(invoiceCreate);
+            this.subscriptions.add(
+              this.invoiceService.createInvoice(invoiceCreate).subscribe(
+                (response: any) => {
+                  this.examenService.createExam(this.examenCreateData).subscribe(
+                    (response: any) => {
+                      this.modalService.dismissAll();
+                      this.addExam.emit();
+                    },
+                    (errorResponse: HttpErrorResponse) => {
+                      this.notificationService.notify(
+                        NotificationType.ERROR,
+                        errorResponse.error.message
+                      );
+                    }
+                  )
+                },
+              )
+             
             )
+           
           }else{
             this.notificationService.notify(
               NotificationType.ERROR,
@@ -100,7 +124,6 @@ public onSelectedExamenComplementary(examen: ExamenComplementary){
         this.selectedExamens.push(examen);
         this.actsID.push(examen.actID)
       }     
-    
       this.removeDuplicates(this.examenComplementriesTypeLeftSection,examen.examenComplementaryType )
 }
 

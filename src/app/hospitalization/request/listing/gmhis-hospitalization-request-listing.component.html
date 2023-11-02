@@ -42,8 +42,9 @@
         </div>
       </form>
       <div class="sh-flex-row justify-content-end">
+        <sh-button (clickEvent)="onOpenExaminationRecord(newHospitalizationRef)" type="text" size="small" label="Créer l'hospitalisation à partir de la Démande" labelStyleClass="sh-color-primary"></sh-button>
         <sh-button (clickEvent)="onOpenExaminationRecord(examinationRecordModal)" type="text" size="small" label="Fiche Médicale" labelStyleClass="sh-color-primary"></sh-button>
-                <sh-button (clickEvent)="onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef)" type="text" size="small" label="Certificat Médicale d'hospitalisation" labelStyleClass="sh-color-primary"></sh-button>
+        <sh-button (clickEvent)="onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef)" type="text" size="small" label="Certificat Médicale d'hospitalisation" labelStyleClass="sh-color-primary"></sh-button>
       </div>
       <div #hospitalizationRequestTab class="tableFixHead">
         <table class="table table-bordered table-hover table-md align-middle">
@@ -112,6 +113,23 @@
     </nb-card-body>
   </nb-card>
   
+    <!-- Create Hospitalization modal -->
+  <ng-template #newHospitalizationRef let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
+        Nouvelle Hospitalisation
+      </h4>
+      <nb-icon
+        style="cursor: pointer"
+        (click)="d('Cross click')"
+        class="h4"
+        icon="close-circle-outline"
+      ></nb-icon>
+    </div>
+    <div class="modal-body">
+      <gmhis-hospitalization-create-update (saveEvent)="handleHospitalizationSaveEvent()" [hospitalizationRequest]="hospitalizationRequest" ></gmhis-hospitalization-create-update>
+    </div>
+  </ng-template>
 
   <!-- update modal -->
   <ng-template #updateFormContent let-c="close" let-d="dismiss">
@@ -169,21 +187,10 @@
 
 <ng-template #recordContent let-c="close" let-d="dismiss">
   <div class="modal-header ">
-    <nb-icon
-      style="cursor: pointer"
-      (click)="d('Cross click')"
-      class="h4"
-      icon="close-circle-outline"
-    ></nb-icon>
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
   </div>
   <div class="modal-body">
-    <ngx-extended-pdf-viewer
-      *ngIf="docSrc"
-      [src]="docSrc"
-      useBrowserLocale="true"
-      height="80vh"
-    >
-    </ngx-extended-pdf-viewer>
+    <ngx-extended-pdf-viewer *ngIf="docSrc" [src]="docSrc" useBrowserLocale="true" height="80vh"></ngx-extended-pdf-viewer>
   </div>
 </ng-template>
 

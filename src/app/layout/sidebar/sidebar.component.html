@@ -149,20 +149,7 @@ class="dashboard py-3"
   ></fa-icon
   ><span class="fw-bold">Laboratoire</span>
 </p>
-<p
-[hidden]="!canAccessHospitalisation"
-  [ngClass]="{ menuActive: menuItem == 'owner' }"
-  (click)="menuItemFunction('owner')"
-  routerLink="/owner/list"
-  class="dashboard py-3"
->
-  <fa-icon
-    [icon]="faUser"
-  
-    style="font-size: 1rem; margin-right: 10px"
-  ></fa-icon
-  ><span class="fw-bold">Hospitalisation</span>
-</p>
+
 <p
   [ngClass]="{ menuActive: menuItem == 'evacuation' }"
   (click)="menuItemFunction('evacuation')"

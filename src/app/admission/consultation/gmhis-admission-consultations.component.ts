@@ -174,7 +174,7 @@ export class AdmissionConsultationsComponent implements OnInit, OnDestroy {
     this.modalService.open(updateFormContent, { size: 'xl' });
   }
 
-  openInvoiceForm(invoiceFormContent, item?) {
+  onInvoiceCreate(invoiceFormContent, item?) {
     this.admission = item;
     this.makeInvoiceByAdmission = true;
     this.modalService.open(invoiceFormContent, { size: 'xl' });

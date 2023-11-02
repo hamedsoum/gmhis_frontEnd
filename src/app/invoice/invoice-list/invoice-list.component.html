@@ -2,7 +2,7 @@
   <nb-card-header>
     <div class="d-flex justify-content-between align-items-center">
       <h4 class="text-capitalize d-flex justify-content-start w-100 text-center">Factures</h4>
-      <sh-button type="button" size="large" label="Créer une facture" labelStyleClass="sh-color-primary" (clickEvent)="onAfterSave(invoiceFormRef)" styleClass="m-2"></sh-button>
+      <sh-button type="button" size="large" label="Créer une facture" labelStyleClass="sh-color-primary"  styleClass="m-2"></sh-button>
       <sh-button type="text" size="intermediate" label="" labelStyleClass="sh-color-primary sh-min-width-300"></sh-button>
     </div>
   </nb-card-header>
@@ -78,8 +78,9 @@
               <div ngbDropdown class="d-inline-block">
                 <button type="button" class="btn btn-outline-info" id="dropdownBasic1" ngbDropdownToggle>...</button>
                 <div class="text" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                  <button *ngIf="invoice.billStatus == 'R'" class="text-center" ngbDropdownItem (click)="openPaymentForm(paymentFormContent, invoice)">Encaisser</button>
-                  <button *ngIf="invoice.billStatus == 'C'" class="text-center" ngbDropdownItem (click)="onPrint(printContent, invoice)">Impression</button>
+                  <button *ngIf="!isInvoiceCollected(invoice.billStatus)" class="text-center" ngbDropdownItem (click)="onEdit(finalizeInvoiceFormRef, invoice)">Finaliser la facture</button>
+                  <button *ngIf="!isInvoiceCollected(invoice.billStatus)" class="text-center" ngbDropdownItem (click)="openPaymentForm(paymentFormContent, invoice)">Encaisser</button>
+                  <button *ngIf="isInvoiceCollected(invoice.billStatus)" class="text-center" ngbDropdownItem (click)="onPrint(printContent, invoice)">Impression</button>
                 </div>
               </div>
             </td>
@@ -112,16 +113,16 @@
 </ng-template>
 
 
-<!-- update modal -->
-<ng-template #invoiceFormRef let-c="close" let-d="dismiss">
+<!-- invoice modal -->
+<ng-template #finalizeInvoiceFormRef let-c="close" let-d="dismiss">
 
   <div class="modal-header">
-    <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">Créer Une Facture</h4>
+    <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">Finaliser La Facture</h4>
     <nb-icon style="cursor: pointer" class="h4" icon="close-circle-outline" (click)="d('Cross click')"></nb-icon>
   </div>
 
   <div class="modal-body">
-    <app-invoice-form [showHearderInformation]="false"></app-invoice-form>
+    <app-invoice-form [invoice]="invoice" (addInvoice)="handleFinalizeInvoiceEvent()"></app-invoice-form>
   </div>
 
 </ng-template>

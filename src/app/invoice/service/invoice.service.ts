@@ -52,6 +52,10 @@ export class InvoiceService {
     return this.http.post<any>(`${this.apiUrl}/bill/add`, invoiceCreateData);
   }
 
+  update(invoiceID:number, invoiceCreateData: InvoiceCreateData): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/bill/update/${invoiceID}`, invoiceCreateData);
+  }
+
   findAll(data): Observable<PageList> {
     let queryParams = {};
     queryParams = {

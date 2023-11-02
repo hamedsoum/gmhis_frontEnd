@@ -69,6 +69,12 @@ currentIndex: number;
     this.subscription.unsubscribe();
   }
 
+  public handleHospitalizationSaveEvent(): void {
+    this.modalService.dismissAll();
+    this.notificationService.notify(NotificationType.SUCCESS,'Hospitalisation Crée avec succès');
+    this.search();
+  }
+
   public onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef): void {    
     let doc = this.hospitalizationPdfService.buildhospitalizationCertificatePdf(this.hospitalizationRequest);
     this.modalService.open(hospitalilazionCertificateDocRef, { size: 'xl' });
@@ -80,8 +86,6 @@ currentIndex: number;
     this.modalService.open(hospitalilazionCertificateDocRef, { size: 'xl' });
     this.docSrc = doc.output('datauristring'); 
   }
-
-  buildMedicalCertificates
 
   public onOpenExaminationRecord(recordContent: any):void {  
     this.examination = this.hospitalizationRequest.examination;

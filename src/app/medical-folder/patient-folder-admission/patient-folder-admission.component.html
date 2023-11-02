@@ -80,7 +80,7 @@
 
           <div class="col-lg-3">
             <button
-            (click)="onOpenModal(hospitalizationRequestRef, 'lg')"
+            (click)="onHospitalizationRequest(hospitalizationRequestRef)"
               class="text-capitalize btn mb-2 btn-block w-100 d-flex align-items-center justify-content-center text-white rounded"
               style="background-color: #14a2b8;">
               <nb-icon icon="plus-outline"></nb-icon>
@@ -213,7 +213,7 @@
 
   </div>
   <div class="modal-body"> 
-    <gmhis-hospitalization-request-create-update [patientID]="patient.id" [admissionID]="admissionID" (saveEvent)="handleHospitalizationRequestSaveEvent()"></gmhis-hospitalization-request-create-update>
+    <gmhis-hospitalization-request-create-update [patientID]="patient.id" [admissionID]="admissionID" [examination]="lastExamination" (saveEvent)="handleHospitalizationRequestSaveEvent()"></gmhis-hospitalization-request-create-update>
  </div>
 </ng-template>
 

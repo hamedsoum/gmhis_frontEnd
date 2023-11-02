@@ -83,7 +83,10 @@ export class InvoiceListComponent implements OnInit {
     this.getInvoice();
   }
 
-  initform() {
+  public isInvoiceCollected(billStatus: 'R' | 'C'): boolean {
+      return billStatus === 'C';
+  }
+  private initform() {
     this.searchForm = new FormGroup({
       billNumber: new FormControl(''),
       admissionNumber: new FormControl(''),
@@ -103,6 +106,11 @@ export class InvoiceListComponent implements OnInit {
       size: new FormControl(50),
       sort: new FormControl('id,desc'),
     });
+  }
+  public onEdit(invoiceFormRef, invoice){
+    console.log(invoice);
+    this.invoice = invoice;
+    this.modalService.open(invoiceFormRef, { size: 'xl' });
   }
 
   public onSearchValueChange(): void {
@@ -139,16 +147,16 @@ export class InvoiceListComponent implements OnInit {
     );
   }
 
-  onIsActiveChange() {
+  public onIsActiveChange() {
     this.getInvoice();
   }
 
-  onPageChange(event) {
+  public onPageChange(event) {
     this.searchForm.get('page').setValue(event - 1);
     this.getInvoice();
   }
 
-  openPaymentForm(paymentFormContent, item?) {    
+  public openPaymentForm(paymentFormContent, item?) {    
     this.invoice = item;
     console.log(this.invoice);
     
@@ -156,7 +164,7 @@ export class InvoiceListComponent implements OnInit {
     this.modalService.open(paymentFormContent, { size: 'xl' });
   }
 
-  updateAdmission() {
+  public updateAdmission() {
     this.modalService.dismissAll();
     this.notificationService.notify(
       NotificationType.SUCCESS,
@@ -165,27 +173,32 @@ export class InvoiceListComponent implements OnInit {
     this.getInvoice();
   }
 
-addInvoice(){
+  public handleFinalizeInvoiceEvent(): void {
+    this.modalService.dismissAll();
+    this.notificationService.notify(
+      NotificationType.SUCCESS,
+      'Facture finalisée avec succès'
+    );
+    this.getInvoice();
+
+  }
+  
+
+public addInvoice(){
   this.modalService.dismissAll();
-  this.notificationService.notify(
-    NotificationType.SUCCESS,
-    'facture crée avec succès'
-  );
+  this.notificationService.notify(NotificationType.SUCCESS,'facture crée avec succès');
   this.getInvoice();
 }
 
 
 addPayment(){
   this.modalService.dismissAll();
-  this.notificationService.notify(
-    NotificationType.SUCCESS,
-    'facture encaissée avec succès'
-  );
+  this.notificationService.notify(NotificationType.SUCCESS,'facture encaissée avec succès');
   this.getInvoice();
 }
 
 
-  rowSelected(invoice: Invoice, index: number) {
+  public rowSelected(invoice: Invoice, index: number) {
     this.currentIndex = index;
     this.invoice = invoice;
   }

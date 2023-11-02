@@ -3,6 +3,8 @@ import { Patient } from '../patient/patient';
 import { User } from './user.model';
 
 export interface Invoice {
+  practicianName: string;
+  admissionActName: string;
   deliveryNote: [];
   discount: 0;
   id: 0;
@@ -23,7 +25,7 @@ export interface Invoice {
   customerOrderNumber: string;
   taxpayerAccount: string;
   billDate: Date;
-  admision : Admission;
+  admission : Admission;
   patient : Patient;
   patientType :string;
   patientPart : number;

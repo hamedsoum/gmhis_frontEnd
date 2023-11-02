@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { ActService } from 'src/app/act/act/service/act.service';
 import { admissionStatus, Admission } from 'src/app/admission/model/admission';
 import { CashRegisterService } from 'src/app/cash-register/cash-register.service';
@@ -19,7 +21,7 @@ import { InvoiceCreateData, InvoiceCost, patientType } from '../models/invoice';
 import { InvoiceService } from '../service/invoice.service';
 
 @Component({selector: 'app-invoice-form',templateUrl: './invoice-form.component.html',styleUrls: ['./invoice-form.component.scss']})
-export class InvoiceFormComponent implements OnInit {
+export class InvoiceFormComponent implements OnInit, OnDestroy {
 
   @Input() admission: Admission;
 
@@ -33,11 +35,12 @@ export class InvoiceFormComponent implements OnInit {
 
   @Output() updateInvoice = new EventEmitter();
 
-  @Output() addPayment= new EventEmitter();
+  @Output() addPayment = new EventEmitter();
 
-  admissionForTemplate: Admission;
+  public invoiceA: Invoice;
+  public admissionForTemplate: Admission;
 
-  public invoiceForm: FormGroup;
+  public fieldsForm: FormGroup;
 
   public cashRegisters: GMHISNameAndID[];
 
@@ -49,11 +52,11 @@ export class InvoiceFormComponent implements OnInit {
 
   public practicians: any;
 
-  actsList: GMHISNameAndID[];
+  public actsList: GMHISNameAndID[];
 
   insured = null;
 
-  actionToDo: 'invoice' | 'payment';
+  private actionToDo: 'invoice' | 'payment';
 
   public user: User;
 
@@ -68,6 +71,8 @@ export class InvoiceFormComponent implements OnInit {
   public partientPart: number = 0;
   private displayAddInssuranceBtn: boolean = true;
 
+  subscription: Subscription = new Subscription();
+
   constructor(
     private fb: FormBuilder,
     private cashRegisterService: CashRegisterService,
@@ -81,35 +86,21 @@ export class InvoiceFormComponent implements OnInit {
     ) {}
 
   ngOnInit(): void { 
+    
     if(GmhisUtils.isNull(this.showHearderInformation)) this.showHearderInformation = true;   
     this.currentDate = new Date();
     this.user = this.userService.getUserFromLocalCache();
     this.buildFields();
-    this.addActs();
     if (this.admission) {        
       this.admissionForTemplate = this.admission;  
-      this.invoiceForm.get('admissionNumber').setValue(this.admission.admissionNumber);
-      this.invoiceForm.get('admission').setValue(this.admission.id);
-      this.invoiceForm.get('patientExternalId').setValue(this.admission.patientExternalId);
-      this.invoiceForm.get('patientName').setValue(this.admission.patientFirstName);
-      this.invoiceForm.get('service').setValue(this.admission.service);
-      this.invoiceForm.get('invoiceDate').setValue(this.dateOutputFormat(new Date()));
-      this.insuredService.getInsuredByPatientId(this.admission.patientId).subscribe(
-        (response: Insured[]) => {
-          this.patientInsurances = response;
-          if (this.patientInsurances.length != 0) {
-            this.patientInsurances.forEach((el, i) => {
-              this.addInsured();
-              this.setInsuredRowValue(el,i);
-            })
-            this.invoiceForm.get('patientType').setValue(patientType.INSURED);
-          } else {
-            this.invoiceForm.get('patientType').setValue(patientType.UNINSURED);
-          }
-          this.onCalculInvoiceCost();
-
-        }
-      )
+      this.fieldsForm.get('admissionNumber').setValue(this.admission.admissionNumber);
+      this.fieldsForm.get('admission').setValue(this.admission.id);
+      this.fieldsForm.get('patientExternalId').setValue(this.admission.patientExternalId);
+      this.fieldsForm.get('patientName').setValue(this.admission.patientFirstName);
+      this.fieldsForm.get('service').setValue(this.admission.service);
+      this.fieldsForm.get('invoiceDate').setValue(this.dateOutputFormat(new Date()));
+      this.patientInsured(this.admission.patientId);
+      this.addActs();
       if (this.admission.admissionStatus == admissionStatus.UNBILLED) {        
         this.acts.at(0).get('act').setValue(this.admission.actId);
         this.acts.at(0).get('cost').setValue(this.admission.actCost);
@@ -117,24 +108,36 @@ export class InvoiceFormComponent implements OnInit {
         this.acts.at(0).get('pratician').setValue(this.admission.practicianId);
       }
     }
-    if (this.invoice) {  
+    if (this.invoice) { 
+      console.log(this.invoice);
+      this.invoiceA = this.invoice;
+      this.patientInsured(this.invoice.patient.id);
+
+       this.admissionForTemplate = this.invoice.admission;
+       this.admissionForTemplate.patientFirstName = this.invoice.patient.firstName;
+       this.admissionForTemplate.patientLastName = this.invoice.patient.lastName;
+      this.admissionForTemplate.act = this.invoice.admissionActName;
+      this.admissionForTemplate.practician = this.invoice.practicianName;
+      this.admissionForTemplate.service = this.invoice.admission.service;
+
+
       this.showActAddButton = true;    
       this.invoice["billActs"].forEach((element, i) => {
         this.addActs();
-        if (element["act"]) this.acts.at(i).get('act').setValue(element["act"]["id"]);
+        if (element["act"]) this.acts.at(i).get('act').setValue(element["id"]);
         this.acts.at(i).get('cost').setValue(element["actCost"]);
         if (element["practician"]) this.acts.at(i).get('pratician').setValue(element["practician"]["id"]);
       })
-      this.invoiceForm.get('id').setValue(this.invoice.id);
-      this.invoiceForm.get('admissionNumber').setValue(this.invoice.admision.admissionNumber);
-      this.invoiceForm.get('admission').setValue(this.invoice.admision.id);
-      this.invoiceForm.get('patientExternalId').setValue(this.invoice.patient.patientExternalId);
-      this.invoiceForm.get('patientName').setValue(this.invoice.patient.firstName);
-      this.invoiceForm.get('service').setValue(this.invoice.patient.service);
-      this.invoiceForm.get('patientType').setValue(this.invoice["patientType"]);
-      this.invoiceForm.get('patientPart').setValue(this.invoice["patientPart"]);
-      this.invoiceForm.get('partTakenCareOf').setValue(this.invoice["partTakenCareOf"]);
-      this.invoiceForm.get('total').setValue(this.invoice["totalAmount"]);
+      this.fieldsForm.get('id').setValue(this.invoice.id);
+      this.fieldsForm.get('admissionNumber').setValue(this.invoice.admission.admissionNumber);
+      this.fieldsForm.get('admission').setValue(this.invoice.admission.id);
+      this.fieldsForm.get('patientExternalId').setValue(this.invoice.patient.patientExternalId);
+      this.fieldsForm.get('patientName').setValue(this.invoice.patient.firstName);
+      this.fieldsForm.get('service').setValue(this.invoice.patient.service);
+      this.fieldsForm.get('patientType').setValue(this.invoice["patientType"]);
+      this.fieldsForm.get('patientPart').setValue(this.invoice["patientPart"]);
+      this.fieldsForm.get('partTakenCareOf').setValue(this.invoice["partTakenCareOf"]);
+      this.fieldsForm.get('total').setValue(this.invoice["totalAmount"]);
       this.insuredService.getInsuredByPatientId(this.invoice["patient"].id).subscribe(
         (response: any[]) => {
           this.patientInsurances = response;
@@ -147,25 +150,39 @@ export class InvoiceFormComponent implements OnInit {
     this.findPaymentTypesActiveNameAndIds();
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   public onCalculInvoiceCost():void {    
-    let invoiceCost: InvoiceCost = this.invoiceService.calculInvoiceCost(this.admissionForTemplate.admissionStatus, this.invoiceForm.getRawValue(), this.insureds.controls);
+    let invoiceCost: InvoiceCost = this.invoiceService.calculInvoiceCost(this.admissionForTemplate.admissionStatus, this.fieldsForm.getRawValue(), this.insureds.controls);
     this.totalInvoice = invoiceCost.totalInvoice;
     this.partPecByCNAM = invoiceCost.partPecByCNAM;
     this.partPecByOthherInsurance = invoiceCost.partPecByOthherInsurance;
     this.partientPart = invoiceCost.partientPart;    
   }
-  public onInvoice() {
+  public onInvoice(): void {
+    this.buildInvoice();
+    console.log(this.invoiceCreateData);
+    
+    if(this.isInvoiced()) this.update();
+    else this.create();
+  }
+
+  buildInvoice(): void  {
     this.actionToDo = "invoice";
     this.onCalculInvoiceCost();
-    this.invoiceForm.get('patientPart').setValue(this.partientPart);
-    this.invoiceForm.get('partTakenCareOf').setValue(this.partPecByOthherInsurance + this.partPecByCNAM);
-    this.invoiceCreateData = this.invoiceForm.getRawValue();
+    this.fieldsForm.get('patientPart').setValue(this.partientPart);
+    this.fieldsForm.get('partTakenCareOf').setValue(this.partPecByOthherInsurance + this.partPecByCNAM);
+    this.invoiceCreateData = this.fieldsForm.getRawValue();
     if (!!this.InvoiceType) this.invoiceCreateData.billType = this.InvoiceType;
+    
     this.invoiceCreateData.acts.forEach((el) => {
       el.admission = this.admissionForTemplate.id
     })  
-    console.log(this.invoiceCreateData);
-      
+  }
+
+  private create(): void {
     this.invoiceService.createInvoice(this.invoiceCreateData).subscribe(
       (res: any) => {
         this.addInvoice.emit();
@@ -175,6 +192,43 @@ export class InvoiceFormComponent implements OnInit {
           NotificationType.ERROR,
           errorResponse.error.message
         );
+      }
+    )
+  }
+
+  private update():void {
+    this.subscription.add(
+      this.invoiceService.update(this.invoiceA.id, this.invoiceCreateData).subscribe(
+        (res: any) => {
+          this.addInvoice.emit();
+        },
+        (errorResponse: HttpErrorResponse) => {
+          this.notificationService.notify(
+            NotificationType.ERROR,
+            errorResponse.error.message
+          );
+        }
+      )
+    )
+  }
+
+  isInvoiced():boolean { return !GmhisUtils.isNull(this.invoiceA) };
+
+  private patientInsured(patientId: number): void {
+    this.insuredService.getInsuredByPatientId(patientId).subscribe(
+      (response: Insured[]) => {
+        this.patientInsurances = response;
+        if (this.patientInsurances.length != 0) {
+          this.patientInsurances.forEach((el, i) => {
+            this.addInsured();
+            this.setInsuredRowValue(el,i);
+          })
+          this.fieldsForm.get('patientType').setValue(patientType.INSURED);
+        } else {
+          this.fieldsForm.get('patientType').setValue(patientType.UNINSURED);
+        }
+        this.onCalculInvoiceCost();
+
       }
     )
   }
@@ -241,7 +295,7 @@ public isCnamCostField(controlIndex: number): boolean {
   }
 
   private buildFields() {
-    this.invoiceForm = this.fb.group({
+    this.fieldsForm = this.fb.group({
       id: new FormControl(0),
       admission: new FormControl(0),
       admissionNumber: new FormControl({ value: '', disabled: true }),
@@ -261,9 +315,9 @@ public isCnamCostField(controlIndex: number): boolean {
       acts: this.fb.array([])
     });
   }
-  public get acts(): FormArray {return this.invoiceForm.get('acts') as FormArray;}
+  public get acts(): FormArray {return this.fieldsForm.get('acts') as FormArray;}
 
-  public get insureds(): FormArray {return this.invoiceForm.get('insuredList') as FormArray;}
+  public get insureds(): FormArray {return this.fieldsForm.get('insuredList') as FormArray;}
 
   private createActsGroups(): FormGroup {
     return this.fb.group({
@@ -332,19 +386,19 @@ public isCnamCostField(controlIndex: number): boolean {
   // TODO: this method is for payment process
   private collectAmount() {
     this.actionToDo = "payment";
-    this.invoiceForm.get("cashRegister").clearValidators();
-    this.invoiceForm.get("paymentType").clearValidators();
-    this.invoiceForm.get("cashRegister").setValidators([Validators.required]);
-    this.invoiceForm.get("paymentType").setValidators([Validators.required]);
-    this.invoiceForm.get("cashRegister").updateValueAndValidity();
-    this.invoiceForm.get("paymentType").updateValueAndValidity();
+    this.fieldsForm.get("cashRegister").clearValidators();
+    this.fieldsForm.get("paymentType").clearValidators();
+    this.fieldsForm.get("cashRegister").setValidators([Validators.required]);
+    this.fieldsForm.get("paymentType").setValidators([Validators.required]);
+    this.fieldsForm.get("cashRegister").updateValueAndValidity();
+    this.fieldsForm.get("paymentType").updateValueAndValidity();
 
-    let cashRegister = this.invoiceForm.get("cashRegister").value
-    let paymentType = this.invoiceForm.get("paymentType").value
+    let cashRegister = this.fieldsForm.get("cashRegister").value
+    let paymentType = this.fieldsForm.get("paymentType").value
 
     let collectAmountData = {
       "cashRegister": cashRegister,
-      "bill": this.invoiceForm.get("id").value,
+      "bill": this.fieldsForm.get("id").value,
       "paymentType": paymentType,
     }
 

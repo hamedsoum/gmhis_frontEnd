@@ -3,8 +3,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { IExamination } from 'src/app/medical-folder/examination/models/examination';
-import { ExaminationService } from 'src/app/medical-folder/examination/services/examination.service';
 import { PatientService } from 'src/app/patient/patient.service';
 import { PracticianService } from 'src/app/practician/practician.service';
 import { GmhisUtils } from 'src/app/shared/base/utils';
@@ -12,6 +10,7 @@ import { GMHISKeyValue } from 'src/app/shared/models/name-and-id';
 import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { GMHISHospitalizationCreate, GMHISHospitalizationPartial } from '../api/domain/gmhis-hospitalization';
+import { GMHISHospitalizationRequestPartial } from '../api/domain/request/gmhis-hospitalization-request';
 import { GmhisHospitalizationService } from '../api/service/gmhis.hospitalization.service';
 
 @Component({selector: 'gmhis-hospitalization-create-update',templateUrl: './gmhis-hospitalization-create-update.component.html'})
@@ -21,7 +20,11 @@ export class GMHISHospitalizationCreateUpdateComponent implements OnInit {
 
   @Input() patientID: number;
 
+  @Input() practicianID: number;
+
   @Input() hospitalization: GMHISHospitalizationPartial;
+
+  @Input() hospitalizationRequest?: GMHISHospitalizationRequestPartial;
   
   @Output() saveEvent = new EventEmitter();
   @Output() updateEvent = new EventEmitter();
@@ -58,7 +61,16 @@ export class GMHISHospitalizationCreateUpdateComponent implements OnInit {
       ){}
 
   ngOnInit(): void {
+    console.log(this.hospitalizationRequest);
+    
+    if(!GmhisUtils.isNull(this.hospitalizationRequest)){
+       this.practicianID = this.hospitalizationRequest.praticianID;
+       this.patientID = this.hospitalizationRequest.praticianID;
+    }
     this.initialize();
+    this.fieldGroup.get('patientID').disable();
+    this.fieldGroup.get('practicianID').disable();
+   
   }
 
   ngOnDestroy(): void {
@@ -68,11 +80,11 @@ export class GMHISHospitalizationCreateUpdateComponent implements OnInit {
  private buildFields(): void {
       this.fieldGroup = new FormGroup({
           start: new FormControl(null,Validators.required),
-          reason: new FormControl(null,Validators.required),
+          reason: new FormControl(this.hospitalizationRequest.reason,Validators.required),
           bedroom: new FormControl(null,Validators.required),
-          protocole: new FormControl(null,Validators.required),
+          protocole: new FormControl(this.hospitalizationRequest.protocole,Validators.required),
           patientID: new FormControl(this.patientID,Validators.required),
-          practicianID: new FormControl(this.patientID,Validators.required),
+          practicianID: new FormControl(this.practicianID,Validators.required),
       })
     }
   
@@ -88,7 +100,9 @@ export class GMHISHospitalizationCreateUpdateComponent implements OnInit {
       if (!this.fieldGroup.valid) return;
       this.formSubmitted = true;
       this.loading = true;
-      this.hospitalizationCreate = this.fieldGroup.value;
+      this.hospitalizationCreate = this.fieldGroup.getRawValue();
+      console.log(this.hospitalizationCreate);
+      
       if (this.isCreated()) this.create();
       else this.update(); 
   }
@@ -108,9 +122,7 @@ export class GMHISHospitalizationCreateUpdateComponent implements OnInit {
   )
   }
 
-  private create(): void {
-    console.log(this.hospitalizationCreate);
-    
+  private create(): void {    
     this.subscription.add(
       this.hospitalizationService.create(this.hospitalizationCreate)
       .pipe(finalize(()=> this.loading = false))

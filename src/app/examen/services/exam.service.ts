@@ -45,18 +45,9 @@ export class ExamService {
     return this.http.get<PageList>(`${this.apiUrl}/analysis-request/getPatientAnalysisRequest`, queryParams);
   }
 
-
-
   createExam(examDto: ExamenCreateData): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/analysis-request/add`, examDto);
   }
-
-  // updateFacility(faciityDto: IFacilityDto): Observable<any> {
-  //   return this.http.put<any>(
-  //     `${this.apiUrl}/facility/update/${faciityDto.id}`,
-  //     faciityDto
-  //   );
-  // }
 
    getexamDetails(examId: number): Observable<any> {
     return this.http.get<any>(
@@ -70,10 +61,6 @@ export class ExamService {
     formData.append("examId", String(examId));
     return this.http.post<any>(`${this.apiUrl}/analysis-request/performed`, formData);
   }
-
-  // setPrescriptionItems(prescriptionitems: string[]): Observable<any> {    
-  //   return this.http.post<any>(`${this.apiUrl}/prescription/SetPrescriptionItems/`, prescriptionitems);
-  // }
 
   getAnalysisRequestNumberByPatientId(patientId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/analysis-request/getanalyseRequestNumber/${patientId}`);

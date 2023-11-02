@@ -39,7 +39,7 @@
           </div>
         </div>
       </form>
-      <div class="sh-flex sh-justify-content-end">
+      <div class="sh-flex-row sh-justify-content-end">
         <sh-button (clickEvent)="onOpenCloseForm(closeFormRef)" type="text" size="intermediate" label="Terminer l'Hospitalisation" labelStyleClass="sh-color-primary" styleClass="m-2" [ngClass]="{'sh-diseable': hospitalizationSelected == null}"></sh-button>
         <sh-button (clickEvent)="onPrint(printFormRef)" type="text" size="intermediate" label="Imprimer le Compte Rendu de l'Hospitalisation" labelStyleClass="sh-color-primary" styleClass="m-2" [ngClass]="{'sh-diseable': hospitalizationSelected == null}"></sh-button>
       </div>

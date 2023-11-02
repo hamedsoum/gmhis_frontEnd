@@ -47,10 +47,7 @@ export class ExaminationService {
         .set('size', data['size'] ?? '')
         .set('sort', data['sort']),
     };
-    return this.http.get<any>(
-      `${this.apiUrl}/examination/p_list/by_patient`,
-      queryParams
-    );
+    return this.http.get<any>(`${this.apiUrl}/examination/p_list/by_patient`,queryParams);
   }
 
   findPatientFirstExaminationsOfAdmisions(data): Observable<any> {
@@ -62,10 +59,7 @@ export class ExaminationService {
         .set('size', data['size'] ?? '')
         .set('sort', data['sort']),
     };
-    return this.http.get<any>(
-      `${this.apiUrl}/examination/lastExaminatonOfAdmission`,
-      queryParams
-    );
+    return this.http.get<any>(`${this.apiUrl}/examination/lastExaminatonOfAdmission`,queryParams);
   }
 
   searchPracticianExamination(data): Observable<any> {

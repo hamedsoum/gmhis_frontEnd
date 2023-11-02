@@ -51,8 +51,7 @@
      </div>
         <div  class="row">
            <div
-           [style.cursor]="'pointer'"
-           routerLink="/medical-folder/patient-folder-details/{{examination.admission}}"               
+           [style.cursor]="'pointer'"           
             [style.padding]="'15px'" *ngFor="
            let examination of items
              | paginate
@@ -64,7 +63,7 @@
            let i = index
          "
          [class.active]="i == currentIndex" class="col-lg-4">
-            <nb-card accent="info">
+            <nb-card accent="info" routerLink="/medical-folder/patient-folder-admission/{{examination.admission}}">
                 <nb-card-header>
                     <span [style.margin-botton]="'25px'" [style.font-size]="'13px'" [style.display]="'block'"><span>Practicien : Dr</span> {{examination.practicianFirstName}} {{examination.practicianLastName}}</span>
                     <span [style.margin-botton]="'25px'" [style.font-size]="'13px'" [style.display]="'block'"><span>N° du practicien :</span> {{examination.practicianTel}}</span>

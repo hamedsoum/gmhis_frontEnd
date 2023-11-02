@@ -1,4 +1,4 @@
-<form class="mx-4" [formGroup]="invoiceForm">
+<form class="mx-4" [formGroup]="fieldsForm">
 
     <gmhis-invoice-create-update-header-information *ngIf="showHearderInformation" [data]="admissionForTemplate"></gmhis-invoice-create-update-header-information>
 
@@ -146,7 +146,7 @@
                             </div>
                             <div class="col-md-1">
                                 <label for=""></label>
-                                <span (click)="onDeleteAct(formControlID)" style=" color: red; cursor: pointer;"
+                                <span (click)="onDeleteAct(i)" style=" color: red; cursor: pointer;"
                                     class="material-icons px-2 p-1 rounded">
                                     delete
                                 </span>
