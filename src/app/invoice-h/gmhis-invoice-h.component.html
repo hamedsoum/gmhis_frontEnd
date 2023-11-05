@@ -136,11 +136,7 @@
     ></nb-icon>
   </div>
   <div class="modal-body ">
-    <ngx-extended-pdf-viewer
-      *ngIf="docSrc"
-      [src]="docSrc"
-      useBrowserLocale="true"
-      height="80vh"
+    <ngx-extended-pdf-viewer *ngIf="docSrc" [src]="docSrc" useBrowserLocale="true" height="80vh"
     >
     </ngx-extended-pdf-viewer>
   </div>

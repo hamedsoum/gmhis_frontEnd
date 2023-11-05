@@ -1,0 +1,13 @@
+<div class="sh-width-full {{ styleClass }}">
+    <span class="sh-color-primary sh-font-intermediate mb-2"> {{data.society}}</span>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <data-field-text label="Matricule" [value]="data.cardNumber"></data-field-text>
+        </div>
+
+        <div class="col-lg-6">
+            <data-field-text label="Taux de Couverture (%)" [value]="data.coverage"></data-field-text>
+        </div>
+    </div>
+</div>

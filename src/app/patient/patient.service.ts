@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PageList } from '../_models/page-list.model';
 import { GMHISNameAndID as NameAndId } from 'src/app/shared/models/name-and-id';
+import { GMHISCautionTransactionCreate, GMHISCautionTransactionPartial } from './patient';
 
 
 @Injectable({
@@ -16,6 +17,16 @@ export class PatientService {
 
   updatePatientSetDeathDate(patientID: number, deathDate: string): Observable<any> {        
     return this.http.put<any>(`${this.apiUrl}/patient/death/${patientID}`,deathDate);
+  }
+
+  findCautionTransactions(patientID: number): Observable<GMHISCautionTransactionPartial[]> {
+    return this.http.get<GMHISCautionTransactionPartial[]>(`${this.apiUrl}/caution-transaction/${patientID}`);
+  }
+
+  createCautionTransaction(cautionTransactionCreate: GMHISCautionTransactionCreate): Observable<GMHISCautionTransactionPartial> {
+    console.log(cautionTransactionCreate);
+
+    return this.http.post<GMHISCautionTransactionPartial>(`${this.apiUrl}/caution-transaction`, cautionTransactionCreate);
   }
 
   findAll(data): Observable<PageList> {

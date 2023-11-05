@@ -4,26 +4,32 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ExamenCreateData } from 'src/app/examen/models/exam-dto';
 import { ExamService } from 'src/app/examen/services/exam.service';
+import { GMHISCautionTransactionCreate } from 'src/app/patient/patient';
+import { PatientService } from 'src/app/patient/patient.service';
 import { PaymentTypeService } from 'src/app/payment-type/service/payment-type.service';
 import { labelValue } from 'src/app/shared/domain';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
+import Swal from 'sweetalert2';
 import { InvoiceService } from '../service/invoice.service';
 import { PaymentType } from './payment';
 
+
+type GMHISPaymentCreate = {
+  cashRegister: number,
+  bill: number,
+  paymentType: string,
+  amountReceived: number,
+  amountReturned: number
+}
+
 @Component({selector: 'app-payment',templateUrl: './payment.component.html',styleUrls: ['./payment.component.scss']})
 export class PaymentComponent implements OnInit {
-  @Input()invoice: any;
+  
+  @Input() invoice: any;
 
   @Output('addPayment') addPayment: EventEmitter<any> = new EventEmitter();
   selectedSize: number;
-
-
-  paymentTypeList : labelValue[] = [
-    { label: PaymentType.CASH, value: PaymentType.CASH },
-    { label: PaymentType.CREDITCARD, value: PaymentType.CREDITCARD },
-    { label: PaymentType.MOBILEMONEY, value: PaymentType },
-  ];
 
   examDto: ExamenCreateData = {
     acts: [],
@@ -40,8 +46,11 @@ export class PaymentComponent implements OnInit {
   amountReceived: any;
   amountReceivedIsvalid: boolean;
 
+  private paymentCreate: GMHISPaymentCreate;
 
   public paymentTypeForm: FormGroup;
+
+  private collectWithCaution: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -50,7 +59,8 @@ export class PaymentComponent implements OnInit {
     config: NgbModalConfig,
     private modalService: NgbModal,
     private paymentTypeService: PaymentTypeService,
-    private examenService: ExamService
+    private examenService: ExamService,
+    private patientService: PatientService
 
   ) {
     config.backdrop = 'static';
@@ -61,14 +71,26 @@ export class PaymentComponent implements OnInit {
     this.initForm();
     if (this.invoice) {
       this.patientInvoice = this.invoice;
-      console.log(this.invoice);
-      
+    
       this.examDto.admission = this.patientInvoice.admission.id;
+      
+      this.onCollectWithCaution(this.patientInvoice.patient.solde);
     }
     this.findPaymentTypesActiveNameAndIds();
   }
 
-  initForm() {
+  public onSave() {
+    let formData = this.paymentForm.value;
+    this.buildPaymentCreate(formData);
+  
+    if (this.paymentCreate.amountReceived < this.patientInvoice?.patientPart) {
+      this.amountReceivedIsvalid = true;
+    } else {
+      this.collectAmount(this.paymentCreate, this.collectWithCaution );
+    }
+  }
+
+  private initForm() {
     this.paymentForm = this.fb.group({
       id: new FormControl(0),
       code: new FormControl(null),
@@ -82,6 +104,7 @@ export class PaymentComponent implements OnInit {
 
     });
   }
+
   get paymentsType(): FormArray {
     return <FormArray>this.paymentForm.get('paymentsType') as FormArray;
   }
@@ -99,36 +122,74 @@ export class PaymentComponent implements OnInit {
 
   removePaymentType(index: number) {this.paymentsType.removeAt(index);}
 
-  collectAmount() {
-    let cashRegister = this.paymentForm.get('cashRegister').value;
-    let paymentType = this.paymentForm.get('paymentType').value;
-    let amountReceived = this.paymentForm.get("amountReceived").value;
 
-    let data = {
-      cashRegister: cashRegister,
+  private buildPaymentCreate(formData: any) {
+    this.paymentCreate = {
+      cashRegister: formData.cashRegister,
       bill: this.patientInvoice.id,
-      paymentType: paymentType,
-      amountReceived: this.paymentForm.get('amountReceived').value,
-      amountReturned: this.paymentForm.get('amountReturned').value
-    };
-
-    if (amountReceived < this.patientInvoice?.patientPart) {
-      this.amountReceivedIsvalid = true;
-    } else {
-      this.invoiceService.collectAmount(data).subscribe(
-        (response: any) => {
-          // this.saveExamanRequest();
-          this.addPayment.emit();
-        },
-        (errorResponse: HttpErrorResponse) => {
-          this.notificationService.notify(
-            NotificationType.ERROR,
-            errorResponse.error.message
-          );
-        }
-      );
+      paymentType: formData.paymentType,
+      amountReceived: formData.amountReceived,
+      amountReturned: formData.amountReturned
     }
+    
+  }
 
+  private createCautionTransaction(amount: number): void {
+    let cautionTransactionCreate: GMHISCautionTransactionCreate = {
+      libelle: 'Règlement de Facture',
+      action: 'debit',
+      amount: amount,
+      patientID: this.patientInvoice.patient.id
+    }
+    this.patientService.createCautionTransaction(cautionTransactionCreate).subscribe(
+      (response: any) => {
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message);
+        this.modalService.dismissAll();
+      }
+    );
+  }
+
+  private collectAmount(data: GMHISPaymentCreate, collectWithCaution: boolean) {
+    console.log(data);
+    
+    this.invoiceService.collectAmount(data).subscribe(
+      (response: any) => {
+        this.addPayment.emit();
+        if(collectWithCaution) this.createCautionTransaction(data.amountReceived);
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message);
+        this.modalService.dismissAll();
+      }
+    );
+  }
+
+  private onCollectWithCaution(solde:any ) {
+    console.log(solde);
+    
+    if(solde > 0) {
+      Swal.fire({
+        title: `Ce Patient Dispose d'une caution, Voulez-vous l'utiliser ?`,
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'oui',
+        denyButtonText: `Non`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let amountToPay =  (solde > this.patientInvoice.patientPart) ? this.patientInvoice.patientPart : solde;
+          const paymentTypeCautionID = 5; 
+          this.paymentForm.get('paymentType').setValue(paymentTypeCautionID);
+          this.paymentForm.get('amountReceived').setValue(amountToPay);
+          this.collectWithCaution = result.isConfirmed;
+        } else if (result.isDenied) {
+          this.collectWithCaution = result.isDenied;
+
+        }
+      
+      })
+    }
   }
 
   private findPaymentTypesActiveNameAndIds() {

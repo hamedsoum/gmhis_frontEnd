@@ -1,12 +1,11 @@
 import { DatePipe } from "@angular/common";
-import { Injectable, OnInit } from "@angular/core";
+import { Injectable } from "@angular/core";
 import jsPDF from "jspdf";
 import { GMHISSharedDocPdfService } from "src/app/shared/api/service/gmhis.shared.DocPdf.service";
 import autoTable from 'jspdf-autotable';
 import { Subscription } from "rxjs";
 import { GMHISInvoiceHPartial } from "../domain/gmhis.quotation";
 import { GMHISInvoiceHItemPartial } from "../domain/gmhis.quotation.item";
-import { GMHISInvoiceHFeatureService } from "./gmhis.invoice-h.feature.service";
 
 @Injectable()
 export class GMHISInvoiceHPdfService  {
@@ -17,11 +16,7 @@ export class GMHISInvoiceHPdfService  {
 
 
     buildPdf(invoice: GMHISInvoiceHPartial, invoiceItems: GMHISInvoiceHItemPartial[]): jsPDF {
-      console.log(invoice);
-
-      
-      console.log(invoiceItems);
-        
+              
         var body: any[] = [];
 
         var body: any[] = [];

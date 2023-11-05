@@ -7,7 +7,7 @@ import { GMHISInvoiceHComponent } from "./gmhis-invoice-h.component";
 @NgModule({
     declarations: [GMHISInvoiceHComponent, GMHISInvoiceHCreateUpdate],
     imports: [GMHISQuotationModuleRouting,SharedModule ],
-    exports: []
+    exports: [GMHISInvoiceHComponent]
 })
 export class GMHISInvoiceHModule {
 

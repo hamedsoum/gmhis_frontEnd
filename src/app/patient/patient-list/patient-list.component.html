@@ -128,17 +128,18 @@
         <tbody>
           <tr
             *ngFor="
-              let patient of items
+              let patient of pagination.items
                 | paginate
                   : {
-                      itemsPerPage: selectedSize,
-                      currentPage: currentPage,
-                      totalItems: totalItems
-                    };
+                    itemsPerPage: pagination.selectedSize,
+                    currentPage: pagination.currentPage,
+                    totalItems: pagination.totalItems
+                  };
               let i = index
             "
             [class.active]="i == currentIndex"
-            (click)="rowSelected(commune, i)"
+            (click)="rowSelected(patient, i)"
+            (dblclick)="onRecord(detailRef,'lg', patient)"
           >
             <td>{{ patient?.patientExternalId | uppercase }}</td>
             <td>{{ patient?.civility }}</td>
@@ -156,97 +157,73 @@
             <td class="text-nowrap">{{ patient.createdAt | date:  "dd/MM/yyyy HH:mm:ss" }}</td>
             <td class="text-nowrap">{{ patient.updatedAt | date:  "dd/MM/yyyy HH:mm:ss" }}</td>
             <td>
-              <div ngbDropdown class="d-inline-block">
-                <button
-                  type="button"
-                  class="btn btn-outline-info"
-                  id="dropdownBasic1"
-                  ngbDropdownToggle
-                >
-                  ...
-                </button>
-                <div
-                  class="text"
-                  ngbDropdownMenu
-                  aria-labelledby="dropdownBasic1"
-                >
-                  <button
-                  (click)="onOpenModal(updateFormContent,'xl', patient)"
-                    class="text-center"
-                    ngbDropdownItem
-                  >
-                    Modifier
-                  </button>
-                  <button
-                    class="text-center"
-                    (click)="onOpenModal(admissionFormContent,'lg', patient)"
-                    ngbDropdownItem
-                  >
-                    Nv.admiss
-                  </button>
-                  <button
-                  class="text-center"
-                  (click)="onOpenDetailModal(updateFormContent,'xl', patient)"
-                  ngbDropdownItem
-                >
-                  Details
-                </button>
+                <div ngbDropdown class="d-inline-block">
+                    <button type="button" class="btn btn-outline-info" id="dropdownBasic1"ngbDropdownToggle>...</button>
+                    <div class="text" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <button class="text-center" (click)="onOpenModal(editRef,'xl', patient)" ngbDropdownItem > Modifier</button>
+                        <button class="text-center" (click)="onOpenModal(createAdmissionRef, 'lg', patient)" ngbDropdownItem> Nouvelle Admiss</button>
+                        <button class="text-center" (click)="onOpenCautionForm(cautionFormRef, patient)" ngbDropdownItem > Ajouter une caution</button>
                 </div>
               </div>
             </td>
-           
           </tr>
         </tbody>
       </table>
     </div>
     <div class="d-flex w-100 justify-content-center">
-      <div
-        style="color: #623508"
-        *ngIf="showloading"
-        class="spinner-border"
-        style="width: 3rem; height: 3rem"
-        role="status"
-      >
+      <div *ngIf="loading" style="color: #623508" class="spinner-border" style="width: 3rem; height: 3rem" role="status">
         <span class="sr-only">Loading...</span>
       </div>
+
     </div>
     <div *ngIf="emptyListMessage == '' "  class="d-flex justify-content-center">
-      <pagination-controls
-        responsive="true"
-        previousLabel="Prev"
-        nextLabel="Next"
-        (pageChange)="onPageChange($event)"
-      >
-      </pagination-controls>
+        <pagination-controls responsive="true" previousLabel="Prev" nextLabel="Next" (pageChange)="onPageChange($event)"></pagination-controls>
     </div>
-    <span style="display: block; text-align: center;" *ngIf="emptyListMessage != '' ">
-      {{emptyListMessage}}
-    </span>
+    <span style="display: block; text-align: center;" *ngIf="emptyListMessage != '' "> {{emptyListMessage}}</span>
 
   </nb-card-body>
 </nb-card>
 
-<!-- add modal -->
-<ng-template #addFormContent let-c="close" let-d="dismiss">
+
+<!-- ========================================================================================================================== -->
+
+<ng-template #cautionFormRef let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <div>
-      <span class="modalTitle" >Nouveau Patient</span>
-      <span class="modal-subTitle" >Créez un nouveau patient afin que celui-ci soit pris en charge par le centre de santé</span>
-    </div>
-    <nb-icon
-      style="cursor: pointer"
-      (click)="d('Cross click')"
-      class="h4"
-      icon="close-circle-outline"
-    ></nb-icon>
+    <div *ngTemplateOutlet="modalHeader; context: {title: 'Caution', subTitle: 'Ajouter une Nouvelle Caution'}"></div>
+    <nb-icon style="cursor: pointer" class="h4" icon="close-circle-outline" (click)="d('Cross click')"></nb-icon>
   </div>
-  <div class="modal-body">
-    <app-patient-formm (addPatient)="addPatient()"></app-patient-formm>
+  <div class="modal-body"> 
+    <div class="row">
+        <div class="col-12">
+          <input class="form-control" type="number" placeholder="Entrez le montant de la caution" [(ngModel)]="amount">
+        </div>
+    </div>
+    <sh-button type="button" label="Valider" (clickEvent)="onCreateCaution()"></sh-button>
   </div>
 </ng-template>
 
-<!-- update modal -->
-<ng-template #admissionFormContent let-c="close" let-d="dismiss">
+<!-- Record modal -->
+<ng-template #detailRef let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div *ngTemplateOutlet="modalHeader; context: {title: modalHeaderTitle}"></div>
+    <nb-icon style="cursor: pointer" class="h4" icon="close-circle-outline" (click)="d('Cross click')"></nb-icon>
+  </div>
+  <div class="modal-body"> 
+    <gmhis-patient-details [data]="patient"></gmhis-patient-details>
+  </div>
+</ng-template>
+
+<!-- Create modal -->
+<ng-template #addFormContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div *ngTemplateOutlet="modalHeader; context: {title: 'Nouveau Patient', subTitle:'Ajoutez un nouveau patient au système'}"></div>
+    <nb-icon style="cursor: pointer" class="h4" icon="close-circle-outline" (click)="d('Cross click')"></nb-icon>
+  </div>
+  <div class="modal-body"> <app-patient-create-update (addPatient)="addPatient()"></app-patient-create-update> </div>
+</ng-template>
+
+<!-- Create Admission Modal -->
+<ng-template #createAdmissionRef let-c="close" let-d="dismiss">
   <div class="modal-header">
     <div>
       <span class="modalTitle" >Nouvelle Admission</span>
@@ -257,24 +234,24 @@
   <div class="modal-body"> <app-admission-create-update [patient]="patient" (addAdmission)="addAdmission()"></app-admission-create-update> </div>
 </ng-template>
 
-<!-- update modal -->
-<ng-template #updateFormContent let-c="close" let-d="dismiss">
+<!-- Update Patient Modal -->
+<ng-template #editRef let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
-      Modifer un patient
-    </h4>
-    <nb-icon
-      style="cursor: pointer"
-      (click)="d('Cross click')"
-      class="h4"
-      icon="close-circle-outline"
-    ></nb-icon>
+    <div *ngTemplateOutlet="modalHeader; context: {title: modalHeaderTitle, subTitle: modalHeaderSubTitle}"></div>
+    <nb-icon style="cursor: pointer" class="h4" icon="close-circle-outline" (click)="d('Cross click')"></nb-icon>
   </div>
   <div class="modal-body">
-    <app-patient-formm
-    [disabledAllFormFiled]="disabledAllFormFiled"
-      [patient]="patient"
-      (updatePatient)="updatePatient()"
-    ></app-patient-formm>
+    <app-patient-create-update [disabledAllFormFiled]="disabledAllFormFiled" [patient]="patient" (updatePatient)="updatePatient()"></app-patient-create-update>
+  </div>
+</ng-template>
+
+
+<ng-template #modalHeader let-title="title" let-subTitle="subTitle">
+  <div class="d-flex align-items-center">
+    <fa-icon [classes]="iconStyle" size="2x" title="Patient icon" [icon]="faHospitalUser"></fa-icon>
+     <div style="margin-left: 10px;" >
+      <span class="modalTitle sh-color-primary">{{title}}</span>
+      <span class="modal-subTitle sh-color-primary">{{subTitle}}</span>
+     </div>
   </div>
 </ng-template>

@@ -9,7 +9,7 @@ import { GMHISQuotationSttusComponent } from "./status/gmhis-quotation-status.co
 @NgModule({
     declarations: [GMHISQuotationsComponent, GMHISQuotationItemFormComponent, GMHISQuotationCreateUpdate, GMHISQuotationSttusComponent],
     imports: [GMHISQuotationModuleRouting,SharedModule ],
-    exports: []
+    exports: [GMHISQuotationsComponent]
 })
 export class GMHISQuotationModule {
 

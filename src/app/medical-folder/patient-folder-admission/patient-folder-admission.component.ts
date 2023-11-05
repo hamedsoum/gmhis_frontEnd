@@ -136,7 +136,7 @@ export class PatientFolderAdmissionComponent implements OnInit, OnDestroy{
 
   handleHospitalizationRequestSaveEvent(): void {
     this.modalService.dismissAll();
-    this.notificationService.notify( NotificationType.SUCCESS,`Démande d'hospitalisation démandé pour le patient ${this.patient.firstName} ${this.patient.firstName}`);
+    this.notificationService.notify( NotificationType.SUCCESS,`Démande d'hospitalisation efectué pour le patient ${this.patient.firstName} ${this.patient.lastName}`);
   }
 
   public handleAssignment():void {

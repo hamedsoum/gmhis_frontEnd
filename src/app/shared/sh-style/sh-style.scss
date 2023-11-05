@@ -1,3 +1,8 @@
+.sh-clickable{
+    cursor: pointer;
+    color: var(---sh-color-primary);
+}
+
 .sh-diseable { 
     opacity: 0.5; 
     pointer-events: none;

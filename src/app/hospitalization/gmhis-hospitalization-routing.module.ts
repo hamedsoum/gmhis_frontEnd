@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { GMHISHospitalizationsComponent } from "./gmhis-hospitalizations.component";
+import { GMHISHospitalizationMain } from "./main/gmhis-hospitalization-main.component";
 import { GMHISHospitalizationRequestListingComponent } from "./request/listing/gmhis-hospitalization-request-listing.component";
 
 const routes: Routes = [
-    {path: '', component:GMHISHospitalizationsComponent},
+    {path: '', component:GMHISHospitalizationMain},
     {path: 'request', component:GMHISHospitalizationRequestListingComponent}
     
 ];

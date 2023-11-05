@@ -15,6 +15,7 @@ export interface InvoiceCreateData {
       insuredList?: any[],
       patientPart?: number,
       partTakenCareOf?: number
+      toFinalize?: boolean;
 }
 
 export interface InvoiceCost {

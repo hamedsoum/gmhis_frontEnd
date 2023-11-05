@@ -35,6 +35,10 @@ export interface GMHISHospitalizationRequestPartial {
     praticianName: GMHISName;
     praticianID: number;
     
+    insuranceID: number;
+    insuranceMatricule: string;
+    insuranceName: string;
+
     date: string;
     
     reason: string;

@@ -59,10 +59,7 @@
         <div class="">T. cons (%)</div>
         <div class="strong">{{ 100 - patientInvoice?.insured?.coverage }}</div>
       </div>
-      <!-- <div class="flex-item">
-        <div class="">Convention</div>
-        <div class="strong">{{ patientInvoice?.convention?.name }}</div>
-      </div> -->
+  
     </div>
   </div>
 
@@ -104,46 +101,13 @@
       </div>
       <div class="flex-item">
         <div class="">Total (fcfa)</div>
-        <div class="strong">{{ patientInvoice?.patientPart }}</div>
+        <div class="strong">{{ patientInvoice?.totalAmount }}</div>
       </div>
     </div>
   </div>
 
-  <form [formGroup]="paymentForm" class="row mb-3" (ngSubmit)="collectAmount()">
-    <!-- <div formArrayName="paymentsType" *ngFor="let payment of paymentsType.controls; let i = index">
-      <div [formGroupName]="i" class="row mb-2">
-        <div class="col-lg-4 col-md-4 col-sm-12 rounded-pill">
-          <ng-select placeholder="Mode de Payement" id="paymentTypeID-{{ i }}" formControlName="paymentTypeID">
-            <ng-option *ngFor="let type of paymentTypes" [value]="type.id">
-              {{ type.name }}
-            </ng-option>
-          </ng-select>
-        </div>
-
-        <div class="col-md-3">
-          <input (keyup)="onGetamountReceived(i)" type="number" class="form-control" id="amount-{{ i }}"
-            formControlName="amount" placeholder="Montant récu" />
-        </div>
-        <div class="col-md-3">
-          <input type="number" class="form-control" formControlName="amountReturned" placeholder="Monnaie" />
-        </div>
-        <div class="col-md-2">
-          <span
-          (click)="removePaymentType(i)"
-          style="color: red; cursor: pointer"
-          class="material-icons px-2 p-1 rounded"
-        >
-          delete
-        </span>        </div>
-      </div>
-    </div>
-    <div class="mb-2">
-      <span (click)="addPaymentType()" style="color: white; cursor: pointer; background-color: green"
-        class="material-icons px-2 p-1 rounded">
-        add
-      </span>
-    </div> -->
-
+  <form [formGroup]="paymentForm" class="row mb-3" (ngSubmit)="onSave()">
+    
     <div class="row mb-2">
       <div class="col-md-4">
 

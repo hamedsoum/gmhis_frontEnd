@@ -1,0 +1,15 @@
+<div class="h-100">
+    <nb-tabset>
+        <nb-tab tabTitle="Informations">
+            <gmhis-patient-record [data]="data"></gmhis-patient-record>
+        </nb-tab>
+        <nb-tab tabTitle="Assurance(s)">
+            <div *ngFor="let insurance of data.insurances">
+                <gmhis-patient-insurance [data]="insurance" styleClass="mb-5"></gmhis-patient-insurance>
+            </div>
+        </nb-tab>
+        <nb-tab tabTitle="Compte Patient">
+            <gmhis-caution-transaction [patient]="data" [accountBallance]="data.solde" ></gmhis-caution-transaction>
+        </nb-tab>
+       </nb-tabset>
+</div>

@@ -1,3 +1,7 @@
+.data-field {
+    margin-bottom: 35px;
+}
+
 .data-field-label{
     display: block;
     color: #6c757d;
@@ -6,5 +10,6 @@
 }
 
 .data-field-value{
+    display: block;
     font-size: 16px;
 }

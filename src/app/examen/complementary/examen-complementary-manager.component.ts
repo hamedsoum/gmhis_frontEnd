@@ -77,7 +77,7 @@ export class examenComplementaryManagerComponent implements OnInit, OnDestroy {
           this.examenCreateData.examenTytpe = false;
           this.examenCreateData.acts = this.actsID;
           if (this.examenCreateData.acts.length != 0) {
-            let invoiceCreate: InvoiceCreateData = {acts: [], admission: this.admissionId};
+            let invoiceCreate: InvoiceCreateData = {acts: [], admission: this.admissionId, toFinalize : true};
 
             invoiceCreate.admission = this.admissionId;
             this.examenCreateData.acts.forEach( (actID)=> {

@@ -83,30 +83,14 @@ export class InvoiceListComponent implements OnInit {
     this.getInvoice();
   }
 
+  public isToFinalize(toFinalize: boolean): boolean {
+    return toFinalize; 
+  }
+
   public isInvoiceCollected(billStatus: 'R' | 'C'): boolean {
       return billStatus === 'C';
   }
-  private initform() {
-    this.searchForm = new FormGroup({
-      billNumber: new FormControl(''),
-      admissionNumber: new FormControl(''),
-      firstName: new FormControl(''),
-      lastName: new FormControl(''),
-      patientExternalId: new FormControl(''),
-      cellPhone: new FormControl(''),
-      cnamNumber: new FormControl(''),
-      idCardNumber: new FormControl(null),
-      convention: new FormControl(null),
-      insurance: new FormControl(null),
-      subscriber: new FormControl(null),
-      fromDate: new FormControl(null),
-      toDate: new FormControl(null),
-      billStatus: new FormControl("R"),
-      page: new FormControl(0),
-      size: new FormControl(50),
-      sort: new FormControl('id,desc'),
-    });
-  }
+ 
   public onEdit(invoiceFormRef, invoice){
     console.log(invoice);
     this.invoice = invoice;
@@ -130,7 +114,9 @@ export class InvoiceListComponent implements OnInit {
           this.currentPage = response.currentPage + 1;
           this.empty = response.empty;
           this.firstPage = response.firstPage;
-          this.items = response.items; 
+          this.items = response.items;
+          console.log(this.items);
+                     
           this.lastPage = response.lastPage;
           this.selectedSize = response.size;
           this.totalItems = response.totalItems;
@@ -222,5 +208,27 @@ addPayment(){
     
       }
     )
+  }
+
+  private initform() {
+    this.searchForm = new FormGroup({
+      billNumber: new FormControl(''),
+      admissionNumber: new FormControl(''),
+      firstName: new FormControl(''),
+      lastName: new FormControl(''),
+      patientExternalId: new FormControl(''),
+      cellPhone: new FormControl(''),
+      cnamNumber: new FormControl(''),
+      idCardNumber: new FormControl(null),
+      convention: new FormControl(null),
+      insurance: new FormControl(null),
+      subscriber: new FormControl(null),
+      fromDate: new FormControl(null),
+      toDate: new FormControl(null),
+      billStatus: new FormControl("R"),
+      page: new FormControl(0),
+      size: new FormControl(50),
+      sort: new FormControl('id,desc'),
+    });
   }
 }

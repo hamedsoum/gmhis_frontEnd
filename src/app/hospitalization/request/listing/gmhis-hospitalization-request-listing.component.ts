@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -93,7 +93,6 @@ currentIndex: number;
     this.retrievePatient(patientID,recordContent)
   }
 
-
   private retrievePatient(patientID: number, recordContent): void {
     this.subscription.add(
       this.patientService.retrieve(patientID).subscribe(
@@ -111,6 +110,8 @@ currentIndex: number;
   rowSelected(hospitalizationRequestSelected: GMHISHospitalizationRequestPartial, index: number) {
     this.currentIndex = index;
     this.hospitalizationRequest = hospitalizationRequestSelected;
+    console.log(this.hospitalizationRequest);
+    
   }
 
   public onHospitalizationRequestSelected(recordRef, hospitalizationRequest : GMHISHospitalizationRequestPartial): void {

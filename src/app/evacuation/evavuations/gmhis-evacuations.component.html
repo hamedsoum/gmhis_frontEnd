@@ -21,26 +21,12 @@
                 </ng-select>
               </div>
               <div class="col-lg-2">
-                <span
-                  (click)="onSearchValueChange()"
-                  style="
-                    background-color: #ededed;
-                    color: #14a2b8;
-                    cursor: pointer;
-                  "
-                  class="material-icons px-2 p-1 rounded"
-                >
-                  search
-                </span>
+                <span style=" background-color: #ededed; color: #14a2b8; cursor: pointer"  class="material-icons px-2 p-1 rounded" (click)="onSearchValueChange()">search</span>
               </div>
             </div>
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12">
-            <ng-select
-              [(ngModel)]="pagination.selectedSize"
-              formControlName="size"
-              (change)="onSearchValueChange()"
-            >
+            <ng-select [(ngModel)]="pagination.selectedSize" formControlName="size" (change)="onSearchValueChange()">
               <ng-option *ngFor="let size of sizes" [value]="size.id">{{
                 size.value
               }}</ng-option>

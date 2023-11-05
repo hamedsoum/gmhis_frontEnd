@@ -1,0 +1,41 @@
+<div class="mt-3 {{ styleClass }}">
+    <div class="d-flex justify-content-between">
+        <span class="xs-display-block ">Solde Actuel <span class="sh-color-primary sh-text-medium fw-bold">{{ accountBallance | currency: "FCFA":"symbol":"1.0-0"}}</span></span>
+        <sh-button type="text" label="Imprimer" (clickEvent)="onPrintTransactions(transactionsRef)"></sh-button>
+    </div>
+    <table class="table table-bordered table-hover table-md align-middle mt-4">
+        <thead class="pb-3 text-capitalize">
+          <tr class="pb-3">
+            <th>Op. Date</th>
+            <th>Libelle</th>
+            <th>Action</th>
+            <th>Montant</th>
+            <th>Solde Patient</th>
+          </tr>
+        </thead>
+        <div class="d-flex w-100 justify-content-center">
+            <div *ngIf="loading" style="color: #623508" class="spinner-border" style="width: 3rem; height: 3rem" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        <tbody *ngIf="!loading">
+            <tr *ngFor="let transaction of data">
+                <td> {{transaction.date | date:  "dd/MM/yyyy HH:mm:ss" }}</td>
+                <td> {{transaction.libelle  }}</td>
+                <td> {{transaction.action  }}</td>
+                <td class="text-right"> {{transaction.amount | currency: " ":"symbol":"1.0-0" }}</td>
+                <td class="text-right"> {{transaction.patientAccountBalance | currency: " ":"symbol":"1.0-0" }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<ng-template #transactionsRef let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+    </div>
+    <div class="modal-body">
+      <ngx-extended-pdf-viewer *ngIf="docSrc" [src]="docSrc" useBrowserLocale="true" height="80vh"></ngx-extended-pdf-viewer>
+    </div>
+  </ng-template>

@@ -15,31 +15,62 @@
       </div>
     </div>
     <div class="row mb-2">
-        <div class="col-lg-6 mb-2 rounded-pill">
+
+      <div class="col-lg-4 mb-2 rounded-pill">
+        <label for="code" class="form-label text-capitalize">Assurance
+          <span  class="text-danger">*</span>
+      </label>
+        <ng-select [clearable]="false" (change)="onInsuredChange($event)">
+            <ng-option  *ngFor="let insurrance of patientInsureds" [value]="insurrance">{{insurrance.insuranceName}} </ng-option>
+        </ng-select>
+        <div *ngIf="formSubmitted && !fieldGroup.controls.insuranceID.valid">
+            <small *ngIf="insuranceField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+          </div>
+       </div>
+
+        <div class="col-lg-4 mb-2 rounded-pill">
             <label for="code" class="form-label text-capitalize">Nombre Problable de jour
                 <span  class="text-danger">*</span>
             </label>
             <input type="text" class="form-control" formControlName="dayNumber" >
+            <div *ngIf="formSubmitted && !fieldGroup.controls.dayNumber.valid">
+              <small *ngIf="dayNumberField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+            </div>
         </div>
-      <div class="col-lg-6 mb-2 rounded-pill">
+
+      <div class="col-lg-4 mb-2 rounded-pill">
         <label for="code" class="form-label text-capitalize">Date probable de début d'Hospitalisation
           <span  class="text-danger">*</span>
         </label>
         <input nbInput formControlName="startDate" class="form-control" [nbDatepicker]="datepicker">
         <nb-datepicker format="dd-MM-yyyy" #datepicker></nb-datepicker>
+        <div *ngIf="formSubmitted && !fieldGroup.controls.startDate.valid">
+          <small *ngIf="startDateField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+        </div>
       </div>
+
+
       <div class="col-lg-12 mb-2 rounded-pill">
         <label for="code" class="form-label text-capitalize">Motif de l'hospitalisation
           <span  class="text-danger">*</span>
         </label>
         <textarea class="form-control" formControlName="reason" cols="90" rows="5"></textarea>
+        <div *ngIf="formSubmitted && !fieldGroup.controls.reason.valid">
+          <small *ngIf="reasonField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+        </div>
       </div>
+
       <div class="col-lg-12 mb-2 rounded-pill">
         <label for="code" class="form-label text-capitalize">Protocole
           <span  class="text-danger">*</span>
         </label>
         <textarea class="form-control" formControlName="protocole" cols="90" rows="5"></textarea>
+        <div *ngIf="formSubmitted && !fieldGroup.controls.protocole.valid">
+          <small *ngIf="protocoleField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
+        </div>
       </div>
+
+
     </div>
     <div  class="mt-3 col">
       <div class="">

@@ -52,18 +52,6 @@
   class="dashboard py-3">
     <fa-icon [icon]="faKey" style="font-size: 1rem; margin-right: 10px"></fa-icon><span class="fw-bold">Facture</span>
 </p>
-<p
-  [ngClass]="{ menuActive: menuItem == 'invoiceH' }"
-  (click)="menuItemFunction('invoiceH', '/gmhis-invoice-h')"
-  class="dashboard py-3">
-    <fa-icon [icon]="faKey" style="font-size: 1rem; margin-right: 10px"></fa-icon><span class="fw-bold">Facture Hospitalisation</span>
-</p>
-<p
-  [ngClass]="{ menuActive: menuItem == 'quotations' }"
-  (click)="menuItemFunction('quotations', '/gmhis-quotations')"
-  class="dashboard py-3">
-    <fa-icon [icon]="faKey" style="font-size: 1rem; margin-right: 10px"></fa-icon><span class="fw-bold">Dévis Hospitalisation</span>
-</p>
 
 <p
   [hidden]="!canAccessInvoiceAssurance"
@@ -192,19 +180,6 @@ class="dashboard py-3"
   ><span class="fw-bold">Hospitalisation</span>
 </p>
 
-<p
-  [ngClass]="{ menuActive: menuItem == 'hospitalization-request' }"
-  (click)="menuItemFunction('hospitalization-request')"
-  routerLink="/hospitalization/request"
-  class="dashboard py-3"
->
-  <fa-icon
-    [icon]="faUser"
-  
-    style="font-size: 1rem; margin-right: 10px"
-  ></fa-icon
-  ><span class="fw-bold">Demande d'Hospitalisation</span>
-</p>
 
 <p
   [hidden]="!canAccessStatistics"

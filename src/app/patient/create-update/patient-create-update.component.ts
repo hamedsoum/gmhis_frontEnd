@@ -11,14 +11,14 @@ import { SubscriberService } from 'src/app/insurance/subscriber.service';
 import { GMHISInsuredService } from 'src/app/insured/service/insured-service.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
-import { Patient } from '../patient';
+import { GMHISCautionTransactionCreate, Patient } from '../patient';
 import { PatientService } from '../patient.service';
 import { labelValue } from 'src/app/shared/domain';
 import { civilitys, typeOfPieces } from 'src/app/shared/gmhis.enum';
 import { GMHISNameAndID as NameAndId } from 'src/app/shared/models/name-and-id';
 
-@Component({selector: 'app-patient-formm',templateUrl: './patient-formm.component.html',styleUrls: ['./patient-formm.component.scss']})
-export class PatientFormmComponent implements OnInit {
+@Component({selector: 'app-patient-create-update',templateUrl: './patient-create-update.component.html',styleUrls: ['./patient-create-update.component.scss']})
+export class PatientCreateUpdateComponent implements OnInit {
   private readonly FORM_FIELDS_TO_CLEAR_VALIDATOR: string[] = ['idcardType','idCardNumber', 'cellPhone1','profession', 'email','maritalStatus','numberOfChildren', 'civility'];
 
   private subs = new SubSink();
@@ -149,6 +149,22 @@ export class PatientFormmComponent implements OnInit {
     this.getInsuranceSubscriberSimpleList();
   }
 
+  private createCautionTransaction(patientID:number, amount: number): void {
+    let cautionTransactionCreate: GMHISCautionTransactionCreate = {
+      libelle: 'Nouvelle Caution',
+      action: 'credit',
+      amount: amount,
+      patientID: patientID
+    }
+    this.patientService.createCautionTransaction(cautionTransactionCreate).subscribe(
+      (response: any) => {
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message);
+      }
+    );
+  }
+
   public save(): void {
     this.invalidFom = !this.formGroup.valid;
     for (let index = 0; index < this.insuranceFormGroup.length; index++) {
@@ -182,8 +198,11 @@ export class PatientFormmComponent implements OnInit {
       } else {
         this.subs.add(
           this.patientService.create(this.patient).subscribe(
-            (response: Patient) => {
+            (response: any) => {
+              console.log(response);
+              
               this.loading = false;
+              // this.createCautionTransaction(response.id, response.solde);
               this.addPatient.emit();
             },
             (errorResponse: HttpErrorResponse) => {

@@ -19,26 +19,47 @@ export class GMHISHospitalizationRequestPdfService {
 
         doc.setFont("arial", "normal");
         doc.setFontSize(14);
-         doc.text('À l\'attention du medecin conseil de ..................................................................................',  20,87);
-       doc.text('Société ...............................................................................................................................',  20,96);
-       doc.text('Assureur ............................................................................................................................',  20,105);
-       doc.text('Matricule ...........................................................................................................................',  20,114);
-       doc.text('Assuré(e) ...........................................................................................................................',  20,124);
-       doc.text('Je sousigné Docteur ............................................................................................. certifie,',  20,133);
-       doc.text('que le / la malade ..............................................................................................................',  20,141);
-       doc.text('a été ',  20,150);
-       doc.rect(30, 146, 10, 5, )
-       doc.text('est ',  42,150);
-       doc.rect(49, 146, 10, 5, )
-       doc.text('sera ',  60,150);
-       doc.rect(70, 146, 10, 5, )
-       doc.text('hospitalisé (e) dans nos services ce jours pour :',  82,150);
-       var splitTitle = doc.splitTextToSize(
-        '.................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................' ,172);
-       doc.text(splitTitle,  20,159, {lineHeightFactor: 2});
-       doc.text(doc.splitTextToSize('La durée probable d\'hospitalisation est de .........  jour(s) à compter de ........................... ', 172), 20, 220, {lineHeightFactor: 2})
+        doc.text('À l\'attention du medecin conseil de',  20,87);
+        doc.setFont("arial", "bold");
+        doc.text(hospitalizationRequest.insuranceName,  100,87);
 
-        doc.text(doc.splitTextToSize('En foi de quoi , le présent certificat est établi et délivré aux parents du défunt pour servir et valoir ce que de droit.', 150), 20, 229, {lineHeightFactor: 2})
+        doc.setFont("arial", "normal");
+        doc.text('Société',  20,96);
+        doc.setFont("arial", "bold");
+        doc.text(hospitalizationRequest.insuranceName,  60,96);
+
+        doc.setFont("arial", "normal");
+        doc.text('Assureur ............................................................................................................................',  20,105);
+       
+        doc.setFont("arial", "normal");
+        doc.text('Matricule',  20,114);
+        doc.setFont("arial", "bold");
+        doc.text(hospitalizationRequest.insuranceMatricule,  60,114);
+
+        doc.setFont("arial", "normal");
+        doc.text('Assuré(e)',  20,124);
+        doc.setFont("arial", "bold");
+        doc.text(hospitalizationRequest.patientName.firstName+ " " + hospitalizationRequest.patientName.lastName,  60,124);
+
+        doc.setFont("arial", "normal");
+        doc.text(`Je sousigné Docteur ${hospitalizationRequest.praticianName.firstName} ${hospitalizationRequest.praticianName.lastName} certifie,`,  20,133);
+        doc.text(`que le / la malade ${hospitalizationRequest.patientName.firstName} ${hospitalizationRequest.patientName.lastName}`,  20,141);
+        doc.text('a été ',  20,150);
+        doc.rect(30, 146, 10, 5, )
+        doc.text('est ',  42,150);
+        doc.rect(49, 146, 10, 5, )
+        doc.text('sera ',  60,150);
+        doc.rect(70, 146, 10, 5, )
+        doc.text('hospitalisé (e) dans nos services ce jours pour :',  82,150);
+        doc.setFont("arial", "bold");
+        var splitTitle = doc.splitTextToSize(
+            `${hospitalizationRequest.reason}` ,172);
+        doc.text(splitTitle,  20,159, {lineHeightFactor: 2});
+        doc.setFont("arial", "normal");
+
+        doc.text(doc.splitTextToSize(`La durée probable d\'hospitalisation est de ${hospitalizationRequest.dayNumber}  jour(s) à compter de  ${this.datePipe.transform(new Date(hospitalizationRequest.startDate), 'longDate')} `, 172), 20, 220, {lineHeightFactor: 2})
+
+        doc.text(doc.splitTextToSize('En foi de quoi , le présent certificat est établi et délivré aux parents du défunt pour servir et valoir ce que de droit.', 150), 20, 230, {lineHeightFactor: 2})
 
         doc.text(`Abidjan,${currentDate} `,  120,255);
 

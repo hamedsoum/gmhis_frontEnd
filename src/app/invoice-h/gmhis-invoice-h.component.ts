@@ -18,7 +18,7 @@ import { GMHISInvoiceHService } from "./api/service/gmhis.invoice-h.service";
 
 @Component({ selector: 'gmhis-invoice-h', templateUrl: './gmhis-invoice-h.component.html', providers: [GMHISInvoiceHPdfService]})
 export class GMHISInvoiceHComponent implements OnInit {
-    readonly TITLE = 'Facture';
+    readonly TITLE = 'Factures';
     readonly NEW_QUOTATION = 'Nouvelle Facture';
 
     subscription: Subscription = new Subscription()

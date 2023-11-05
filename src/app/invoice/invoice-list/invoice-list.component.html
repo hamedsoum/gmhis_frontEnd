@@ -78,7 +78,7 @@
               <div ngbDropdown class="d-inline-block">
                 <button type="button" class="btn btn-outline-info" id="dropdownBasic1" ngbDropdownToggle>...</button>
                 <div class="text" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                  <button *ngIf="!isInvoiceCollected(invoice.billStatus)" class="text-center" ngbDropdownItem (click)="onEdit(finalizeInvoiceFormRef, invoice)">Finaliser la facture</button>
+                  <button *ngIf="isToFinalize(invoice.toFinalize)" class="text-center" ngbDropdownItem (click)="onEdit(finalizeInvoiceFormRef, invoice)">Finaliser la facture</button>
                   <button *ngIf="!isInvoiceCollected(invoice.billStatus)" class="text-center" ngbDropdownItem (click)="openPaymentForm(paymentFormContent, invoice)">Encaisser</button>
                   <button *ngIf="isInvoiceCollected(invoice.billStatus)" class="text-center" ngbDropdownItem (click)="onPrint(printContent, invoice)">Impression</button>
                 </div>

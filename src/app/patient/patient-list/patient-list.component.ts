@@ -1,12 +1,17 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+
 import { FormControl, FormGroup } from '@angular/forms';
-import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { faHospitalUser } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GmhisUtils } from 'src/app/shared/base/utils';
+import { PAGINATION_SIZE } from 'src/app/shared/constant';
+import { GMHISPagination } from 'src/app/shared/models/gmhis-domain';
 import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { SubSink } from 'subsink';
-import { Patient } from '../patient';
+import { GMHISCautionTransactionCreate, Patient } from '../patient';
 import { PatientService } from '../patient.service';
 
 @Component({
@@ -15,39 +20,30 @@ import { PatientService } from '../patient.service';
   styleUrls: ['./patient-list.component.scss'],
 })
 export class PatientListComponent implements OnInit {
+
+  readonly faHospitalUser = faHospitalUser;
+  iconStyle = ['sh-color-primary']
+
   private subs = new SubSink();
 
   public searchForm: FormGroup;
 
   public patient: Patient;
 
-  currentPage: number;
-  empty: boolean;
-  firstPage: boolean;
-  lastPage: boolean;
-  totalItems: number;
-  totalPages: number;
+  pagination: GMHISPagination = {};
+
+  sizes = PAGINATION_SIZE;
 
   public items: any;
 
   selectedSize: number;
-
-  sizes = [
-    { id: 10, value: 10 },
-    { id: 25, value: 25 },
-    { id: 50, value: 50 },
-    { id: 100, value: 100 },
-    { id: 250, value: 250 },
-    { id: 500, value: 500 },
-    { id: 1000, value: 1000 },
-  ];
 
   actives = [
     { id: true, value: 'Actif' },
     { id: false, value: 'Inactif' },
   ];
 
-  showloading: boolean = false;
+  loading: boolean = false;
   currentIndex: number;
 
   emptyListMessage : string ; 
@@ -56,6 +52,10 @@ export class PatientListComponent implements OnInit {
 
   disabledAllFormFiled : boolean;
 
+  modalHeaderTitle : string;
+  modalHeaderSubTitle: string;
+
+  amount: number = 0;
 
   constructor(
     private patientService: PatientService,
@@ -90,25 +90,46 @@ export class PatientListComponent implements OnInit {
 
   public getPatient() {
     this.emptyListMessage = '';
-    this.showloading = true;
+    this.loading = true;
     this.subs.add(
       this.patientService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          this.showloading = false;
-          this.currentPage = response.currentPage + 1;
-          this.empty = response.empty;
-          this.firstPage = response.firstPage;
-          this.items = response.items; 
-          this.lastPage = response.lastPage;
-          this.selectedSize = response.size;
-          this.totalItems = response.totalItems;
-          this.totalPages = response.totalPages;
+          this.loading = false;
+          GmhisUtils.pageListMap(this.pagination, response);
         },
         (errorResponse: HttpErrorResponse) => {         
-          this.showloading = false;
+          this.loading = false;
           this.emptyListMessage = errorResponse.error.message + ':(';
         }
       )
+    );
+  }
+
+  public onOpenCautionForm(cautionFormRef, patient: Patient): void {
+    this.patient = patient;
+    this.onOpenModal(cautionFormRef, 'md',patient )
+  }
+
+  public onCreateCaution(): void {
+    this.createCautionTransaction(this.patient.id, this.amount, );
+  }
+
+  private createCautionTransaction(patientID:number, amount: number): void {
+    let cautionTransactionCreate: GMHISCautionTransactionCreate = {
+      libelle: 'Nouvelle Caution',
+      action: 'credit',
+      amount: amount,
+      patientID: patientID
+    }
+    this.patientService.createCautionTransaction(cautionTransactionCreate).subscribe(
+      (response: any) => {
+        this.modalService.dismissAll();
+        this.notificationService.notify( NotificationType.SUCCESS,`Nouvelle Caution Ajouté au compte du patient ${this.patient.firstName} ${this.patient.lastName}`);
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message);
+        this.modalService.dismissAll();
+      }
     );
   }
 
@@ -133,6 +154,9 @@ export class PatientListComponent implements OnInit {
   openUpdateForm(updateFormContent, item?) {
     this.disabledAllFormFiled = false;
     this.patient = item;
+    this.modalHeaderTitle = `Patient ${this.patient.firstName} ${this.patient.lastName}`;
+    this.modalHeaderSubTitle = `${this.patient.patientExternalId}`;
+
     this.modalService.open(updateFormContent, { size: 'xl' });
   }
 
@@ -141,26 +165,21 @@ export class PatientListComponent implements OnInit {
     this.modalService.open(admissionFormContent, { size: 'lg' });
   }
 
-  onOpenDetailModal(modalKey : any,size? : string, data? : any){
+  onRecord(modalKey : any,size? : string, data? : Patient){
     this.disabledAllFormFiled = true;
+    this.modalHeaderTitle = `Patient ${data.patientExternalId}`;
     this.onOpenModal(modalKey, size,data )
   }
 
   addPatient() {
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      'Patient ajouté avec succès'
-    );
+    this.notificationService.notify( NotificationType.SUCCESS,'Patient ajouté avec succès');
     this.getPatient();
   }
 
   updatePatient() {
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      'Patient modifié avec succès'
-    );
+    this.notificationService.notify(NotificationType.SUCCESS,'Patient modifié avec succès');
     this.getPatient();
   }
 

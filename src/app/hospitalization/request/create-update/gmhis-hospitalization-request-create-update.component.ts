@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { GMHISInsuredService } from 'src/app/insured/service/insured-service.service';
 import { IExamination } from 'src/app/medical-folder/examination/models/examination';
-import { ExaminationService } from 'src/app/medical-folder/examination/services/examination.service';
 import { GmhisUtils } from 'src/app/shared/base/utils';
 import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
@@ -37,16 +37,19 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
   hospitalizationCreate: GMHISHospitalizationRequestCreate;
 
   subscription: Subscription = new Subscription();
+  patientInsureds: any[];
   
   constructor(
     private hospitalizationService: GmhisHospitalizationRequestService,
     private notificationService: NotificationService,
-    private examinationService: ExaminationService
+    private insuredService: GMHISInsuredService
       ){}
 
 
   ngOnInit(): void {
+    this.findInsurances(this.patientID);
     this.buildFields(); 
+
   }
 
   ngOnDestroy(): void {
@@ -61,15 +64,29 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
           patientID: new FormControl(this.patientID),
           examinationID: new FormControl(this.examination.id),
           admissionID: new FormControl(this.admissionID),
+          insuredID: new FormControl(null,Validators.required),
           dayNumber: new FormControl(null,Validators.required)
       })
     }
 
-   public  save(): void {
+    get startDateField() {return this.fieldGroup.get('startDate')};
+    get reasonField() {return this.fieldGroup.get('reason')};
+    get protocoleField() {return this.fieldGroup.get('protocole')};
+    get insuranceField() {return this.fieldGroup.get('insuredID')};
+    get dayNumberField() {return this.fieldGroup.get('dayNumber')};
+
+
+    public onInsuredChange(insured: any): void {
+        this.fieldGroup.get('insuredID').setValue(insured.id)
+    }
+
+
+   public  save(): void {     
       if (!this.fieldGroup.valid) return;
       this.formSubmitted = true;
       this.loading = true;
       this.hospitalizationCreate = this.fieldGroup.value;
+
       if (this.isCreated()) this.create();
       else this.update(); 
   }
@@ -108,5 +125,14 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
    return GmhisUtils.isNull(this.hospitalizationRequest);
   }
 
-
+  findInsurances(patientId: number): void {
+    this.insuredService.getInsuredByPatientId(patientId).subscribe( 
+      (response) => {
+        this.patientInsureds = response;
+        console.log(this.patientInsureds);
+        
+      },
+      (error) => {}
+      )
+  }
 }

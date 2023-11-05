@@ -13,14 +13,22 @@ import { RouterModule } from '@angular/router';
 import { SafePipe } from './safe.pipe';
 import { SHButtonComponent } from './components/button/sh-button.component';
 import { SHDatafieldTextaeraComponent } from './components/data-field/textarea/data-field-textarea.component';
-import { DataFieldText } from './components/data-field/text/data-field-text.component';
+import { SHDataFieldText } from './components/data-field/text/data-field-text.component';
 import { SharedxaminationRecord } from './components/record/shared-examination-record.component';
 import { SharedPatientInformations } from './components/patient-informations/shared-patient-informations.component';
+import { SHIconComponent } from './components/icon/sh-icon.component';
 
 
 
 @NgModule({
-  declarations: [SafePipe, SHButtonComponent, SHDatafieldTextaeraComponent, DataFieldText,SharedxaminationRecord, SharedPatientInformations],
+  declarations: [
+    SafePipe, 
+    SHButtonComponent, 
+    SHDatafieldTextaeraComponent, 
+    SHDataFieldText,
+    SharedxaminationRecord, 
+    SharedPatientInformations,
+    SHIconComponent],
   imports: [
     CommonModule
   ],
@@ -49,7 +57,7 @@ import { SharedPatientInformations } from './components/patient-informations/sha
     SafePipe,
     SHButtonComponent,
     SHDatafieldTextaeraComponent,
-    DataFieldText,
+    SHDataFieldText,
     SharedxaminationRecord,
     SharedPatientInformations
   ]

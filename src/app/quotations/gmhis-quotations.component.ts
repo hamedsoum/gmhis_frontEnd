@@ -18,7 +18,7 @@ import { GMHISQuotationService } from "./api/service/gmhis.quotation.service";
 
 @Component({ selector: 'gmhis-quotations', templateUrl: './gmhis-quotations.component.html', providers: [GMHISQuotationPdfService]})
 export class GMHISQuotationsComponent implements OnInit {
-    readonly TITLE = 'Facture Proformat';
+    readonly TITLE = 'Factures Proformat';
     readonly NEW_QUOTATION = 'Nouvelle Facture';
 
     subscription: Subscription = new Subscription()
