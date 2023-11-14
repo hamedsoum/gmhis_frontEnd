@@ -50,7 +50,7 @@
             <td>{{examination.practicianTel}}</td>
             <td>{{ examination.facility }}</td>
             <td style="display: flex; flex-wrap: wrap; justify-content: space-around;">
-              <sh-button   (clickEvent)="onAddDiagnostic(examination,diagnosticDialog)" type="text" size="small" label="Diagnostic" labelStyleClass="sh-color-primary"></sh-button>
+              <sh-button *ngIf="canMakeDiagnostic(examination.conclusion)"  (clickEvent)="onAddDiagnostic(examination,diagnosticDialog)" type="text" size="small" label="Diagnostic" labelStyleClass="sh-color-primary"></sh-button>
               <sh-button (clickEvent)="onOpenExaminationRecord(examination,examinationRecordModal)" type="text" size="small" label="Fiche Médicale" labelStyleClass="sh-color-primary"></sh-button>
             </td>
           </tr>

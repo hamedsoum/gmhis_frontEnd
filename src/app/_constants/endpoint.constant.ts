@@ -20,6 +20,7 @@ export const GMHIS_ENDPOINT = {
         index: '/hospitalizations',
         create: '/hospitalizations',
         update: '/hospitalizations/${hospitalizationID}',
+        addNurse: '/hospitalizations/${hospitalizationID}/nurse',
         close: '/hospitalizations/${hospitalizationID}/close',
         retrieve: '/hospitalizations/${hospitalizationID}',
     },

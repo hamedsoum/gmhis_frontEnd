@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdmissionService } from 'src/app/admission/service/admission.service';
 import { Patient } from 'src/app/patient/patient';
+import { GmhisUtils } from 'src/app/shared/base/utils';
 import { Pagination } from 'src/app/shared/domain';
 import { PageList } from 'src/app/_models/page-list.model';
 import { NotificationService } from 'src/app/_services/notification.service';
@@ -101,6 +102,10 @@ export class ExaminationListComponent implements OnInit, OnChanges {
       this.getExamination();
       this.newExamination = false;
     }
+  }
+
+  public canMakeDiagnostic(diagnostic: string): boolean {
+    return GmhisUtils.isNull(diagnostic);
   }
 
   public onPrintExaminationRecord(recordContent: any):void {  

@@ -31,7 +31,7 @@ subscription: Subscription = new Subscription()
 
 public searchFieldsForm: FormGroup;
 
-public hospitalizationRequest : GMHISHospitalizationRequestPartial;
+public hospitalizationRequestSelected : GMHISHospitalizationRequestPartial;
 
 pagination: GMHISPagination = {};
 
@@ -76,7 +76,7 @@ currentIndex: number;
   }
 
   public onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef): void {    
-    let doc = this.hospitalizationPdfService.buildhospitalizationCertificatePdf(this.hospitalizationRequest);
+    let doc = this.hospitalizationPdfService.buildhospitalizationCertificatePdf(this.hospitalizationRequestSelected);
     this.modalService.open(hospitalilazionCertificateDocRef, { size: 'xl' });
     this.docSrc = doc.output('datauristring'); 
   }
@@ -88,8 +88,8 @@ currentIndex: number;
   }
 
   public onOpenExaminationRecord(recordContent: any):void {  
-    this.examination = this.hospitalizationRequest.examination;
-    let patientID = this.hospitalizationRequest.patientID;
+    this.examination = this.hospitalizationRequestSelected.examination;
+    let patientID = this.hospitalizationRequestSelected.patientID;
     this.retrievePatient(patientID,recordContent)
   }
 
@@ -109,13 +109,13 @@ currentIndex: number;
 
   rowSelected(hospitalizationRequestSelected: GMHISHospitalizationRequestPartial, index: number) {
     this.currentIndex = index;
-    this.hospitalizationRequest = hospitalizationRequestSelected;
-    console.log(this.hospitalizationRequest);
+    this.hospitalizationRequestSelected = hospitalizationRequestSelected;
+    console.log(this.hospitalizationRequestSelected);
     
   }
 
   public onHospitalizationRequestSelected(recordRef, hospitalizationRequest : GMHISHospitalizationRequestPartial): void {
-    this.hospitalizationRequest = hospitalizationRequest;
+    this.hospitalizationRequestSelected = hospitalizationRequest;
       this.modalService.open(recordRef, {size: 'lg'})
   }
 
@@ -156,7 +156,7 @@ currentIndex: number;
   }
 
   public onOpenUpdateForm(hospitalizationRequestFormRef, item?):void {
-    this.hospitalizationRequest = item;
+    this.hospitalizationRequestSelected = item;
     this.modalService.open(hospitalizationRequestFormRef, { size: 'md' });
   }
 

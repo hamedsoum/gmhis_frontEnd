@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActService } from 'src/app/act/act/service/act.service';
 import { ServiceService } from 'src/app/service/service/service.service';
+import { GmhisUtils } from 'src/app/shared/base/utils';
 import { GMHISKeyValue } from 'src/app/shared/models/name-and-id';
 import { PageList } from 'src/app/_models/page-list.model';
 import { AdmissionReceiptPaymentService } from 'src/app/_services/documents/admission-receipt-payment.service';
@@ -104,9 +105,8 @@ export class GMHISEmergencyAdmissionListComponent implements OnInit, OnDestroy {
     )
   }
 
-  public isDeposit(deposit : number): boolean {
-    if (deposit == null) return false;
-    return true
+  public isCaution(caution : number): boolean {
+    return caution > 0;
   }
 
   onRevokeConfirmation(openRevokeConfirmation,admission, size:string) {  

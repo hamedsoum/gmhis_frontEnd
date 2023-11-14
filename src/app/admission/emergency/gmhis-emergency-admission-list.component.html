@@ -119,27 +119,11 @@
                     ...
                   </button>
                   <div class="text" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button
-                    (click)="openUpdateForm(updateFormContent, admission)"
-                     class="text-center" 
-                     ngbDropdownItem>
-                     Modifier
-                    </button>
-                    <button 
-                     class="text-center"
-                    (click)="openInvoiceForm(invoiceFormContent, admission)"
-                    ngbDropdownItem>Facture</button>
-                    <button 
-                    *ngIf="isDeposit(admission.caution)"
-                    class="text-center"
-                   (click)="onPrintAdmissionBailReceipt(printContent, admission)"
-                   ngbDropdownItem>Réçu Caution</button>
-
-                   <button 
-                   class="text-center"
-                  (click)="onRevokeConfirmation(revokeConfirmation, admission)"
-                  ngbDropdownItem>Révoquer</button>
-                  <button *ngIf="admission.takeCare" class="text-center" ngbDropdownItem (click)="onAdmissionSupervisory(admission.id)">Admission de Supervision</button>
+                    <button (click)="openUpdateForm(updateFormContent, admission)" class="text-center" ngbDropdownItem>Modifier</button>
+                    <button class="text-center" (click)="openInvoiceForm(invoiceFormContent, admission)" ngbDropdownItem>Facture</button>
+                    <button *ngIf="isCaution(admission.caution)" class="text-center" (click)="onPrintAdmissionBailReceipt(printContent, admission)"ngbDropdownItem>Réçu Caution</button>
+                    <button class="text-center" (click)="onRevokeConfirmation(revokeConfirmation, admission)" ngbDropdownItem>Révoquer</button>
+                    <button *ngIf="admission.takeCare" class="text-center" ngbDropdownItem (click)="onAdmissionSupervisory(admission.id)">Admission de Supervision</button>
                   </div>
                 </div>
               </td>

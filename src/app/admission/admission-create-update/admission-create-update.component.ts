@@ -103,7 +103,6 @@ export class GMHISAdmissionCreateUpdateComponent implements OnInit {
       patient: new FormControl(true),
       speciality: new FormControl(null),
       act: new FormControl(null),
-      caution: new FormControl(null),
       practician: new FormControl(null),
     });
   }

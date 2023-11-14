@@ -9,8 +9,9 @@ import { PatientService } from "../patient/patient.service";
 import { GmhisUtils } from "../shared/base/utils";
 import { PAGINATION_DEFAULT_SIZE, PAGINATION_SIZE } from "../shared/constant";
 import { GMHISPagination } from "../shared/models/gmhis-domain";
+import { User } from "../_models";
 import { PageList } from "../_models/page-list.model";
-import { NotificationService } from "../_services";
+import { NotificationService, UserService } from "../_services";
 import { NotificationType } from "../_utilities/notification-type-enum";
 import { GMHISHospitalizationCreate, GMHISHospitalizationPartial } from "./api/domain/gmhis-hospitalization";
 import { GmhisHospitalizationService } from "./api/service/gmhis.hospitalization.service";
@@ -43,22 +44,24 @@ docSrc: string;
 
 patient: Patient;
 
+nurseID: number;
+
 closeFieldGroup: FormGroup = new FormGroup({});
+  nurses: User[];
 
   constructor(
     private hospitalizationService: GmhisHospitalizationService,
     private notificationService: NotificationService,
     private modalService: NgbModal,
     private hospitalizationPdfService: GMHISHospitalizationPdfService,
-    private patientService: PatientService
-
-
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.buildFields();
     this.buildCloseFields();
-    this.search()
+    this.search();
+    this.findUsers();
   }
 
   ngOnDestroy(): void {
@@ -68,11 +71,7 @@ closeFieldGroup: FormGroup = new FormGroup({});
  
 
   public closeHospitalization(): void {
-      let hospitalizationCreate : GMHISHospitalizationCreate = this.closeFieldGroup.value;
-      
-      console.log(this.hospitalizationSelected.id);
-      console.log(hospitalizationCreate);
-      
+      let hospitalizationCreate : GMHISHospitalizationCreate = this.closeFieldGroup.value;      
       
     this.subscription.add(
       this.hospitalizationService.close(this.hospitalizationSelected.id,hospitalizationCreate)
@@ -80,6 +79,23 @@ closeFieldGroup: FormGroup = new FormGroup({});
       .subscribe(
         (response : GMHISHospitalizationPartial) => {
             this.notificationService.notify(NotificationType.SUCCESS, "Hospitalisation Terminé avec succés");
+            this.modalService.dismissAll();
+            this.search();
+        },
+        (errorResponse : HttpErrorResponse) => {
+            this.notificationService.notify( NotificationType.ERROR, errorResponse.error.message);
+        }
+      )
+  )
+  }
+
+  public onAddNurse(): void {
+    this.subscription.add(
+      this.hospitalizationService.addNurse(this.hospitalizationSelected.id,this.nurseID)
+      .pipe(finalize(()=> this.loading = false))
+      .subscribe(
+        (response : GMHISHospitalizationPartial) => {
+            this.notificationService.notify(NotificationType.SUCCESS, "Hospitalisation Attribué avec succés");
             this.modalService.dismissAll();
             this.search();
         },
@@ -130,7 +146,9 @@ closeFieldGroup: FormGroup = new FormGroup({});
       .pipe(finalize(() => (this.loading = false)))
       .subscribe(
         (response: PageList) => {
-         GmhisUtils.pageListMap(this.pagination, response);         
+         GmhisUtils.pageListMap(this.pagination, response);     
+         console.log(this.pagination.items);
+             
         },
         (errorResponse: HttpErrorResponse) => {         
         }
@@ -148,8 +166,20 @@ closeFieldGroup: FormGroup = new FormGroup({});
     this.modalService.open(hospitalizationFormRef, { size: 'md' });
   }
 
-  onOpenCloseForm(closeFormRef): void {
-    this.modalService.open(closeFormRef, { size: 'md' });
+  public onOpenCloseForm(closeFormRef: any): void {
+    this.onModal(closeFormRef);
+  }
+
+  public onShowProtocol(protocolModalRef: any): void {
+    this.onModal(protocolModalRef);
+  }
+
+  onOpenNurseallOction(allocationModalRef: any): void {
+    this.modalService.open(allocationModalRef, { size: 'md' });
+  }
+
+  private onModal(ModalRef: any,size: string = 'xl'): void {
+    this.modalService.open(ModalRef, { size: size });
   }
 
   public handleHospitalizationSaveEvent(): void{
@@ -174,4 +204,18 @@ closeFieldGroup: FormGroup = new FormGroup({});
   get endField() {return this.closeFieldGroup.get('end')}
   get conclusionField() {return this.closeFieldGroup.get('conclusion')}
 
+
+  private findUsers(): void {
+    this.subscription.add(
+      this.userService.findAllActive().subscribe(
+        (usersFounded: User[]) => {
+          this.nurses = usersFounded;
+          console.log(this.nurses);
+          
+        },
+        (errorResponse: HttpErrorResponse) => {         
+        }
+      )
+    )
+  }
 }

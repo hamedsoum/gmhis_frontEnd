@@ -65,7 +65,7 @@ export class GMHISHospitalizationCreateUpdateComponent implements OnInit {
     
     if(!GmhisUtils.isNull(this.hospitalizationRequest)){
        this.practicianID = this.hospitalizationRequest.praticianID;
-       this.patientID = this.hospitalizationRequest.praticianID;
+       this.patientID = this.hospitalizationRequest.patientID;
     }
     this.initialize();
     this.fieldGroup.get('patientID').disable();

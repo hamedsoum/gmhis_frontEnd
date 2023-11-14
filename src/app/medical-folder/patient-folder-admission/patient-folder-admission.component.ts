@@ -82,7 +82,7 @@ export class PatientFolderAdmissionComponent implements OnInit, OnDestroy{
           badge: {text: "0",status: 'warning'},
         },
         {
-          title: medicalFolderMenu.CONSTANTES,
+          title: medicalFolderMenu.PRESCRIPTIONS,
           icon: 'minus-outline',
           badge: { text: '0',status: 'warning'},
         },
@@ -136,7 +136,7 @@ export class PatientFolderAdmissionComponent implements OnInit, OnDestroy{
 
   handleHospitalizationRequestSaveEvent(): void {
     this.modalService.dismissAll();
-    this.notificationService.notify( NotificationType.SUCCESS,`Démande d'hospitalisation efectué pour le patient ${this.patient.firstName} ${this.patient.lastName}`);
+    this.notificationService.notify( NotificationType.SUCCESS,`Démande d'hospitalisation effectué pour le patient ${this.patient.firstName} ${this.patient.lastName}`);
   }
 
   public handleAssignment():void {

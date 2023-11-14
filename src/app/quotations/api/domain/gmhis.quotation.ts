@@ -81,11 +81,11 @@ export interface GMHISQuotationPartial {
 }
 
 export enum GMHISQuotationStatus {
-   DRAFT = "draft",
-   PENDING = "pending",
-   TO_BE_INVOICED = "to_be_invoiced",
-   INVOICED = "invoiced",
-   REFUSED = "refused"
+   DRAFT = 'draft',
+   PENDING = 'pending',
+   TO_BE_INVOICED = 'to_be_invoiced',
+   INVOICED = 'invoiced',
+   REFUSED = 'refused'
 }
 
 export type  GMHISQuotationStatusStr = 'draft' | 'pending' | 'to_be_invoiced' | 'invoiced' | 'refused';

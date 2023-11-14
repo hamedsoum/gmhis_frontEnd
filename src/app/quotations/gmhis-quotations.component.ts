@@ -2,9 +2,11 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { finalize } from "rxjs/operators";
+
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+
 import { GmhisUtils } from "../shared/base/utils";
 import { PAGINATION_DEFAULT_SIZE, PAGINATION_SIZE } from "../shared/constant";
 import { GMHISPagination } from "../shared/models/gmhis-domain";

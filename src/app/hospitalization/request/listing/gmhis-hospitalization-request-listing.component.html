@@ -42,9 +42,9 @@
         </div>
       </form>
       <div class="sh-flex-row justify-content-end">
-        <sh-button (clickEvent)="onOpenExaminationRecord(newHospitalizationRef)" type="text" size="small" label="Créer l'hospitalisation à partir de la Démande" labelStyleClass="sh-color-primary"></sh-button>
-        <sh-button (clickEvent)="onOpenExaminationRecord(examinationRecordModal)" type="text" size="small" label="Fiche Médicale" labelStyleClass="sh-color-primary"></sh-button>
-        <sh-button (clickEvent)="onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef)" type="text" size="small" label="Certificat Médicale d'hospitalisation" labelStyleClass="sh-color-primary"></sh-button>
+        <sh-button [ngClass]="{'sh-diseable': hospitalizationRequestSelected == null}" (clickEvent)="onOpenExaminationRecord(newHospitalizationRef)" type="text" size="small" label="Créer l'hospitalisation à partir de la Démande" labelStyleClass="sh-color-primary"></sh-button>
+        <sh-button [ngClass]="{'sh-diseable': hospitalizationRequestSelected == null}" (clickEvent)="onOpenExaminationRecord(examinationRecordModal)" type="text" size="small" label="Fiche Médicale" labelStyleClass="sh-color-primary"></sh-button>
+        <sh-button [ngClass]="{'sh-diseable': hospitalizationRequestSelected == null}" (clickEvent)="onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef)" type="text" size="small" label="Certificat Médicale d'hospitalisation" labelStyleClass="sh-color-primary"></sh-button>
       </div>
       <div #hospitalizationRequestTab class="tableFixHead">
         <table class="table table-bordered table-hover table-md align-middle">
@@ -56,7 +56,6 @@
                 <th>Motif d'hospitalisation</th>   
                 <th>Durée Problable</th>   
                 <th>Date de Début Problable</th>   
-              <th>Action</th>   
             </tr>
           </thead>
   
@@ -82,10 +81,6 @@
               <td class="text-nowrap ">{{hospitalizationRequest.reason}}</td>
               <td class="text-nowrap ">{{hospitalizationRequest.dayNumber}} Jour(s)</td>
               <td class="text-nowrap ">{{hospitalizationRequest.startDate | date: "dd/MM/yyyy"}} </td>
-
-              <td>
-                
-              </td>
             </tr>
           </tbody>
         </table>
@@ -127,7 +122,7 @@
       ></nb-icon>
     </div>
     <div class="modal-body">
-      <gmhis-hospitalization-create-update (saveEvent)="handleHospitalizationSaveEvent()" [hospitalizationRequest]="hospitalizationRequest" ></gmhis-hospitalization-create-update>
+      <gmhis-hospitalization-create-update (saveEvent)="handleHospitalizationSaveEvent()" [hospitalizationRequest]="hospitalizationRequestSelected" ></gmhis-hospitalization-create-update>
     </div>
   </ng-template>
 
@@ -155,14 +150,8 @@
         <span class="modalTitle" >Fiche de demande</span>
         <span class="modal-subTitle" >--</span>
         <div (click)="onPrintRecordPDF(printRecordRef)"><span class="button-text"> <span  class="material-icons">ios_share</span></span> </div>
-
       </div>
-      <nb-icon
-        style="cursor: pointer"
-        (click)="d('Cross click')"
-        class="h4"
-        icon="close-circle-outline"
-      ></nb-icon>
+      <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
     </div>
   <div class="modal-body">
     <gmhis-hospitalization-request-record [evacuation]="evacuation"></gmhis-hospitalization-request-record>
@@ -171,7 +160,6 @@
 
 <ng-template #examinationRecordModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    
    <div>
     <span class="modalTitle" >Résumé de la consultation</span>
     <span class="modal-subTitle" >---</span>
@@ -182,7 +170,6 @@
   <div class="modal-body">
     <shared-examination-record [patient]="patient" [examination]="examination"></shared-examination-record>
   </div>
-
 </ng-template>
 
 <ng-template #recordContent let-c="close" let-d="dismiss">
@@ -195,42 +182,20 @@
 </ng-template>
 
 <ng-template #printRecordRef let-c="close" let-d="dismiss">
-  <div class="modal-header ">
-    <nb-icon
-      style="cursor: pointer"
-      (click)="d('Cross click')"
-      class="h4"
-      icon="close-circle-outline"
-    ></nb-icon>
+  <div class="modal-header">
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
   </div>
-  <div class="modal-body ">
-    <ngx-extended-pdf-viewer
-      *ngIf="docSrc"
-      [src]="docSrc"
-      useBrowserLocale="true"
-      height="80vh"
-    >
-    </ngx-extended-pdf-viewer>
+  <div class="modal-body">
+    <ngx-extended-pdf-viewer *ngIf="docSrc" [src]="docSrc" useBrowserLocale="true" height="80vh"></ngx-extended-pdf-viewer>
   </div>
 </ng-template>
 
 <ng-template #hospitalilazionCertificateDocRef let-c="close" let-d="dismiss">
-  <div class="modal-header ">
-    <nb-icon
-      style="cursor: pointer"
-      (click)="d('Cross click')"
-      class="h4"
-      icon="close-circle-outline"
-    ></nb-icon>
+  <div class="modal-header">
+    <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
   </div>
-  <div class="modal-body ">
-    <ngx-extended-pdf-viewer
-      *ngIf="docSrc"
-      [src]="docSrc"
-      useBrowserLocale="true"
-      height="80vh"
-    >
-    </ngx-extended-pdf-viewer>
+  <div class="modal-body">
+    <ngx-extended-pdf-viewer *ngIf="docSrc" [src]="docSrc" useBrowserLocale="true" height="80vh"></ngx-extended-pdf-viewer>
   </div>
 </ng-template>
 

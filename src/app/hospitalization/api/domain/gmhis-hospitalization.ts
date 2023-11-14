@@ -51,6 +51,8 @@ export interface GMHISHospitalizationPartial {
 
     conclusion: string;
 
+    nurseName: GMHISName;
+
 }
 
 export interface GMHISHospitalizationCreate {
@@ -69,6 +71,8 @@ export interface GMHISHospitalizationCreate {
     protocole?: string;
 
     conclusion?: string;
+
+    nurse: number;
 }
 
 export enum GMHISHospitalizationStatus {

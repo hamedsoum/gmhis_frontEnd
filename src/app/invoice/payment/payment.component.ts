@@ -161,7 +161,6 @@ export class PaymentComponent implements OnInit {
       },
       (errorResponse: HttpErrorResponse) => {
         this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message);
-        this.modalService.dismissAll();
       }
     );
   }

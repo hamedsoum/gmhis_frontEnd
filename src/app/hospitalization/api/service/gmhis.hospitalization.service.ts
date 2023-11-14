@@ -39,6 +39,13 @@ export class GmhisHospitalizationService {
         return this.http.put<GMHISHospitalizationPartial>(this.host + GMHIS_ENDPOINT.hospitalization.update.replace('${hospitalizationID}', hospitalizationID.trim()), hospitalizationCreate)
     }
 
+    public addNurse(hospitalizationID: string, nurseID: number): Observable<GMHISHospitalizationPartial>{
+        GmhisUtils.notNull(hospitalizationID, 'hospitalizationID');
+        GmhisUtils.notNull(nurseID, 'nurseID');
+
+        return this.http.put<GMHISHospitalizationPartial>(this.host + GMHIS_ENDPOINT.hospitalization.addNurse.replace('${hospitalizationID}', hospitalizationID.trim()), nurseID)
+    }
+
     public close(hospitalizationID: string, hospitalizationCreate: GMHISHospitalizationCreate): Observable<GMHISHospitalizationPartial>{
         GmhisUtils.notNull(hospitalizationID, 'hospitalizationID');
         GmhisUtils.notNull(hospitalizationCreate, 'hospitalizationCreate');

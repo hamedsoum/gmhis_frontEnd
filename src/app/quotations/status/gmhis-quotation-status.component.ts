@@ -17,7 +17,7 @@ export class GMHISQuotationSttusComponent implements OnInit {
     }
 
     handleQuotationStatus(status): void {
-        
+        if(status === GMHISQuotationStatus.INVOICED) console.log(status);
         switch (status) {
             case GMHISQuotationStatus.DRAFT:
                 this.value = 'Brouillon';
@@ -34,6 +34,7 @@ export class GMHISQuotationSttusComponent implements OnInit {
             case GMHISQuotationStatus.INVOICED:
                 this.value = 'Facturé' 
                 this.satusBackgroundColor = GMHISQuotationStatus.INVOICED;
+                break;
             case GMHISQuotationStatus.REFUSED:
                 this.value = 'Refusé';
                 this.satusBackgroundColor = GMHISQuotationStatus.REFUSED;  
