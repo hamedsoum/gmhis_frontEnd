@@ -42,6 +42,8 @@
         </div>
       </form>
       <div class="sh-flex-row justify-content-end">
+        <sh-button [ngClass]="{'sh-diseable': hospitalizationRequestSelected == null}" (clickEvent)="onOpenModal(quotationRef)" type="text" size="small" label="Dévis" labelStyleClass="sh-color-primary"></sh-button>
+        <sh-button [ngClass]="{'sh-diseable': hospitalizationRequestSelected == null}" (clickEvent)="onOpenModal(invoiceRef)" type="text" size="small" label="Facture" labelStyleClass="sh-color-primary"></sh-button>
         <sh-button [ngClass]="{'sh-diseable': hospitalizationRequestSelected == null}" (clickEvent)="onOpenExaminationRecord(newHospitalizationRef)" type="text" size="small" label="Créer l'hospitalisation à partir de la Démande" labelStyleClass="sh-color-primary"></sh-button>
         <sh-button [ngClass]="{'sh-diseable': hospitalizationRequestSelected == null}" (clickEvent)="onOpenExaminationRecord(examinationRecordModal)" type="text" size="small" label="Fiche Médicale" labelStyleClass="sh-color-primary"></sh-button>
         <sh-button [ngClass]="{'sh-diseable': hospitalizationRequestSelected == null}" (clickEvent)="onAfterPrintHospitalilazionCertificatePdf(hospitalilazionCertificateDocRef)" type="text" size="small" label="Certificat Médicale d'hospitalisation" labelStyleClass="sh-color-primary"></sh-button>
@@ -108,18 +110,41 @@
     </nb-card-body>
   </nb-card>
   
+    <!-- =================================================================================== -->
+
+    <ng-template #invoiceRef let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
+          Nouvelle Facture
+        </h4>
+        <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+      </div>
+      <div class="modal-body">
+        <gmhis-invoice-h-create-update [hospitalizationRequest]="hospitalizationRequestSelected"></gmhis-invoice-h-create-update>
+      </div>
+    </ng-template>
+
+      <!-- Create quotation modal -->
+  <ng-template #quotationRef let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
+        Nouvelle Facture Proformat
+      </h4>
+      <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+    </div>
+    <div class="modal-body">
+      <gmhis-quotation-create-update [hospitalizationRequest]="hospitalizationRequestSelected"></gmhis-quotation-create-update>
+    </div>
+  </ng-template>
+
+
     <!-- Create Hospitalization modal -->
   <ng-template #newHospitalizationRef let-c="close" let-d="dismiss">
     <div class="modal-header">
       <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
         Nouvelle Hospitalisation
       </h4>
-      <nb-icon
-        style="cursor: pointer"
-        (click)="d('Cross click')"
-        class="h4"
-        icon="close-circle-outline"
-      ></nb-icon>
+      <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
     </div>
     <div class="modal-body">
       <gmhis-hospitalization-create-update (saveEvent)="handleHospitalizationSaveEvent()" [hospitalizationRequest]="hospitalizationRequestSelected" ></gmhis-hospitalization-create-update>
@@ -132,12 +157,7 @@
       <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
         Modifer une Demande d'hospitalisation
       </h4>
-      <nb-icon
-        style="cursor: pointer"
-        (click)="d('Cross click')"
-        class="h4"
-        icon="close-circle-outline"
-      ></nb-icon>
+      <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4"icon="close-circle-outline"></nb-icon>
     </div>
     <div class="modal-body">
       <gmhis-hospitalization-request-create-update (updateEvent)="handleHospitalizationRequestUpdateEvent()" ></gmhis-hospitalization-request-create-update>

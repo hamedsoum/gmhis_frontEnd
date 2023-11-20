@@ -58,15 +58,24 @@ export class GMHISQuotationsComponent implements OnInit {
         this.subscription.unsubscribe();
     }
 
-    onCreate(): void {
+    public onCreate(): void {
         this.router.navigateByUrl('/gmhis-quotations/create')
+    }
+
+    convertInInvoice(invoiceFormRef: any): void {
+        this.quotationService.findQuotationItemsByquotationID(this.quotationSelected.id).subscribe((response: GMHISQuotationItemPartial[]) => { 
+            this.quotationsItems = response;            
+            this.modalService.open(invoiceFormRef, { size: 'xl' });
+        })
+       
     }
 
     public onPrint(quotationDocRef): void {    
         this.findquotationItems(this.quotationSelected,quotationDocRef)        
     }
 
-    public onQuotationSelected(quotation: GMHISQuotationPartial): void {
+    public onQuotationSelected(quotation: GMHISQuotationPartial, index): void {
+        this.currentIndex = index;
         this.quotationSelected = quotation;
     }
 
@@ -83,9 +92,11 @@ export class GMHISQuotationsComponent implements OnInit {
         this.modalService.open(quotationFormRef, { size: 'md' });
     }
 
-    public onOpenUpdateForm(quotationFormRef, quotation?: GMHISQuotationPartial):void {
-        this.quotationSelected = quotation;
-        this.modalService.open(quotationFormRef, { size: 'md' });
+    public onOpenUpdateForm(quotationFormRef):void {
+        this.quotationService.findQuotationItemsByquotationID(this.quotationSelected.id).subscribe((response: GMHISQuotationItemPartial[]) => { 
+            this.quotationsItems = response;            
+            this.modalService.open(quotationFormRef, { size: 'xl' });
+        })
     }
 
     public handleQuotationSaveEvent(): void{

@@ -5,7 +5,6 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { finalize } from "rxjs/operators";
 import { Patient } from "../patient/patient";
-import { PatientService } from "../patient/patient.service";
 import { GmhisUtils } from "../shared/base/utils";
 import { PAGINATION_DEFAULT_SIZE, PAGINATION_SIZE } from "../shared/constant";
 import { GMHISPagination } from "../shared/models/gmhis-domain";

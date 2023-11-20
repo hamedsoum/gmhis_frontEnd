@@ -53,23 +53,15 @@ export interface Admission {
     supervisoryLastDate: number;
 }
 
-export interface admissionCreateUpdate {
+export interface GMHISAdmissionCreateUpdate {
     id?: number;
-
     type? : GMHISAdmissionType;
-
 	createdAt : Date;
-
 	patient: number;
-
 	speciality?: number;
-
 	act?: number;
-
-	practician?: number;
-
+	practician: number;
 	caution?: number;
-
 	takeCare?: number;
 }
 

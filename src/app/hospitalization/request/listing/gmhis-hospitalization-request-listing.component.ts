@@ -109,9 +109,7 @@ currentIndex: number;
 
   rowSelected(hospitalizationRequestSelected: GMHISHospitalizationRequestPartial, index: number) {
     this.currentIndex = index;
-    this.hospitalizationRequestSelected = hospitalizationRequestSelected;
-    console.log(this.hospitalizationRequestSelected);
-    
+    this.hospitalizationRequestSelected = hospitalizationRequestSelected;    
   }
 
   public onHospitalizationRequestSelected(recordRef, hospitalizationRequest : GMHISHospitalizationRequestPartial): void {
@@ -142,13 +140,8 @@ currentIndex: number;
       this.hospitalizationService.search(this.searchFieldsForm.value)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe(
-        (response: PageList) => {
-         GmhisUtils.pageListMap(this.pagination, response);         
-        },
-        (errorResponse: HttpErrorResponse) => {         
-        }
-      )
-    )
+        (response: PageList) => {GmhisUtils.pageListMap(this.pagination, response);},
+        (errorResponse: HttpErrorResponse) => {}))
   }
 
   public onOpenCreateForm(hospitalizationRequestFormRef):void {
@@ -159,7 +152,6 @@ currentIndex: number;
     this.hospitalizationRequestSelected = item;
     this.modalService.open(hospitalizationRequestFormRef, { size: 'md' });
   }
-
 
   public handleHospitalizationRequestUpdateEvent():void {
     this.modalService.dismissAll();
@@ -173,5 +165,9 @@ currentIndex: number;
     this.docSrc = doc.output('datauristring');       
   }
 
+  public onOpenModal(Ref: any): void {
+    
+    this.modalService.open(Ref, { size: 'xl' });
+  }
 
 }

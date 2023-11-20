@@ -37,7 +37,7 @@ export class GMHISInvoiceHComponent implements OnInit {
 
     currentIndex: number;
 
-    quotationsItems: GMHISInvoiceHItemPartial[];
+    invoiceItems: GMHISInvoiceHItemPartial[];
 
     constructor(
         private router: Router,
@@ -64,7 +64,8 @@ export class GMHISInvoiceHComponent implements OnInit {
         this.findInvoiceItems(this.invoiceSelected,invoiceDocRef)        
     }
 
-    public onInvoiceSelected(invoice: GMHISInvoiceHPartial): void {
+    public onInvoiceSelected(invoice: GMHISInvoiceHPartial, index): void {
+        this.currentIndex = index;
         this.invoiceSelected = invoice;
     }
 
@@ -81,9 +82,11 @@ export class GMHISInvoiceHComponent implements OnInit {
         this.modalService.open(invoiceFormRef, { size: 'md' });
     }
 
-    public onOpenUpdateForm(invoiceFormRef, invoice?: GMHISInvoiceHPartial):void {
-        this.invoiceSelected = invoice;
-        this.modalService.open(invoiceFormRef, { size: 'md' });
+    public onOpenUpdateForm(invoiceFormRef):void {
+        this.invoiceHService.findnvoiceItemsByinvoiceHID(this.invoiceSelected.id).subscribe((response: GMHISInvoiceHItemPartial[]) => { 
+            this.invoiceItems = response;            
+            this.modalService.open(invoiceFormRef, { size: 'xl' });
+        })
     }
 
     public handleQuotationSaveEvent(): void{
@@ -115,6 +118,8 @@ export class GMHISInvoiceHComponent implements OnInit {
         .subscribe(
             (response: PageList) => {
                 GmhisUtils.pageListMap(this.pagination, response); 
+                console.log(this.pagination.items);
+                
             },
             (errorResponse: HttpErrorResponse) => {   
                 console.error(errorResponse.error.message);      
@@ -125,8 +130,8 @@ export class GMHISInvoiceHComponent implements OnInit {
 
     private findInvoiceItems(quotation: GMHISInvoiceHPartial, quotationDocRef) {
         this.invoiceHService.findnvoiceItemsByinvoiceHID(quotation.id).subscribe((response: GMHISInvoiceHItemPartial[]) => { 
-            this.quotationsItems = response;            
-            let doc = this.quotationPdfService.buildPdf(this.invoiceSelected, this.quotationsItems);
+            this.invoiceItems = response;            
+            let doc = this.quotationPdfService.buildPdf(this.invoiceSelected, this.invoiceItems);
             this.modalService.open(quotationDocRef, { size: 'xl' });
             this.docSrc = doc.output('datauristring'); 
         })

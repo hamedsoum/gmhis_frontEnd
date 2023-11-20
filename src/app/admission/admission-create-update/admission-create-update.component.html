@@ -13,64 +13,55 @@
         </div>
       </div>
     </div>
-    <span  class="form-warningMsg">Tous les champs marqués par <span class="text-danger">*</span> sont
-      obligatoires</span>
-    <div *ngIf="invalidFom" class="alert alert-danger">Formulaire invalid</div>
+
     <div class="row mb-2">
-      <div class="col-lg-6 col-md-4 col-sm-12 field">
+      <div class="col-lg-6 col-sm-12 field">
         <label for="name" class="form-label text-capitalize">Numero Patient</label>
-        <input
-          type="text"
-          id="name"
-          class="form-control"
-          formControlName="patientExternalId"
-        />
-        <span style="color: red">
-        </span>
+        <input type="text" id="name" class="form-control" formControlName="patientExternalId"/>
       </div>
 
-      <div class="col-lg-6 col-md-4 col-sm-12 field">
+      <div class="col-lg-6 col-sm-12 field">
         <label for="code" class="form-label text-capitalize">Nom du patient</label>
-        <input
-          type="text"
-          id="code"
-          class="form-control"
-          formControlName="patientName"
-        />
-        <span style="color: red">
-        </span>
+        <input type="text" id="code" class="form-control"formControlName="patientName"/>
       </div>
 
-      <div class="col-lg-6 col-md-4 col-sm-12 mb-2 rounded-pill field">
+      <div class="col-lg-6 col-sm-12 mb-2 rounded-pill field">
         <label for="code" class="form-label text-capitalize">Date d'admission <span class="text-danger">*</span> </label>
         <input [nbDatepicker]="datepicker" formControlName="createdAt" class="form-control" placeholder="Date et heure d'admission">
         <nb-datepicker format="dd-MM-yyyy" #datepicker></nb-datepicker>
       </div>
 
-      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill field">
+      <div class="col-lg-6 col-sm-12 rounded-pill field">
         <label for="active" class="form-label text-capitalize">Type D'admission <span class="text-danger">*</span> </label>
         <ng-select formControlName="type">
-          <ng-option *ngFor="let type of types" [value]="type.key">{{
-            type.value
-          }}</ng-option>
+          <ng-option *ngFor="let type of types" [value]="type.key">{{type.value}}</ng-option>
         </ng-select>
+        <div *ngIf="formSubmitted && !formGroup.controls.type.valid">
+          <small *ngIf="type.errors.required" class="text-danger sh-text-small">Veuillez Selectionner un Etat</small>
+        </div>
       </div>
 
-      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill field">
-        <label for="active" class="form-label text-capitalize">Service <span class="text-danger">*</span> </label>
+      <div class="col-lg-6 col-sm-12 rounded-pill field">
+        <label for="active" class="form-label text-capitalize">Service <span class="text-danger">*</span></label>
         <ng-select (change)="onRetrieveActsAndPracticians($event)" formControlName="speciality">
           <ng-option *ngFor="let actCategory of actCategories" [value]="actCategory.id">{{
             actCategory.name
           }}</ng-option>
         </ng-select>
+        <div *ngIf="formSubmitted && !formGroup.controls.speciality.valid">
+          <small *ngIf="service.errors.required" class="text-danger sh-text-small">Veuillez Selectionner un Etat</small>
+        </div>
       </div>
 
-      <div class="col-lg-6 col-md-4 col-sm-12 rounded-pill field">
-        <label for="active" class="form-label text-capitalize">Medecin</label>
+      <div class="col-lg-6 col-sm-12 rounded-pill field">
+        <label for="practician" class="form-label text-capitalize">Medecin<span class="text-danger">*</span></label>
         <ng-select placeholder="Practicien" formControlName="practician">
           <ng-option *ngFor="let practician of specialityPracticians" [value]="practician.id">
             {{practician.practicianName}}</ng-option>
         </ng-select>
+        <div *ngIf="formSubmitted && !formGroup.controls.practician.valid">
+          <small *ngIf="practician.errors.required" class="text-danger sh-text-small">Veuillez renseigner ce champs</small>
+        </div>
       </div>
 
       <div class="col-lg-12 col-md-12 col-sm-12 rounded-pill field">
@@ -80,16 +71,16 @@
             act.name
           }}</ng-option>
         </ng-select>
+        <div *ngIf="formSubmitted && !formGroup.controls.act.valid">
+          <small *ngIf="act.errors.required" class="text-danger sh-text-small">Veuillez Selectionner un Etat</small>
+        </div>
       </div>
 
     </div>
     <div  class="mt-3 col">
       <div class="">
-        <button
-          style="background-color: #14a2b8"
-          type="submit"
-          class="btn text-capitalize bg-biblos justify-content-center text-white rounded px-4 py-2 fw-bold"
-        >
+        <button style="background-color: #14a2b8" type="submit"
+          class="btn text-capitalize bg-biblos justify-content-center text-white rounded px-4 py-2 fw-bold">
           VALIDER
         </button>
       </div>

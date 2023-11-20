@@ -59,7 +59,7 @@
               </div>
               <div class="col-lg-1 col-md-3 col-sm-12 ">
                 <ng-select
-                  [(ngModel)]="selectedSize"
+                  [(ngModel)]="pagination.selectedSize"
                   formControlName="size"
                   (change)="onSearchValueChange()"
                 >
@@ -89,16 +89,16 @@
   
           <tbody>
             <tr
-              *ngFor="
-                let admission of items
-                  | paginate
-                    : {
-                        itemsPerPage: selectedSize,
-                        currentPage: currentPage,
-                        totalItems: totalItems
-                      };
-                let i = index
-              "
+            *ngFor="
+            let admission of pagination.items
+              | paginate
+                : {
+                    itemsPerPage: pagination.selectedSize,
+                    currentPage: pagination.currentPage,
+                    totalItems: pagination.totalItems
+                  };
+            let i = index
+          "
               [class.active]="i == currentIndex"
               (click)="rowSelected(commune, i)"
               >
@@ -134,7 +134,7 @@
       <div class="d-flex w-100 justify-content-center">
         <div
           style="color: #623508"
-          *ngIf="showloading"
+          *ngIf="loading"
           class="spinner-border"
           style="width: 3rem; height: 3rem"
           role="status"

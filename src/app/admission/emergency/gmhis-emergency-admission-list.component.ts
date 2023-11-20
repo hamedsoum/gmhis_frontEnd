@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActService } from 'src/app/act/act/service/act.service';
 import { ServiceService } from 'src/app/service/service/service.service';
 import { GmhisUtils } from 'src/app/shared/base/utils';
+import { PAGINATION_SIZE } from 'src/app/shared/constant';
+import { GMHISPagination } from 'src/app/shared/models/gmhis-domain';
 import { GMHISKeyValue } from 'src/app/shared/models/name-and-id';
 import { PageList } from 'src/app/_models/page-list.model';
 import { AdmissionReceiptPaymentService } from 'src/app/_services/documents/admission-receipt-payment.service';
@@ -26,39 +28,24 @@ export class GMHISEmergencyAdmissionListComponent implements OnInit, OnDestroy {
   public admissionId : number;
 
   public makeInvoiceByAdmission : boolean;
+  
+  pagination: GMHISPagination = {};
 
-  currentPage: number;
-  empty: boolean;
-  firstPage: boolean;
-  lastPage: boolean;
-  totalItems: number;
-  totalPages: number;
-
-  public items: any;
-
-  selectedSize: number;
-
-  sizes = [
-    { id: 10, value: 10 },
-    { id: 25, value: 25 },
-    { id: 50, value: 50 },
-    { id: 100, value: 100 },
-    { id: 250, value: 250 },
-    { id: 500, value: 500 },
-    { id: 1000, value: 1000 },
-  ];
+  sizes = PAGINATION_SIZE;
 
   admissionStatus =  [
     {value: admissionStatus.UNBILLED , item: 'Non Facturée'},
     {value: admissionStatus.BILLED , item: 'Facturée'},
   ]
 
-  showloading: boolean = false;
+  loading: boolean = false;
+
   currentIndex: number;
 
   acctionsList : boolean = false;
   actServicesNameAndId: any;
   activeActNameAndId: any;
+
   docSrc: string;
 
   searchDateRange : string;
@@ -93,14 +80,9 @@ export class GMHISEmergencyAdmissionListComponent implements OnInit, OnDestroy {
       this.admissionService.supervisory(admissionID)
         .subscribe(
           (response : Admission) => {
-            this.notificationService.notify(
-              NotificationType.SUCCESS,
-              'Admission de surveillance crée avec succès'
-            );
+            this.notificationService.notify(NotificationType.SUCCESS,'Admission de surveillance crée avec succès');
           },
-          (error : HttpErrorResponse) => {
-            throw new Error(error.message);
-          }
+          (error : HttpErrorResponse) => {throw new Error(error.message)}
         )
     )
   }
@@ -144,30 +126,21 @@ export class GMHISEmergencyAdmissionListComponent implements OnInit, OnDestroy {
     });
   }
 
-
-
   onSearchValueChange(): void {
     this.getAdmissions();
   }
 
   public getAdmissions() {
-    this.showloading = true;
+    this.loading = true;
     this.subs.add(
       this.admissionService.findAll(this.searchForm.value).subscribe(
         (response: PageList) => {
-          this.showloading = false;
-          this.currentPage = response.currentPage + 1;
-          this.empty = response.empty;
-          this.firstPage = response.firstPage;
-          this.items = response.items; 
-          console.log(this.items);                           
-          this.lastPage = response.lastPage;
-          this.selectedSize = response.size;
-          this.totalItems = response.totalItems;
-          this.totalPages = response.totalPages;
+          this.loading = false;
+          GmhisUtils.pageListMap(this.pagination, response);
+
         },
         (errorResponse: HttpErrorResponse) => {
-          this.showloading = false;
+          this.loading = false;
           this.notificationService.notify(
             NotificationType.ERROR,
             errorResponse.error.message
@@ -235,7 +208,7 @@ addInvoice(){
         this.actServicesNameAndId = response;
       },
       (errorResponse : HttpErrorResponse) => {
-        this.showloading = false;
+        this.loading = false;
         this.notificationService.notify(
           NotificationType.ERROR,
           errorResponse.error.message
@@ -249,7 +222,7 @@ addInvoice(){
         this.activeActNameAndId = response; 
       },
       (errorResponse : HttpErrorResponse) => {
-        this.showloading = false;
+        this.loading = false;
         this.notificationService.notify(
           NotificationType.ERROR,
           errorResponse.error.message

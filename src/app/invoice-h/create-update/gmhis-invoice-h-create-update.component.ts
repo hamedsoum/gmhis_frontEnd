@@ -1,25 +1,35 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { ActService } from "src/app/act/act/service/act.service";
-import { InsuranceService } from "src/app/insurance/insurance.service";
+import { GMHISHospitalizationRequestPartial } from "src/app/hospitalization/api/domain/request/gmhis-hospitalization-request";
 import { GMHISInsuredService } from "src/app/insured/service/insured-service.service";
 import { GMHISPatientType, Patient } from "src/app/patient/patient";
 import { PatientService } from "src/app/patient/patient.service";
 import { PracticianService } from "src/app/practician/practician.service";
-import { GMHISKeyValue, GMHISNameAndID } from "src/app/shared/models/name-and-id";
+import { GmhisUtils } from "src/app/shared/base/utils";
+import { GMHISKeyValue } from "src/app/shared/models/name-and-id";
 import { NotificationService } from "src/app/_services";
 import { NotificationType } from "src/app/_utilities/notification-type-enum";
 import { GMHISInvoiceHAmounts, GMHISInvoiceHCreate, GMHISInvoiceHPartial } from "../api/domain/gmhis.quotation";
-import { GMHISInvoiceHItemCreate } from "../api/domain/gmhis.quotation.item";
+import { GMHISInvoiceHItemCreate, GMHISInvoiceHItemPartial } from "../api/domain/gmhis.quotation.item";
 import { GMHISInvoiceHFeatureService } from "../api/service/gmhis.invoice-h.feature.service";
 import { GMHISInvoiceHService } from "../api/service/gmhis.invoice-h.service";
 
-@Component({selector: 'gmhis-quotation-create-update', templateUrl: './gmhis-invoice-h-create-update.component.html', styleUrls:['./gmhis-invoice-h-create-update.component.scss'],providers: [GMHISInvoiceHFeatureService] })
+@Component({selector: 'gmhis-invoice-h-create-update', templateUrl: './gmhis-invoice-h-create-update.component.html', styleUrls:['./gmhis-invoice-h-create-update.component.scss'],providers: [GMHISInvoiceHFeatureService] })
 export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
 
     @Input() patientID: number = 1;
+
+    @Input() showHeader?: boolean = true;
+
+    @Input() hospitalizationRequest: GMHISHospitalizationRequestPartial;
+
+    @Input() invoice: GMHISInvoiceHPartial;
+    @Input() invoiceItems: GMHISInvoiceHItemPartial[];
 
     invoiceHFieldGroup: FormGroup = new FormGroup({});
     invoiceHItemFieldGroup: FormGroup;
@@ -28,8 +38,6 @@ export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
 
     // TODO:  Change any to better type for acts
     acts: any[];
-
-    insurrances: GMHISNameAndID[];
 
     patientType: GMHISPatientType;
 
@@ -47,19 +55,22 @@ export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
     patients: Patient[];
     patientInsureds: any[];
 
+    insurranceName: string;
     insurranceCoverage: undefined | number;
     insured: any;
 
     totalAmount: GMHISInvoiceHAmounts;
     formSubmitted: boolean;
 
+    insurrances: GMHISKeyValue[] = [];
+
     constructor(
         private router: Router,
         private fb: FormBuilder,
          private actService: ActService,
-         private insuranceService: InsuranceService,
+         private modalService: NgbModal,
          private practicianService: PracticianService,
-         private quotationService: GMHISInvoiceHService,
+         private invoiceService: GMHISInvoiceHService,
          private featureService : GMHISInvoiceHFeatureService,
          private insuredService: GMHISInsuredService,
          private patientService: PatientService,
@@ -68,7 +79,33 @@ export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
    
     ngOnInit(): void {
         this.initialize();
-        this.findInssurance();
+        
+        if(!GmhisUtils.isNull(this.hospitalizationRequest)) this.setFormFields(); 
+
+        console.log(this.invoiceItems);
+        
+
+        if(!GmhisUtils.isNull(this.invoiceItems)) {
+            this.setFormArrayFields(this.invoiceItems);
+            this.calculateAmount();
+
+        }   
+        
+        if(!GmhisUtils.isNull(this.invoice)){            
+            this.setFieldsForm(this.invoice);
+            if(this.invoice.cmuPart > 0) {
+                this.applyCMU = true;
+                this.totalAmount.cmuPart = this.invoice.cmuPart;
+            } 
+            if(!GmhisUtils.isNull(this.invoice.insuranceID)) { 
+                this.onSelectPatientType(GMHISPatientType.INSURED_PATIENT);
+                this.invoiceHFieldGroup.get('patientType').setValue(GMHISPatientType.INSURED_PATIENT);
+
+                this.totalAmount.insurancePart = this.invoice.insurancePart,
+                this.totalAmount.moderatorTicket = this.invoice.moderatorTicket;
+                this.insurranceName = this.invoice.insuranceName;
+            }
+        }
     }
 
     ngOnDestroy(): void {
@@ -103,7 +140,8 @@ export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
 
     public onSelectInsurance(event):void {
         this.insured = event;
-         this.insurranceCoverage = event.coverage;  
+         this.insurranceCoverage = event.coverage; 
+         this.insurranceName = this.insured.insuranceName;
     }
 
     public isApplyCnam(): boolean {
@@ -130,11 +168,16 @@ export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
         this.invoiceHItemsFormArray.removeAt(itemIndex);
     }
 
+    private setFormFields(): void {
+        this.invoiceHFieldGroup.get('patientID').setValue(this.hospitalizationRequest.patientID);
+    }
+
     private buildfieldGroup(): void {
         this.invoiceHFieldGroup = this.fb.group ({
             affection: new FormControl('', Validators.required),
             indication: new FormControl(''),
             insuranceID: new FormControl(''),
+            patientType: new FormControl(''),
             patientID: new FormControl(null, Validators.required),
             invoiceHItems: this.fb.array([])
         })
@@ -151,35 +194,76 @@ export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
 
       // TODO: pas de code d'acte ni de numero d'acte, recuperer cela avec l'id de l'acte
 
-   
+
+      private createMode(): boolean {
+        return GmhisUtils.isNull(this.invoice)
+    }
+ 
+    private createUpdateData(): GMHISInvoiceHCreate {
+      const formData = this.invoiceHFieldGroup.value;
+      const createData = this.buildCreateInvoiceHData(formData);
+      
+      createData.totalAmount = this.totalAmount.totalAmount;
+      createData.moderatorTicket = this.totalAmount.moderatorTicket;
+      createData.cmuPart = this.totalAmount.cmuPart;
+      createData.insurancePart = this.totalAmount.insurancePart;
+      if (this.insured) createData.insuranceID = this.insured.insuranceId;
+
+      return createData;
+    }
+
+    private create(): void {
+     
+      const createData = this.createUpdateData();
+      
+      this.subscriptions.add(
+          this.invoiceService.create(createData).subscribe(
+              {
+                  next: (invoiceCreated: any) => {
+                      this.modalService.dismissAll();
+                      this.router.navigateByUrl('/hospitalization');
+                      this.notificationService.notify(NotificationType.SUCCESS,'Facture Crée');
+                  },
+                  error: (error: HttpErrorResponse) => {
+                      this.notificationService.notify(NotificationType.ERROR, error.message)
+                  }
+              }
+      ))
+    }
+
 
     public save(): void {
         this.calculateAmount();
-        const formData = this.invoiceHFieldGroup.value;
-        const createData = this.buildCreateInvoiceHData(formData);
-        
-
-        createData.totalAmount = this.totalAmount.totalAmount;
-        createData.moderatorTicket = this.totalAmount.moderatorTicket;
-        createData.cmuPart = this.totalAmount.cmuPart;
-        createData.insurancePart = this.totalAmount.insurancePart;
-        
-        if (this.insured) createData.insuranceID = this.insured.insuranceId;
-        this.formSubmitted = true;
-        if(this.invoiceHFieldGroup.valid){
-            this.subscriptions.add(
-                this.quotationService.create(createData).subscribe(
-                    {
-                        next: (quotationCreated: any) => {
-                            this.router.navigateByUrl('/gmhis-invoice-h');
-                            this.notificationService.notify(NotificationType.SUCCESS,'Facture Proformat Crée');
-                        }
-                    }
-                )
-            )
-        }
        
-    }
+        this.formSubmitted = true;
+        if(this.invoiceHItemsFormArray.length == 0) {
+            this.notificationService.notify(NotificationType.ERROR, 'Veuillez sélectionnez une prestation');
+            return
+        }
+        if(!this.invoiceHFieldGroup.valid) return
+
+        if (this.createMode()) this.create();
+        else this.update();
+
+      }
+
+    private update(): void {
+        const updateData = this.createUpdateData();
+        
+        this.subscriptions.add(
+            this.invoiceService.update(this.invoice.id,updateData).subscribe(
+                {
+                    next: (quotationCreated: any) => {
+                        this.modalService.dismissAll();
+                        this.router.navigateByUrl('/hospitalization');
+                        this.notificationService.notify(NotificationType.SUCCESS,'Facture Proformat Modifiée');
+                    },
+                    error: (error: HttpErrorResponse) => {
+                        this.notificationService.notify(NotificationType.ERROR, error.message)
+                    }
+                }
+        ))
+      }
 
     public onCalculAmount(): void {
         this.calculateAmount();
@@ -192,7 +276,7 @@ export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
         this.totalAmount = this.featureService.quotationTotalAmount(quotationItems, this.patientType, this.isApplyCnam(),this.insurranceCoverage);
       }
 
-     private buildCreateInvoiceHData(formData:any): GMHISInvoiceHCreate {
+     public buildCreateInvoiceHData(formData:any): GMHISInvoiceHCreate {
         const invoiceHItemsItemsCreate : GMHISInvoiceHItemCreate[] = [];
         let totalAmount = 0;
 
@@ -227,10 +311,8 @@ export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
     }
 
     private buildQutationItemFields() : void {
-        this.invoiceHItemFieldGroup = this.fb.group( {
-          
-        })
-        }
+        this.invoiceHItemFieldGroup = this.fb.group( { })
+    }
     
         private findActs() {
             this.actService.getListOfActiveAct().subscribe((response: any[]) => {            
@@ -239,11 +321,7 @@ export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
         }
         
     
-        private findInssurance(){
-            this.subscriptions.add(
-            this.insuranceService.getAllInsuranceActive().subscribe((response: GMHISNameAndID[]) => {this.insurrances = response})
-            )
-        }
+      
     
         private findpracticians(){
             this.subscriptions.add(
@@ -259,7 +337,7 @@ export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
         )
         }
     
-        private findPatientPatients(){
+        private findPatients(){
             this.subscriptions.add(
                 this.patientService.findPatient().subscribe((response: any[]) =>{
                     this.patients = response;                
@@ -271,10 +349,30 @@ export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
         this.buildfieldGroup();
         this.buildQutationItemFields();
         this.findActs();
-        this.addItem();
         this.findpracticians();
-        this.findPatientPatients();
+        this.findPatients();
         this.findPatientInsured(this.patientID);
+      }
+
+
+      private setFieldsForm(data: any): void {
+        this.invoiceHFieldGroup.get('affection').setValue(data.affection);
+        this.invoiceHFieldGroup.get('indication').setValue(data.indication);
+        this.invoiceHFieldGroup.get('insuranceID').setValue(data.insuranceID);
+        this.invoiceHFieldGroup.get('patientID').setValue(data.patientID);
+      }
+
+      private setFormArrayFields(data: any): void {
+        data.forEach((el,i )=> {
+            this.addItem();
+            this.invoiceHItemsFormArray.controls[i].get('actId').setValue(el.actID);
+            this.invoiceHItemsFormArray.controls[i].get('quantity').setValue(el.quantity);
+            this.invoiceHItemsFormArray.controls[i].get('unitPrice').setValue(el.unitPrice);
+            this.invoiceHItemsFormArray.controls[i].get('cmuAmount').setValue(el.cmuAmount);
+            this.invoiceHItemsFormArray.controls[i].get('cmuPercent').setValue(el.cmuPercent);
+            this.invoiceHItemsFormArray.controls[i].get('practicianID').setValue(el.practicianID);
+            ;
+        })
       }
 
 }

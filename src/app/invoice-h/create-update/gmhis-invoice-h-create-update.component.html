@@ -2,7 +2,7 @@
     <div class="gmhis-invoiceH-sheldon-main">
         <div class="gmhis-invoiceH-sheldon-content">
             <form [formGroup]="invoiceHFieldGroup">
-                <div class="gmhis-invoiceH-sheldon-title">
+                <div *ngIf="showHeader === true" class="gmhis-invoiceH-sheldon-title">
                       <span class="title" >Nouvelle Facture</span>
                       <span class="subTitle" >Création de Facture</span>
                 </div>
@@ -16,11 +16,10 @@
                           </div>
                     </div>
                     <div class="col-4">
-                        <ng-select (change)="onSelectPatientType($event)" placeholder="Selectionner le Type de Patient" class="mb-3">
+                        <ng-select (change)="onSelectPatientType($event)" placeholder="Selectionner le Type de Patient" formControlName="patientType" class="mb-3">
                             <ng-option *ngFor="let patientType of patientTypes" [value]="patientType.value">{{patientType.key}} </ng-option>
                         </ng-select>
                         
-        
                        <div class="mb-3">
                         <ng-select [clearable]="false" (change)="onSelectInsurance($event)" *ngIf="isInsuredPatient()" placeholder="Selectionner un l'Etablissement Payeur">
                             <ng-option  *ngFor="let insurrance of patientInsureds" [value]="insurrance">{{insurrance.insuranceName}} </ng-option>
@@ -32,7 +31,7 @@
         
                         <div class="d-flex applyCnam">
                             <label class="sh-font-size-intermediate sh-display-block ml-3" for="scales">Appliquer la CNAM</label>
-                            <input (change)="onApplyCMU($event)" type="checkbox" id="applyCnam" name="applyCnam" class="mr-2" />
+                            <input (change)="onApplyCMU($event)" [checked]="applyCMU" type="checkbox" id="applyCnam" name="applyCnam" class="mr-2" />
                           </div>
                     </div>
         
@@ -142,7 +141,7 @@
                     <div class="allAmount">
                         <span class="sh-display-block mb-3">Montant Total : {{totalAmount?.totalAmount}}</span>
                         <span class="sh-display-block mb-3">Part CNAM : {{totalAmount?.cmuPart}}</span>
-                        <span class="sh-display-block mb-3">Part Assurance {{insured?.insuranceName}} : {{totalAmount?.insurancePart}}</span>
+                        <span class="sh-display-block mb-3">Part Assurance {{insurranceName}} : {{totalAmount?.insurancePart}}</span>
                         <span class="sh-display-block mb-3">Ticket Modérateur : {{totalAmount?.moderatorTicket}}</span>
                         <span class="sh-display-block ">Net à Payer : <span class="sh-color-primary netToPay">{{totalAmount?.netToPay}}</span> </span>  
                     </div>

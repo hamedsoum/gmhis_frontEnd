@@ -2,7 +2,7 @@
     <div class="gmhis-quotation-sheldon-main">
         <div class="gmhis-quotation-sheldon-content">
             <form [formGroup]="quotationFieldGroup">
-                <div class="gmhis-quotation-sheldon-title">
+                <div *ngIf="showHeader === true" class="gmhis-quotation-sheldon-title">
                       <span class="title" >Nouvelle Facture Proforma</span>
                       <span class="subTitle" >Création de Facture Proforma</span>
                 </div>
@@ -16,13 +16,13 @@
                           </div>
                     </div>
                     <div class="col-4">
-                        <ng-select (change)="onSelectPatientType($event)" placeholder="Selectionner le Type de Patient" class="mb-3">
+                        <ng-select (change)="onSelectPatientType($event)" placeholder="Selectionner le Type de Patient" formControlName="patientType" class="mb-3">
                             <ng-option *ngFor="let patientType of patientTypes" [value]="patientType.value">{{patientType.key}} </ng-option>
                         </ng-select>
                         
         
                        <div class="mb-3">
-                        <ng-select [clearable]="false" (change)="onSelectInsurance($event)" *ngIf="isInsuredPatient()" placeholder="Selectionner un l'Etablissement Payeur">
+                        <ng-select [clearable]="false" (change)="onSelectInsurance($event)" *ngIf="isInsuredPatient()" placeholder="Selectionner un l'Etablissement Payeur" formControlName="insuranceID">
                             <ng-option  *ngFor="let insurrance of patientInsureds" [value]="insurrance">{{insurrance.insuranceName}} </ng-option>
                         </ng-select>
                         <div *ngIf="formSubmitted && !quotationFieldGroup.controls.insuranceID.valid">
@@ -131,23 +131,31 @@
                 
                             </div>
                     </div>
-        
+                </form>
+
+
                 <div class="d-flex justify-content-between mt-50">
-                    <div class="actionButton">
-                        <sh-button type="text" label="Annuler" labelStyleClass="sh-color-error"></sh-button>
-                        <sh-button type="text" label="Caluler" (clickEvent)="onCalculAmount()"></sh-button>
-                        <sh-button type="button" label="Valider" (clickEvent)="save()"></sh-button>
+                    <div>
+                        <input id="discount" name="discount" type="number"  [(ngModel)]="discountAmount" placeholder="Remise" class="form-control" >
+                        <!-- <small *ngIf="isWrongDiscount()" class="sh-color-danger"> la Remise est superieur au montant a Régler</small> -->
+                        <div class="actionButton">
+                        
+                            <sh-button type="text" label="Annuler" labelStyleClass="sh-color-error"></sh-button>
+                            <sh-button type="text" label="Caluler" (clickEvent)="onCalculAmount()"></sh-button>
+                            <sh-button type="button" label="Valider" [ngClass]="{'sh-diseable': !isFormValid()}" (clickEvent)="save()"></sh-button>
+                        </div>
                     </div>
+                  
         
                     <div class="allAmount">
                         <span class="sh-display-block mb-3">Montant Total : {{totalAmount?.totalAmount}}</span>
                         <span class="sh-display-block mb-3">Part CNAM : {{totalAmount?.cmuPart}}</span>
-                        <span class="sh-display-block mb-3">Part Assurance {{insured?.insuranceName}} : {{totalAmount?.insurancePart}}</span>
+                        <span class="sh-display-block mb-3">Part Assurance {{insurranceName}} : {{totalAmount?.insurancePart}}</span>
                         <span class="sh-display-block mb-3">Ticket Modérateur : {{totalAmount?.moderatorTicket}}</span>
-                        <span class="sh-display-block ">Net à Payer : <span class="sh-color-primary netToPay">{{totalAmount?.netToPay}}</span> </span>  
+                        <span class="sh-display-block mb-3">Remise : {{discountAmount}}</span>
+                        <span class="sh-display-block ">Net à Payer : <span class="sh-color-primary netToPay">{{netToPay}}</span> </span>  
                     </div>
                 </div>
-            </form>
         </div>
    
 </div>

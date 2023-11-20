@@ -41,8 +41,9 @@
       </form>
 
       <div class="d-flex justify-content-end">
-        <sh-button (clickEvent)="onPrint(printFormRef)" type="text" size="medium" label="Imprimer" labelStyleClass="sh-color-primary" styleClass="m-2" [ngClass]="{'sh-diseable': quotationSelected == null}"></sh-button>
-        <!-- <sh-button (clickEvent)="onOpenUpdateForm(updateFormRef)" type="text" size="intermediate" label="Modifier" labelStyleClass="sh-color-primary" styleClass="m-2"></sh-button> -->
+        <sh-button (clickEvent)="convertInInvoice(invoiceFormRef)" type="text" size="intermediate" label="Convertir en Facture" labelStyleClass="sh-color-primary" styleClass="m-2" [ngClass]="{'sh-diseable': quotationSelected == null}"></sh-button>
+        <sh-button (clickEvent)="onPrint(printFormRef)" type="text" size="intermediate" label="Imprimer" labelStyleClass="sh-color-primary" styleClass="m-2" [ngClass]="{'sh-diseable': quotationSelected == null}"></sh-button>
+        <sh-button (clickEvent)="onOpenUpdateForm(updateFormRef)" type="text" size="intermediate" label="Modifier" labelStyleClass="sh-color-primary" styleClass="m-2" [ngClass]="{'sh-diseable': quotationSelected == null}"></sh-button>
       </div>
       <div #hospitalizationRequestTab class="tableFixHead">
         <table class="table table-bordered table-hover table-md align-middle">
@@ -53,8 +54,8 @@
                 <th>Nom du Patient</th>
                 <th>Prénom du Patient</th> 
                 <th>Etablissement Payeur</th> 
+                <th>Ticket Moderateur</th>
                 <th>Montant Total</th>  
-                <th>Status</th>  
             </tr>
           </thead>
   
@@ -71,16 +72,15 @@
                 let i = index
               "
               [class.active]="i == currentIndex"
-              (click)="onQuotationSelected(quotation)"
+              (click)="onQuotationSelected(quotation,i)"
               >
               <td class="text-nowrap ">{{quotation.dateOp | date:  "dd/MM/yyyy HH:mm:ss"}}</td>
               <td>{{quotation.quotationNumber}}</td>
               <td class="text-nowrap ">{{quotation.patientName.firstName | titlecase }} </td>
               <td>{{quotation.patientName.lastName | titlecase}}</td>
               <td class="text-nowrap ">{{(quotation.insuranceName ? quotation.insuranceName : "---") | titlecase}}</td>
-              <td class="text-nowrap text-right ">{{quotation.totalAmount | currency: "":"":"1.0-0"}}</td>
-              <td class="text-nowrap "> <gmhis-quotation-status [status]="quotation.status"></gmhis-quotation-status></td>
-             
+              <td class="text-nowrap text-right">{{quotation.moderatorTicket | currency: "":"":"1.0-0"}}</td>
+              <td class="text-nowrap text-right ">{{quotation.totalAmount | currency: "":"":"1.0-0"}}</td>             
             </tr>
           </tbody>
         </table>
@@ -108,22 +108,25 @@
     </nb-card-body>
   </nb-card>
   
+   <!-- convert modal -->
+   <ng-template #invoiceFormRef let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">Facture</h4>
+      <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+    </div>
+    <div class="modal-body">
+      <gmhis-invoice-h-create-update [quotation]="quotationSelected" [quotationsItems]="quotationsItems" [showHeader]="false"></gmhis-invoice-h-create-update>
+    </div>
+  </ng-template>
 
   <!-- update modal -->
   <ng-template #updateFormRef let-c="close" let-d="dismiss">
     <div class="modal-header">
-      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">
-        Modifer La facture
-      </h4>
-      <nb-icon
-        style="cursor: pointer"
-        (click)="d('Cross click')"
-        class="h4"
-        icon="close-circle-outline"
-      ></nb-icon>
+      <h4 class="text-capitalize modal-title color-biblos" id="update-form-modal">Modifer La facture</h4>
+      <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
     </div>
     <div class="modal-body">
-      <gmhis-hospitalization-request-create-update ></gmhis-hospitalization-request-create-update>
+      <gmhis-quotation-create-update [quotation]="quotationSelected" [quotationsItems]="quotationsItems" [showHeader]="false"></gmhis-quotation-create-update>
     </div>
   </ng-template>
 

@@ -24,6 +24,10 @@ export interface GMHISQuotation extends AuditPKDTO {
 
     moderatorTicket?: number,
 
+    discount?: number,
+
+    netToPay: number;
+
     status: GMHISQuotationStatus;
 }
 
@@ -43,6 +47,10 @@ export interface GMHISQuotationCreate {
     quotationItems: GMHISQuotationItemCreate[];
 
     cmuPart?: number;
+
+    discount?: number,
+
+    netToPay?: number;
 
    insurancePart?: number;
 }
@@ -76,6 +84,10 @@ export interface GMHISQuotationPartial {
     quotationItems: GMHISQuotationItemCreate;
 
     cmuPart?: number;
+
+    discount?: number,
+
+    netToPay: number;
 
     insurancePart?: number;
 }

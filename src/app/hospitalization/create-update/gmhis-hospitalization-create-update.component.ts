@@ -22,7 +22,7 @@ export class GMHISHospitalizationCreateUpdateComponent implements OnInit {
 
   @Input() practicianID: number;
 
-  @Input() hospitalization: GMHISHospitalizationPartial;
+  @Input() hospitalization?: GMHISHospitalizationPartial;
 
   @Input() hospitalizationRequest?: GMHISHospitalizationRequestPartial;
   
@@ -60,9 +60,7 @@ export class GMHISHospitalizationCreateUpdateComponent implements OnInit {
     private patientService: PatientService
       ){}
 
-  ngOnInit(): void {
-    console.log(this.hospitalizationRequest);
-    
+  ngOnInit(): void {    
     if(!GmhisUtils.isNull(this.hospitalizationRequest)){
        this.practicianID = this.hospitalizationRequest.praticianID;
        this.patientID = this.hospitalizationRequest.patientID;
