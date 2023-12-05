@@ -5,12 +5,13 @@ import { InsurancePrintDataFormat } from "src/app/invoice/invoice";
 import { User } from "src/app/_models";
 import { UserService } from "..";
 import autoTable from 'jspdf-autotable';
+import { GMHISSharedDocPdfService } from "src/app/shared/api/service/gmhis.shared.DocPdf.service";
 
 @Injectable({
     providedIn: 'root'
   })
   export class PrintInsuranceInvoiceService {
-    constructor(private datePipe: DatePipe, private userService : UserService) { }
+    constructor(private datePipe: DatePipe, private userService : UserService, private sharedDocPdfService: GMHISSharedDocPdfService) { }
     private getUser(): User {    
       return this.userService.getUserFromLocalCache();
     }
@@ -24,34 +25,31 @@ import autoTable from 'jspdf-autotable';
       doc.setFontSize(12);
       
       //TODO
-      doc.text('Sanlam Assurance', 70, 22);
-  
-      doc.text('Détails des factures',16, 35);
-  
+      doc = this.sharedDocPdfService.docHeader("Facture Assurance", 80)  
       doc.setFontSize(9);
-      doc.text('Nom de Assurance',18, 45);
-      doc.text(`${insuranceData.insuranceName} `,55, 45);
-      doc.line(16, 47, 102, 47);
+      doc.text('Nom de Assurance',18, 55);
+      doc.text(`${insuranceData.insuranceName} `,55, 55);
+      doc.line(16, 57, 102, 57);
   
-      doc.text('Date de Début',18, 53);
+      doc.text('Date de Début',18, 63);
       let dateStart = insuranceData.dateStart != "##" ? insuranceData.dateStart : "##";
-      doc.text(dateStart,55, 53);
-      doc.line(16, 55, 102, 55);
+      doc.text(dateStart,55, 63);
+      doc.line(16, 65, 102, 65);
   
       let dateEnd = insuranceData.dateEnd != "##" ? insuranceData.dateEnd : "##";
-      doc.text('Date de Fin',18, 61);
-      doc.text(dateEnd,55, 61);
-      doc.line(16, 63, 102, 63);
+      doc.text('Date de Fin',18, 71);
+      doc.text(dateEnd,55, 71);
+      doc.line(16, 73, 102, 73);
   
   
       doc.setFontSize(9);
-      doc.text('Solde Total',110, 45);
-      doc.text(`${insuranceData.insuranceName == "##" ? 0  : insuranceData.totalBalance } XOF` ,170, 45);
-      doc.line(110, 47, 195, 47);
+      doc.text('Solde Total',110, 55);
+      doc.text(`${insuranceData.insuranceName == "##" ? 0  : insuranceData.totalBalance } XOF` ,170, 55);
+      doc.line(110, 57, 195, 57);
   
-      doc.text('Solde Assurance',110, 53);
-      doc.text(`${insuranceData.InsuranceBalance} XOF`,170, 53);
-      doc.line(110, 55, 195, 55);
+      doc.text('Solde Assurance',110, 63);
+      doc.text(`${insuranceData.InsuranceBalance} XOF`,170, 63);
+      doc.line(110, 65, 195, 65);
   
 
   
@@ -77,7 +75,7 @@ import autoTable from 'jspdf-autotable';
         bodyStyles:{fontSize: 8},
         head: [practicianBill? practicianBillHeader : ['Date op.', 'N° Facture', 'N° Admission', 'Assurance', 'Total Facture', 'Part prise en charge']],
         body: body,
-        startY: 70,
+        startY: 80,
       });
   
       return doc;

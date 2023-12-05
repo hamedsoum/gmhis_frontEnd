@@ -12,7 +12,6 @@ export class GMHISHospitalizationPdfService {
   
     public buildhospitalizationCrCertificatePdf(hospitalization: GMHISHospitalizationPartial): jsPDF {
         
-        console.log(hospitalization);
         
         var doc = new jsPDF('p', 'mm', 'a4');
         doc = this.sharedDocPdfService.docHeader("COMPTE RENDU D'\HOSPITALISATION ", 35)
