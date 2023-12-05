@@ -1,0 +1,40 @@
+.sh-clickable {
+  cursor: pointer;
+  color: var(---sh-color-primary);
+}
+
+.sh-diseable {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.sh-display-block {
+  display: block;
+}
+
+.sh-nowrap {
+  white-space: nowrap;
+}
+
+.sh-pointer {
+  cursor: pointer;
+}
+
+.sh-width-full {
+  width: 100%;
+}
+
+.sh-border {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.sh-border-discrete {
+  border: 1px solid #e8ebee;
+  border-radius: 10px;
+}
+
+.sh-cursor-pointer {
+  cursor: pointer;
+}
+/*# sourceMappingURL=sh-style.css.map */

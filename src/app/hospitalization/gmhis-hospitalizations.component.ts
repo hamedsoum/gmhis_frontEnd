@@ -112,7 +112,8 @@ closeFieldGroup: FormGroup = new FormGroup({});
 }
 
 
-  public onHospitalizationSelected( hospitalization : GMHISHospitalizationPartial): void {
+  public rowSelected( hospitalization : GMHISHospitalizationPartial, index: number): void {
+    this.currentIndex = index;
     this.hospitalizationSelected = hospitalization;
   }
 

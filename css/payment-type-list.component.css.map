@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/payment-type/payment-type-list/payment-type-list.component.scss"
+    ],
+    "names": [],
+    "file": "payment-type-list.component.css"
+}

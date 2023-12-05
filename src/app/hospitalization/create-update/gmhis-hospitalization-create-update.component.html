@@ -82,19 +82,20 @@
   
         </div>
 
-      <div class="col-lg-12 mb-2 rounded-pill">
+      <div class="col-lg-12 mb-5 rounded-pill">
         <label for="code" class="form-label text-capitalize">Protocole
           <span  class="text-danger">*</span>
         </label>
-        <textarea class="form-control" formControlName="protocole" rows="5"></textarea>
-
+        <div style="height: 400px;">
+          <quill-editor [modules]="quillConfiguration" formControlName="protocole"></quill-editor>
+        </div>
         <div *ngIf="formSubmitted && !fieldGroup.controls.protocole.valid">
           <small *ngIf="protocoleField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
         </div>
 
       </div>
     </div>
-    <div  class="mt-3 col">
+    <div  class="col">
       <div class="">
         <button
           style="background-color: #14a2b8"

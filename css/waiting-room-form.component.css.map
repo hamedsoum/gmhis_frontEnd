@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/waiting-room/waiting-room-form/waiting-room-form.component.scss"
+    ],
+    "names": [],
+    "file": "waiting-room-form.component.css"
+}

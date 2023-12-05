@@ -5,6 +5,6 @@ export interface GMHISNameAndID {
 }
 
 export interface GMHISKeyValue {
-    key : string,
+    key : any,
     value: any
 }

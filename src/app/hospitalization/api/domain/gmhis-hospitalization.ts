@@ -41,7 +41,7 @@ export interface GMHISHospitalizationPartial {
 
     bedroom: string;
 
-    protcole: string;
+    protocole: string;
 
     start: string,
 

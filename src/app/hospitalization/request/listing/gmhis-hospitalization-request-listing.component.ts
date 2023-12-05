@@ -113,7 +113,7 @@ currentIndex: number;
   }
 
   public onHospitalizationRequestSelected(recordRef, hospitalizationRequest : GMHISHospitalizationRequestPartial): void {
-    this.hospitalizationRequestSelected = hospitalizationRequest;
+    this.hospitalizationRequestSelected = hospitalizationRequest;    
       this.modalService.open(recordRef, {size: 'lg'})
   }
 

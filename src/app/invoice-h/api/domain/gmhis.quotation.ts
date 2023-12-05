@@ -25,6 +25,10 @@ export interface GMHISInvoiceH extends AuditPKDTO {
     moderatorTicket?: number,
 
     status: GMHISInvoiceHStatus;
+
+    discount?: number,
+
+    netToPay?: number;
 }
 
 export interface GMHISInvoiceHCreate {
@@ -45,16 +49,20 @@ export interface GMHISInvoiceHCreate {
     cmuPart?: number;
 
    insurancePart?: number;
+
+   discount?: number,
+
+   netToPay?: number;
 }
 
 export interface GMHISInvoiceHPartial {
-    dateOp : string;
+    dateOp? : string;
 
-    id: string,
+    id?: string,
 
-    code: string,
+    code?: string,
 
-    invoiceNumber: string,
+    invoiceNumber?: string,
 
     insuranceName?: string,
     insuranceID?: string
@@ -71,13 +79,17 @@ export interface GMHISInvoiceHPartial {
 
     moderatorTicket?: number,
 
-    status : GMHISInvoiceHStatus,
+    status? : GMHISInvoiceHStatus,
 
-    quotationItems: GMHISInvoiceHItemCreate;
+    quotationItems?: GMHISInvoiceHItemCreate;
 
     cmuPart?: number;
 
     insurancePart?: number;
+
+    discount?: number,
+
+    netToPay?: number;
 }
 
 export enum GMHISInvoiceHStatus {

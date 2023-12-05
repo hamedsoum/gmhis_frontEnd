@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/act/code/act-code-list/act-code-list.component.scss"
+    ],
+    "names": [],
+    "file": "act-code-list.component.css"
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,YAAY,CAAC;EACT,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,GAAG;CACtB;;AAED,AAAA,eAAe,CAAC;EACZ,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;CACzB;;AAED,AAAA,iCAAiC,CAAC;EAC9B,eAAe,EAAE,aAAa;CACjC;;AAED,AAAA,uBAAuB,CAAC;EACpB,eAAe,EAAE,GAAG;CACvB;;AAED,AAAA,yBAAyB,CAAC;EACtB,eAAe,EAAE,KAAK;CACzB",
+    "sources": [
+        "../src/app/shared/sh-style/sh-flex.scss"
+    ],
+    "names": [],
+    "file": "sh-flex.css"
+}

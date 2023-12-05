@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/pharmacy/laboraty/laboraty-form/laboraty-form.component.scss"
+    ],
+    "names": [],
+    "file": "laboraty-form.component.css"
+}

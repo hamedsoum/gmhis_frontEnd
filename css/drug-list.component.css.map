@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/pharmacy/drug/drug-list/drug-list.component.scss"
+    ],
+    "names": [],
+    "file": "drug-list.component.css"
+}

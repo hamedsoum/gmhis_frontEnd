@@ -1,0 +1,91 @@
+.gmhis-invoiceH-sheldon-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 15px;
+}
+
+.gmhis-invoiceH-sheldon-main .gmhis-invoiceH-sheldon-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.gmhis-invoiceH-sheldon-main .gmhis-invoiceH-sheldon-content .gmhis-invoiceH-sheldon-title {
+  margin-bottom: 30px;
+}
+
+.gmhis-invoiceH-sheldon-main .gmhis-invoiceH-sheldon-content .gmhis-invoiceH-sheldon-title .title {
+  display: block;
+  font-size: 24px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+  color: var(--sh-color-primary);
+}
+
+.gmhis-invoiceH-sheldon-main .gmhis-invoiceH-sheldon-content .gmhis-invoiceH-sheldon-title subTitle {
+  display: block;
+  font-size: 11px;
+  color: var(--sh-text-color-primary);
+}
+
+.gmhis-invoiceH-sheldon-main .gmhis-invoiceH-sheldon-content .gmhis-invoiceH-sheldon-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 60px;
+}
+
+.gmhis-invoiceH-sheldon-main .gmhis-invoiceH-sheldon-content .gmhis-invoiceH-sheldon-header .applyCnam input {
+  margin-left: 10px;
+}
+
+.gmhis-invoiceH-sheldon-main .gmhis-invoiceH-sheldon-content .gmhis-invoiceH-sheldon-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-bottom: 50px;
+}
+
+.gmhis-invoiceH-sheldon-main .gmhis-invoiceH-sheldon-content .gmhis-invoiceH-sheldon-content .invoiceHItems {
+  padding: 0 20px;
+}
+
+.gmhis-invoiceH-sheldon-main .gmhis-invoiceH-sheldon-content .actionButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.gmhis-invoiceH-sheldon-main .gmhis-invoiceH-sheldon-content .allAmount {
+  min-width: 300px;
+  font-size: 20px;
+}
+
+.gmhis-invoiceH-sheldon-main .gmhis-invoiceH-sheldon-content .allAmount .netToPay {
+  font-size: 30px;
+  font-weight: bold;
+}
+/*# sourceMappingURL=gmhis-invoice-h-create-update.component.css.map */

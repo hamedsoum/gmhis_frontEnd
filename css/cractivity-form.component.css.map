@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/cash-register-activity/form/cractivity-form.component.scss"
+    ],
+    "names": [],
+    "file": "cractivity-form.component.css"
+}

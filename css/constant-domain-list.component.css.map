@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/constant/constantDomain/constant-domain-list/constant-domain-list.component.scss"
+    ],
+    "names": [],
+    "file": "constant-domain-list.component.css"
+}

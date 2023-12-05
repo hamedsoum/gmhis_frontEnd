@@ -1,0 +1,21 @@
+.deleteInsurance {
+  background-color: #b64b4b;
+  color: white;
+  border: none;
+}
+
+.addInsurance {
+  background-color: #5bd85b;
+  color: white;
+  border: none;
+}
+
+.modal-content {
+  min-height: 90vh !important;
+  overflow: auto;
+}
+
+.modal.show .modal-dialog {
+  height: 95vh !important;
+}
+/*# sourceMappingURL=patient-create-update.component.css.map */

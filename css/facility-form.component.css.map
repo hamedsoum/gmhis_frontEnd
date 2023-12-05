@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/facility/facility-form/facility-form.component.scss"
+    ],
+    "names": [],
+    "file": "facility-form.component.css"
+}

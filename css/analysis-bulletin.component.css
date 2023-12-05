@@ -1,0 +1,104 @@
+.analysis_res {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-left: 100px;
+}
+
+.analysis_result_item {
+  width: 5em;
+  height: 6.5rem;
+  color: #b4b4c4;
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.inputCustom {
+  cursor: pointer;
+  border: 3px solid #b4b4c4;
+  color: #b4b4c4;
+  font-size: 8px;
+}
+
+.addFile {
+  height: 5rem !important;
+  width: 5rem !important;
+  border: 3px dashed rgba(20, 162, 184, 0.9);
+  color: rgba(20, 162, 184, 0.9);
+  border-radius: 50%;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.addFile nb-icon {
+  font-size: 3rem;
+  font-weight: bolder;
+}
+
+.color1 {
+  color: rgba(20, 162, 184, 0.9);
+  font-weight: 600;
+  font-size: .8rem;
+}
+
+.label-bold {
+  font-weight: 200;
+  -webkit-text-decoration: dashed;
+          text-decoration: dashed;
+}
+
+.analysis-item {
+  font-size: 0.8rem;
+  border-bottom: 0.2px solid #ebe5e5;
+}
+
+.act_selectedItem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 1px solid #14a2b8;
+  border-radius: 10rem;
+  font-size: 0.7rem;
+}
+
+.closeBtn {
+  background-color: #14a2b8;
+  border-bottom-right-radius: 10rem;
+  border-top-right-radius: 10rem;
+}
+
+.actsSelected_title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: Open Sans, sans-serif;
+  background-color: rgba(20, 162, 184, 0.9);
+  color: white;
+  padding-left: 0.7rem;
+}
+
+.analysis_body {
+  -webkit-box-shadow: 0px 0px 16px 0px #a8a4a459;
+          box-shadow: 0px 0px 16px 0px #a8a4a459;
+}
+/*# sourceMappingURL=analysis-bulletin.component.css.map */

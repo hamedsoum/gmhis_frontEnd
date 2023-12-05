@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/constant/constantType/constant-type-list/constant-type-list.component.scss"
+    ],
+    "names": [],
+    "file": "constant-type-list.component.css"
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,iBAAiB,CAAC;EACd,KAAK,EAAE,uBAAuB;CACjC;;AAED,AAAA,eAAe,CAAC;EACZ,KAAK,EAAE,qBAAqB;CAC/B;;AAED,AAAA,gBAAgB,CAAC;EACb,KAAK,EAAE,qBAAqB;CAC/B",
+    "sources": [
+        "../src/app/shared/sh-style/sh-color.scss"
+    ],
+    "names": [],
+    "file": "sh-color.css"
+}

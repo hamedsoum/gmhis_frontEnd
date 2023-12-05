@@ -1,0 +1,91 @@
+.gmhis-quotation-sheldon-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 15px;
+}
+
+.gmhis-quotation-sheldon-main .gmhis-quotation-sheldon-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.gmhis-quotation-sheldon-main .gmhis-quotation-sheldon-content .gmhis-quotation-sheldon-title {
+  margin-bottom: 30px;
+}
+
+.gmhis-quotation-sheldon-main .gmhis-quotation-sheldon-content .gmhis-quotation-sheldon-title .title {
+  display: block;
+  font-size: 24px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+  color: var(--sh-color-primary);
+}
+
+.gmhis-quotation-sheldon-main .gmhis-quotation-sheldon-content .gmhis-quotation-sheldon-title subTitle {
+  display: block;
+  font-size: 11px;
+  color: var(--sh-text-color-primary);
+}
+
+.gmhis-quotation-sheldon-main .gmhis-quotation-sheldon-content .gmhis-quotation-sheldon-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 60px;
+}
+
+.gmhis-quotation-sheldon-main .gmhis-quotation-sheldon-content .gmhis-quotation-sheldon-header .applyCnam input {
+  margin-left: 10px;
+}
+
+.gmhis-quotation-sheldon-main .gmhis-quotation-sheldon-content .gmhis-quotation-sheldon-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-bottom: 50px;
+}
+
+.gmhis-quotation-sheldon-main .gmhis-quotation-sheldon-content .gmhis-quotation-sheldon-content .quotationItems {
+  padding: 0 20px;
+}
+
+.gmhis-quotation-sheldon-main .gmhis-quotation-sheldon-content .actionButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.gmhis-quotation-sheldon-main .gmhis-quotation-sheldon-content .allAmount {
+  min-width: 300px;
+  font-size: 20px;
+}
+
+.gmhis-quotation-sheldon-main .gmhis-quotation-sheldon-content .allAmount .netToPay {
+  font-size: 30px;
+  font-weight: bold;
+}
+/*# sourceMappingURL=gmhis-quotiation-create-update.component.css.map */

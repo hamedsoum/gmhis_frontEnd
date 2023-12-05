@@ -72,7 +72,8 @@
                 let i = index
               "
               [class.active]="i == currentIndex"
-              (click)="onHospitalizationSelected(hospitalization)"
+              (click)="rowSelected(hospitalization, i)"
+              (dblclick)="onHospitalizationDbClicked(recordRef,hospitalization)"
               >
               <td class="text-nowrap ">{{hospitalization.start | date:  "dd/MM/yyyy HH:mm:ss"}}</td>
               <td class="text-nowrap ">{{hospitalization.patientName.firstName}} {{hospitalization.patientName.lastName}}</td>
@@ -109,6 +110,22 @@
       </div>
     </nb-card-body>
   </nb-card>
+
+  <!-- ========================================================================================== -->
+
+  <ng-template #recordRef let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <div>
+        <span class="modalTitle" >Fiche d'Hospitalisation</span>
+        <span class="modal-subTitle" >--</span>
+        <div (click)="onPrintRecordPDF(printRecordRef)"><span class="button-text"> <span  class="material-icons">ios_share</span></span> </div>
+      </div>
+      <nb-icon style="cursor: pointer" (click)="d('Cross click')" class="h4" icon="close-circle-outline"></nb-icon>
+    </div>
+  <div class="modal-body">
+    <gmhis-hospitalization-record [hospitalization]="hospitalizationSelected"></gmhis-hospitalization-record>
+  </div>
+</ng-template>
 
   <ng-template #allocationModalRef let-c="close" let-d="dismiss">
     <div class="modal-header">

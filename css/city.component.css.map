@@ -2,7 +2,7 @@
     "version": 3,
     "mappings": "",
     "sources": [
-        "../src/app/city/city.component.scss"
+        "../src/app/territorial-subdivision/city/city.component.scss"
     ],
     "names": [],
     "file": "city.component.css"

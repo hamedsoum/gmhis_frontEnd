@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,OAAO,CAAC;EACJ,gBAAgB,EAAE,OAAO;EACzB,KAAK,EAAE,OAAO;EACd,WAAW,EAAE,IAAI;EACjB,SAAS,EAAE,MAAM;CAClB;;AAED,AAAA,OAAO,CAAC;EACN,gBAAgB,EAAE,OAAO;EACzB,KAAK,EAAE,OAAO;EACd,WAAW,EAAE,IAAI;EACjB,SAAS,EAAE,MAAM;CAClB",
+    "sources": [
+        "../src/app/cash-register-activity/list/cractivity-list.component.scss"
+    ],
+    "names": [],
+    "file": "cractivity-list.component.css"
+}

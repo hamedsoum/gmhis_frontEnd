@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/document-type/certificateType/certificat-type-form/certificat-type-form.component.scss"
+    ],
+    "names": [],
+    "file": "certificat-type-form.component.css"
+}

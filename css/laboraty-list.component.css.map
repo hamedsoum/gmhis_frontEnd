@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/pharmacy/laboraty/laboraty-list/laboraty-list.component.scss"
+    ],
+    "names": [],
+    "file": "laboraty-list.component.css"
+}

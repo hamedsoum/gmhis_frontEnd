@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,aAAa,CAAC;EACV,IAAI,EAAE,mBAAmB;EACzB,KAAK,EAAE,cAAc;CACxB;;AAED,AAAA,aAAa,CAAC;EACV,IAAI,EAAE,mBAAmB;EACzB,KAAK,EAAE,iBAAiB;CAC3B;;AAED,AAAA,aAAa,CAAC;EACV,IAAI,EAAE,mBAAmB;EACzB,KAAK,EAAE,gBAAgB;CAC1B",
+    "sources": [
+        "../src/app/shared/sh-style/sh-grid.scss"
+    ],
+    "names": [],
+    "file": "sh-grid.css"
+}

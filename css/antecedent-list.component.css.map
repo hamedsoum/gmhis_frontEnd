@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/antecedent/antecedent/antecedent-list/antecedent-list.component.scss"
+    ],
+    "names": [],
+    "file": "antecedent-list.component.css"
+}

@@ -1,0 +1,44 @@
+
+<div class="">
+    <div class="row">
+        <div class="col-12 mb-3">
+            <span [ngClass]="{'statusSuccess': hospitalization.status === 'finished', 'statusWarning': hospitalization.status === 'in_progress'}">
+
+                {{ hospitalization.status }}
+
+            </span>
+        </div>
+        <div class="col-6">
+            <data-field-text label="Nom du Patient" [value]="hospitalization.patientName.lastName"></data-field-text>
+        </div>
+        <div class="col-6">
+            <data-field-text label="Prénom(s) du Patient" [value]="hospitalization.patientName.firstName"></data-field-text>
+        </div>
+
+        <div class="col-6">
+            <data-field-text label="Nom du Medecin" [value]="hospitalization.practicianName.lastName"></data-field-text>
+        </div>
+        <div class="col-6">
+            <data-field-text label="Prénom(s) du Medecin" [value]="hospitalization.practicianName.firstName"></data-field-text>
+        </div>
+        <div class="col-6">
+            <data-field-text label="Motif de l'hospitalisation" [value]="hospitalization.reason"></data-field-text>
+        </div>
+
+        <div class="col-6">
+            <data-field-text label="Chambre" [value]="hospitalization.bedroom"></data-field-text>
+        </div>
+        <div class="col-6 mb-5">
+            <data-field-text label="Date de début" value="{{hospitalization.start | date :'dd/MM/yyyy HH:mm:ss'}}"></data-field-text>
+
+            <span></span>
+            
+        </div>
+
+        
+    </div>
+    <span>Protocole</span>
+    <div [innerHTML]="hospitalization.protocole">
+    </div>
+</div>
+

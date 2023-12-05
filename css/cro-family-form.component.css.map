@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/document-type/cro-family/cro-family-form/cro-family-form.component.scss"
+    ],
+    "names": [],
+    "file": "cro-family-form.component.css"
+}

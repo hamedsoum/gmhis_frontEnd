@@ -17,6 +17,8 @@ export class GMHISInvoiceHPdfService  {
 
     buildPdf(invoice: GMHISInvoiceHPartial, invoiceItems: GMHISInvoiceHItemPartial[]): jsPDF {
               
+      console.log(invoice);
+      
         var body: any[] = [];
 
         var body: any[] = [];
@@ -131,14 +133,21 @@ export class GMHISInvoiceHPdfService  {
         doc.setFont("arial", "normal");
         doc.text(`${invoice.totalAmount}`.toUpperCase(),  78,255);
 
-        const netToPay = invoice.moderatorTicket ? invoice.moderatorTicket : invoice.totalAmount;
         doc.setFontSize(11);
         doc.setFont("arial", "normal");
-        doc.text('Net à Payer : ',  20,265);
+        doc.text('Remise : ',  20,265);
         doc.rect(65, 259, 30, 8)
         doc.setFontSize(13);
         doc.setFont("arial", "bold");
-        doc.text(`${netToPay}`.toUpperCase(),  78,265);
+        doc.text(`${invoice.discount}`.toUpperCase(),  78,265);
+
+        doc.setFontSize(11);
+        doc.setFont("arial", "normal");
+        doc.text('Net à Payer : ',  20,275);
+        doc.rect(65, 269, 30, 8)
+        doc.setFontSize(13);
+        doc.setFont("arial", "bold");
+        doc.text(`${invoice.netToPay}`.toUpperCase(),  78,275);
 
 
         doc.setFontSize(11);

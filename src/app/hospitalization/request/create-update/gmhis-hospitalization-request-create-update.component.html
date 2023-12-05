@@ -60,12 +60,23 @@
         </div>
       </div>
 
+      <div class="col-lg-4 mb-2 rounded-pill">
+        <label for="code" class="form-label text-capitalize">Type d'hospitalisation</label>
+        <ng-select [clearable]="false" (change)="onHospitalizationTypeChange($event)">
+            <ng-option  *ngFor="let type of hospitalizationTypes" [value]="type">{{type.value}} </ng-option>
+        </ng-select>
+       </div>
+     
+
       <div class="col-lg-12 mb-2 rounded-pill">
         <label for="code" class="form-label text-capitalize">Protocole
           <span  class="text-danger">*</span>
         </label>
-        <textarea class="form-control" formControlName="protocole" cols="90" rows="5"></textarea>
-        <div *ngIf="formSubmitted && !fieldGroup.controls.protocole.valid">
+        <div style="height: 400px;">
+          <quill-editor [modules]="quillConfiguration" formControlName="protocole"></quill-editor>
+        </div>
+        
+          <div *ngIf="formSubmitted && !fieldGroup.controls.protocole.valid">
           <small *ngIf="protocoleField.errors.required" class="text-danger">Veuillez remplir ce champs</small>
         </div>
       </div>

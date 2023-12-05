@@ -1,7 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { NbTabsetModule } from "@nebular/theme";
-import { GMHISInvoiceHComponent } from "../invoice-h/gmhis-invoice-h.component";
 import { GMHISInvoiceHModule } from "../invoice-h/gmhis-invoices-h.module";
 import { GMHISQuotationModule } from "../quotations/gmhis-quotations.module";
 import { SharedModule } from "../shared/shared.module";
@@ -12,6 +11,8 @@ import { GMHISHospitalizationMain } from "./main/gmhis-hospitalization-main.comp
 import { GMHISHospitalizationRequestCreateUpdateComponent } from "./request/create-update/gmhis-hospitalization-request-create-update.component";
 import { GMHISHospitalizationRequestListingComponent } from "./request/listing/gmhis-hospitalization-request-listing.component";
 import { GMHISHospitalizationRequestRecordComponent } from "./request/record/gmhis-hospitalization-request-record.component";
+import { QuillModule } from 'ngx-quill'
+import { GMHISHospitalizationRecordComponent } from "./record/gmhis-hospitalization-record.component";
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { GMHISHospitalizationRequestRecordComponent } from "./request/record/gmh
       GMHISHospitalizationRequestCreateUpdateComponent,
       GMHISHospitalizationRequestListingComponent,
       GMHISHospitalizationRequestRecordComponent,
-      GMHISHospitalizationMain],
+      GMHISHospitalizationMain,
+      GMHISHospitalizationRecordComponent],
     imports: [
       CommonModule,
       SharedModule,
@@ -28,7 +30,9 @@ import { GMHISHospitalizationRequestRecordComponent } from "./request/record/gmh
       SharedModule,
       NbTabsetModule,
       GMHISQuotationModule,
-      GMHISInvoiceHModule],
+      GMHISInvoiceHModule,
+      QuillModule
+    ],
     exports: [GMHISHospitalizationRequestCreateUpdateComponent]
   })
   export class GMHISHospitalizationModule { }

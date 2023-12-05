@@ -1,0 +1,5 @@
+.nb-theme-default nb-calendar-picker .day-cell:not(.disabled):not(.empty).today .cell-content {
+  background-color: #ff8f33;
+  border-color: #ff9633;
+}
+/*# sourceMappingURL=insurance-bill.component.css.map */

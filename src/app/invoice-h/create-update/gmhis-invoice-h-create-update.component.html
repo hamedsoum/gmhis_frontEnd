@@ -21,7 +21,7 @@
                         </ng-select>
                         
                        <div class="mb-3">
-                        <ng-select [clearable]="false" (change)="onSelectInsurance($event)" *ngIf="isInsuredPatient()" placeholder="Selectionner un l'Etablissement Payeur">
+                        <ng-select [clearable]="false" (change)="onSelectInsurance($event)" *ngIf="isInsuredPatient()" placeholder="Selectionner l'Etablissement Payeur" formControlName="insured">
                             <ng-option  *ngFor="let insurrance of patientInsureds" [value]="insurrance">{{insurrance.insuranceName}} </ng-option>
                         </ng-select>
                         <div *ngIf="formSubmitted && !invoiceHFieldGroup.controls.insuranceID.valid">
@@ -33,6 +33,11 @@
                             <label class="sh-font-size-intermediate sh-display-block ml-3" for="scales">Appliquer la CNAM</label>
                             <input (change)="onApplyCMU($event)" [checked]="applyCMU" type="checkbox" id="applyCnam" name="applyCnam" class="mr-2" />
                           </div>
+                          <div class=" mb-3">
+                            <ng-select [clearable]="false" (change)="onHospitalizationTypeChange($event)">
+                                <ng-option  *ngFor="let type of hospitalizationTypes" [value]="type">{{type.value}} </ng-option>
+                            </ng-select>
+                        </div>
                     </div>
         
                     <div class="col-4">
@@ -130,23 +135,29 @@
                 
                             </div>
                     </div>
-        
+                </form>
+
                 <div class="d-flex justify-content-between mt-50">
-                    <div class="actionButton">
-                        <sh-button type="text" label="Annuler" labelStyleClass="sh-color-error"></sh-button>
-                        <sh-button type="text" label="Caluler" (clickEvent)="onCalculAmount()"></sh-button>
-                        <sh-button type="button" label="Valider" (clickEvent)="save()"></sh-button>
+                    <div>
+                        <input id="discount" name="discount" type="number"  [(ngModel)]="discountAmount" placeholder="Remise" class="form-control" >
+
+                        <div class="actionButton">
+                            <sh-button type="text" label="Annuler" labelStyleClass="sh-color-error"></sh-button>
+                            <sh-button type="text" label="Caluler" (clickEvent)="onCalculAmount()"></sh-button>
+                            <sh-button type="button" label="Valider" (clickEvent)="save()"></sh-button>
+                        </div>
                     </div>
+                 
         
                     <div class="allAmount">
                         <span class="sh-display-block mb-3">Montant Total : {{totalAmount?.totalAmount}}</span>
                         <span class="sh-display-block mb-3">Part CNAM : {{totalAmount?.cmuPart}}</span>
                         <span class="sh-display-block mb-3">Part Assurance {{insurranceName}} : {{totalAmount?.insurancePart}}</span>
                         <span class="sh-display-block mb-3">Ticket Modérateur : {{totalAmount?.moderatorTicket}}</span>
-                        <span class="sh-display-block ">Net à Payer : <span class="sh-color-primary netToPay">{{totalAmount?.netToPay}}</span> </span>  
+                        <span class="sh-display-block mb-3">Remise : {{discountAmount}}</span>
+                        <span class="sh-display-block ">Net à Payer : <span class="sh-color-primary netToPay">{{netToPay}}</span> </span>  
                     </div>
                 </div>
-            </form>
         </div>
    
 </div>

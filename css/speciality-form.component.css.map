@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/speciality/speciality-form/speciality-form.component.scss"
+    ],
+    "names": [],
+    "file": "speciality-form.component.css"
+}

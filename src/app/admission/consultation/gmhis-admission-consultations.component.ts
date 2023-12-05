@@ -170,6 +170,7 @@ export class AdmissionConsultationsComponent implements OnInit, OnDestroy {
   }
 
   openUpdateForm(updateFormContent, item?) {
+    console.log(item);
     this.admission = item;
     this.modalService.open(updateFormContent, { size: 'xl' });
   }

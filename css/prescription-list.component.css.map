@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/prescription/prescription-list/prescription-list.component.scss"
+    ],
+    "names": [],
+    "file": "prescription-list.component.css"
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/act/act/act-form/act-form.component.scss"
+    ],
+    "names": [],
+    "file": "act-form.component.css"
+}

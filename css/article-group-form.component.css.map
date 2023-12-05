@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/article-group/article-group-form/article-group-form.component.scss"
+    ],
+    "names": [],
+    "file": "article-group-form.component.css"
+}

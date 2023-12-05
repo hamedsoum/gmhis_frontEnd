@@ -39,7 +39,7 @@ export class GMHISQuotationsComponent implements OnInit {
 
     currentIndex: number;
 
-    quotationsItems: GMHISQuotationItemPartial[];
+    quotationItems: GMHISQuotationItemPartial[];
 
     constructor(
         private router: Router,
@@ -64,7 +64,9 @@ export class GMHISQuotationsComponent implements OnInit {
 
     convertInInvoice(invoiceFormRef: any): void {
         this.quotationService.findQuotationItemsByquotationID(this.quotationSelected.id).subscribe((response: GMHISQuotationItemPartial[]) => { 
-            this.quotationsItems = response;            
+            this.quotationItems = response;  
+            console.log(this.quotationItems);
+                      
             this.modalService.open(invoiceFormRef, { size: 'xl' });
         })
        
@@ -94,7 +96,7 @@ export class GMHISQuotationsComponent implements OnInit {
 
     public onOpenUpdateForm(quotationFormRef):void {
         this.quotationService.findQuotationItemsByquotationID(this.quotationSelected.id).subscribe((response: GMHISQuotationItemPartial[]) => { 
-            this.quotationsItems = response;            
+            this.quotationItems = response;            
             this.modalService.open(quotationFormRef, { size: 'xl' });
         })
     }
@@ -137,8 +139,8 @@ export class GMHISQuotationsComponent implements OnInit {
 
     private findquotationItems(quotation: GMHISQuotationPartial, quotationDocRef) {
         this.quotationService.findQuotationItemsByquotationID(quotation.id).subscribe((response: GMHISQuotationItemPartial[]) => { 
-            this.quotationsItems = response;            
-            let doc = this.quotationPdfService.buildPdf(this.quotationSelected, this.quotationsItems);
+            this.quotationItems = response;            
+            let doc = this.quotationPdfService.buildPdf(this.quotationSelected, this.quotationItems);
             this.modalService.open(quotationDocRef, { size: 'xl' });
             this.docSrc = doc.output('datauristring'); 
         })

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,YAAY,CAAA;EACR,KAAK,EAAE,IAAI;EACX,SAAS,EAAE,SAAS;EACpB,WAAW,EAAE,GAAG;EAChB,WAAW,EAAE,OAAO;CACvB",
+    "sources": [
+        "../src/app/medical-folder/patient-folder/patient-folder.component.scss"
+    ],
+    "names": [],
+    "file": "patient-folder.component.css"
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,WAAW,CAAA;EAEP,OAAO,EAAE,KAAK;EAGd,OAAO,EAAE,IAAI;CAGhB;;AAED,AAAA,cAAc,CAAA;EACV,UAAU,EAAE,IAAI,CAAA,UAAU;EAC1B,QAAQ,EAAE,IAAI;CACf;;AAED,AAAA,MAAM,AAAA,KAAK,CAAC,aAAa,CAAA;EACvB,MAAM,EAAE,IAAI,CAAA,UAAU;CACvB",
+    "sources": [
+        "../src/app/patient/patient-list/patient-list.component.scss"
+    ],
+    "names": [],
+    "file": "patient-list.component.css"
+}

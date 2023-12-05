@@ -26,6 +26,7 @@ import { registerLocaleData} from '@angular/common'
 import localFr from '@angular/common/locales/fr';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { QuillModule } from 'ngx-quill';
 
 registerLocaleData(localFr, 'fr');
 
@@ -48,6 +49,7 @@ registerLocaleData(localFr, 'fr');
     NbSidebarModule.forRoot(),  // <---------
     NbMenuModule.forRoot(),     // <---------
     NbThemeModule.forRoot({name: 'default'}),
+    QuillModule.forRoot(),
     NbLayoutModule,
     NbEvaIconsModule,
     NbSearchModule,

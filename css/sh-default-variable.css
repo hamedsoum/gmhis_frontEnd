@@ -1,0 +1,23 @@
+:root {
+  --sh-font-weight: 400;
+  --sh-background-color: #ffffff;
+  --sh-text-primary-color: #495057;
+  --sh-text-secondary-color: #6c757d;
+  --sh-color-primary: #14a2b8;
+  --sh-color-primary-contrast: #ffffff;
+  --sh-color-secondary: #607d8b;
+  --sh-color-secondary-contrast: #ffffff;
+  --sh-color-tertiary: #eff3f8;
+  --sh-color-tertiary-contrast: #181818;
+  --sh-color-success: #22c55e;
+  --sh-color-success-contrast: #ffffff;
+  --sh-color-error: #c54322;
+  --sh-font-size-extra-large: 30px;
+  --sh-font-size-large: 24px;
+  --sh-font-size-medium: 18px;
+  --sh-font-size-default: 14px;
+  --sh-font-size-intermediate: 12px;
+  --sh-font-size-small: 11px;
+  --sh-font-size-extra-small: 9px;
+}
+/*# sourceMappingURL=sh-default-variable.css.map */

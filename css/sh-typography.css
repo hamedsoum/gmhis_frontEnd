@@ -1,0 +1,70 @@
+.sh-font-style-normal {
+  font-size: normal;
+}
+
+.sh-font-style-normal-imp {
+  font-size: normal !important;
+}
+
+.sh-font-style-italic {
+  font-style: italic;
+}
+
+.sh-font-style-italic-imp {
+  font-size: italic !important;
+}
+
+.sh-font-style-italic-imp {
+  font-size: italic !important;
+}
+
+.sh-text-primary-color,
+.sh-text-default-color {
+  color: var(--sh-text-primary-color);
+}
+
+.sh-text-primary-color-imp,
+.sh-text-default-color-imp {
+  color: var(--sh-text-primary-color) !important;
+}
+
+.sh-text-xlarge {
+  font-size: var(--sh-font-size-extra-large);
+  font-weight: 600;
+}
+
+.sh-text-large {
+  font-size: var(--sh-font-size-large);
+  font-weight: 500;
+}
+
+.sh-text-medium {
+  font-size: var(--sh-font-size-medium);
+  font-weight: normal;
+}
+
+.sh-text-default {
+  font-size: var(--sh-font-size-default);
+  font-weight: normal;
+}
+
+.sh-text-intermediate {
+  font-size: var(--sh-font-size-intermediate);
+  font-weight: normal;
+}
+
+.sh-text-intermediate-imp {
+  font-size: var(--sh-font-size-intermediate) !important;
+  font-weight: normal !important;
+}
+
+.sh-text-small {
+  font-size: var(--sh-font-size-small);
+  font-weight: normal;
+}
+
+.sh-text-extra-small {
+  font-size: var(--sh-font-size-extra-small);
+  font-weight: normal;
+}
+/*# sourceMappingURL=sh-typography.css.map */

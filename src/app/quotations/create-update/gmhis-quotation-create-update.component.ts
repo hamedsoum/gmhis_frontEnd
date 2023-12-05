@@ -31,7 +31,7 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
     @Input() showHeader?: boolean;
 
     @Input() quotation: GMHISQuotationPartial;
-    @Input() quotationsItems: GMHISQuotationItemPartial[];
+    @Input() quotationItems: GMHISQuotationItemPartial[];
 
     quotationFieldGroup: FormGroup = new FormGroup({});
     quotationItemFieldGroup: FormGroup;
@@ -59,16 +59,19 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
     patients: Patient[];
     patientInsureds: any[];
 
+    insurranceName?: string;
     insurranceCoverage: undefined | number;
     insured: any;
 
     totalAmount: GMHISQuotationAmounts;
     formSubmitted: boolean;
 
-    insurranceName?: string;
-
     discountAmount: number;
     netToPay: number = 0;
+
+    hospitalizationTypes: any[] = [
+        {key: 2, value: 'Apendicentomie'},
+      ]
 
     constructor(
         private router: Router,
@@ -91,12 +94,14 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
         if(GmhisUtils.isNull(this.showHeader)) this.showHeader = true;
 
 
-        if(!GmhisUtils.isNull(this.quotationsItems)) {
-            this.setFormArrayFields(this.quotationsItems);
+        if(!GmhisUtils.isNull(this.quotationItems)) {
+            this.setFormArrayFields(this.quotationItems);
             this.calculateAmount();
         }   
         
-        if(!GmhisUtils.isNull(this.quotation)){                        
+        if(!GmhisUtils.isNull(this.quotation)){ 
+            console.log(this.quotation);
+                                   
             this.setFieldsForm(this.quotation);
             if(this.quotation.cmuPart > 0) {
                 this.applyCMU = true;
@@ -107,7 +112,6 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
                 this.quotationFieldGroup.get('patientType').setValue(GMHISPatientType.INSURED_PATIENT);   
             }
             this.defaultAmounts();
-          
         }
     }
 
@@ -188,6 +192,7 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
             indication: new FormControl(''),
             insuranceID: new FormControl(''),
             patientType: new FormControl(null),
+            insured: new FormControl(null),
             patientID: new FormControl(null, Validators.required),
             quotationItems: this.fb.array([])
         })
@@ -204,11 +209,11 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
       // TODO: pas de code d'acte ni de numero d'acte, recuperer cela avec l'id de l'acte
 
       private createMode(): boolean {
-          return GmhisUtils.isNull(this.quotation)
+          return GmhisUtils.isNull(this.quotation.id)
       }
    
       private createUpdateData(): GMHISQuotationCreate {
-        const formData = this.quotationFieldGroup.value;
+        const formData = this.quotationFieldGroup.value;          
         const createData = this.buildCreateQuotationData(formData);
         
         createData.totalAmount = this.totalAmount.totalAmount;
@@ -220,7 +225,6 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
         if (this.discountAmount){
             createData.discount = this.discountAmount;
             createData.netToPay = this.totalAmount.netToPay - this.discountAmount;
-
         }
         
         return createData;
@@ -228,9 +232,9 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
 
       private create(): void {
        
-        const createData = this.createUpdateData();
+        const createData = this.createUpdateData();  
         console.log(createData);
-        
+              
         this.subscriptions.add(
             this.quotationService.create(createData).subscribe(
                 {
@@ -304,6 +308,21 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
         if(!GmhisUtils.isNull(this.totalAmount)) return this.discountAmount > this.totalAmount.netToPay;
         else return false;
     }
+
+    public onHospitalizationTypeChange(type: any) {
+        let actArr = [
+            {actID: 276,quantity: 1,  unitPrice: 90000}
+            ,{actID: 278,quantity: 1,  unitPrice: 140000}
+            ,{actID: 279,quantity: 1,  unitPrice: 50000}
+            ,{actID: 280,quantity: 1,  unitPrice: 126000}
+            ,{actID: 281,quantity: 1,  unitPrice: 40000}
+            ,{actID: 282,quantity: 1,  unitPrice: 36000}
+            ,{actID: 283,quantity: 1,  unitPrice: 9800}
+            ,{actID: 284,quantity: 1,  unitPrice: 10000}
+
+            ]
+        this.setFormArrayFields(actArr);
+      }
   
     private calculateAmount(): void {
         const formData = this.quotationFieldGroup.value;
@@ -366,6 +385,11 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
             this.subscriptions.add(
                 this.insuredService.getInsuredByPatientId(patientID).subscribe((response: any[]) =>{
                     this.patientInsureds = response;
+                    if (!GmhisUtils.isNull(this.quotation)) {
+                        this.insured = this.patientInsureds.find((insured) => insured.insuranceId === this.quotation.insuranceID);   
+                        this.quotationFieldGroup.get('insured').setValue(this.insured);  
+                        this.onSelectInsurance(this.insured);   
+                    }
                 })
         )
         }

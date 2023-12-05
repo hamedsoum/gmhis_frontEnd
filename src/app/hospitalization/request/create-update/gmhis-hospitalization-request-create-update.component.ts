@@ -6,10 +6,13 @@ import { finalize } from 'rxjs/operators';
 import { GMHISInsuredService } from 'src/app/insured/service/insured-service.service';
 import { IExamination } from 'src/app/medical-folder/examination/models/examination';
 import { GmhisUtils } from 'src/app/shared/base/utils';
+import { GMHISKeyValue } from 'src/app/shared/models/name-and-id';
 import { NotificationService } from 'src/app/_services';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
+import { GMHIS_APENDICENTOMIE_PROTOCOLE_DATA } from '../../api/constant/static-data.constant';
 import { GMHISHospitalizationRequestCreate, GMHISHospitalizationRequestPartial } from '../../api/domain/request/gmhis-hospitalization-request';
 import { GmhisHospitalizationRequestService } from '../../api/service/request/gmhis-hospitalization.service';
+
 
 @Component({selector: 'gmhis-hospitalization-request-create-update',templateUrl: './gmhis-hospitalization-request-create-update.component.html'})
 export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit {
@@ -39,6 +42,24 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
   subscription: Subscription = new Subscription();
   patientInsureds: any[];
   
+
+   quillConfiguration = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ color: [] }, { background: [] }],
+      ['link'],
+      ['clean'],
+    ],
+  }
+
+  hospitalizationTypes: any[] = [
+    {key: 1, value: 'Hospitalisation simple', data: GMHIS_APENDICENTOMIE_PROTOCOLE_DATA},
+    {key: 2, value: 'Apendicentomie', data: GMHIS_APENDICENTOMIE_PROTOCOLE_DATA},
+  ]
+
   constructor(
     private hospitalizationService: GmhisHospitalizationRequestService,
     private notificationService: NotificationService,
@@ -48,13 +69,16 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
 
   ngOnInit(): void {
     this.findInsurances(this.patientID);
-    this.buildFields(); 
-
+    this.buildFields();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
+public onHospitalizationTypeChange(type: any) {
+  this.fieldGroup.get('protocole').setValue(type.data);
+}
 
  private buildFields(): void {
       this.fieldGroup = new FormGroup({
@@ -86,7 +110,7 @@ export class GMHISHospitalizationRequestCreateUpdateComponent implements OnInit 
       this.formSubmitted = true;
       this.loading = true;
       this.hospitalizationCreate = this.fieldGroup.value;
-
+      console.log(this.hospitalizationCreate);
       if (this.isCreated()) this.create();
       else this.update(); 
   }

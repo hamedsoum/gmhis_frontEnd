@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/facility/facility-list/facility-list.component.scss"
+    ],
+    "names": [],
+    "file": "facility-list.component.css"
+}

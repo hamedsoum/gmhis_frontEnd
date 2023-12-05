@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/pharmacy/drug/drug-form/drug-form.component.scss"
+    ],
+    "names": [],
+    "file": "drug-form.component.css"
+}

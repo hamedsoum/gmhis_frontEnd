@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,YAAY,CAAA;EACR,gBAAgB,EAAE,SAAS;CAC9B",
+    "sources": [
+        "../src/app/constant/patient-constant/constant-list/constant-list.component.scss"
+    ],
+    "names": [],
+    "file": "constant-list.component.css"
+}

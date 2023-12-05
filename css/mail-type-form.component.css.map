@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/document-type/mailType/mail-type-form/mail-type-form.component.scss"
+    ],
+    "names": [],
+    "file": "mail-type-form.component.css"
+}

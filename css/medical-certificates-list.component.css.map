@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/medical-certificates/medical-certificates-list/medical-certificates-list.component.scss"
+    ],
+    "names": [],
+    "file": "medical-certificates-list.component.css"
+}

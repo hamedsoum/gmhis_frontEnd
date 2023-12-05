@@ -65,18 +65,19 @@ export class GMHISAdmissionCreateUpdateComponent implements OnInit, OnDestroy {
     this.buildFields();
     
     if (this.admission) {
+      console.log(this.admission);
+      
       this.admissionService.getAdmissionDetail(this.admission).subscribe(
-        (response: any) => {
-
+        (response: any) => {          
           this.onRetrieveActsAndPracticians(response.serviceID);
-          this.formGroup.get('id').setValue(response.id);
-          this.formGroup.get('patient').setValue(response.patientId);
-          this.formGroup.get('patientName').setValue(response.patientName);
-          this.formGroup.get('patientExternalId').setValue(response.patientExternalId);
-          this.formGroup.get('createdAt').setValue(new Date(response.admissionDate));
-          this.formGroup.get('act').setValue(response.act);
-          this.formGroup.get('speciality').setValue(response.serviceID);
-          this.formGroup.get('practician').setValue(response.practicianId);
+          // this.formGroup.get('id').setValue(response.id);
+          // this.formGroup.get('patient').setValue(response.patientId);
+          // this.formGroup.get('patientName').setValue(response.patientName);
+          // this.formGroup.get('patientExternalId').setValue(response.patientExternalId);
+          // this.formGroup.get('createdAt').setValue(new Date(response.admissionDate));
+          // this.formGroup.get('act').setValue(response.act);
+          // this.formGroup.get('speciality').setValue(response.serviceID);
+          // this.formGroup.get('practician').setValue(response.practicianId);
         }
       )
     }
@@ -151,23 +152,37 @@ export class GMHISAdmissionCreateUpdateComponent implements OnInit, OnDestroy {
   }
 
   onRetrieveActsAndPracticians(specialityId: number) {
-    this.specialityPracticians = this.practicians.filter(practician => practician.specialityId === specialityId);
+    console.log(this.practicians);
+    this.findActPracticiainNameAndId(specialityId);
    this.subscription.add(this.actService.retrieveSpecialityActs(specialityId).subscribe((res: any) => {this.actsNameAndId = res}))
   }
 
   private buildFields() {
+    this.onRetrieveActsAndPracticians(this.admission?.serviceID);
+
     this.formGroup = new FormGroup({
-      id: new FormControl(null),
-      type: new FormControl(null, Validators.required),
-      patientExternalId: new FormControl({ value: '', disabled: true }),
-      patientName: new FormControl({ value: '', disabled: true }),
-      createdAt: new FormControl(new Date(), [Validators.required]),
-      patient: new FormControl(true),
-      speciality: new FormControl(null, Validators.required),
-      act: new FormControl(null, Validators.required),
-      practician: new FormControl(null, Validators.required),
+      id: new FormControl(this.admission?.id),
+      type: new FormControl(this.admission?.type, Validators.required),
+      patientExternalId: new FormControl({ value: this.admission?.patientExternalId, disabled: true }),
+      patientName: new FormControl({ value: `${this.admission?.patientFirstName} ${this.admission?.patientLastName}`, disabled: true }),
+      createdAt: new FormControl(new Date(this.admission?.createdAt), [Validators.required]),
+      patient: new FormControl(this.admission?.patientId),
+      speciality: new FormControl(this.admission?.serviceID, Validators.required),
+      act: new FormControl(this.admission?.actId, Validators.required),
+      practician: new FormControl(this.admission?.practicianId, Validators.required),
     });
   }
+
+  // this.formGroup.get('id').setValue(response.id);
+  // this.formGroup.get('patient').setValue(response.patientId);
+  // this.formGroup.get('patientName').setValue(response.patientName);
+  // this.formGroup.get('patientExternalId').setValue(response.patientExternalId);
+  // this.formGroup.get('createdAt').setValue(new Date(response.admissionDate));
+  // this.formGroup.get('act').setValue(response.act);
+  // this.formGroup.get('speciality').setValue(response.serviceID);
+  // this.formGroup.get('practician').setValue(response.practicianId);
+
+
   get type() { return this.formGroup.get('type'); }
   get service() { return this.formGroup.get('speciality'); }
   get practician() { return this.formGroup.get('practician'); }
@@ -201,11 +216,12 @@ export class GMHISAdmissionCreateUpdateComponent implements OnInit, OnDestroy {
         (response: GMHISNameAndID[]) => {this.actCategories = response;}
       ))}
 
-  private findActPracticiainNameAndId() {
+  private findActPracticiainNameAndId(specialityId?: number) {
     this.subscription.add(
       this.practicianService.findPracticianSimpleList().subscribe(
         (response: GMHISNameAndID[]) => {
           this.practicians = response;
+          if(specialityId) this.specialityPracticians = this.practicians.filter(practician => practician.specialityId === specialityId);
         })
         )}
 

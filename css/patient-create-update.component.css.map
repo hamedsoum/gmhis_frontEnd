@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,gBAAgB,CAAA;EACZ,gBAAgB,EAAE,OAAgB;EAClC,KAAK,EAAE,KAAK;EACZ,MAAM,EAAE,IAAI;CACf;;AAED,AAAA,aAAa,CAAA;EACT,gBAAgB,EAAE,OAAgB;EAClC,KAAK,EAAE,KAAK;EACZ,MAAM,EAAE,IAAI;CACf;;AAED,AAAA,cAAc,CAAA;EACZ,UAAU,EAAE,IAAI,CAAA,UAAU;EAC1B,QAAQ,EAAE,IAAI;CACf;;AAED,AAAA,MAAM,AAAA,KAAK,CAAC,aAAa,CAAA;EACvB,MAAM,EAAE,IAAI,CAAA,UAAU;CACvB",
+    "sources": [
+        "../src/app/patient/create-update/patient-create-update.component.scss"
+    ],
+    "names": [],
+    "file": "patient-create-update.component.css"
+}

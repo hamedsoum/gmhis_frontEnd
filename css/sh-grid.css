@@ -1,0 +1,21 @@
+.col-lg-3-imp {
+  -webkit-box-flex: 0 !important;
+      -ms-flex: 0 0 auto !important;
+          flex: 0 0 auto !important;
+  width: 25% !important;
+}
+
+.col-lg-2-imp {
+  -webkit-box-flex: 0 !important;
+      -ms-flex: 0 0 auto !important;
+          flex: 0 0 auto !important;
+  width: 16.66% !important;
+}
+
+.col-lg-1-imp {
+  -webkit-box-flex: 0 !important;
+      -ms-flex: 0 0 auto !important;
+          flex: 0 0 auto !important;
+  width: 8.33% !important;
+}
+/*# sourceMappingURL=sh-grid.css.map */

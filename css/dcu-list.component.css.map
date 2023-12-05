@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/pharmacy/dcu/dcu-list/dcu-list.component.scss"
+    ],
+    "names": [],
+    "file": "dcu-list.component.css"
+}

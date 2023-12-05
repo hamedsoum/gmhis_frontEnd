@@ -51,6 +51,7 @@ export interface Admission {
 
     supervisoryNumber : number;
     supervisoryLastDate: number;
+    type: 'normal' | 'emergency';
 }
 
 export interface GMHISAdmissionCreateUpdate {

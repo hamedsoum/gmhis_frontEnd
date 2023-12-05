@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/document-type/check-up/check-up-form/check-up-form.component.scss"
+    ],
+    "names": [],
+    "file": "check-up-form.component.css"
+}

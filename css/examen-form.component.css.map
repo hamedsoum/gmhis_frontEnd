@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/examen/examen-form/examen-form.component.scss"
+    ],
+    "names": [],
+    "file": "examen-form.component.css"
+}

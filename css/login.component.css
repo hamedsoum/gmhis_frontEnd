@@ -15,8 +15,31 @@
 }
 
 .bg {
-  background-image: url("../../assets/images/immobilier.jpg");
+  background-image: url("../../assets/img/login-bg-img.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.box-iconLock {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border: 1px solid #ced4da;
+  border-left: none;
+}
+
+.box-iconLock:hover {
+  background-color: transparent;
+  color: initial;
+}
+
+.input-login {
+  border-right: none !important;
 }
 /*# sourceMappingURL=login.component.css.map */

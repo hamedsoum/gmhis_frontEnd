@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/drug/therapeuticClass/therapeutic-form/therapeutic-form.component.scss"
+    ],
+    "names": [],
+    "file": "therapeutic-form.component.css"
+}

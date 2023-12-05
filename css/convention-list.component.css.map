@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/convention/convention-list/convention-list.component.scss"
+    ],
+    "names": [],
+    "file": "convention-list.component.css"
+}

@@ -1,0 +1,79 @@
+.container {
+  height: 100vh;
+}
+
+.container .form {
+  height: 300px;
+  width: 600px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 0 7px;
+  -webkit-box-shadow: 0px 0px 16px 0px #83828259;
+          box-shadow: 0px 0px 16px 0px #83828259;
+  border-radius: 5px;
+}
+
+.container .spinner-border {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.prescription-item {
+  -webkit-box-shadow: 0px 0px 16px 0px #a8a4a459;
+          box-shadow: 0px 0px 16px 0px #a8a4a459;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.bold {
+  font-weight: 400;
+}
+
+.label-bold {
+  font-weight: 200;
+  -webkit-text-decoration: dashed;
+          text-decoration: dashed;
+}
+
+.price {
+  text-decoration: line-through;
+  font-size: 0.7rem;
+}
+
+.collected {
+  background-color: #c8e6c9;
+  color: #256029;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.nonCollected {
+  background-color: #ffcdd2;
+  color: #c63737;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+/*# sourceMappingURL=prescription-collect.component.css.map */

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,OAAO,CAAA;EACH,WAAW,EAAE,IAAI;CACpB;;AAED,AAAA,cAAc,CAAA;EACV,aAAa,EAAE,iBAAiB;EAChC,UAAU,EAAE,0BAA0B;EACtC,OAAO,EAAE,IAAI;CAChB;;AAED,AAAA,SAAS,CAAA;EACL,SAAS,EAAE,IAAI;EACf,WAAW,EAAE,IAAI;CACpB",
+    "sources": [
+        "../src/app/invoice/invoice-form/invoice-form.component.scss"
+    ],
+    "names": [],
+    "file": "invoice-form.component.css"
+}

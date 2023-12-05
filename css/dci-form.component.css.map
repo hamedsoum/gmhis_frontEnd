@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/pharmacy/dci/dci-form/dci-form.component.scss"
+    ],
+    "names": [],
+    "file": "dci-form.component.css"
+}

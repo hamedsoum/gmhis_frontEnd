@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,iBAAiB,CAAC;EACd,OAAO,EAAE,OAAO;EAChB,KAAK,EAAE,KAAK;EACZ,aAAa,EAAE,GAAG;EAClB,UAAU,EAAE,MAAM;CACrB;;AAED,AAAA,MAAM,CAAC;EACH,gBAAgB,EAAE,IAAI;EACtB,KAAK,EAAE,gBAAgB;CAC1B;;AAED,AAAA,QAAQ,CAAC;EACL,gBAAgB,EAAE,OAAgB;CACrC;;AAED,AAAA,eAAe,CAAC;EACZ,gBAAgB,EAAE,wBAAwB;CAC7C;;AAED,AAAA,SAAS,CAAC;EACN,gBAAgB,EAAE,wBAAwB;CAC7C;;AAED,AAAA,QAAQ,CAAC;EACL,gBAAgB,EAAE,OAAO;CAC5B",
+    "sources": [
+        "../src/app/quotations/status/gmhis-quotation-status.component.scss"
+    ],
+    "names": [],
+    "file": "gmhis-quotation-status.component.css"
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/article-supplier/article-supplier-list/article-supplier-list.component.scss"
+    ],
+    "names": [],
+    "file": "article-supplier-list.component.css"
+}

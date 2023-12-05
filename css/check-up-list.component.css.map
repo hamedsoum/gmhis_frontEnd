@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/document-type/check-up/check-up-list/check-up-list.component.scss"
+    ],
+    "names": [],
+    "file": "check-up-list.component.css"
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/constant/constantType/constant-type-form/constant-type-form.component.scss"
+    ],
+    "names": [],
+    "file": "constant-type-form.component.css"
+}

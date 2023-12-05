@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/cash-register/cash-register-form/cash-register-form.component.scss"
+    ],
+    "names": [],
+    "file": "cash-register-form.component.css"
+}

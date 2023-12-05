@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/speciality/speciality-list/speciality-list.component.scss"
+    ],
+    "names": [],
+    "file": "speciality-list.component.css"
+}

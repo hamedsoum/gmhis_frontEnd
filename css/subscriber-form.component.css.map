@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/insurance/subscriber-form/subscriber-form.component.scss"
+    ],
+    "names": [],
+    "file": "subscriber-form.component.css"
+}

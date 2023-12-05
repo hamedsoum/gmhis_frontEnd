@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/article-location/article-location-list/article-location-list.component.scss"
+    ],
+    "names": [],
+    "file": "article-location-list.component.css"
+}

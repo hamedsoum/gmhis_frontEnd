@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/examen/laboratory-examen/laboratory-examen.component.scss"
+    ],
+    "names": [],
+    "file": "laboratory-examen.component.css"
+}

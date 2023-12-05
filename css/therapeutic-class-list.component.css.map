@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/pharmacy/therapeuticClass/therapeutic-class-list/therapeutic-class-list.component.scss"
+    ],
+    "names": [],
+    "file": "therapeutic-class-list.component.css"
+}

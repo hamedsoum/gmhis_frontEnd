@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/pathalogy/pathology-list/pathology-list.component.scss"
+    ],
+    "names": [],
+    "file": "pathology-list.component.css"
+}

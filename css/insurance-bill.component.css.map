@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,iBAAiB,CAAC,kBAAkB,CAAC,SAAS,AAAA,IAAK,CAAA,SAAS,CAAC,IAAK,CAAA,MAAM,CAAC,MAAM,CAAC,aAAa,CAAA;EACzF,gBAAgB,EAAE,OAAO;EACzB,YAAY,EAAE,OAAO;CACxB",
+    "sources": [
+        "../src/app/invoice/insurance-bill/insurance-bill.component.scss"
+    ],
+    "names": [],
+    "file": "insurance-bill.component.css"
+}

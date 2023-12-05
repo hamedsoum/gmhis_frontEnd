@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/document-type/prescription-type/prescription-form/prescription-form.component.scss"
+    ],
+    "names": [],
+    "file": "prescription-form.component.css"
+}

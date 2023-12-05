@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/article-group/article-group-list/article-group-list.component.scss"
+    ],
+    "names": [],
+    "file": "article-group-list.component.css"
+}

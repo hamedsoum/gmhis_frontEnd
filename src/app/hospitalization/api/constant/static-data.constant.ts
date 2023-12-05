@@ -1,0 +1,1 @@
+export const GMHIS_APENDICENTOMIE_PROTOCOLE_DATA = "<h2>Jour 1</h2><p><strong>   Matin</strong></p><ul><li>lorem ipsum 1</li><li>lorem ipsum 2</li><li>lorem ipsum 3</li></ul><p><br></p><p><strong>Après Midi</strong></p><ul><li>lorem ipsum 1</li><li>lorem ipsum 2</li><li>lorem ipsum 3</li></ul><p>	<strong>Soir</strong>	</p>";

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/cash-register/cash-register-list/cash-register-list.component.scss"
+    ],
+    "names": [],
+    "file": "cash-register-list.component.css"
+}

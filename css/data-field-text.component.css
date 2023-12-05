@@ -1,0 +1,16 @@
+.data-field {
+  margin-bottom: 35px;
+}
+
+.data-field-label {
+  display: block;
+  color: #6c757d;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.data-field-value {
+  display: block;
+  font-size: 16px;
+}
+/*# sourceMappingURL=data-field-text.component.css.map */

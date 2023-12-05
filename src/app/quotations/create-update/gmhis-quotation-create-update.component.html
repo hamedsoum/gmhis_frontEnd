@@ -22,7 +22,7 @@
                         
         
                        <div class="mb-3">
-                        <ng-select [clearable]="false" (change)="onSelectInsurance($event)" *ngIf="isInsuredPatient()" placeholder="Selectionner un l'Etablissement Payeur" formControlName="insuranceID">
+                        <ng-select [clearable]="false" (change)="onSelectInsurance($event)" *ngIf="isInsuredPatient()" placeholder="Selectionner un l'Etablissement Payeur" formControlName="insured">
                             <ng-option  *ngFor="let insurrance of patientInsureds" [value]="insurrance">{{insurrance.insuranceName}} </ng-option>
                         </ng-select>
                         <div *ngIf="formSubmitted && !quotationFieldGroup.controls.insuranceID.valid">
@@ -30,10 +30,15 @@
                           </div>
                        </div>
         
-                        <div class="d-flex applyCnam">
+                        <div class="d-flex applyCnam mb-3">
                             <label class="sh-font-size-intermediate sh-display-block ml-3" for="scales">Appliquer la CNAM</label>
                             <input (change)="onApplyCMU($event)" type="checkbox" id="applyCnam" name="applyCnam" class="mr-2" />
                           </div>
+                          <div class=" mb-3">
+                            <ng-select [clearable]="false" (change)="onHospitalizationTypeChange($event)">
+                                <ng-option  *ngFor="let type of hospitalizationTypes" [value]="type">{{type.value}} </ng-option>
+                            </ng-select>
+                        </div>
                     </div>
         
                     <div class="col-4">
@@ -47,6 +52,8 @@
                     </div>
                    
                 </div>
+
+               
                 <div class="d-flex mb-4">
                     <sh-button (click)="addItem()" type="text" size="'intermediate'" label="Ajouter une Prestation" labelStyleClass="sh-color-primary"></sh-button>
                 </div>

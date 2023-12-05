@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../src/app/pharmacy/pharmacologicForm/pharmacologicform-form/pharmacologicform-form.component.scss"
+    ],
+    "names": [],
+    "file": "pharmacologicform-form.component.css"
+}

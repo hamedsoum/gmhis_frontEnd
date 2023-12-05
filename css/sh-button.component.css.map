@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,UAAU,CAAC;EACP,MAAM,EAAE,KAAK;CAChB",
+    "sources": [
+        "../src/app/shared/components/button/sh-button.component.scss"
+    ],
+    "names": [],
+    "file": "sh-button.component.css"
+}
