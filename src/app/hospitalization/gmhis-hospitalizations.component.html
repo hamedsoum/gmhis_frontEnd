@@ -157,9 +157,7 @@
       ></nb-icon>
     </div>
     <div class="modal-body">
-        <span class="sh-dispay-block" >
-          {{hospitalizationSelected.protocole}}
-        </span>
+      <gmhis-protocole *ngIf="protocoles" [data]="protocoles" [hospitalizationID]="hospitalizationSelected.id" [showAllProtocole]="showAllProtocole" [showAddProtocole]="showAddProtocole"></gmhis-protocole>
     </div>
   </ng-template>
 

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
@@ -19,34 +19,41 @@ import { GMHISHospitalizationPdfService } from "./api/service/gmhis.hospitalzati
 @Component({selector: 'gmhis-hospitalizations',templateUrl: './gmhis-hospitalizations.component.html', providers: [GMHISHospitalizationPdfService]})
 export class GMHISHospitalizationsComponent implements OnInit {
  
-readonly TITLE = 'hospitalisations';
-readonly NEW_HOSPITALIZATION = 'Nouvelle Hospitalisation';
+  readonly TITLE = 'hospitalisations';
+  readonly NEW_HOSPITALIZATION = 'Nouvelle Hospitalisation';
 
-readonly sizes = PAGINATION_SIZE;
+  readonly sizes = PAGINATION_SIZE;
 
+  @Input() patientID?: number;
 
-subscription: Subscription = new Subscription()
+  @Input() showAllProtocole: boolean = false;
 
-public searchFieldsForm: FormGroup;
+  @Input() showAddProtocole: boolean = false;
 
-public hospitalizationSelected : GMHISHospitalizationPartial;
+  subscription: Subscription = new Subscription()
 
-pagination: GMHISPagination = {};
+  public searchFieldsForm: FormGroup;
 
-loading: boolean;
+  public hospitalizationSelected : GMHISHospitalizationPartial;
 
-currentIndex: number;
+  pagination: GMHISPagination = {};
 
-@ViewChild('hospitalizationTab', {static: false}) table: HTMLElement;
+  loading: boolean;
 
-docSrc: string;
+  currentIndex: number;
 
-patient: Patient;
+  @ViewChild('hospitalizationTab', {static: false}) table: HTMLElement;
 
-nurseID: number;
+  docSrc: string;
 
-closeFieldGroup: FormGroup = new FormGroup({});
+  patient: Patient;
+
+  nurseID: number;
+
+  closeFieldGroup: FormGroup = new FormGroup({});
   nurses: User[];
+
+  protocoles: { id: string; description: string; }[];
 
   constructor(
     private hospitalizationService: GmhisHospitalizationService,
@@ -133,6 +140,7 @@ closeFieldGroup: FormGroup = new FormGroup({});
 
   private buildFields(): void {
     this.searchFieldsForm = new FormGroup({
+      patientID: new FormControl(this.patientID),
       page: new FormControl(0),
       size: new FormControl(PAGINATION_DEFAULT_SIZE),
       sort: new FormControl('id,desc'),
@@ -171,7 +179,19 @@ closeFieldGroup: FormGroup = new FormGroup({});
   }
 
   public onShowProtocol(protocolModalRef: any): void {
-    this.onModal(protocolModalRef);
+    this.subscription.add(
+      this.hospitalizationService.findProtocoles(this.hospitalizationSelected.id).subscribe(
+        (response: {id: string, description: string}[]) => {
+          this.protocoles = response;
+          
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+          
+        }
+      )
+    )
+    this.onModal(protocolModalRef, 'lg');
   }
 
   onOpenNurseallOction(allocationModalRef: any): void {

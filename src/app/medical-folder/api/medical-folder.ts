@@ -3,5 +3,7 @@ export enum medicalFolderMenu {
     CONSTANTES = 'Constantes',
     PRESCRIPTIONS = 'Ordonances',
     EXAMENS = 'Examens',
-    MEDICAL_CERTIFICATES = 'Medications'
+    MEDICAL_CERTIFICATES = 'Certificats',
+    HOSPITALIZATIONS = 'Hospitalisation'
+
 } 

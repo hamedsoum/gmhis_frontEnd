@@ -111,6 +111,10 @@
             <div *ngIf="menuClick=='Certificats médicaux'" class="col-lg-10">
                 <app-medical-certificates-list></app-medical-certificates-list>
             </div>
+
+            <div *ngIf="menuClick=='Hospitalisation'" class="col-lg-10">
+              <gmhis-hospitalizations [patientID]="patientId" [showAllProtocole]="true" [showAddProtocole]="true"></gmhis-hospitalizations>
+            </div>
         </div>
     </nb-card-body>
 </nb-card>

@@ -18,6 +18,7 @@ export class GmhisHospitalizationService {
 
       queryParams = {
         params: new HttpParams()
+          .set('patientID', data['patientID'] ?? '')
           .set('sort', data['sort'])
           .set('page', data['page'])
           .set('size', data['size'] ?? "")
@@ -26,9 +27,25 @@ export class GmhisHospitalizationService {
       return this.http.get<PageList>(this.host + GMHIS_ENDPOINT.hospitalization.index, queryParams)
     }
 
+    public findProtocoles(hospitalizationID: string): Observable<{id: string, description: string}[]>{
+        GmhisUtils.notNull(hospitalizationID, 'hospitalizationID');
+        return this.http.get<{id: string, description: string}[]>(this.host + GMHIS_ENDPOINT.hospitalization.protocoles.replace('${hospitalizationID}', hospitalizationID.trim()));
+    }
+
+    public createProtocole(hospitalizationID: string, description: string): Observable<void>{
+        GmhisUtils.notNull(hospitalizationID, 'hospitalizationID');
+        return this.http.post<void>(this.host + GMHIS_ENDPOINT.hospitalization.protocoles.replace('${hospitalizationID}', hospitalizationID.trim()), description);
+    }
+
+
+
+    public findHospitalizations(patientID: number): Observable<GMHISHospitalizationPartial[]>{
+        GmhisUtils.notNull(patientID, 'patientID');
+        return this.http.get<GMHISHospitalizationPartial[]>(this.host + GMHIS_ENDPOINT.hospitalization.patient.replace('${patientID}', patientID.toString()));
+    }
+
     public retrieve(hospitalizationID: string): Observable<GMHISHospitalizationPartial>{
         GmhisUtils.notNull(hospitalizationID, 'hospitalizationID');
-
         return this.http.get<GMHISHospitalizationPartial>(this.host + GMHIS_ENDPOINT.hospitalization.retrieve.replace('${hospitalizationID}', hospitalizationID.trim()));
     }
 

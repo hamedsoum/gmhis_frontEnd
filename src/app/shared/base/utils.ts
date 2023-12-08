@@ -1,5 +1,4 @@
 import { HttpParams } from "@angular/common/http";
-import { ar } from "date-fns/locale";
 import { PageList } from "src/app/_models/page-list.model";
 import { GMHISPagination } from "../models/gmhis-domain";
 

@@ -23,6 +23,9 @@ export const GMHIS_ENDPOINT = {
         addNurse: '/hospitalizations/${hospitalizationID}/nurse',
         close: '/hospitalizations/${hospitalizationID}/close',
         retrieve: '/hospitalizations/${hospitalizationID}',
+        protocoles: '/hospitalizations/${hospitalizationID}/protocole',
+        patient: '/hospitalizations/${patientID}/patient'
+
     },
     // === Hospitalization Request ===
     hospitalizationRequest: {

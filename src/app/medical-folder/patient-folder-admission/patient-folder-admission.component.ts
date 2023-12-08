@@ -95,6 +95,11 @@ export class PatientFolderAdmissionComponent implements OnInit, OnDestroy{
           title: medicalFolderMenu.MEDICAL_CERTIFICATES,
           icon: 'minus-outline',
           badge: {text: '0',status: 'warning'},
+        },
+        {
+          title: medicalFolderMenu.HOSPITALIZATIONS,
+          icon: 'minus-outline',
+          badge: {text: '0',status: 'warning'},
         }
   ];
 

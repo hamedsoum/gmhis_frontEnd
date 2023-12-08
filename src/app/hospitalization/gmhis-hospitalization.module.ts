@@ -13,6 +13,7 @@ import { GMHISHospitalizationRequestListingComponent } from "./request/listing/g
 import { GMHISHospitalizationRequestRecordComponent } from "./request/record/gmhis-hospitalization-request-record.component";
 import { QuillModule } from 'ngx-quill'
 import { GMHISHospitalizationRecordComponent } from "./record/gmhis-hospitalization-record.component";
+import { GMHISProtocolesComponent } from "./protocoles/gmhis.protocoles.component";
 
 @NgModule({
     declarations: [
@@ -22,7 +23,9 @@ import { GMHISHospitalizationRecordComponent } from "./record/gmhis-hospitalizat
       GMHISHospitalizationRequestListingComponent,
       GMHISHospitalizationRequestRecordComponent,
       GMHISHospitalizationMain,
-      GMHISHospitalizationRecordComponent],
+      GMHISHospitalizationRecordComponent,
+      GMHISProtocolesComponent
+    ],
     imports: [
       CommonModule,
       SharedModule,
@@ -33,6 +36,6 @@ import { GMHISHospitalizationRecordComponent } from "./record/gmhis-hospitalizat
       GMHISInvoiceHModule,
       QuillModule
     ],
-    exports: [GMHISHospitalizationRequestCreateUpdateComponent]
+    exports: [GMHISHospitalizationRequestCreateUpdateComponent,GMHISHospitalizationsComponent]
   })
   export class GMHISHospitalizationModule { }
