@@ -1,4 +1,4 @@
-export enum PredefinedDate {
+export enum PredefinedPeriod {
     TODAY = 'today',
     YESTERDAY = 'yesterday',
     THIS_WEEK = 'thisWeek',

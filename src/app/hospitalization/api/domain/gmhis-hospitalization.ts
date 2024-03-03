@@ -3,6 +3,11 @@ import { Practician } from "src/app/practician/practician";
 import { AuditPKDTO } from "src/app/shared/models/Audit";
 import { GMHISName } from "src/app/shared/models/gmhis-domain";
 
+export interface GMHISProtocoleServiceCreate {
+   detail: string;
+   serviceDate: string;
+}
+
 export interface GMHISHospitalization extends AuditPKDTO {
     id: string;
 	

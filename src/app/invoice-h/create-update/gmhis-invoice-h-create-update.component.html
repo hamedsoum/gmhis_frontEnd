@@ -85,9 +85,7 @@
                                     </div> 
                        
                 
-                                    <!-- <div  *ngIf="isInsuredPatient()" class="col-lg-1 col-md-12 col-sm-12">
-                                        <span class="sh-display-bloc">% Ass</span>
-                                    </div> -->    
+                               
                         </div>
                         <div *ngFor="let invoiceHItemsForm of invoiceHItemsFormArray.controls; let i = index" >
                             
@@ -121,9 +119,7 @@
                                             <input id="{{'cmuPercent' + i}}" name="{{'cmuPercent' + i}}" type="number" class="form-control" formControlName="cmuPercent">
                                         </div>
             
-                                        <!-- <div  *ngIf="isInsuredPatient()" class="col-lg-1 col-md-12 col-sm-12">
-                                            <input id="{{'insurancePercent' + i}}" name="{{'insurancePercent' + i}}" type="number" class="form-control" formControlName="insurancePercent">
-                                        </div> -->
+                                     
                                         
                                         <div class="col-1">
                                             <sh-button (click)="removeItem(i)" type="text" size="'intermediate'" label="supprimer" labelStyleClass="sh-color-error" styleClass="d-flex justify-content-end"></sh-button>
@@ -147,7 +143,6 @@
                             <sh-button type="button" label="Valider" (clickEvent)="save()"></sh-button>
                         </div>
                     </div>
-                 
         
                     <div class="allAmount">
                         <span class="sh-display-block mb-3">Montant Total : {{totalAmount?.totalAmount}}</span>

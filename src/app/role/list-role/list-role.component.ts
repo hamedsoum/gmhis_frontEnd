@@ -17,7 +17,6 @@ import { SubSink } from 'subsink';
   selector: 'app-list-role',
   templateUrl: './list-role.component.html',
   styleUrls: ['./list-role.component.scss'],
-  // add NgbModalConfig and NgbModal to the component providers
   providers: [NgbModalConfig, NgbModal]
 })
 
@@ -28,42 +27,20 @@ export class ListRoleComponent implements OnInit, OnDestroy {
 
   faSort = faSort;
 
-  /*   
-   collection of roles
-  */
   public items: Role[];
-
-  /**
-   * the role
-   */
   public role: Role;
 
-  /**
-   * table sorting direction
-   */
   public sortDirection = "desc";
 
-  /**
-   * table sort tooltip msg
-   */
   public tooltipMsg = "Trier par ordre croissant";
 
-  /**
-   * search form
-   */
   public searchForm: FormGroup;
 
-  /**
-    * define isActive options
-  */
   isActive = [
     { id: true, value: "Rôles actifs" },
     { id: false, value: "Rôle mis en sommeil" },
   ];
 
-  /**
-   * the number of item to display per page
-   */
   selectedSize: number;
 
   sizes = [
@@ -82,14 +59,8 @@ export class ListRoleComponent implements OnInit, OnDestroy {
   totalItems: number;
   totalPages: number;
 
-  /**
-    * selected row index
-    */
   currentIndex: number;
 
-  /* 
-   handle the spinner
- */
   showloading: boolean = true;
 
   constructor(
@@ -104,7 +75,6 @@ export class ListRoleComponent implements OnInit, OnDestroy {
     config.keyboard = false;
   }
 
-  // Unsubscribe when the component dies
   ngOnDestroy() {
     this.subs.unsubscribe();
   }
@@ -114,9 +84,6 @@ export class ListRoleComponent implements OnInit, OnDestroy {
     this.getRoles();
   }
 
-  /**
-   * init form
-   */
   initform() {
     this.searchForm = new FormGroup({
       name: new FormControl(""),
@@ -127,9 +94,6 @@ export class ListRoleComponent implements OnInit, OnDestroy {
     })
   }
 
-  /*
-    method to fetch all users
-  */
   public getRoles() {
     this.showloading = true;
     this.subs.add(
@@ -168,10 +132,6 @@ export class ListRoleComponent implements OnInit, OnDestroy {
     this.getRoles();
   }
 
-  /**
-   * 
-   * @param column 
-   */
   sortBy(column) {
     if (this.sortDirection == 'desc') {
       this.sortDirection = 'asc';

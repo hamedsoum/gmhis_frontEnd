@@ -38,7 +38,7 @@ export class GMHISInvoiceHComponent implements OnInit {
     currentIndex: number;
 
     invoiceItems: GMHISInvoiceHItemPartial[];
-
+    
     constructor(
         private router: Router,
         private invoiceHService: GMHISInvoiceHService,
@@ -56,8 +56,20 @@ export class GMHISInvoiceHComponent implements OnInit {
         this.subscription.unsubscribe();
     }
 
-    onCreate(): void {
+    public handleInvoicePayment(): void {
+        this.notificationService.notify(NotificationType.SUCCESS,'Facture d\'Hospitalisation Encaissée');
+        this.modalService.dismissAll();
+    }
+
+    public onCreate(): void {
         this.router.navigateByUrl('/gmhis-invoice-h/create')
+    }
+
+    public onCollect(paymentFormRef: any){
+        this.invoiceHService.findnvoiceItemsByinvoiceHID(this.invoiceSelected.id).subscribe((response: GMHISInvoiceHItemPartial[]) => { 
+            this.invoiceItems = response;            
+            this.modalService.open(paymentFormRef, { size: 'xl' });
+        })
     }
 
     public onPrint(invoiceDocRef): void {    

@@ -4,5 +4,6 @@ export interface ExamenCreateData {
         diagnostic?: string,
         id?: number,
         observation: string ,
-        examenTytpe?: boolean  
+        examenTytpe?: boolean ,
+        billId?: number
 }

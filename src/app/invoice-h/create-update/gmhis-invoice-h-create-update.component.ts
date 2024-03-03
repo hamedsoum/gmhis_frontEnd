@@ -241,7 +241,7 @@ export class GMHISInvoiceHCreateUpdate implements OnInit, OnDestroy {
 
 
       private createMode(): boolean {
-        return GmhisUtils.isNull(this.invoice.id)
+        return GmhisUtils.isNull(this.invoice?.id)
     }
  
     private createUpdateData(): GMHISInvoiceHCreate {

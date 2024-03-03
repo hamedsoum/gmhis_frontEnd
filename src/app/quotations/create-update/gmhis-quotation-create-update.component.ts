@@ -209,7 +209,7 @@ export class GMHISQuotationCreateUpdate implements OnInit, OnDestroy {
       // TODO: pas de code d'acte ni de numero d'acte, recuperer cela avec l'id de l'acte
 
       private createMode(): boolean {
-          return GmhisUtils.isNull(this.quotation.id)
+          return GmhisUtils.isNull(this.quotation?.id)
       }
    
       private createUpdateData(): GMHISQuotationCreate {

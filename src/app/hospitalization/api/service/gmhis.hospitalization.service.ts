@@ -5,7 +5,7 @@ import { GmhisUtils } from "src/app/shared/base/utils";
 import { GMHIS_ENDPOINT } from "src/app/_constants/endpoint.constant";
 import { PageList } from "src/app/_models/page-list.model";
 import { environment } from "src/environments/environment";
-import { GMHISHospitalizationCreate, GMHISHospitalizationPartial } from "../domain/gmhis-hospitalization";
+import { GMHISHospitalizationCreate, GMHISHospitalizationPartial, GMHISProtocoleServiceCreate } from "../domain/gmhis-hospitalization";
 
 @Injectable({providedIn: 'root'})
 export class GmhisHospitalizationService {
@@ -27,6 +27,19 @@ export class GmhisHospitalizationService {
       return this.http.get<PageList>(this.host + GMHIS_ENDPOINT.hospitalization.index, queryParams)
     }
 
+    // ---------------------------------- Protocole Service -----------------------------------------
+
+    public findProtocoleServices(protocoleID: string): Observable<{id: string, description: string}[]>{
+        GmhisUtils.notNull(protocoleID, 'protocoleID');
+        return this.http.get<{id: string, description: string}[]>(this.host + GMHIS_ENDPOINT.hospitalization.protocoleServices.replace('${protocoleID}', protocoleID.trim()));
+    }
+
+    public createProtocoleService(protocoleID: string, protocoleServiceCreate: GMHISProtocoleServiceCreate): Observable<void>{
+        GmhisUtils.notNull(protocoleID, 'protocoleID');
+        return this.http.post<void>(this.host + GMHIS_ENDPOINT.hospitalization.protocoleServices.replace('${protocoleID}', protocoleID.trim()), protocoleServiceCreate);
+    }
+    // ---------------------------------- Protocole -----------------------------------------
+
     public findProtocoles(hospitalizationID: string): Observable<{id: string, description: string}[]>{
         GmhisUtils.notNull(hospitalizationID, 'hospitalizationID');
         return this.http.get<{id: string, description: string}[]>(this.host + GMHIS_ENDPOINT.hospitalization.protocoles.replace('${hospitalizationID}', hospitalizationID.trim()));
@@ -37,7 +50,7 @@ export class GmhisHospitalizationService {
         return this.http.post<void>(this.host + GMHIS_ENDPOINT.hospitalization.protocoles.replace('${hospitalizationID}', hospitalizationID.trim()), description);
     }
 
-
+// ---------------------------------- hospitalization -----------------------------------------
 
     public findHospitalizations(patientID: number): Observable<GMHISHospitalizationPartial[]>{
         GmhisUtils.notNull(patientID, 'patientID');

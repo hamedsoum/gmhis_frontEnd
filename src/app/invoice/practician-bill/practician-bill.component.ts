@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { InsuranceService } from 'src/app/insurance/insurance.service';
 import { ExaminationService } from 'src/app/medical-folder/examination/services/examination.service';
 import { PracticianService } from 'src/app/practician/practician.service';
-import { PredefinedDate } from 'src/app/_common/domain/predefinedDate';
+import { PredefinedPeriod } from 'src/app/_common/domain/predefinedPeriod';
 import { PredefinedPeriodService } from 'src/app/_common/services/predefined-period.service';
 import { User } from 'src/app/_models';
 import { PageList } from 'src/app/_models/page-list.model';
@@ -73,10 +73,10 @@ export class PracticianBillComponent implements OnInit, OnDestroy {
   predefined =  "PERIODE";
 
   dateOptions = [
-    {id:PredefinedDate.TODAY, value:"Aujourd'hui"},
-    {id:PredefinedDate.THIS_WEEK , value:"Semaine en cours"},
-    {id:PredefinedDate.THIS_MONTH , value:"Mois en cours"},
-    {id:PredefinedDate.THIS_YEAR , value:"Année en cours"},
+    {id:PredefinedPeriod.TODAY, value:"Aujourd'hui"},
+    {id:PredefinedPeriod.THIS_WEEK , value:"Semaine en cours"},
+    {id:PredefinedPeriod.THIS_MONTH , value:"Mois en cours"},
+    {id:PredefinedPeriod.THIS_YEAR , value:"Année en cours"},
   ]
   defaultSearchPeriode: object;
 

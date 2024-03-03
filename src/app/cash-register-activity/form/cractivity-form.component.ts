@@ -76,6 +76,7 @@ export class CractivityFormComponent implements OnInit {
 
 
   save(){
+    
     this.invalidForm = !this.crActivityForm.valid;
     this.formSubmitted = true;
 
@@ -83,6 +84,8 @@ export class CractivityFormComponent implements OnInit {
       this.showLoader = true;
       this.crActivity = this.crActivityForm.value;
 
+      console.log(this.crActivity);
+      
       if (this.crActivity.id) {
           this.subs.add(
             this.crActivityService.updateCrActivity(this.crActivity).subscribe(

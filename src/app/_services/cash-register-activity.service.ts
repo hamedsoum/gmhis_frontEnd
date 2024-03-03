@@ -14,12 +14,6 @@ export class CashRegisterActivityService {
   constructor(private http : HttpClient) { }
 
 
- /**
-  * It returns an observable of type PageList, which is a class that contains a list of CrActivity
-  * objects and a pagination object
-  * @param data - {
-  * @returns A paginated list of CrActivity objects.
-  */
    public getPaginatedListOfCrActivity(data) : Observable<PageList>{
     let queryParams = {};
     queryParams = {
@@ -35,38 +29,18 @@ export class CashRegisterActivityService {
   }
 
 
-
- /**
-  * This function is used to get the cash register activity by id
-  * @param {number} crActivity - The id of the cash register activity you want to get.
-  * @returns The getCrActivityById method returns an observable of type any.
-  */
-  public getCrActivityById(crActivity : number): Observable<any>{
-    return this.http.get(`${this.apiUrl}/api/v1/cashRegisterManagement/${crActivity}`);
+  public getCashRegisterActivity(cashRegisterID : number): Observable<any>{
+    return this.http.get(`${this.apiUrl}/api/v1/cashRegisterManagement/${cashRegisterID}`);
   }
 
-  public getCrActivityByCahier(cashieriD : number): Observable<any>{
+  public getCashRegisterActivityByCahier(cashieriD : number): Observable<any>{
     return this.http.get(`${this.apiUrl}/api/v1/cashRegisterManagement/crM/${cashieriD}`);
   }
 
-
- /**
-  * It takes a `ICashRegisterActivity` object as a parameter, and returns an
-  * `Observable<ICashRegisterActivity>` object
-  * @param {CashRegisterActivity} crActivityDto - This is the object that we are going to send to the
-  * server.
-  * @returns Observable<ICashRegisterActivity>
-  */
   public createCrActivity(crActivityDto : CashRegisterActivity): Observable<CashRegisterActivity>{    
     return this.http.post<CashRegisterActivity>(`${this.apiUrl}/api/v1/cashRegisterManagement`, crActivityDto)
   }
 
-/**
- * This function takes in a CashRegisterActivity object and updates the database with the new values
- * @param {CashRegisterActivity} crActivityDto - ICashRegisterActivity - this is the object that we
- * are sending to the server.
- * @returns Observable<ICashRegisterActivity>
- */
   public updateCrActivity(crActivityDto : CashRegisterActivity) : Observable<CashRegisterActivity>{    
     return this.http.put<CashRegisterActivity>(`${this.apiUrl}/api/v1/cashRegisterManagement/${crActivityDto.id}`, crActivityDto)
   }

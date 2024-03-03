@@ -27,8 +27,8 @@
 
       <div class="col-lg-6 col-sm-12 mb-2 rounded-pill field">
         <label for="code" class="form-label text-capitalize">Date d'admission <span class="text-danger">*</span> </label>
-        <input [nbDatepicker]="datepicker" formControlName="createdAt" class="form-control" placeholder="Date et heure d'admission">
-        <nb-datepicker format="dd-MM-yyyy" #datepicker></nb-datepicker>
+        <input nbInput [nbDatepicker]="dateTimePicker" formControlName="createdAt" class="form-control" placeholder="Date et heure d'admission">
+        <nb-date-timepicker format="dd-MM-yyyy HH:mm:ss" #dateTimePicker></nb-date-timepicker>
       </div>
 
       <div class="col-lg-6 col-sm-12 rounded-pill field">

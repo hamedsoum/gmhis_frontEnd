@@ -118,6 +118,7 @@
                 </td>
               <td style="font-size: 30px">
                 <nb-icon
+                *ngIf="crActivity.state"
                   (click)="openUpdateForm(updateFormContent, crActivity)"
                   class="mx-2 pointer"
                   style="cursor: pointer"

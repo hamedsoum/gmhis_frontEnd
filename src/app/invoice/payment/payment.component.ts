@@ -1,32 +1,39 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 import { ExamenCreateData } from 'src/app/examen/models/exam-dto';
 import { ExamService } from 'src/app/examen/services/exam.service';
+import { GMHISInvoiceHPartial } from 'src/app/invoice-h/api/domain/gmhis.quotation';
+import { GMHISInvoiceHItemPartial } from 'src/app/invoice-h/api/domain/gmhis.quotation.item';
 import { GMHISCautionTransactionCreate } from 'src/app/patient/patient';
 import { PatientService } from 'src/app/patient/patient.service';
 import { PaymentTypeService } from 'src/app/payment-type/service/payment-type.service';
-import { labelValue } from 'src/app/shared/domain';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import Swal from 'sweetalert2';
 import { InvoiceService } from '../service/invoice.service';
-import { PaymentType } from './payment';
 
 
 type GMHISPaymentCreate = {
   cashRegister: number,
-  bill: number,
+  billID: number,
+  invoiceHID: string,
   paymentType: string,
   amountReceived: number,
   amountReturned: number
 }
 
 @Component({selector: 'app-payment',templateUrl: './payment.component.html',styleUrls: ['./payment.component.scss']})
-export class PaymentComponent implements OnInit {
+export class PaymentComponent implements OnInit, OnDestroy {
   
   @Input() invoice: any;
+
+  @Input() invoiceH: GMHISInvoiceHPartial;
+  @Input() invoiceHItems: GMHISInvoiceHItemPartial[];
+
+  @Input() libellePaymentWithCaution?: string;
 
   @Output('addPayment') addPayment: EventEmitter<any> = new EventEmitter();
   selectedSize: number;
@@ -41,17 +48,21 @@ export class PaymentComponent implements OnInit {
   };
 
   public paymentForm!: FormGroup;
-  patientInvoice: any;
+  patientInvoice: any = {
+    patient:{},
+    insurance:{},
+    billActs:[]
+  };
   paymentTypes: any;
   amountReceived: any;
   amountReceivedIsvalid: boolean;
-
-  private paymentCreate: GMHISPaymentCreate;
 
   public paymentTypeForm: FormGroup;
 
   private collectWithCaution: boolean;
 
+  subscription = new Subscription();
+  patient: any;
   constructor(
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
@@ -59,7 +70,6 @@ export class PaymentComponent implements OnInit {
     config: NgbModalConfig,
     private modalService: NgbModal,
     private paymentTypeService: PaymentTypeService,
-    private examenService: ExamService,
     private patientService: PatientService
 
   ) {
@@ -68,6 +78,7 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+        
     this.initForm();
     if (this.invoice) {
       this.patientInvoice = this.invoice;
@@ -76,17 +87,28 @@ export class PaymentComponent implements OnInit {
       
       this.onCollectWithCaution(this.patientInvoice.patient.solde);
     }
+
+    if(this.invoiceH){
+      console.log(this.invoiceH);
+      this.retrievePatient(this.invoiceH.patientID);
+      this.buildPatientInvoice(this.invoiceH);
+      this.buildPatientInvoiceAct(this.invoiceHItems);
+    }
     this.findPaymentTypesActiveNameAndIds();
+  }
+
+  ngOnDestroy(): void {
+      this.subscription.unsubscribe();
   }
 
   public onSave() {
     let formData = this.paymentForm.value;
-    this.buildPaymentCreate(formData);
+    const paymentCreate = this.buildPaymentCreate(formData);
   
-    if (this.paymentCreate.amountReceived < this.patientInvoice?.patientPart) {
+    if (paymentCreate.amountReceived < this.patientInvoice?.patientPart) {
       this.amountReceivedIsvalid = true;
     } else {
-      this.collectAmount(this.paymentCreate, this.collectWithCaution );
+      this.collectAmount(paymentCreate, this.collectWithCaution );
     }
   }
 
@@ -123,24 +145,27 @@ export class PaymentComponent implements OnInit {
   removePaymentType(index: number) {this.paymentsType.removeAt(index);}
 
 
-  private buildPaymentCreate(formData: any) {
-    this.paymentCreate = {
+  private buildPaymentCreate(formData: any): GMHISPaymentCreate {
+    return {
       cashRegister: formData.cashRegister,
-      bill: this.patientInvoice.id,
+      billID: this.patientInvoice.id,
       paymentType: formData.paymentType,
       amountReceived: formData.amountReceived,
-      amountReturned: formData.amountReturned
+      amountReturned: formData.amountReturned,
+      invoiceHID: this.invoiceH?.id
     }
     
   }
 
   private createCautionTransaction(amount: number): void {
     let cautionTransactionCreate: GMHISCautionTransactionCreate = {
-      libelle: 'Règlement de Facture',
+      libelle:   this.libellePaymentWithCaution,
       action: 'debit',
       amount: amount,
       patientID: this.patientInvoice.patient.id
     }
+    console.log(cautionTransactionCreate);
+    
     this.patientService.createCautionTransaction(cautionTransactionCreate).subscribe(
       (response: any) => {
       },
@@ -151,9 +176,7 @@ export class PaymentComponent implements OnInit {
     );
   }
 
-  private collectAmount(data: GMHISPaymentCreate, collectWithCaution: boolean) {
-    console.log(data);
-    
+  private collectAmount(data: GMHISPaymentCreate, collectWithCaution: boolean) {        
     this.invoiceService.collectAmount(data).subscribe(
       (response: any) => {
         this.addPayment.emit();
@@ -166,7 +189,6 @@ export class PaymentComponent implements OnInit {
   }
 
   private onCollectWithCaution(solde:any ) {
-    console.log(solde);
     
     if(solde > 0) {
       Swal.fire({
@@ -178,6 +200,8 @@ export class PaymentComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           let amountToPay =  (solde > this.patientInvoice.patientPart) ? this.patientInvoice.patientPart : solde;
+          console.log(amountToPay);
+          
           const paymentTypeCautionID = 5; 
           this.paymentForm.get('paymentType').setValue(paymentTypeCautionID);
           this.paymentForm.get('amountReceived').setValue(amountToPay);
@@ -211,23 +235,36 @@ export class PaymentComponent implements OnInit {
     this.paymentForm.get("amountReturned").setValue(amountReturned);
   }
   
-  saveExamanRequest() {
-    this.examDto.examenTytpe = true;
-    this.patientInvoice?.billActs.forEach((el) => {
-      this.examDto.acts.push(el["id"])
-    })
 
-    this.amountReceivedIsvalid = false;
-
-    this.examenService.createExam(this.examDto).subscribe(
-      (response: any) => {
-        this.modalService.dismissAll();
-      },
-      (errorResponse: HttpErrorResponse) => {
-        this.notificationService.notify(NotificationType.ERROR,errorResponse.error.message);
-      }
-    )
-
-
+  private buildPatientInvoice(invoiceH : GMHISInvoiceHPartial): void {
+    console.log(invoiceH);
+    
+    this.patientInvoice.patient.id = invoiceH.patientID;
+    this.patientInvoice.billDate = invoiceH.dateOp;
+    this.patientInvoice.patient.firstName = invoiceH.patientName.firstName;
+    this.patientInvoice.patient.lastName = invoiceH.patientName.lastName;
+    this.patientInvoice.insurance.name = invoiceH.insuranceName;
+    this.patientInvoice.patientPart = invoiceH.moderatorTicket ? invoiceH.moderatorTicket : invoiceH.totalAmount;
+    this.patientInvoice.partTakenCareOf = invoiceH.insurancePart;
+    this.patientInvoice.totalAmount = invoiceH.totalAmount;
   }
+
+   private buildPatientInvoiceAct(invoiceHItems: GMHISInvoiceHItemPartial[]): void {
+    invoiceHItems.forEach( el => {
+      this.patientInvoice.billActs.push({act: el.act.name, practicianFirstName: el.praticianName?.firstName, practicianLastName: el.praticianName?.lastName,actCost: el.totalAmount})
+    })
+   }
+
+   
+   private retrievePatient(patientID: number): void {
+     this.subscription.add(
+       this.patientService.retrieve(patientID).subscribe(
+         (response: any) => {
+           this.patient = response;
+           console.log(this.patient);
+           this.onCollectWithCaution(this.patient.solde);
+         }
+       )
+     )
+   }
 }

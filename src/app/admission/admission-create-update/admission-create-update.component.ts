@@ -160,12 +160,13 @@ export class GMHISAdmissionCreateUpdateComponent implements OnInit, OnDestroy {
   private buildFields() {
     this.onRetrieveActsAndPracticians(this.admission?.serviceID);
 
+    let admisionDate = this.admission?.createdAt ? new Date(this.admission?.createdAt) : new Date();
     this.formGroup = new FormGroup({
       id: new FormControl(this.admission?.id),
       type: new FormControl(this.admission?.type, Validators.required),
       patientExternalId: new FormControl({ value: this.admission?.patientExternalId, disabled: true }),
       patientName: new FormControl({ value: `${this.admission?.patientFirstName} ${this.admission?.patientLastName}`, disabled: true }),
-      createdAt: new FormControl(new Date(this.admission?.createdAt), [Validators.required]),
+      createdAt: new FormControl(admisionDate, [Validators.required]),
       patient: new FormControl(this.admission?.patientId),
       speciality: new FormControl(this.admission?.serviceID, Validators.required),
       act: new FormControl(this.admission?.actId, Validators.required),
@@ -173,14 +174,6 @@ export class GMHISAdmissionCreateUpdateComponent implements OnInit, OnDestroy {
     });
   }
 
-  // this.formGroup.get('id').setValue(response.id);
-  // this.formGroup.get('patient').setValue(response.patientId);
-  // this.formGroup.get('patientName').setValue(response.patientName);
-  // this.formGroup.get('patientExternalId').setValue(response.patientExternalId);
-  // this.formGroup.get('createdAt').setValue(new Date(response.admissionDate));
-  // this.formGroup.get('act').setValue(response.act);
-  // this.formGroup.get('speciality').setValue(response.serviceID);
-  // this.formGroup.get('practician').setValue(response.practicianId);
 
 
   get type() { return this.formGroup.get('type'); }

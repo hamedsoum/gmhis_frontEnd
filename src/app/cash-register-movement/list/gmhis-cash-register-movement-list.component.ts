@@ -9,7 +9,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationType } from 'src/app/_utilities/notification-type-enum';
 import { CashRegisterService } from 'src/app/cash-register/cash-register.service';
 import { PrintCashRegisterMovementService } from 'src/app/_services/documents/print-cash-register-movement.service';
-import { PredefinedDate } from 'src/app/_common/domain/predefinedDate';
+import { PredefinedPeriod } from 'src/app/_common/domain/predefinedPeriod';
+import { GMHISROLES } from 'src/app/role/domain';
 
 @Component({selector: 'gmhis-cash-register-movement-list',templateUrl: './gmhis-cash-register-movement-list.component.html'})
 export class GMHISCashRegisterMovementListComponent implements OnInit {
@@ -65,12 +66,14 @@ export class GMHISCashRegisterMovementListComponent implements OnInit {
   predefined =  "PERIODE";
 
   dateOptions = [
-    {id:PredefinedDate.TODAY, value:"Aujourd'hui"},
-    {id:PredefinedDate.THIS_WEEK , value:"Semaine en cours"},
-    {id:PredefinedDate.THIS_MONTH , value:"Mois en cours"},
-    {id:PredefinedDate.THIS_YEAR , value:"Année en cours"},
+    {id:PredefinedPeriod.TODAY, value:"Aujourd'hui"},
+    {id:PredefinedPeriod.THIS_WEEK , value:"Semaine en cours"},
+    {id:PredefinedPeriod.THIS_MONTH , value:"Mois en cours"},
+    {id:PredefinedPeriod.THIS_YEAR , value:"Année en cours"},
   ]
   defaultSearchPeriode: object;
+
+  cashRegisterClosed: boolean;
 
   constructor(
     private crMovementService : CashRegisterMovementService,
@@ -87,11 +90,13 @@ export class GMHISCashRegisterMovementListComponent implements OnInit {
    this.initSearchForm();
    this.getCrMovement();
    this.findActiveCashRegisterNameAndId();
-   this.getCrActivityByCahier(this.user.id);
+
+   console.log(this.cashRegisterClosed);
+   
   }
 
 
-  printInsuranceList(printContent) : void {
+  public printInsuranceList(printContent) : void {
     this.getCrMovement();
     this.modalService.open(printContent, { size: 'xl' });
     let doc =this.printCashRegisterMovementService.buildCashRegisterMovPrintList(this.items)
@@ -100,8 +105,7 @@ export class GMHISCashRegisterMovementListComponent implements OnInit {
 }
 
 
-
-  initSearchForm(){
+private initSearchForm(){
     this.searchFieldsGroup = new FormGroup({
       prestationNumber : new FormControl(''),
       cashRegister: new FormControl(' '),
@@ -112,9 +116,14 @@ export class GMHISCashRegisterMovementListComponent implements OnInit {
     })
   }
 
+  public isAdmin(): boolean {
+     return this.user.role === GMHISROLES.SUPER_ADMIN;
+  }
 
   public getCrMovement(){
     this.loading = true;
+    if(!this.isAdmin()) this.getCrActivityByCahier(this.user.id);
+
     this.subs.add(
       this.crMovementService.getPaginatedListOfCrMovement(this.searchFieldsGroup.value).subscribe(
         (response: PageList) => {
@@ -139,35 +148,29 @@ export class GMHISCashRegisterMovementListComponent implements OnInit {
     )
   }
 
-  onPageChange(event) {
+  public onPageChange(event) {
     this.searchFieldsGroup.get('page').setValue(event - 1);
     this.getCrMovement();
   }
 
-  openAddForm(addFormContent) {
+  public openAddForm(addFormContent) {
     this.modalService.open(addFormContent, { size: 'lg' });
   }
 
-  openUpdateForm(updateFormContent, item?) {
+ public openUpdateForm(updateFormContent, item?) {
     this.crActivity = item;    
     this.modalService.open(updateFormContent, { size: 'lg' });
   }
 
   addCrActivity() {
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      'Acitivité de caisse ajoutée avec succès'
-    );
+    this.notificationService.notify(NotificationType.SUCCESS,'Acitivité de caisse ajoutée avec succès');
     this.getCrMovement();
   }
 
   updateCrActivity() {
     this.modalService.dismissAll();
-    this.notificationService.notify(
-      NotificationType.SUCCESS,
-      'Acitivité de caisse modifiée avec succès'
-    );
+    this.notificationService.notify(NotificationType.SUCCESS,'Acitivité de caisse modifiée avec succès');
     this.getCrMovement();
   }
 
@@ -176,12 +179,9 @@ export class GMHISCashRegisterMovementListComponent implements OnInit {
     this.cashRegisterMovement = crMovement;
   }
 
-
   private findActiveCashRegisterNameAndId(){
     this.cashRegisterService.findCashRegisternameAndIdList().subscribe(
-      (response : any) => {
-        this.cashRegistersNameAndId = response;        
-      },
+      (response : any) => {this.cashRegistersNameAndId = response;},
       (errorResponse : HttpErrorResponse) => {
         this.loading = false;
         this.notificationService.notify(
@@ -192,13 +192,13 @@ export class GMHISCashRegisterMovementListComponent implements OnInit {
     )
   }
 
-
-
  getCrActivityByCahier(cashier : number){
-      this.crActivityService.getCrActivityByCahier(cashier).subscribe(
+      this.crActivityService.getCashRegisterActivityByCahier(cashier).subscribe(
         (response : CashRegisterActivity) => {
-          this.crActivity = response;          
-          this.cashRegisterBalance = this.crActivity.cashRegisterBalance;
+          this.cashRegisterClosed = response.state;
+          console.log(this.cashRegisterClosed);
+          this.crActivity = response; 
+          if(this.crActivity.state) this.cashRegisterBalance = this.crActivity.cashRegisterBalance;
         },
         (errorResponse : HttpErrorResponse) => {
           this.loading = false;
@@ -212,19 +212,20 @@ export class GMHISCashRegisterMovementListComponent implements OnInit {
 
   closeCashRegister(){
     this.crActivity.realClosingBalance = this.realClosingBalance;
+    if(!this.crActivity.state) {
+      this.notificationService.notify(NotificationType.ERROR,'Caisse dèja fermé');
+      return
+    } 
     this.crActivityService.updateCrActivity(this.crActivity).subscribe(
       (response : CashRegisterActivity ) => {
-        this.notificationService.notify(
-          NotificationType.SUCCESS,
-          'Caisse fermée avec succès'
-        );
+        this.notificationService.notify(NotificationType.SUCCESS,'Caisse fermée avec succès');
+        this.cashRegisterBalance = 0;
+        this.realClosingBalance = 0;
+        this.getCrActivityByCahier(this.user.id);
       },
       (errorResponse : HttpErrorResponse) => {
         this.loading = false;
-        this.notificationService.notify(
-          NotificationType.ERROR,
-          errorResponse.error.message
-        ); 
+        this.notificationService.notify( NotificationType.ERROR,errorResponse.error.message); 
       }
     )
   }

@@ -30,7 +30,8 @@ import { GMHISInvoiceCreateUpdateHeaderInformationComponent } from './invoice-fo
     NgbDropdownModule
   ],
   exports: [
-    InvoiceFormComponent
+    InvoiceFormComponent,
+    PaymentComponent
   ]
 })
 export class InvoiceModule { }

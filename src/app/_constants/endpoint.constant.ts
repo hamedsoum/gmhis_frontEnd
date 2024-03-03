@@ -24,6 +24,7 @@ export const GMHIS_ENDPOINT = {
         close: '/hospitalizations/${hospitalizationID}/close',
         retrieve: '/hospitalizations/${hospitalizationID}',
         protocoles: '/hospitalizations/${hospitalizationID}/protocole',
+        protocoleServices: '/hospitalizations/${protocoleID}/service',
         patient: '/hospitalizations/${patientID}/patient'
 
     },

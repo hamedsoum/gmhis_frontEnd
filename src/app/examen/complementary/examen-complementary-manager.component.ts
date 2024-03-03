@@ -87,6 +87,9 @@ export class examenComplementaryManagerComponent implements OnInit, OnDestroy {
             this.subscriptions.add(
               this.invoiceService.createInvoice(invoiceCreate).subscribe(
                 (response: any) => {
+                  this.examenCreateData.billId = response.id;
+                  console.log(this.examenCreateData);
+                  
                   this.examenService.createExam(this.examenCreateData).subscribe(
                     (response: any) => {
                       this.modalService.dismissAll();

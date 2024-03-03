@@ -57,7 +57,6 @@ export class NewExaminationComponent implements OnInit {
 
   public formSubmitted = false;
 
-
   showloading: boolean;
 
   dayBetweenLastExaminationAndCurrentDate: number;

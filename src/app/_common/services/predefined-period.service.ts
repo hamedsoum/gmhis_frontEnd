@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PredefinedDate } from '../domain/predefinedDate';
+import { PredefinedPeriod } from '../domain/predefinedPeriod';
 
 @Injectable({
   providedIn: 'root'
@@ -12,38 +12,38 @@ private searchDateRange: string;
 
   constructor() { }
 
-  getSelectedPeriode(periode : PredefinedDate) : object{
+  getSelectedPeriode(periode : PredefinedPeriod) : object{
 
     let date = new Date();
     let start = null;
     let end = null;
-    if(periode == PredefinedDate.TODAY) {
+    if(periode == PredefinedPeriod.TODAY) {
       let periodeStart = new Date(date.getFullYear(),date.getMonth(), date.getDate());
       let periodeEnd = new Date(date.getFullYear(),date.getMonth(), date.getDate());
       this.defaultSearchPeriode = { start: periodeStart, end: periodeEnd };
       
     }
 
-    if(periode == PredefinedDate.YESTERDAY) {
+    if(periode == PredefinedPeriod.YESTERDAY) {
       let periodeStart = new Date(date.getFullYear(),date.getMonth(), date.getDate()-1);
       let periodeEnd = new Date(date.getFullYear(),date.getMonth(), date.getDate()-1);
       this.defaultSearchPeriode = { start: periodeStart, end: periodeEnd };
       
     }
 
-    if(periode == PredefinedDate.THIS_WEEK) {
+    if(periode == PredefinedPeriod.THIS_WEEK) {
       let periodeStart = new Date(date.setDate(date.getDate() - date.getDay() + 1 ));
       let periodeEnd = new Date(date.setDate(date.getDate() - date.getDay() + 7));
       this.defaultSearchPeriode = { start: periodeStart, end: periodeEnd };
     }
 
-    if(periode == PredefinedDate.FLOATINGWEEK) {
+    if(periode == PredefinedPeriod.FLOATINGWEEK) {
       let periodeStart = new Date(date.getFullYear(),date.getMonth(), date.getDate() - 6);
       let periodeEnd = new Date(date.getFullYear(),date.getMonth(), date.getDate());
       this.defaultSearchPeriode = { start: periodeStart, end: periodeEnd };
     }
 
-    if(periode == PredefinedDate.LASTWEEK) {
+    if(periode == PredefinedPeriod.LASTWEEK) {
       // set to Monday of this week
       date.setDate(date.getDate() - (date.getDay() + 6) % 7);
       // set to previous Monday
@@ -55,42 +55,42 @@ private searchDateRange: string;
       
     }
 
-    if(periode == PredefinedDate.THIS_MONTH) {
+    if(periode == PredefinedPeriod.THIS_MONTH) {
       var periodeStart = new Date(date.getFullYear(), date.getMonth(), 1);
       var periodeEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
       this.defaultSearchPeriode = { start: periodeStart, end: periodeEnd };
       
     }
 
-    if(periode == PredefinedDate.FLOATINGMONTH) {
+    if(periode == PredefinedPeriod.FLOATINGMONTH) {
       var periodeStart = new Date(date.getFullYear(),date.getMonth()-1, date.getDate());
       var periodeEnd = new Date(date.getFullYear(), date.getMonth() , date.getDate());
       this.defaultSearchPeriode = { start: periodeStart, end: periodeEnd };
       
     }
 
-    if(periode == PredefinedDate.LASTMONTH) {
+    if(periode == PredefinedPeriod.LASTMONTH) {
        var periodeStart = new Date(date.getFullYear(),date.getMonth()-1, 1);
       var periodeEnd = new Date(date.getFullYear(), date.getMonth() , 0);
       this.defaultSearchPeriode = { start: periodeStart, end: periodeEnd };
       
     }
 
-    if(periode == PredefinedDate.THIS_YEAR) {
+    if(periode == PredefinedPeriod.THIS_YEAR) {
       var periodeStart = new Date(date.getFullYear(), 0 , 1);
       var periodeEnd = new Date(date.getFullYear(), 12, 0 );
       this.defaultSearchPeriode = { start: periodeStart, end: periodeEnd };
       
     }
 
-    if(periode == PredefinedDate.FLOATINGYEAR) {
+    if(periode == PredefinedPeriod.FLOATINGYEAR) {
       var periodeStart = new Date(date.getFullYear()-1,date.getMonth(), date.getDate());
       var periodeEnd = new Date(date.getFullYear(), date.getMonth() , date.getDate());
       this.defaultSearchPeriode = { start: periodeStart, end: periodeEnd };
       
     }
 
-    if(periode == PredefinedDate.LASTYEAR) {
+    if(periode == PredefinedPeriod.LASTYEAR) {
       var periodeStart = new Date(date.getFullYear() -1 , 0 , 1);
       var periodeEnd = new Date(date.getFullYear(), 0, 0);
       this.defaultSearchPeriode = { start: periodeStart, end: periodeEnd };
